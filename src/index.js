@@ -17,10 +17,10 @@ function initCode () {
     $.query('body').append(codeDiv);
     window.a = new TCEditor({
         el: '#editor',
+        theme: 'dark',
         width: '100%',
         height: '100%',
         tab: '  ',
-        theme: 'dark',
         buttons: ['fontSizeUp', 'fontSizeDown', 'fullScreen', 'changeTheme', 'submit'],
         onsubmit (a, v) {
             console.log(a, v);
