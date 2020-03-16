@@ -1,9 +1,10 @@
 import $ from 'easy-dom-util';
-export function initResize () {
+
+export const TOOL_HEIGHT = 35;
+
+export function initResize (el) {
     window.onresize = () => {
         let size = $.windowSize();
-        if (size.width < 600) {
-            
-        }
+        el.panel.style('height', size.height - TOOL_HEIGHT + 'px');
     };
 }

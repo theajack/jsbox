@@ -19,7 +19,7 @@ function copy () {
 }
 
 function transEs6ByBabel () {
-    gulp.src('src/*.js')
+    gulp.src('src/**/*.js')
         .pipe(babel({presets: ['@babel/env']}))
         .pipe(gulp.dest('npm'));
 }

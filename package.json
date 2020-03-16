@@ -32,6 +32,7 @@
         "babel-eslint": "^10.0.3",
         "babel-loader": "^8.0.6",
         "babel-plugin-transform-object-rest-spread": "^6.26.0",
+        "easy-icon": "^1.0.2",
         "eslint": "^6.5.1",
         "eslint-config-standard": "^14.1.0",
         "eslint-loader": "^3.0.2",
@@ -44,7 +45,7 @@
         "husky": "^3.0.9",
         "lint-staged": "^9.4.2",
         "tacl-ui": "0.0.28",
-        "tc-editor": "^1.0.0",
+        "tc-editor": "^1.0.2",
         "webpack": "^4.41.2",
         "webpack-cli": "^3.3.9",
         "webpack-dev-server": "^3.8.2"
