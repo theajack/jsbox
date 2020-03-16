@@ -3,26 +3,13 @@ import $ from 'easy-dom-util';
 import {toast, confirm} from 'tacl-ui';
 import TCEditor from 'tc-editor';
 import Log from './log';
-import {TOOL_HEIGHT, initResize} from './size';
-import {getUrlParam} from './util';
+import {TOOL_HEIGHT, initResize, initKeyEvent} from './event';
+import {getUrlParam, DEFAULT_CODE, initWindowFunc} from './util';
 import {copyText} from './log/util';
 
-window.$ = $;
 $.reportStyle({
     func: initStyle
 });
-{/* <i class="ei-expand-full"></i> 全屏
-<i class="ei-collapse-full"></i> 退出全屏
-<i class="ei-zoom-in"></i> 放大
-
-<i class="ei-zoom-out"></i> 缩小
-
-<i class="ei-play"></i> 运行
-
-<i class="ei-cog"></i> 设置
-
-<i class="ei-moon"></i> dark
-<i class="ei-sun"></i> sun */}
 
 ['fontSizeUp', 'fontSizeDown', 'fullScreen', 'changeTheme', 'submit'];
 function main () {
@@ -32,16 +19,16 @@ function main () {
             html: /* html*/`
             <div class='tool-w'>
                 <i class="ei-github" title='github' @event='goGithub'></i>
-                <i class="ei-zoom-in" title='放大字体(ctrl & +)' @event='fontUp'></i>
-                <i class="ei-zoom-out" title='缩小字体(ctrl & -)' @event='fontDown'></i>
-                <i class="ei-sun" title='切换主题' @event='theme'></i>
-                <i class="ei-trash" title='清空代码' @event='clear'></i>
-                <i class="ei-save" title='暂存代码' @event='save'></i>
-                <i class="ei-history" title="重置代码" @event="reset"></i>
-                <i class="ei-copy" title='复制代码' @event='copy'></i>
-                <i class="ei-cog" title='设置' @event='run'></i>
-                <i class="ei-link" title='生成链接' @event='link'></i>
-                <i class="ei-play" title='运行代码' @event='run'></i>
+                <i class="ei-zoom-in" title='放大字体(ctrl + +)' @event='fontUp'></i>
+                <i class="ei-zoom-out" title='缩小字体(ctrl + -)' @event='fontDown'></i>
+                <i class="ei-sun" title='切换主题(ctrl + t)' @event='theme'></i>
+                <i class="ei-trash" title='清空代码(ctrl + d)' @event='clear'></i>
+                <i class="ei-save" title='暂存代码(ctrl + s)' @event='save'></i>
+                <i class="ei-history" title="重置代码(ctrl + e)" @event="reset"></i>
+                <i class="ei-copy" title='复制代码(ctrl + q)' @event='copy'></i>
+                <i class="ei-cog" title='设置(ctrl + i)' @event='config'></i>
+                <i class="ei-link" title='生成链接(ctrl + l)' @event='link'></i>
+                <i class="ei-play" title='运行代码(ctrl + enter)' @event='run'></i>
             </div>
             <div class='jsbox-main-panel' @el='panel'>
                 <div class='code-panel'>
@@ -53,7 +40,9 @@ function main () {
                 initResize(el);
                 initLog(el.log);
                 editor = initCode(el.code);
-                window.editor = editor;
+                initKeyEvent(editor, this.method);
+                initWindowFunc();
+                editor.els.codearea.attr('placeholder', 'Type some code...');
             },
             method: {
                 goGithub () {
@@ -64,8 +53,12 @@ function main () {
                     let code = editor.code();
                     if (code.trim() === '') {
                         toast('请输入一些代码');
+                        return;
                     }
                     (new Function(code))();
+                },
+                config () {
+                    toast('暂无此功能');
                 },
                 theme () {
                     if (!editor) {return;}
@@ -98,7 +91,7 @@ function main () {
                         theme: 'gamer',
                     }).then(bool => {
                         if (bool) {
-                            editor.resetCode();
+                            editor.code(editor.config.code);
                         }
                     });
                 },
@@ -111,7 +104,7 @@ function main () {
                     let url = `https://theajack.gitee.io/jsbox?theme=${editor.config.theme}&code=${encodeURIComponent(editor.code())}`;
                     console.log(url);
                     copyText(url, false);
-                    toast('代码链接以复制到剪切板');
+                    toast('代码链接已复制到剪切板');
                 },
                 save () {
                     toast('暂存代码成功');
@@ -135,6 +128,8 @@ function initCode (codeDiv) {
     let code = '';
     if (location.hash === '#saved') {
         code = localStorage.getItem('__jsbox_code__');
+    } else if (location.hash === '#hello') {
+        code = DEFAULT_CODE;
     }
     if (!code) {
         code = getUrlParam('code');
