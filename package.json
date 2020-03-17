@@ -3,15 +3,9 @@
     "version": "0.0.1",
     "description": "js在线运行环境",
     "scripts": {
-        "build": "webpack --config webpack-config/build.js --env.mode=script",
-        "build:npm": "webpack --config webpack-config/build.js --env.mode=npm",
-        "publish": "npm publish npm",
+        "build": "webpack --config webpack-config/build.js",
         "dev": "webpack-dev-server --open --config webpack-config/dev.js",
-        "lint": "eslint src --ext js",
-        "copy-latest": "node ./helper/copy-latest.js",
-        "modify-version": "node ./helper/modify-version.js",
-        "copy-npm": "node ./helper/copy-npm.js",
-        "render-tpl": "node ./template/execute.js"
+        "lint": "eslint src --ext js"
     },
     "author": "theajack",
     "repository": {
