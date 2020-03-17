@@ -7,8 +7,7 @@ import {TOOL_HEIGHT, initResize, initKeyEvent} from './event';
 import {getUrlParam, DEFAULT_CODE, initWindowFunc} from './util';
 import {copyText} from './log/util';
 import {read, write, TYPE} from './notebook';
-import {_import} from './import';
-console.log(_import);
+import {open} from './import';
 
 $.reportStyle({
     func: initStyle,
@@ -66,10 +65,13 @@ function main () {
                         toast('请输入一些代码');
                         return;
                     }
+                    if (code.indexOf('\n') === -1) {
+                        code = `log(${code})`;
+                    }
                     (new Function(code))();
                 },
                 config () {
-                    toast('暂无此功能');
+                    open();
                 },
                 theme () {
                     if (!editor) {return;}
@@ -165,9 +167,6 @@ function initCode (els) {
         tab: '  ',
         toast,
         buttons: false,
-        onsubmit (a, v) {
-            console.log(a, v);
-        },
     });
 }
 
@@ -176,6 +175,7 @@ function initLog (logDiv) {
     log.page = logDiv.el;
     log.index = 0;
     log.mounted();
+    log.page.querySelector('.tc-log-clear').title = '清空log(ctrl + e)';
 }
 
 function initDrag (el) {

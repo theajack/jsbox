@@ -56,6 +56,7 @@ ctrl e : 重置代码：回到初始态或暂存状态
 ctrl q : 复制代码
 ctrl i : 设置
 ctrl l : 生成链接：该链接打开可以还原当前正在编辑的代码
+ctrl e : 清空log
 ctrl enter : 运行代码
 */
 
