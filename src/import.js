@@ -77,6 +77,9 @@ function initEl () {
                     }
                     loadResources(inputs, () => {
                         this.method.close();
+                        this.bindEl.inputs.empty();
+                        addOne();
+                        inputs = [''];
                     });
                 }
             },

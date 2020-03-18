@@ -8,6 +8,7 @@ import {getUrlParam, DEFAULT_CODE, initWindowFunc} from './util';
 import {copyText} from './log/util';
 import {read, write, TYPE} from './notebook';
 import {open} from './import';
+import {initConfig} from './config';
 
 $.reportStyle({
     func: initStyle,
@@ -148,6 +149,7 @@ function initCode (els) {
     if (theme === 'dark') {
         els.theme.cls('ei-moon');
     }
+    // code 优先级 config&id>#saved|#hello>code
     let code = '';
     if (location.hash === '#saved') {
         code = read(TYPE.CODE);
@@ -158,7 +160,7 @@ function initCode (els) {
         code = getUrlParam('code');
         if (code) {code = decodeURIComponent(code);}
     }
-    return new TCEditor({
+    let editor = new TCEditor({
         el: els.code.el,
         code: code ? code : '',
         theme: theme === 'dark' ? 'dark' : 'normal',
@@ -168,6 +170,8 @@ function initCode (els) {
         toast,
         buttons: false,
     });
+    initConfig(code, editor);
+    return editor;
 }
 
 function initLog (logDiv) {
@@ -281,6 +285,7 @@ function initStyle () {
             background-color: #ddd; /* 浏览器不支持时显示 */
             background-image: linear-gradient(#ddd, #8f95d7, #ddd);
             cursor: ew-resize;
+            box-shadow: 0 0 5px 0 #444;
         }
         .j-code{
             border: none!important;

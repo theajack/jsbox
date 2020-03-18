@@ -12,8 +12,8 @@ function hackConsole () {
         hack(name);
     });
     window.addEventListener('error', function (err) {
-        console.error(`${err.constructor.name}:\n${err.error.stack}`);
-    });
+        console.error(`${err.constructor.name}:\n${err.message || err.error.stack}`);
+    }, false);
     return hconsole;
 }
 

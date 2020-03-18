@@ -3,21 +3,42 @@ import {tool as $, loading, alert, toast} from 'tacl-ui';
 let scripts = window.jsbox_scripts;
 let styles = window.jsbox_styles;
 
-export function loadResources (array, call) {
+function checkResource (array) {
+    for (let i = 0; i < array.length; i++) {
+        let item = array[i];
+        if (scripts[item]) {
+            array[i] = scripts[item];
+        } else if (styles[item]) {
+            array[i] = styles[item];
+        } else {
+            let fileName =  item.substr(item.lastIndexOf('.'));
+            if (fileName !== '.css' && fileName !== '.js') {
+                loadError(item);
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+export const LOAD_TYPE = {
+    SET: 'set',
+    CONFIG: 'config',
+};
+
+export function loadResources (array, call, showToast = true) {
+    if (array.length === 0) {
+        return;
+    }
+    if (!checkResource(array)) {
+        return;
+    }
     let stopLoad = false;
     let num = 0;
 
     loading('0 / ' + array.length);
     array.forEach((item) => {
-        let type = 'script';
-        if (scripts[item]) {
-            item = scripts[item];
-        } else if (styles[item]) {
-            item = styles[item];
-            type = 'style';
-        } else if (item.substr(item.lastIndexOf('.') === '.css')) {
-            type = 'style';
-        }
+        let type = (item.substr(item.lastIndexOf('.')) === '.css') ? 'style' : 'script';
         let ele;
         if (type === 'script') {
             ele = $.create('script').attr('src', item);
@@ -40,7 +61,8 @@ export function loadResources (array, call) {
             if (num >= array.length) {
                 loading(`${num} / ${array.length}`);
                 loading.close();
-                toast('所有资源加载成功!');
+                if (showToast)
+                    toast('所有资源加载成功!');
                 if (call)call();
             } else {
                 loading(`${num} / ${array.length}`);
@@ -62,6 +84,6 @@ function loadError (item) {
         title: '资源加载失败',
         confirmText: '关闭',
         theme: 'gamer',
-        text: item
+        text: item || '请输入正确的url地址'
     });
 }

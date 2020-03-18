@@ -44,7 +44,9 @@
         "webpack-cli": "^3.3.9",
         "webpack-dev-server": "^3.8.2"
     },
-    "dependencies": {},
+    "dependencies": {
+        "request": "^2.81.0"
+    },
     "husky": {
         "hooks": {
             "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
