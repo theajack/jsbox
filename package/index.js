@@ -12,11 +12,16 @@ function main () {
             let latest = res.body.tags.latest;
             request(`${httpBase}${pkg}@${latest}`, {json: true}, (err, res) => {
                 if (err) { return console.log(err); }
+                console.log(pkg, res.body.default);
                 let def = res.body.default;
-                if (def.substr(def.lastIndexOf('.')) !== '.js') {
+                if (def === null || def.substr(def.lastIndexOf('.')) !== '.js') {
                     def = findDefJs(res.body.files, pkg, '/');
                 }
-                checkFinish(`${path}${pkg}@${latest}${def}`);
+                if (!def) {
+                    checkFinish(`${pkg}@${latest}`);
+                } else {
+                    checkFinish(`${path}${pkg}@${latest}${def}`);
+                }
             });
         });
     });
@@ -40,7 +45,8 @@ function findDefJs (files, pkg, name) {
                 return res;
             }
         } else if (file.type === 'file') {
-            if (file.name.indexOf(pkg) !== -1 && file.name.substr(file.name.lastIndexOf('.')) === '.js') {
+            let fileName = file.name.toLowerCase();
+            if (fileName.indexOf(pkg.toLowerCase()) !== -1 && fileName.substr(fileName.lastIndexOf('.')) === '.js') {
                 return name + file.name;
             }
         }
