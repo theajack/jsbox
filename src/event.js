@@ -9,7 +9,7 @@ export function initResize (el) {
     };
 }
 
-export function initKeyEvent (method) {
+export function initKeyEvent (el, method) {
     window.onkeydown = (event) => {
         if (event.ctrlKey) {
             let c = (s) => {return s.charCodeAt(0);};
@@ -22,6 +22,7 @@ export function initKeyEvent (method) {
                 case c('P'):method.copy(); pd(); break;
                 case c('I'):method.config(); pd(); break;
                 case c('L'):method.link(); pd(); break;
+                case c('K'):method.toggleLog(); pd(); break;
                 case c('E'):$.query('.tc-log-clear').el.click(); pd(); break;
                 case 187:method.fontUp(); pd(); break;
                 case 189:method.fontDown(); pd(); break;
@@ -30,4 +31,13 @@ export function initKeyEvent (method) {
                 
         }
     };
+    el.code.query('.code_editor')[0].el.onkey = (event) => {
+        if (event.ctrlKey) {
+            let pd = () => {event.preventDefault();};
+            switch (event.keyCode) {
+                case 13:pd(); break;
+            }
+        }
+    };
+
 }

@@ -1,24 +1,60 @@
 import {tool as $, loading, alert, toast} from 'tacl-ui';
 
-let scripts = window.jsbox_scripts;
-let styles = window.jsbox_styles;
+export function getTypeByFix (lib) {
+    return (lib.substr(lib.lastIndexOf('.')) === '.css') ? 'style' : 'script';
+}
 
-function checkResource (array) {
+function checkIsJsBoxLib (item) {
+    if (item.indexOf('jsbox.') === 0) {
+        return item.replace('jsbox.', '');
+    }
+    return item;
+}
+
+function isUsefullLib (name) {
+    if (!name) {return false;}
+    return !(typeof name === 'string' && name.indexOf('jsbox.') === 0);
+}
+
+function checkResource (libs, array) {
+    let res = [];
     for (let i = 0; i < array.length; i++) {
+        let url, type, name;
         let item = array[i];
-        if (scripts[item]) {
-            array[i] = scripts[item];
-        } else if (styles[item]) {
-            array[i] = styles[item];
-        } else {
-            let fileName =  item.substr(item.lastIndexOf('.'));
-            if (fileName !== '.css' && fileName !== '.js') {
-                loadError(item);
-                return false;
+        item = checkIsJsBoxLib(item);
+        name = item;
+        let inLib = false;
+        for (let j = 0; j < libs.length; j++) {
+            let singleLib = libs[j];
+            let lib = singleLib[item];
+            if (isUsefullLib(lib)) {
+                if (typeof lib === 'object') {
+                    url = lib.url;
+                    type = lib.type || getTypeByFix(url);
+                } else {
+                    url = lib;
+                    type = getTypeByFix(lib);
+                }
+                inLib = true;
+                break;
             }
         }
+        if (!inLib) {
+            let index = item.lastIndexOf('.');
+            let fileName = item.substr(index);
+            if (index === -1 || (fileName !== '.css' && fileName !== '.js')) {
+                url = `https://unpkg.com/${name}`;
+                type = 'script';
+            } else {
+                url = item;
+                type = getTypeByFix(item);
+            }
+        }
+        res.push({
+            url, type, name
+        });
     }
-    return true;
+    return res;
 }
 
 export const LOAD_TYPE = {
@@ -26,27 +62,36 @@ export const LOAD_TYPE = {
     CONFIG: 'config',
 };
 
-export function loadResources (array, call, showToast = true) {
+export function loadResources ({
+    libs = [],
+    array,
+    success,
+    jsboxLib = true,
+    showToast = true
+}) {
     if (array.length === 0) {
         return;
     }
-    if (!checkResource(array)) {
-        return;
+    if (!(libs instanceof Array)) {
+        libs = [libs];
     }
+    if (jsboxLib) {
+        libs.push(window.jsbox_libs);
+    }
+    array =  checkResource(libs, array);
     let stopLoad = false;
     let num = 0;
 
     loading('0 / ' + array.length);
     array.forEach((item) => {
-        let type = (item.substr(item.lastIndexOf('.')) === '.css') ? 'style' : 'script';
         let ele;
-        if (type === 'script') {
-            ele = $.create('script').attr('src', item);
+        if (item.type === 'script') {
+            ele = $.create('script').attr('src', item.url);
             $.query('body').append(ele);
         } else {
             ele = $.create('link').attr({
                 rel: 'stylesheet',
-                href: item
+                href: item.url
             });
             $.query('head').append(ele);
         }
@@ -63,7 +108,7 @@ export function loadResources (array, call, showToast = true) {
                 loading.close();
                 if (showToast)
                     toast('所有资源加载成功!');
-                if (call)call();
+                if (success)success();
             } else {
                 loading(`${num} / ${array.length}`);
             }
@@ -80,10 +125,18 @@ export function loadResources (array, call, showToast = true) {
 
 function loadError (item) {
     loading.close();
+    let text = null;
+    if (!item.url) {
+        text = '请输入正确的url地址';
+    } else if (item.url === item.name) {
+        text = item.url;
+    } else {
+        text = `${item.name}:${item.url}`;
+    }
     alert({
         title: '资源加载失败',
         confirmText: '关闭',
         theme: 'gamer',
-        text: item || '请输入正确的url地址'
+        text
     });
 }

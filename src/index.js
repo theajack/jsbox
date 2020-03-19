@@ -4,12 +4,13 @@ import {toast, confirm} from 'tacl-ui';
 import TCEditor from 'tc-editor';
 import Log from './log';
 import {TOOL_HEIGHT, initResize, initKeyEvent} from './event';
-import {getUrlParam, DEFAULT_CODE, initWindowFunc} from './util';
+import {getUrlParam, DEFAULT_CODE, initWindowFunc, IsPC, toggleCls, exeJs} from './util';
 import {copyText} from './log/util';
 import {read, write, TYPE} from './notebook';
 import {open} from './import';
 import {initConfig} from './config';
-
+import './style/index.css';
+import {initHtml, initMode, changeMode, isHtmlMode, toggleLog, exeHtml} from './html';
 $.reportStyle({
     func: initStyle,
     usePool: true
@@ -22,9 +23,9 @@ const host = 'https://theajack.gitee.io/';
 function main () {
     let editor = null;
     $.query('body').append(
-        $.create('div#container').render({
+        $.create('div#jsbox-container').render({
             html: /* html*/`
-            <div class='tool-w'>
+            <div class='jsbox-tool-w'>
                 <i class="ei-github" title='github' @event='goGithub'></i>
                 <i class="ei-play" title='运行代码(ctrl + enter)' @event='run'></i>
                 <i class="ei-zoom-in" title='放大字体(ctrl + +)' @event='fontUp'></i>
@@ -34,26 +35,37 @@ function main () {
                 <i class="ei-save" title='暂存代码(ctrl + s)' @event='save'></i>
                 <i class="ei-history" title="重置代码(ctrl + e)" @event="reset"></i>
                 <i class="ei-copy" title='复制代码(ctrl + q)' @event='copy'></i>
-                <i class="ei-cog" title='设置(ctrl + i)' @event='config'></i>
+                <i class="ei-book" title='三方库引入(ctrl + i)' @event='lib'></i>
                 <i class="ei-link" title='生成链接(ctrl + l)' @event='link'></i>
                 <i class="ei-info" title='使用说明页' @event='hello'></i>
+                <i class="ei-code" title='使用html(ctrl + g)' id='changeMode' @el='codeMode' @event='changeMode'></i>
+                <i class="ei-cog" title='设置' @event='config'></i>
             </div>
             <div class='jsbox-main-panel' @el='panel'>
                 <div class='code-panel' @el='codew'>
                     <div @el='code' class='code-panel'></div>
                 </div>
-                <div @el='log' class='log-panel'>
+                <div @el='logPanel' class='log-panel'>
                     <div @el='drag' class='drag-bar'></div>
+                    <div @el='html' class='log-html'>
+                        <i @el='htmlBtn' class="ei-chevron-right" title='隐藏log(ctrl + k)' @event='toggleLog'></i>
+                        <div @el='htmlContent' class='log-content'></div>
+                    </div>
+                    <div @el='log' class='log-log'></div>
                 </div>
             </div>`,
             result (el) {
+                initHtml(el);
                 initResize(el);
                 initLog(el.log);
-                editor = initCode(el);
-                initKeyEvent(this.method);
+                editor = initCode(el, () => {
+                    this.method.run();
+                });
+                initKeyEvent(el, this.method);
                 initWindowFunc();
                 initDrag(el);
                 editor.els.codearea.attr('placeholder', 'Type some code...');
+                initMode(editor, el.codeMode);
             },
             method: {
                 goGithub () {
@@ -66,13 +78,26 @@ function main () {
                         toast('请输入一些代码');
                         return;
                     }
-                    if (code.indexOf('\n') === -1) {
-                        code = `log(${code})`;
+                    if (isHtmlMode()) {
+                        exeHtml(code);
+                    } else {
+                        if (code.indexOf('\n') === -1) {
+                            code = `log(${code})`;
+                        }
+                        exeJs(code);
                     }
-                    (new Function(code))();
+                },
+                toggleLog () {
+                    toggleLog();
+                },
+                lib () {
+                    open();
                 },
                 config () {
-                    open();
+                    toast('暂无');
+                },
+                changeMode () {
+                    changeMode(editor, this.self);
                 },
                 theme () {
                     if (!editor) {return;}
@@ -137,11 +162,7 @@ function main () {
     );
 }
 
-function toggleCls (el, a, b) {
-    el.cls(el.cls() === a ? b : a);
-}
-
-function initCode (els) {
+function initCode (els, success) {
     let theme = getUrlParam('theme');
     if (!theme) {
         theme = read(TYPE.THEME);
@@ -170,7 +191,8 @@ function initCode (els) {
         toast,
         buttons: false,
     });
-    initConfig(code, editor);
+    window.editor = editor;
+    initConfig(code, editor, success);
     return editor;
 }
 
@@ -198,7 +220,7 @@ function initDrag (el) {
     };
     let setPercent = () => {
         el.codew.style('width', `${percent}%`);
-        el.log.style('width', `${100 - percent}%`);
+        el.logPanel.style('width', `${100 - percent}%`);
     };
     let setSize = (x) => {
         if (x < minWidth || x > width - minWidth) {
@@ -235,120 +257,41 @@ function initDrag (el) {
 
 function initStyle () {
     let size = $.windowSize();
-    let barWidth = 4;
+    // let barWidth = 4;
     
     return /* css */`
-        body,html{
-            margin: 0;
-            width: 100%;
-        }
-        html *{
-            box-sizing: border-box;
-        }
         .jsbox-main-panel{
             height: ${size.height - TOOL_HEIGHT}px;
         }
-        .jsbox-main-panel.no-select{
-            user-select: none;
-            cursor: ew-resize;
-        }
-        .tool-w {
+        .jsbox-tool-w {
             height: ${TOOL_HEIGHT}px;
             line-height: ${TOOL_HEIGHT}px;
-        }
-        .tool-w i{
-            font-size: 20px;
-            color: #444;
-            margin: 0 8px;
-            cursor: pointer;
-            display: inline-block;
-            transition: all .1s linear;
-        }
-        .log-panel, .code-panel{
-            height: 100%;
-            width:50%;
-            float: left;
-            overflow: hidden;
-            border-top: 1px solid #ddd;
-        }
-        .log-panel {
-            border-left: 1px solid #ddd;
             background-color: #f6f6f6;
-            position: relative;
-            padding-left:${barWidth}px;
         }
-        .drag-bar{
-            position: absolute;
-            left: 0;
-            height: 100%;
-            width: ${barWidth}px;
-            background-color: #ddd; /* 浏览器不支持时显示 */
-            background-image: linear-gradient(#ddd, #8f95d7, #ddd);
-            cursor: ew-resize;
-            box-shadow: 0 0 5px 0 #444;
+        ::-webkit-scrollbar {
+            width:5px;
+            cursor: pointer;
+            height: 5px;
         }
-        .j-code{
-            border: none!important;
+        ${IsPC() ? `
+        ::-webkit-scrollbar-button    {
+            display: none;
         }
-        .j-code,.code_set_w{
-            border-radius: 0;
+        ::-webkit-scrollbar-track     {
+            display: none;
         }
-        .j-code,.code_editor,.code_editor_view{
-            min-width: auto!important;
-            left: 0px!important;
+        ::-webkit-scrollbar-track-piece {
+            background-color:#ddd;
         }
-        .tc-log-block{
-            word-break: break-all;
+        ::-webkit-scrollbar-thumb{
+            background-color:#bbb;
+            border-radius:5px;
+            cursor: pointer;
         }
-        .tc-log-block-hide span{
-            left: -1.4px!important;
-            font-size: 14px!important;
-        }
-        .tc-log-funcs {
-            position: fixed!important;
-            top: 6px;
-            right: 0;
-            bottom: auto!important;
-            left: auto!important;
-        }
-        .tc-log-func{
-            line-height: 17px!important;
-        }
-        .tc-log-func.tc-log-clear {
-            line-height: 14px!important;
-        }
-
-        @media (min-width: 600px){
-            .tool-w i:hover{
-                color: #000;
-                transform: scale(1.3);
-            }
-        }
-        @media (max-width: 600px){
-            .tool-w{
-                overflow-x: scroll;
-                white-space: nowrap;
-            }
-            .log-panel, .code-panel{
-                height: 50%;
-                width: 100%!important;
-                float: none;
-            }
-            .tc-log-funcs {
-                top: auto!important;
-                bottom: 6px!important;
-            }
-            .log-panel{
-                padding-left:0;
-            }
-            .drag-bar{
-                display:none;
-            }
-        }
-        .tool-w i:active{
-            color: #6b1616;
-            transform: scale(1.1);
-        }
+        ::-webkit-scrollbar-thumb:hover{
+            background-color:#aaa;
+            cursor: pointer;
+        }` : ''}
     `;
 }
 

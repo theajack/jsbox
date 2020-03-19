@@ -7,6 +7,11 @@ let urls = [];
 
 function main () {
     packages.forEach((pkg) => {
+        let pkgPath = null;
+        if (pkg.indexOf(':') !== -1) {
+            pkgPath = pkg.substr(pkg.indexOf(':') + 1);
+            pkg = pkg.substr(0, pkg.indexOf(':'));
+        }
         request(`${httpBase}${pkg}`, {json: true}, (err, res) => {
             if (err) { return console.log(err); }
             let latest = res.body.tags.latest;
@@ -15,7 +20,11 @@ function main () {
                 console.log(pkg, res.body.default);
                 let def = res.body.default;
                 if (def === null || def.substr(def.lastIndexOf('.')) !== '.js') {
-                    def = findDefJs(res.body.files, pkg, '/');
+                    if (pkgPath) {
+                        def = pkgPath;
+                    } else {
+                        def = findDefJs(res.body.files, pkg, '/');
+                    }
                 }
                 if (!def) {
                     checkFinish(`${pkg}@${latest}`);
@@ -25,6 +34,10 @@ function main () {
             });
         });
     });
+}
+
+function extractPkgInfo () {
+
 }
 
 function checkFinish (url) {

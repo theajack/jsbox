@@ -33,8 +33,8 @@ JSBOX by theajack
 ### search参数：
 
 1. theme=dark: 开启dark代码编辑模式，默认为normal
-2. code=xxx: 设置编辑器代码，需要经过 decodeURIComponent
-3. lib=Array<link|name>: 加载第三方库，可以是一个url或者[jsbox预定义的库](https://github.com/theajack/jsbox/blob/master/cdn/resources.js)，需要经过 decodeURIComponent
+2. code=xxx: 设置编辑器代码，需要经过 encodeURIComponent
+3. lib=Array<link|name>: 加载第三方库，可以是一个url或者[jsbox预定义的库](https://github.com/theajack/jsbox/blob/master/cdn/resources.js)，需要经过 encodeURIComponent
 4. config=link: 使用自定义的配置文件
 5. id=string: 使用指定的id加载代码块，需要与config参数一起使用
 
@@ -44,26 +44,29 @@ config参数应该指向一个js文件，该文件需要在window对象上定义
 
 ```js
 window.jsbox_config = {
-    scripts: {
-        'loadsh': 'xxx',
-    },
-    styles: {
-        'xx': 'xx'
+    libs: {
+        'loadsh': 'xxx', // 字符串方式
+        'jquery': {
+            url: 'xxx', // 必须
+            type: 'script', // 非必须 声明是js还是css，如果未声明会从url中解析
+            version: 'xxx', // 非必须 声明版本
+        },
+        'cnchar': 'jsbox.cnchar', // 如果要使用jsbox预定的库，请使用jsbox.xxx
     },
     codes: { // 
-        'helloWorld': 'console.log("Hello world")', // 默认使用上面定义的所有依赖
+        'helloWorld': 'console.log("Hello world")', // 字符串方式 默认使用上面定义的所有依赖
         'testLoadsh': {
-            code: '_.cloneDeep({a:1})',
-            dep: ['loadsh', 'xxx'], // 定义依赖，优先从当前文件中查找，如果没有会尝试在jsbox预定义库中查找
+            code: '_.cloneDeep({a:1})', // 必须 代码
+            dep: ['loadsh', 'jsbox.cnchar'], // 非必需 定义依赖，从当前文件中查找，如果不填会加载当前文件中的所有libs, 如果要使用jsbox预定义的库，请使用jsbox.xxx
         },
     }
 }
 ```
 
+
 ##### 说明
-1. scripts: js文件cdn地址，非必需
-2. styles: css样式文件cdn地址，非必需
-3. codes: codes用于存储一些代码，codes中的键值既对应search参数中的id值，jsbox会加载对应的代码，如果id值为空，jsbox会加载第一个键值对应的代码，若codes为string类型，jsbox会忽略id值
+1. libs: 依赖的cdn地址，非必需
+2. codes: codes用于存储一些代码，codes中的键值既对应search参数中的id值，jsbox会加载对应的代码，如果id值为空，jsbox会加载第一个键值对应的代码，若codes为string类型，jsbox会忽略id值
 
 
 ### hash参数

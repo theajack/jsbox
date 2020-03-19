@@ -3,6 +3,7 @@ import tool from './tool';
 import obejectViewer from './objectViewer';
 import {generateFunc, checkType} from './func';
 import version from './version.js';
+import ignores from './igonre';
 
 class Log {
     constructor () {
@@ -36,6 +37,9 @@ class Log {
     mounted () {
         this.init();
         this.console.onConsole = (el, args, type) => {
+            if (typeof args === 'string' && ignores.indexOf(args) !== -1) {
+                return;
+            }
             checkType(el, type);
             if (obejectViewer.test(args)) {
                 tool.append(this.blockList, el);

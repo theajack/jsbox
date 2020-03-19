@@ -1,4 +1,5 @@
 import {copyText} from './log/util';
+import {toast, loading} from 'tacl-ui';
 
 
 export function readCookie (name, cookie = document.cookie) {
@@ -80,4 +81,37 @@ copy(string); 复制内容到剪切板
 export function initWindowFunc () {
     window.log = console.log;
     window.copy = copyText;
+}
+
+
+export function IsPC () {
+    var userAgentInfo = navigator.userAgent;
+    var Agents = new Array('Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod');
+    var flag = true;
+    for (var v = 0; v < Agents.length; v++) {
+        if (userAgentInfo.indexOf(Agents[v]) > 0) { flag = false; break; }
+    }
+    return flag;
+}
+
+export function toggleCls (el, a, b) {
+    el.cls(el.cls() === a ? b : a);
+}
+let inExe = false;
+export function exeJs (code) {
+    if (inExe) {
+        toast('正在执行中，请勿重复操作');
+        return;
+    }
+    inExe = true;
+    loading();
+    let blob = new Blob([code], {type: 'application/text'});
+    let objectURL = window.URL.createObjectURL(blob);
+    let s = document.createElement('script');
+    s.onload = () => {
+        inExe = false;
+        loading.close();
+    };
+    s.src = objectURL;
+    document.body.appendChild(s);
 }

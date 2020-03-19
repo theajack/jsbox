@@ -27,7 +27,16 @@ module.exports = () => {
                     }],
                     exclude: /node_modules/,
                     include: /(tacl-ui)|(easy-dom)/
-                }
+                }, {
+                    test: /\.css$/,
+                    use: ['style-loader', 'css-loader'],
+                }, {
+                    test: /\.(woff|ttf)$/,
+                    loader: 'url-loader',
+                    options: {
+                        limit: 50000,
+                    },
+                },
             ]
         }
     };

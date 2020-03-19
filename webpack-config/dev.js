@@ -30,6 +30,15 @@ module.exports = {
             options: {
                 configFile: './.eslintrc.js'
             }
-        }]
+        }, {
+            test: /\.css$/,
+            use: ['style-loader', 'css-loader'],
+        }, {
+            test: /\.(woff|ttf)$/,
+            loader: 'url-loader',
+            options: {
+                limit: 50000,
+            },
+        }, ]
     }
 };
