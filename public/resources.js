@@ -72,21 +72,31 @@ window.jsbox_libs = {
         'url': 'https://cdn.jsdelivr.net/npm/js-xlsx@0.8.22/dist/xlsx.min.js'
     },
     'cnchar': 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.latest.min.js',
-    'cnchar-poly': 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.poly.latest.min.js',
-    'cnchar-order': 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.order.latest.min.js',
-    'cnchar-trad': 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.trad.latest.min.js',
+    'cnchar-poly': {
+        url: 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.poly.latest.min.js',
+        deps: ['cnchar']
+    },
+    'cnchar-order': {
+        url: 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.order.latest.min.js',
+        deps: ['cnchar']
+    },
+    'cnchar-trad': {
+        url: 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.trad.latest.min.js',
+        deps: ['cnchar']
+    },
     'easy-icon': {
         'url': 'https://cdn.jsdelivr.net/gh/theajack/easy-icon/dist/easy-icon.min.css',
         'type': 'style'
     },
     'element-ui': {
-        'url': 'https://unpkg.com/element-ui/lib/index.js',
+        'url': 'https://cdn.jsdelivr.net/npm/element-ui@2.13.0/lib/index.js',
         'deps': [
-            'vue'
+            'vue',
+            'element-ui-style'
         ]
     },
     'element-ui-style': {
-        'url': 'https://unpkg.com/element-ui/lib/theme-chalk/index.cs',
+        'url': 'https://cdn.jsdelivr.net/npm/element-ui@2.13.0/lib/theme-chalk/index.css',
         'type': 'style'
     }
 };

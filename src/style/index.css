@@ -66,6 +66,7 @@ html *{
     display: inline-block;
 }
 .log-html > i{
+    z-index: 10;
     position: absolute;
     right: 5px;
     top: 5px;
@@ -130,6 +131,7 @@ html *{
 @media (max-width: 600px){
     .jsbox-tool-w{
         overflow-x: auto;
+        overflow-y: hidden;
         white-space: nowrap;
     }
     .log-panel, .code-panel{
@@ -146,6 +148,9 @@ html *{
     }
     .drag-bar{
         display:none;
+    }
+    .el-message-box{
+        width:90%;
     }
 }
 .jsbox-tool-w i:active{

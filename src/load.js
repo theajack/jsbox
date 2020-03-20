@@ -67,12 +67,10 @@ function checkResource (libs, array) {
         if (allDeps.indexOf(name) !== -1 || Libs.indexOf(name) !== -1) {
             res.splice(i, 1);
             i--;
-        }
-        if (Libs.indexOf(name) === -1) {
+        } else {
             Libs.push(name);
         }
     }
-    Libs.push(...allDeps);
     return res;
 }
 
@@ -84,9 +82,10 @@ export const LOAD_TYPE = {
 export function loadResources ({
     libs = [],
     array,
-    success,
+    success = () => {},
     jsboxLib = true,
-    showToast = true
+    showToast = true,
+    isDep = false
 }) {
     if (array.length === 0) {
         return;
@@ -98,48 +97,73 @@ export function loadResources ({
         libs.push(window.jsbox_libs);
     }
     array =  checkResource(libs, array);
+    if (array.length === 0) {
+        success();
+        return;
+    }
     let stopLoad = false;
     let num = 0;
-
-    loading('0 / ' + array.length);
+    loading(`${(isDep) ? '依赖: ' : ''}0 / ${array.length}`);
     array.forEach((item) => {
+        let appendOne = (ele) => {
+            let timer = setTimeout(() => {
+                if (stopLoad) {return;}
+                stopLoad = true;
+                loadError(item);
+            }, 8000);
+            ele.el.onload = function () {
+                if (stopLoad) {return;}
+                num ++;
+                if (num >= array.length) {
+                    loading(`${(isDep) ? '依赖: ' : ''}${num} / ${array.length}`);
+                    if (isDep) {
+                        loading('继续加载主包...');
+                    } else {
+                        loading.close();
+                        if (showToast) {
+                            toast(`所有${(isDep) ? '依赖: ' : '资源'}加载成功!`);
+                        }
+                    }
+                    if (success)success();
+                } else {
+                    loading(`${num} / ${array.length}`);
+                }
+                clearTimeout(timer);
+            };
+            ele.el.onerror = function () {
+                if (stopLoad) {return;}
+                stopLoad = true;
+                loadError(item);
+                clearTimeout(timer);
+            };
+        };
+
         let ele;
         if (item.type === 'script') {
-            debugger; // 增加依赖加载机制
-            ele = $.create('script').attr('src', item.url);
-            $.query('body').append(ele);
+            let addScript = () => {
+                ele = $.create('script').attr('src', item.url);
+                $.query('body').append(ele);
+                appendOne(ele);
+            };
+            if (item.deps && item.deps.length > 0) {
+                loadResources({
+                    libs,
+                    jsboxLib: false,
+                    array: item.deps,
+                    success: addScript,
+                    isDep: true
+                });
+            } else {
+                addScript();
+            }
         } else {
             ele = $.create('link').attr({
                 rel: 'stylesheet',
                 href: item.url
             });
             $.query('head').append(ele);
+            appendOne(ele);
         }
-        let timer = setTimeout(() => {
-            if (stopLoad) {return;}
-            stopLoad = true;
-            loadError(item);
-        }, 8000);
-        ele.el.onload = function () {
-            if (stopLoad) {return;}
-            num ++;
-            if (num >= array.length) {
-                loading(`${num} / ${array.length}`);
-                loading.close();
-                if (showToast)
-                    toast('所有资源加载成功!');
-                if (success)success();
-            } else {
-                loading(`${num} / ${array.length}`);
-            }
-            clearTimeout(timer);
-        };
-        ele.el.onerror = function () {
-            if (stopLoad) {return;}
-            stopLoad = true;
-            loadError(item);
-            clearTimeout(timer);
-        };
     });
 }
 
