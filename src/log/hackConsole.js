@@ -21,6 +21,7 @@ function hack (name) {
     let f = window.console[name];
     console['_' + name] = f;
     window.console[name] = function (...arg) {
+        console.trace();
         f(...arg);
         if (arg.length == 0) {
             return;

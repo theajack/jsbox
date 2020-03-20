@@ -84,6 +84,7 @@ html *{
     background-image: linear-gradient(#ddd, #8f95d7, #ddd);
     cursor: ew-resize;
     box-shadow: 0 0 5px 0 #444;
+    z-index: 1;
 }
 .j-code{
     border: none!important;

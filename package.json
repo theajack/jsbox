@@ -5,7 +5,8 @@
     "scripts": {
         "build": "webpack --config webpack-config/build.js",
         "dev": "webpack-dev-server --open --config webpack-config/dev.js",
-        "lint": "eslint src --ext js"
+        "lint": "eslint src --ext js",
+        "update": "node ./package/index.js"
     },
     "author": "theajack",
     "repository": {

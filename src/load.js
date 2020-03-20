@@ -4,6 +4,8 @@ export function getTypeByFix (lib) {
     return (lib.substr(lib.lastIndexOf('.')) === '.css') ? 'style' : 'script';
 }
 
+let Libs = [];
+
 function checkIsJsBoxLib (item) {
     if (item.indexOf('jsbox.') === 0) {
         return item.replace('jsbox.', '');
@@ -18,11 +20,13 @@ function isUsefullLib (name) {
 
 function checkResource (libs, array) {
     let res = [];
+    let allDeps = [];
     for (let i = 0; i < array.length; i++) {
         let url, type, name;
         let item = array[i];
         item = checkIsJsBoxLib(item);
         name = item;
+        let deps = [];
         let inLib = false;
         for (let j = 0; j < libs.length; j++) {
             let singleLib = libs[j];
@@ -31,6 +35,10 @@ function checkResource (libs, array) {
                 if (typeof lib === 'object') {
                     url = lib.url;
                     type = lib.type || getTypeByFix(url);
+                    if (lib.deps) {
+                        deps = lib.deps;
+                        allDeps.push(...deps);
+                    }
                 } else {
                     url = lib;
                     type = getTypeByFix(lib);
@@ -51,9 +59,20 @@ function checkResource (libs, array) {
             }
         }
         res.push({
-            url, type, name
+            url, type, name, deps
         });
     }
+    for (let i = 0; i < res.length; i++) {
+        let name = res[i].name;
+        if (allDeps.indexOf(name) !== -1 || Libs.indexOf(name) !== -1) {
+            res.splice(i, 1);
+            i--;
+        }
+        if (Libs.indexOf(name) === -1) {
+            Libs.push(name);
+        }
+    }
+    Libs.push(...allDeps);
     return res;
 }
 
@@ -86,6 +105,7 @@ export function loadResources ({
     array.forEach((item) => {
         let ele;
         if (item.type === 'script') {
+            debugger; // 增加依赖加载机制
             ele = $.create('script').attr('src', item.url);
             $.query('body').append(ele);
         } else {

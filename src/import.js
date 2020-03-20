@@ -60,7 +60,7 @@ function initEl () {
                     v-for="item in libs"
                     :key="item.name"
                     :label="item.name"
-                    :value="item.url">
+                    :value="item.name">
                     <span class='lib-name'>{{ item.name }}</span>
                     <span class='lib-url'>{{item.url}}</span>
                     <a class='lib-version' :href='item.url' target="view_window">@{{ item.version }}</a>
