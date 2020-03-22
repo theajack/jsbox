@@ -37,6 +37,9 @@ JSBOX by theajack
     如果不是url，且不在jsbox预定义库中，jsbox会尝试从unpkg官网获取，但不保证可用
 4. config=link: 使用自定义的配置文件
 5. id=string: 使用指定的id加载代码块，需要与config参数一起使用
+6. env
+   
+config > env > lib
 
 #### config参数
 

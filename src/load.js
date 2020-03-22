@@ -1,6 +1,12 @@
 import {tool as $, loading} from 'tacl-ui';
 import {Message} from 'element-ui';
 import 'element-ui/lib/theme-chalk/message.css';
+
+export const LOAD_TYPE = {
+    SET: 'set',
+    CONFIG: 'config',
+};
+
 export function getTypeByFix (lib) {
     return (lib.substr(lib.lastIndexOf('.')) === '.css') ? 'style' : 'script';
 }
@@ -74,11 +80,6 @@ function checkResource (libs, array) {
     }
     return res;
 }
-
-export const LOAD_TYPE = {
-    SET: 'set',
-    CONFIG: 'config',
-};
 
 export function loadResources ({
     libs = [],
