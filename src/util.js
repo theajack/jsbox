@@ -22,6 +22,9 @@ export function parseUrlParam (search, name, defVal) {
     if (search === true) {
         search = decodeURIComponent(window.location.search);
     }
+    if (search[search.length - 1] === '/') {
+        search = search.substr(0, search.length - 1);
+    }
     if (typeof name !== 'undefined') {
         if (search !== '') {
             let reg = new RegExp('(^|&)' + name + '=([^&]*?)(&|$)', 'i');

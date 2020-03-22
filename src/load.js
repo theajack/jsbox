@@ -1,11 +1,12 @@
-import {tool as $, loading, alert, toast} from 'tacl-ui';
-
+import {tool as $, loading} from 'tacl-ui';
+import {Message} from 'element-ui';
+import 'element-ui/lib/theme-chalk/message.css';
 export function getTypeByFix (lib) {
     return (lib.substr(lib.lastIndexOf('.')) === '.css') ? 'style' : 'script';
 }
 
 let Libs = [];
-
+window.libs = Libs;
 function checkIsJsBoxLib (item) {
     if (item.indexOf('jsbox.') === 0) {
         return item.replace('jsbox.', '');
@@ -117,11 +118,11 @@ export function loadResources ({
                 if (num >= array.length) {
                     loading(`${(isDep) ? '依赖: ' : ''}${num} / ${array.length}`);
                     if (isDep) {
-                        loading('继续加载主包...');
+                        Message.info('继续加载主包...');
                     } else {
                         loading.close();
                         if (showToast) {
-                            toast(`所有${(isDep) ? '依赖: ' : '资源'}加载成功!`);
+                            Message.success(`所有${(isDep) ? '依赖: ' : '资源'}加载成功!`);
                         }
                     }
                     if (success)success();
@@ -177,10 +178,9 @@ function loadError (item) {
     } else {
         text = `${item.name}:${item.url}`;
     }
-    alert({
-        title: '资源加载失败',
-        confirmText: '关闭',
-        theme: 'gamer',
-        text
+    Message.error({
+        message: `资源加载失败:${text}`,
+        duration: 0,
+        showClose: true,
     });
 }

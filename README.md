@@ -14,7 +14,6 @@ JSBOX by theajack
 5. 颜色主题，风格与vscode对齐
 6. 自定义log类型，自定义字体大小
 
-
 ### 快捷按键与按钮说明：
 
 1. ctrl + : 放大字体
@@ -35,6 +34,7 @@ JSBOX by theajack
 1. theme=dark: 开启dark代码编辑模式，默认为normal
 2. code=xxx: 设置编辑器代码，需要经过 encodeURIComponent
 3. lib=Array<link|name>: 加载第三方库，可以是一个url或者[jsbox预定义的库](https://github.com/theajack/jsbox/blob/master/cdn/resources.js)，需要经过 encodeURIComponent
+    如果不是url，且不在jsbox预定义库中，jsbox会尝试从unpkg官网获取，但不保证可用
 4. config=link: 使用自定义的配置文件
 5. id=string: 使用指定的id加载代码块，需要与config参数一起使用
 

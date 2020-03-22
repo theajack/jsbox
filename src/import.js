@@ -48,7 +48,7 @@ function initEl () {
     app = new Vue({
         components: {Dialog, Select, Option, Button},
         template: /* html*/`
-            <Dialog :visible.sync="showDialog" :before-close='beforeClose'>
+            <Dialog title='加载第三方库' :visible.sync="showDialog" :before-close='beforeClose'>
                 <Select
                 v-model="value"
                 multiple

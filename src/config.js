@@ -17,9 +17,9 @@ export function initConfig (serachCode, editor, success = () => {}) {
         initLib(success);
         return;
     }
-
+    url = decodeURIComponent(url);
     loadResources({
-        array: [decodeURIComponent(url)],
+        array: [url],
         jsboxLib: false,
         success: () => {
             let id = getUrlParam('id');

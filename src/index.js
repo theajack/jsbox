@@ -30,7 +30,7 @@ function main () {
                 <i class="ei-play" title='运行代码(ctrl + enter)' @event='run'></i>
                 <i class="ei-zoom-in" title='放大字体(ctrl + +)' @event='fontUp'></i>
                 <i class="ei-zoom-out" title='缩小字体(ctrl + -)' @event='fontDown'></i>
-                <i class="ei-sun" title='切换主题(ctrl + m)' id='themeIcon' @el='theme' @event='theme'></i>
+                <i class="ei-moon" title='切换主题(ctrl + m)' id='themeIcon' @el='theme' @event='theme'></i>
                 <i class="ei-trash" title='清空代码(ctrl + d)' @event='clear'></i>
                 <i class="ei-save" title='暂存代码(ctrl + s)' @event='save'></i>
                 <i class="ei-history" title="重置代码(ctrl + e)" @event="reset"></i>
@@ -39,7 +39,7 @@ function main () {
                 <i class="ei-link" title='生成链接(ctrl + l)' @event='link'></i>
                 <i class="ei-info" title='使用说明页' @event='hello'></i>
                 <i class="ei-code" title='使用html(ctrl + g)' id='changeMode' @el='codeMode' @event='changeMode'></i>
-                <i class="ei-cog" title='设置' @event='config'></i>
+                <!--<i class="ei-cog" title='设置' @event='config'></i>-->
             </div>
             <div class='jsbox-main-panel' @el='panel'>
                 <div class='code-panel' @el='codew'>
@@ -168,7 +168,7 @@ function initCode (els, success) {
         theme = read(TYPE.THEME);
     }
     if (theme === 'dark') {
-        els.theme.cls('ei-moon');
+        els.theme.cls('ei-sun');
     }
     // code 优先级 config&id>#saved|#hello>code
     let code = '';
