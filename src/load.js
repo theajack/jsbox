@@ -1,5 +1,10 @@
 import {tool as $, loading, alert, toast} from 'tacl-ui';
 
+export const LOAD_TYPE = {
+    SET: 'set',
+    CONFIG: 'config',
+};
+
 export function getTypeByFix (lib) {
     return (lib.substr(lib.lastIndexOf('.')) === '.css') ? 'style' : 'script';
 }
@@ -73,11 +78,6 @@ function checkResource (libs, array) {
     }
     return res;
 }
-
-export const LOAD_TYPE = {
-    SET: 'set',
-    CONFIG: 'config',
-};
 
 export function loadResources ({
     libs = [],

@@ -1,3 +1,5 @@
+// 负责加载config和id参数 或者 id参数
+
 import {getUrlParam} from './util';
 import {loadResources} from './load';
 

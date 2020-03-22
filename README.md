@@ -37,6 +37,9 @@ JSBOX by theajack
 3. lib=Array<link|name>: 加载第三方库，可以是一个url或者[jsbox预定义的库](https://github.com/theajack/jsbox/blob/master/cdn/resources.js)，需要经过 encodeURIComponent
 4. config=link: 使用自定义的配置文件
 5. id=string: 使用指定的id加载代码块，需要与config参数一起使用
+6. env
+   
+config > env > lib
 
 #### config参数
 

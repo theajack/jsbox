@@ -19,6 +19,7 @@ module.exports = {
     'js-xlsx': {
         def: '/dist/xlsx.min.js'
     },
+    'recast': '',
     'cnchar': 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.latest.min.js',
     'cnchar-poly': {
         url: 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.poly.min.js',
