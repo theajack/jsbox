@@ -54,17 +54,22 @@ function generateHead (block, key, obj) {
         let isArray = obj instanceof Array;
         let start = isArray ? '[' : '{';
         let end = isArray ? ']' : '}';
-        html = `<span class="tc-log-angle"></span> <span class="tc-obj-key">${key}${isArray ? `(<span class="tc-obj-number">${obj.length}</span>)` : ''}</span>: ${start}`;
+        html = `<span class="tc-obj-key">${key}${isArray ? `(<span class="tc-obj-number">${obj.length}</span>)` : ''}</span>: ${start}`;
+        let isEmpty = true;
         for (var k in obj) {
+            if (isEmpty)isEmpty = false;
             html += generateItem(k, obj[k], isArray, true);
         }
-        html = html.substr(0, html.length - 1);
+        _objHead = tool.create('div', 'log-obj-head log-ell');
+        if (!isEmpty) {
+            html = '<span class="tc-log-angle"></span> ' + html.substr(0, html.length - 1);
+            _objHead.onclick = function () {
+                let openClass = (this.children[0].className.indexOf('tc-open') !== -1) ? '' : ' tc-open';
+                nextEl(this).className = 'tc-log-obj-view' + openClass;
+                this.children[0].className = 'tc-log-angle' + openClass;
+            };
+        }
         html += end;
-        _objHead = tool.create('div', 'log-obj-head log-ell', '', function () {
-            let openClass = (this.children[0].className.indexOf('tc-open') !== -1) ? '' : ' tc-open';
-            nextEl(this).className = 'tc-log-obj-view' + openClass;
-            this.children[0].className = 'tc-log-angle' + openClass;
-        });
     }
     _objHead.innerHTML = html;
     tool.append(block, _objHead);
@@ -72,7 +77,7 @@ function generateHead (block, key, obj) {
 }
 // 生成head中单个键值对
 function generateItem (key, value, isArray, needTail) {
-    let html = isArray ? '' : ('<span class="tc-obj-key"> ' + key + '</span>:');
+    let html = isArray ? '' : ('<span class="tc-obj-key">' + key + '</span>:');
     switch (typeof value) {
         case 'object':
             if (value === null) {
@@ -83,7 +88,7 @@ function generateItem (key, value, isArray, needTail) {
                 } else if (value instanceof HTMLDocument) {
                     html += '(#document)';
                 } else {
-                    html += ((value instanceof Array) ? ' [...]' : ' {...}');
+                    html += ((value instanceof Array) ? '[…]' : '{…}');
                 }
             }
             ;break;
