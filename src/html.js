@@ -1,5 +1,5 @@
 import {write, read} from './notebook';
-import {getUrlParam, toggleCls, exeJs} from './util';
+import {getUrlParam, exeJs} from './util';
 import {toast} from 'tacl-ui';
 let _editor = null;
 export let showHtml = () => {};
@@ -49,34 +49,35 @@ export function initHtml (els) {
 
 export function initMode (editor, btn) {
     _editor = editor;
-    if (read('mode') === 'html' || getUrlParam('mode' === 'html')) {
-        changeMode(editor, btn, true);
+    let mode = getUrlParam('mode');
+    if (mode !== 'html' && mode !== 'js') {
+        mode = read('mode') === 'html' ? 'html' : 'js';
     }
+    changeMode(mode, editor, btn, true);
 }
 
-export function changeMode (editor, btn, init = false) {
+export function changeMode (mode, editor, btn, init = false) {
     if (!editor) {return;}
-    let language = editor.config.language;
-    let index = language.indexOf('html');
-    toggleCls(btn, 'ei-code', 'ei-file-code');
-    btn.attr('title', `使用${index === -1 ? 'js' : 'html'}(ctrl + g)`);
-    if (!init) {
-        toast(`已切换至${index === -1 ? 'html' : 'js'}模式`);
-    }
-    let code = editor.code();
-    if (index === -1) {
-        language.push('html');
+    if (mode === 'html') {
+        editor.config.language = ['html', 'js'];
+        btn.replaceClass('ei-code', 'ei-file-code');
         showHtml();
     } else {
-        language.splice(index, 1);
+        btn.replaceClass('ei-file-code', 'ei-code');
+        editor.config.language = ['js'];
         hideHtml();
     }
+    btn.attr('title', `使用${mode}(ctrl + g)`);
+    let code = editor.code();
+    if (!init) {
+        toast(`已切换至${mode}模式`);
+    }
+    write('mode', mode);
     editor.code(code);
-    write('mode', index === -1 ? 'html' : 'js');
-
 }
 
 export function isHtmlMode () {
+    if (!_editor) {return false;}
     return _editor.config.language.indexOf('html') !== -1;
 }
 

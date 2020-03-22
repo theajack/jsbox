@@ -54,11 +54,12 @@ function generateHead (block, key, obj) {
         let isArray = obj instanceof Array;
         let start = isArray ? '[' : '{';
         let end = isArray ? ']' : '}';
-        html = '<span class="tc-log-angle"></span> <span class="tc-obj-key">' + key + '</span>: ' + start;
+        html = `<span class="tc-log-angle"></span> <span class="tc-obj-key">${key}${isArray ? `(<span class="tc-obj-number">${obj.length}</span>)` : ''}</span>: ${start}`;
         for (var k in obj) {
-            html += generateItem(k, obj[k]);
+            html += generateItem(k, obj[k], isArray, true);
         }
-        html += ' ' + end;
+        html = html.substr(0, html.length - 1);
+        html += end;
         _objHead = tool.create('div', 'log-obj-head log-ell', '', function () {
             let openClass = (this.children[0].className.indexOf('tc-open') !== -1) ? '' : ' tc-open';
             nextEl(this).className = 'tc-log-obj-view' + openClass;
@@ -70,12 +71,12 @@ function generateHead (block, key, obj) {
     return true;
 }
 // 生成head中单个键值对
-function generateItem (key, value) {
-    let html = '<span class="tc-obj-key"> ' + key + '</span>:';
+function generateItem (key, value, isArray, needTail) {
+    let html = isArray ? '' : ('<span class="tc-obj-key"> ' + key + '</span>:');
     switch (typeof value) {
         case 'object':
             if (value === null) {
-                html += '<span class="tc-obj-key"> null</span>';
+                html += '<span class="tc-obj-key">null</span>';
             } else {
                 if (value instanceof HTMLElement) {
                     html += '&lt;<span class="tc-obj-key">' + value.tagName.toLowerCase() + '</span>/&gt;';
@@ -86,11 +87,14 @@ function generateItem (key, value) {
                 }
             }
             ;break;
-        case 'string':html += '<span class="tc-obj-string"> "' + value + '"</span>'; break;
-        case 'number':html += '<span class="tc-obj-number"> ' + value + '</span>'; break;
-        case 'boolean':html += '<span class="tc-obj-key"> ' + value + '</span>'; break;
+        case 'string':html += '<span class="tc-obj-string">"' + value + '"</span>'; break;
+        case 'number':html += '<span class="tc-obj-number">' + value + '</span>'; break;
+        case 'boolean':html += '<span class="tc-obj-key">' + value + '</span>'; break;
         case 'function':html += ' <span class="tc-obj-key">f</span>(){}'; break;
         default :html += value;
+    }
+    if (needTail) {
+        html += ',';
     }
     return html;
 }

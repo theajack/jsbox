@@ -2,6 +2,9 @@
 
 import {getUrlParam} from './util';
 import {loadResources} from './load';
+import {changeMode} from './html';
+
+// config > env > lib
 
 function initLib (success) {
     let libs = getUrlParam('lib');
@@ -10,13 +13,41 @@ function initLib (success) {
             array: libs.split(','),
             success
         });
+        return true;
     }
+    return false;
 }
 
-export function initConfig (serachCode, editor, success = () => {}) {
+function initEnv (serachCode, editor, success, modeBtn) {
+    let env = getUrlParam('env');
+    let envs = window.jsbox_envs;
+    if (!env || !envs || !envs[env]) {
+        return false;
+    }
+    let code = envs[env].code || serachCode || '';
+    code = code.trim();
+    let type = envs[env].type || 'js';
+    changeMode(type, editor, modeBtn, true);
+    if (envs[env].deps && envs[env].deps.length > 0) {
+        loadResources({
+            array: envs[env].deps,
+            success () {
+                editor.code(code);
+                success();
+            }
+        });
+    } else {
+        editor.code(code);
+    }
+    return true;
+}
+
+export function initConfig (serachCode, editor, success = () => {}, modeBtn) {
     let url = getUrlParam('config');
     if (!url) {
-        initLib(success);
+        if (!initEnv(serachCode, editor, success, modeBtn)) {
+            initLib(success);
+        }
         return;
     }
     url = decodeURIComponent(url);

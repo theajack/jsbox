@@ -97,7 +97,10 @@ function main () {
                     toast('暂无');
                 },
                 changeMode () {
-                    changeMode(editor, this.self);
+                    if (!editor) {return;}
+                    let language = editor.config.language;
+                    let index = language.indexOf('html');
+                    changeMode((index === -1) ? 'html' : 'js', editor, this.self);
                 },
                 theme () {
                     if (!editor) {return;}
@@ -141,7 +144,11 @@ function main () {
                 },
                 link () {
                     if (!editor) {return;}
-                    let url = `${host}jsbox?theme=${editor.config.theme}&code=${encodeURIComponent(editor.code())}`;
+                    let url = `${host}jsbox?theme=${editor.config.theme}`;
+                    let code = editor.code().trim();
+                    if (code) {
+                        url += `&code=${encodeURIComponent(editor.code())}`;
+                    }
                     console.log(url);
                     copyText(url, false);
                     toast('代码链接已复制到剪切板');
@@ -192,7 +199,7 @@ function initCode (els, success) {
         buttons: false,
     });
     window.editor = editor;
-    initConfig(code, editor, success);
+    initConfig(code, editor, success, els.codeMode);
     return editor;
 }
 

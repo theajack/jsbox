@@ -72,7 +72,6 @@ function checkFinish (name, version, url) {
 
 function saveLibs (packages) {
     let content = `window.jsbox_libs = ${JSON.stringify(packages, null, 4)};`;
-    fs.writeFileSync('cdn/resources.js', content, 'utf8' );
     fs.writeFileSync('public/resources.js', content, 'utf8' );
 }
 

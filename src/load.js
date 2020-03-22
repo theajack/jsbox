@@ -119,7 +119,7 @@ export function loadResources ({
                 if (num >= array.length) {
                     loading(`${(isDep) ? '依赖: ' : ''}${num} / ${array.length}`);
                     if (isDep) {
-                        Message.info('继续加载主包...');
+                        Message.info('依赖加载完成');
                     } else {
                         loading.close();
                         if (showToast) {

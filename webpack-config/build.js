@@ -1,4 +1,15 @@
 const path = require('path');
+const gulp = require('gulp');
+const babel = require('gulp-babel');
+function initRes () {
+    gulp.src('public/env.js')
+        .pipe(babel({presets: ['@babel/env']}))
+        .pipe(gulp.dest('cdn'));
+
+    gulp.src('public/resources.js')
+        .pipe(gulp.dest('cdn'));
+}
+initRes();
 
 module.exports = () => {
     return {
