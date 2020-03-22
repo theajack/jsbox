@@ -7,7 +7,7 @@ import {TOOL_HEIGHT, initResize, initKeyEvent} from './event';
 import {getUrlParam, DEFAULT_CODE, initWindowFunc, IsPC, toggleCls, exeJs} from './util';
 import {copyText} from './log/util';
 import {read, write, TYPE} from './notebook';
-import {open} from './import';
+import {open, openEnv} from './import';
 import {initConfig} from './config';
 import './style/index.css';
 import {initHtml, initMode, changeMode, isHtmlMode, toggleLog, exeHtml} from './html';
@@ -36,6 +36,7 @@ function main () {
                 <i class="ei-history" title="重置代码(ctrl + e)" @event="reset"></i>
                 <i class="ei-copy" title='复制代码(ctrl + q)' @event='copy'></i>
                 <i class="ei-book" title='三方库引入(ctrl + i)' @event='lib'></i>
+                <i class="ei-cube-alt" title='运行环境(ctrl + n)' @event='env'></i>
                 <i class="ei-link" title='生成链接(ctrl + l)' @event='link'></i>
                 <i class="ei-info" title='使用说明页' @event='hello'></i>
                 <i class="ei-code" title='使用html(ctrl + g)' id='changeMode' @el='codeMode' @event='changeMode'></i>
@@ -92,6 +93,9 @@ function main () {
                 },
                 lib () {
                     open();
+                },
+                env () {
+                    openEnv();
                 },
                 config () {
                     toast('暂无');

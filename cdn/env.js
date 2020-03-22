@@ -22,3 +22,53 @@ window.jsbox_envs = {
     deps: ['vue']
   }
 };
+/**
+log([
+    '测试'.spell(), // 返回 'CeShi'
+    '测试'.spell('up'), // 返回 'CESHI'
+    '测试'.spell('low'), // 返回 'ceshi'
+    '测试'.spell('first'), // 返回 'CS'
+    '测试'.spell('first', 'low'), // 返回 'cs'
+    '测试'.spell('array'), // 返回 ['Ce','Shi']
+    '测试'.spell('array', 'first', 'low'), // 返回 ['c','s']
+    '测试'.spell('tone'), // 返回 'CèShì'
+    '长大了'.spell('poly'), // 返回 '(Zhang|Chang)(Da|Dai)(Le|Liao)'
+    cnchar.spell('长大了', 'poly', 'tone')
+]);
+log(cnchar.spell('长大了', 'tone'));
+log([
+    '中华人民共和国'.stroke(),
+    '中华人民共和国'.stroke('array'),
+    cnchar.stroke('我爱中华人民共和国', 'array')
+]);
+log([
+    '一个'.stroke('order'),
+    '一个'.stroke('order', 'detail'),
+    '一个'.stroke('order', 'shape'),
+    cnchar.stroke('一个', 'order', 'name'),
+    cnchar.stroke('一个', 'order', 'count'),
+]);
+log([
+    cnchar.orderToWord(['横', '撇', '捺']),
+    cnchar.orderToWord(['横', '撇', '捺'], 'array'),
+    cnchar.orderToWord(['横', '撇', '捺'], 'start'),
+    cnchar.orderToWord(['横', '撇', '捺'], 'start', 'simple')
+]);
+log([
+    cnchar.spellToWord('shàng'),
+    cnchar.spellToWord('shàng', 'alltone'),
+    cnchar.spellToWord('shang4', 'alltone'),
+    cnchar.spellToWord('shang4', 'alltone', 'trad'),
+    cnchar.spellToWord('lv2', 'simple')
+]);
+log([
+    cnchar.strokeToWord(25),
+    cnchar.strokeToWord(25, 'simple'),
+    cnchar.strokeToWord(2, 'array')
+]);
+log([
+    cnchar.convert.simpleToTrad('一个人'),
+    '一个人'.convertSimpleToSpark(),
+    '壹個人'.convertTradToSimple()
+]);
+ */

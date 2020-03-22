@@ -23,6 +23,7 @@ export function initKeyEvent (el, method) {
                 case c('I'):method.config(); pd(); break;
                 case c('L'):method.link(); pd(); break;
                 case c('K'):method.toggleLog(); pd(); break;
+                case c('N'):method.env(); pd(); break;
                 case c('E'):$.query('.tc-log-clear').el.click(); pd(); break;
                 case 187:method.fontUp(); pd(); break;
                 case 189:method.fontDown(); pd(); break;

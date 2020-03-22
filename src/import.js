@@ -13,6 +13,7 @@ import './style/import.css';
 
 let app = null;
 let libs = [];
+let envs = [];
 
 function getVersion (item) {
     if (item.version) {
@@ -27,6 +28,7 @@ function getVersion (item) {
 
 function initLibs () {
     let lib = window.jsbox_libs;
+    let env = window.jsbox_envs;
     for (let key in lib) {
         let item = lib[key];
         if (typeof item === 'string') {
@@ -40,6 +42,20 @@ function initLibs () {
             type: item.type || getTypeByFix(item.url)
         });
     }
+    for (let key in env) {
+        let item = env[key];
+        if (!item.type) {
+            item.type = 'js';
+        }
+        if (!item.deps) {
+            item.deps = [];
+        }
+        envs.push({
+            name: key,
+            type: item.type,
+            deps: JSON.stringify(item.deps)
+        });
+    }
 }
 
 function initEl () {
@@ -48,6 +64,7 @@ function initEl () {
     app = new Vue({
         components: {Dialog, Select, Option, Button},
         template: /* html*/`
+            <div>
             <Dialog title='加载第三方库' :visible.sync="showDialog" :before-close='beforeClose'>
                 <Select
                 v-model="value"
@@ -71,12 +88,37 @@ function initEl () {
                     <Button @click="close" icon='el-icon-close'>取消</Button>
                 </div>
             </Dialog>
+            <Dialog title='加载运行环境' :visible.sync="showEnvDialog" :before-close='beforeEnvClose'>
+                <Select
+                v-model="envValue"
+                filterable
+                default-first-option
+                placeholder="请选择运行环境">
+                    <Option
+                    v-for="item in envs"
+                    :key="item.name"
+                    :label="item.name"
+                    :value="item.name">
+                    <span class='lib-name'>{{ item.name }}</span>
+                    <span class='lib-url'>deps: {{item.deps}}</span>
+                    <span class='lib-version'>[{{ item.type }}]</span>
+                    </Option>
+                </Select>
+                <div slot="footer" class="dialog-footer">
+                    <Button type="primary" @click="loadEnv" icon='el-icon-check'>确认</Button>
+                    <Button @click="closeEnv" icon='el-icon-close'>取消</Button>
+                </div>
+            </Dialog>
+            </div>
         `,
         data () {
             return {
                 showDialog: false,
+                showEnvDialog: false,
                 libs,
-                value: []
+                envs,
+                value: [],
+                envValue: ''
             };
         },
         methods: {
@@ -101,6 +143,23 @@ function initEl () {
             },
             clearData () {
                 this.value = [];
+            },
+            openEnv () {
+                this.showEnvDialog = true;
+            },
+            loadEnv () {
+                window.open(`${location.protocol}//${location.host}${location.pathname}?env=${this.envValue}`);
+            },
+            closeEnv () {
+                this.clearEnvData();
+                this.showEnvDialog = false;
+            },
+            beforeEnvClose (done) {
+                this.clearEnvData();
+                done();
+            },
+            clearEnvData () {
+                this.envValue = '';
             }
         }
     });
@@ -110,4 +169,8 @@ initEl();
 
 export function open () {
     app.open();
+}
+
+export function openEnv () {
+    app.openEnv();
 }

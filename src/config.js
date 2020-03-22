@@ -32,11 +32,13 @@ function initEnv (serachCode, editor, success, modeBtn) {
         loadResources({
             array: envs[env].deps,
             success () {
+                editor.config.code = code;
                 editor.code(code);
                 success();
             }
         });
     } else {
+        editor.config.code = code;
         editor.code(code);
     }
     return true;
@@ -67,6 +69,7 @@ export function initConfig (serachCode, editor, success = () => {}, modeBtn) {
                         loadDeps({
                             libs: config.libs,
                             success: () => {
+                                editor.config.code = code;
                                 editor.code(code);
                                 success();
                             }
@@ -76,6 +79,7 @@ export function initConfig (serachCode, editor, success = () => {}, modeBtn) {
                             array: deps,
                             libs: config.libs || [],
                             success: () => {
+                                editor.config.code = code;
                                 editor.code(code);
                                 success();
                             }
@@ -86,6 +90,7 @@ export function initConfig (serachCode, editor, success = () => {}, modeBtn) {
                     loadDeps({
                         libs: config.libs,
                         success: () => {
+                            editor.config.code = code;
                             editor.code(code);
                             success();
                         }
