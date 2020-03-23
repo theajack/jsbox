@@ -1,0 +1,199 @@
+<html lang="en"><head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width">
+
+	<title>Monaco Editor</title>
+
+	<link rel="stylesheet" href="./me.css">
+	<link data-name="vs/editor/editor.main" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/editor/editor.main.css">
+
+    </head>
+
+<body>
+	<section class="try">
+		<div class="container">
+			<h3>Editor</h3>
+			<div class="editor row">
+				<div class="span9">
+					<div class="row">
+						<div class="span4">
+							<label class="control-label">Language</label>
+							<select class="language-picker">
+
+							</select>
+						</div>
+						<div class="span4">
+							<label class="control-label">Theme</label>
+							<select class="theme-picker">
+								<option>Visual Studio</option>
+								<option>Visual Studio Dark</option>
+							</select>
+						</div>
+					</div>
+					<div class="editor-frame">
+						<div id="editor" style="height: 400px;"></div>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<h3>Diff Editor</h3>
+			<div class="editor row">
+				<div class="span9">
+					<div class="row">
+						<div class="span8">
+							<div class="checkbox">
+								<label class="control-label">
+									<input id="inline-diff-checkbox" type="checkbox" value=""> Inline diff
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="editor-frame">
+						<div id="diff-editor" style="height: 400px;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+
+	<script>var require = { paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs' } };</script>
+	<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/loader.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/editor/editor.main.nls.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/editor/editor.main.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/language/typescript/tsMode.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/typescript/typescript.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/javascript/javascript.js"></script>
+	<script>
+var editor = null, diffEditor = null;
+
+(function () {
+    var MODES = (function() {
+        var modesIds = monaco.languages.getLanguages().map(function(lang) { return lang.id; });
+        modesIds.sort();
+		console.log(modesIds.toString());
+        return modesIds.map(function(modeId) {
+            return {
+                modeId: modeId,
+                sampleURL: 'index/samples/sample.' + modeId + '.txt'
+            };
+        });
+    })();
+	abap,aes,apex,azcli,bat,c,cameligo,clojure,coffeescript,cpp,csharp,csp,css,dockerfile,fsharp,
+	go,graphql,handlebars,html,ini,java,javascript,json,kotlin,less,lua,markdown,mips,msdax,mysql,
+	objective-c,pascal,pascaligo,perl,pgsql,php,plaintext,postiats,powerquery,powershell,pug,python,
+	r,razor,redis,redshift,restructuredtext,ruby,rust,sb,scheme,scss,shell,sol,sql,st,swift,tcl,twig,
+	typescript,vb,xml,yaml
+    var startModeIndex = 0;
+    for (var i = 0; i < MODES.length; i++) {
+        var o = document.createElement('option');
+        o.textContent = MODES[i].modeId;
+        if (MODES[i].modeId === 'javascript') {
+            startModeIndex = i;
+        }
+        $(".language-picker").append(o);
+    }
+    $(".language-picker")[0].selectedIndex = startModeIndex;
+    loadSample(MODES[startModeIndex]);
+    $(".language-picker").change(function() {
+        loadSample(MODES[this.selectedIndex]);
+    });
+
+    $(".theme-picker").change(function() {
+        changeTheme(this.selectedIndex);
+    });
+
+    loadDiffSample();
+
+    $('#inline-diff-checkbox').change(function () {
+        changeDiffMode(!$(this).is(':checked'));
+    });
+
+	window.onresize = function () {
+		if (editor) {
+			editor.layout();
+		}
+		if (diffEditor) {
+			diffEditor.layout();
+		}
+	};
+})();
+
+function loadSample(mode) {
+    let err = false;
+    let data = `function(){
+        return 1;
+    }`;
+    if (err) {
+        if (editor) {
+            if (editor.getModel()) {
+                editor.getModel().dispose();
+            }
+            editor.dispose();
+            editor = null;
+        }
+        $('#editor').empty();
+        $('#editor').append('<p class="alert alert-error">Failed to load ' + mode.modeId + ' sample</p>');
+        return;
+    }
+
+    if (!editor) {
+        $('#editor').empty();
+        editor = monaco.editor.create(document.getElementById('editor'), {
+            model: null,
+        });
+    }
+
+    var oldModel = editor.getModel();
+    var newModel = monaco.editor.createModel(data, mode.modeId);
+    editor.setModel(newModel);
+    if (oldModel) {
+        oldModel.dispose();
+    }
+    $('.loading.editor').fadeOut({ duration: 300 });
+}
+
+function loadDiffSample() {
+
+	var lhsData = null, rhsData = null, jsMode = null;
+    var data1 = 'Hello World';
+    var data2 = 'Hello World2';
+    lhsData = data1;
+    onProgress();
+    rhsData = data2;
+    onProgress();
+
+	function onProgress() {
+		if (lhsData && rhsData) {
+			diffEditor = monaco.editor.createDiffEditor(document.getElementById('diff-editor'), {
+				enableSplitViewResizing: false
+			});
+
+			var lhsModel = monaco.editor.createModel(lhsData, 'text/javascript');
+			var rhsModel = monaco.editor.createModel(rhsData, 'text/javascript');
+
+			diffEditor.setModel({
+				original: lhsModel,
+				modified: rhsModel
+			});
+		}
+	}
+}
+
+function changeTheme(theme) {
+	var newTheme = (theme === 1 ? 'vs-dark' : 'vs' );
+	monaco.editor.setTheme(newTheme);
+}
+
+function changeDiffMode(bool){
+    diffEditor.updateOptions({
+        renderSideBySide: bool
+    });
+}
+</script>
+</body>
+</html>
