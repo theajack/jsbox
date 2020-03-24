@@ -73,21 +73,25 @@ var editor = null, diffEditor = null;
 
 (function () {
     var MODES = (function() {
-        var modesIds = monaco.languages.getLanguages().map(function(lang) { return lang.id; });
-        modesIds.sort();
-		console.log(modesIds.toString());
+		var modesIds = ['javascript','html','css','json','typescript','python','c++','c','c#','java','go','markdown','json','sql','objective-c','swift','kotlin','php','less','scss','coffeescript','mysql','xml','pascal','perl','lua','r','redis','ruby','rust','shell','powershell','yaml','dockerfile','graphql','handlebars','bat','clojure','plaintext','pug']
+
+        // var modesIds = monaco.languages.getLanguages().map(function(lang) { return lang.id; });
+        // modesIds.sort();
+		// console.log(modesIds.toString());
         return modesIds.map(function(modeId) {
+			if(modeId === 'c++'){
+				modeId = 'cpp';
+			}
+			if(modeId === 'c#'){
+				modeId = 'csharp';
+			}
             return {
                 modeId: modeId,
                 sampleURL: 'index/samples/sample.' + modeId + '.txt'
             };
         });
     })();
-	abap,aes,apex,azcli,bat,c,cameligo,clojure,coffeescript,cpp,csharp,csp,css,dockerfile,fsharp,
-	go,graphql,handlebars,html,ini,java,javascript,json,kotlin,less,lua,markdown,mips,msdax,mysql,
-	objective-c,pascal,pascaligo,perl,pgsql,php,plaintext,postiats,powerquery,powershell,pug,python,
-	r,razor,redis,redshift,restructuredtext,ruby,rust,sb,scheme,scss,shell,sol,sql,st,swift,tcl,twig,
-	typescript,vb,xml,yaml
+	
     var startModeIndex = 0;
     for (var i = 0; i < MODES.length; i++) {
         var o = document.createElement('option');
