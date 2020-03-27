@@ -1,6 +1,7 @@
 const path = require('path');
 const gulp = require('gulp');
 const babel = require('gulp-babel');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 function initRes () {
     gulp.src('public/env.js')
         .pipe(babel({presets: ['@babel/env']}))
@@ -47,8 +48,19 @@ module.exports = () => {
                     options: {
                         limit: 50000,
                     },
-                },
+                }, {
+                    test: /\.vue$/,
+                    loader: 'vue-loader',
+                    options: {
+                        loaders: {
+                            js: 'babel-loader',
+                        },
+                    },
+                }
             ]
-        }
+        },
+        plugins: [
+            new VueLoaderPlugin()
+        ]
     };
 };

@@ -1,4 +1,4 @@
-import {copyText} from './log/util';
+import {copyText} from '../../log/util';
 import {toast, loading} from 'tacl-ui';
 
 
@@ -117,4 +117,14 @@ export function exeJs (code) {
     };
     s.src = objectURL;
     document.body.appendChild(s);
+}
+export function goGithub (url) {
+    window.open(url || 'https://www.github.com/theajack/jsbox');
+}
+
+export function isUndf (v) {
+    return typeof v === 'undefined';
+}
+export function isObject (v) {
+    return typeof v === 'object';
 }

@@ -58,7 +58,7 @@
 	</section>
 
 
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
 
 
 	<script>var require = { paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs' } };</script>
@@ -98,24 +98,25 @@ var editor = null, diffEditor = null;
         o.textContent = MODES[i].modeId;
         if (MODES[i].modeId === 'javascript') {
             startModeIndex = i;
-        }
-        $(".language-picker").append(o);
+		}
+		document.querySelector('.language-picker').appendChild(o);
     }
-    $(".language-picker")[0].selectedIndex = startModeIndex;
-    loadSample(MODES[startModeIndex]);
-    $(".language-picker").change(function() {
+	document.querySelector('.language-picker').selectedIndex = startModeIndex;
+	loadSample(MODES[startModeIndex]);
+	
+	document.querySelector('.language-picker').onchange = function() {
         loadSample(MODES[this.selectedIndex]);
-    });
+    };
 
-    $(".theme-picker").change(function() {
+    document.querySelector(".theme-picker").onchange = function() {
         changeTheme(this.selectedIndex);
-    });
+    };
 
     loadDiffSample();
 
-    $('#inline-diff-checkbox').change(function () {
-        changeDiffMode(!$(this).is(':checked'));
-    });
+    document.querySelector('#inline-diff-checkbox').onchange = function () {
+        changeDiffMode(!this.checked);
+    };
 
 	window.onresize = function () {
 		if (editor) {
@@ -139,26 +140,25 @@ function loadSample(mode) {
             }
             editor.dispose();
             editor = null;
-        }
-        $('#editor').empty();
-        $('#editor').append('<p class="alert alert-error">Failed to load ' + mode.modeId + ' sample</p>');
+		}
+		document.querySelector('#editor').innerHTML = '<p class="alert alert-error">Failed to load ' + mode.modeId + ' sample</p>'
         return;
     }
 
     if (!editor) {
-        $('#editor').empty();
+        document.querySelector('#editor').innerHTML = '';
         editor = monaco.editor.create(document.getElementById('editor'), {
             model: null,
         });
     }
 
-    var oldModel = editor.getModel();
+	var oldModel = editor.getModel();
     var newModel = monaco.editor.createModel(data, mode.modeId);
     editor.setModel(newModel);
     if (oldModel) {
         oldModel.dispose();
-    }
-    $('.loading.editor').fadeOut({ duration: 300 });
+	}
+	window.editor =editor;
 }
 
 function loadDiffSample() {
