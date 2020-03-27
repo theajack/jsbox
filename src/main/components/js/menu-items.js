@@ -1,5 +1,5 @@
-import {MENU_TYPE} from '../../js/constant';
-
+import {MENU_TYPE, EVENT} from '../../js/constant';
+import event from '../../js/event';
 export let menus = [
     {
         title: '编辑',
@@ -82,7 +82,7 @@ export let menus = [
             icon: 'book',
             key: ['ctrl', 'i'], // 默认null
             onclick () {
-
+                event.emit(EVENT.OPEN_LIB_CHOOSE);
             },
             dot: true, // 默认false
         }, {

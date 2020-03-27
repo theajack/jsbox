@@ -133,10 +133,13 @@ html *{
         transform: scale(1.3);
     }
 }
+@media (max-width: 400px){
+    .jsbox-tool-w i.ei-angle-down{
+        display: none;
+    }
+}
 @media (max-width: 600px){
     .jsbox-tool-w{
-        overflow-x: auto;
-        overflow-y: hidden;
         white-space: nowrap;
     }
     .log-panel, .code-panel{

@@ -15,6 +15,7 @@
 </template>
 <script>
     import {MENU_TYPE} from '../js/constant';
+    import {IsPC} from '../js/util';
     export default {
         props: {
             text: {type: String},
@@ -50,7 +51,7 @@
                 }
             },
             menuMouseEnter () {
-                if (this.hasActiveItem && !this.active) {
+                if (IsPC() && this.hasActiveItem && !this.active) {
                     this.menuClick();
                 }
             },

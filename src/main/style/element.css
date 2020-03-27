@@ -1,0 +1,31 @@
+.el-dialog,.el-dialog__wrapper {
+    margin: 0!important;
+    width: 100%;
+}
+.el-dialog__header, .el-dialog__footer{
+    display: none;
+}
+.el-dialog__body{
+    padding: 0;
+}
+
+.el-popper .popper__arrow{
+    display: none;
+}
+.el-popper{
+    margin-top: 0!important;
+    border-radius: 0;
+}
+.el-select-dropdown__wrap {
+    max-height: 400px;
+}
+.el-input__inner,.el-select .el-input.is-focus .el-input__inner {
+    border:none;
+    border-radius: 0;
+}
+
+.dialog-wrapper{
+    margin: 0 auto!important;
+    width: 80%;
+    max-width: 800px;
+}

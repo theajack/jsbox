@@ -1,5 +1,6 @@
 import {copyText} from '../../log/util';
 import {toast, loading} from 'tacl-ui';
+import $ from 'easy-dom-util';
 
 
 export function readCookie (name, cookie = document.cookie) {
@@ -127,4 +128,13 @@ export function isUndf (v) {
 }
 export function isObject (v) {
     return typeof v === 'object';
+}
+
+export function checkElOverflow (el) {
+    let width = $.windowSize().width;
+    let rect = el.getBoundingClientRect();
+    let left = width - rect.left - rect.width;
+    if (left < 0) {
+        el.style.left = left + 'px';
+    }
 }

@@ -5,6 +5,7 @@ export const MENU_TYPE = {
 };
 
 export const EVENT = {
-    THEME_CHANGE: 'onchengetheme',
-    
+    THEME_CHANGE: 'THEME_CHANGE',
+    OPEN_LIB_CHOOSE: 'OPEN_LIB_CHOOSE',
+    CLOSE_LIB_CHOOSE: 'CLOSE_LIB_CHOOSE',
 };

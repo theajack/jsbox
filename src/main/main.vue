@@ -16,6 +16,7 @@
 </template>
 <script>
     import './style/index.css';
+    import './style/import.css';
     import JsboxMenu from './components/menu.vue';
     import JsboxCode from './components/code.vue';
     // import JsboxLog from './components/log.vue';

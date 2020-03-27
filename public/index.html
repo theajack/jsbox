@@ -8,20 +8,28 @@
     <link rel="shortcut icon" href="./icon.ico" type="image/x-icon">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>JSBox js在线运行环境</title>
-	<link rel="stylesheet" href="./editor.css">
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/editor/editor.main.css">
+	<link rel="stylesheet" href="./css/editor.css">
+	<link rel="stylesheet" href="./css/editor.main.css">
+	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/editor/editor.main.css"> -->
     <script src="./resources.js"></script>
     <script src="./env.js"></script>
 </head>
 <body>
     <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
 	<script>var require = { paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs' } };</script>
-	<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/loader.js"></script>
+	<script src="./js/loader.js"></script>
+	<script src="./js/editor.main.nls.js"></script>
+	<script src="./js/editor.main.js"></script>
+    <script src="./js/tsMode.js"></script>
+    <script src="./js/typescript.js"></script>
+    <script src="./js/javascript.js"></script>
+	<!-- <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/loader.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/editor/editor.main.nls.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/editor/editor.main.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/language/typescript/tsMode.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/typescript/typescript.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/javascript/javascript.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/javascript/javascript.js"></script> -->
+
     <script src="./bundle.js"></script>
 </body>
 </html>

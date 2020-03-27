@@ -13,6 +13,7 @@
             :hasActiveItem='hasActiveItem'
             @active='active'
         ></jsbox-menu-item>
+        <lib-select></lib-select>
         <!-- <i class='ei-github' title='github' @event='goGithub'></i>
         <i class='ei-play' title='运行代码(ctrl + enter)' @event='run'></i>
         <i class='ei-zoom-in' title='放大字体(ctrl + +)' @event='fontUp'></i>
@@ -32,10 +33,12 @@
 </template>
 <script>
     import JsboxMenuItem from './menu-item.vue';
-    import {goGithub} from '../js/util';
+    import libSelect from './select/lib.vue';
+    import {goGithub, checkElOverflow} from '../js/util';
     import {menus} from './js/menu-items';
+    import $ from 'easy-dom-util';
     export default {
-        components: {JsboxMenuItem},
+        components: {JsboxMenuItem, libSelect},
         data () {
             return {
                 hasActiveItem: false,
@@ -44,6 +47,7 @@
             };
         },
         mounted () {
+            window._v = this;
             document.addEventListener('click', () => {
                 if (!this.ignoreClick) {
                     this.active(-1);
@@ -63,6 +67,9 @@
                 }
                 if (index >= 0 && item !== this.menus[index] && this.menus[index].items.length > 0) {
                     this.menus[index].active = true;
+                    this.$nextTick(() => {
+                        checkElOverflow($.query('.menu-item.active .menu-item-dropdown').el);
+                    });
                     this.hasActiveItem = true;
                 } else {
                     this.hasActiveItem = false;

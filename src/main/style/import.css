@@ -1,0 +1,28 @@
+
+#SetApp{
+    width:0;
+}
+.el-select{
+    width:100%;
+}
+
+.lib-name{
+    float: left;
+    font-weight: bold;
+}
+.lib-url{
+    float: left;color: #aaa; font-size: 12px; margin-left: 10px;
+}
+.lib-version{
+    margin-right: 15px;
+    float: right; color: #8492a6; font-size: 13px
+}
+@media (max-width: 700px){
+    .el-dialog{
+        width: 98%;
+    }
+    .lib-url{
+        display: none;
+        
+    }
+}
