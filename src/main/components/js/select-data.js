@@ -51,4 +51,5 @@ export function getEnvOption () {
             deps: JSON.stringify(item.deps)
         });
     }
+    return envs;
 }

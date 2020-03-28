@@ -1,7 +1,7 @@
 /public/bundle.js
 /public/index.html
 /public/resources.js
-/public/js/*.js
+/public/js
 /npm
 /cdn
 **/*.html

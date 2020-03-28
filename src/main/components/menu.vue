@@ -14,6 +14,7 @@
             @active='active'
         ></jsbox-menu-item>
         <lib-select></lib-select>
+        <env-select></env-select>
         <!-- <i class='ei-github' title='github' @event='goGithub'></i>
         <i class='ei-play' title='运行代码(ctrl + enter)' @event='run'></i>
         <i class='ei-zoom-in' title='放大字体(ctrl + +)' @event='fontUp'></i>
@@ -34,11 +35,12 @@
 <script>
     import JsboxMenuItem from './menu-item.vue';
     import libSelect from './select/lib.vue';
+    import envSelect from './select/env.vue';
     import {goGithub, checkElOverflow} from '../js/util';
     import {menus} from './js/menu-items';
     import $ from 'easy-dom-util';
     export default {
-        components: {JsboxMenuItem, libSelect},
+        components: {JsboxMenuItem, libSelect, envSelect},
         data () {
             return {
                 hasActiveItem: false,

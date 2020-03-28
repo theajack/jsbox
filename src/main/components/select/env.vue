@@ -1,20 +1,18 @@
 <template>
     <el-dialog class='select-dialog' :close-on-click-modal='false' :visible.sync='visible' :before-close='beforeClose'>
         <el-select
-            v-model='value'
-            multiple
-            filterable
-            allow-create
-            default-first-option
-            placeholder='请选择或输入依赖'>
+        v-model="value"
+        filterable
+        default-first-option
+        placeholder="请选择运行环境">
             <el-option
-                v-for='item in libs'
-                :key='item.name'
-                :label='item.name'
-                :value='item.name'>
-                <span class='lib-name'>{{ item.name }}</span>
-                <span class='lib-url'>{{item.url}}</span>
-                <a class='lib-version' :href='item.url' target='view_window'>@{{ item.version }}</a>
+            v-for="item in envs"
+            :key="item.name"
+            :label="item.name"
+            :value="item.name">
+            <span class='lib-name'>{{ item.name }}</span>
+            <span class='lib-url'>deps: {{item.deps}}</span>
+            <span class='lib-version'>[{{ item.type }}]</span>
             </el-option>
         </el-select>
         <div slot='footer' class='dialog-footer'>
@@ -24,23 +22,22 @@
     </el-dialog>
 </template>
 <script>
-    import {getLibOption} from '../js/select-data';
+    import {getEnvOption} from '../js/select-data';
     import event from '../../js/event';
     import {EVENT} from '../../js/constant';
-    import {loadResources} from '../js/lib'
     export default {
         data () {
             return {
-                libs: getLibOption(),
-                value: [],
+                envs: getEnvOption(),
+                value: '',
                 visible: false,
             };
         },
         mounted () {
-            event.regist(EVENT.OPEN_LIB_CHOOSE, () => {
+            event.regist(EVENT.OPEN_ENV_CHOOSE, () => {
                 this.open();
             });
-            event.regist(EVENT.CLOSE_LIB_CHOOSE, () => {
+            event.regist(EVENT.CLOSE_ENV_CHOOSE, () => {
                 this.close();
             });
         },
@@ -57,15 +54,11 @@
                 done();
             },
             clearData () {
-                this.value = [];
+                this.value = '';
             },
             load () {
-                loadResources({
-                    array: this.value,
-                    success: () => {
-                        this.close();
-                    }
-                });
+                window.open(`${location.protocol}//${location.host}${location.pathname}?env=${this.value}`);
+                this.close();
             },
         }
     };

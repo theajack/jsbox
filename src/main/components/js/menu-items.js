@@ -90,7 +90,7 @@ export let menus = [
             icon: 'cube-alt',
             key: ['ctrl', 'n'], // 默认null
             onclick () {
-
+                event.emit(EVENT.OPEN_ENV_CHOOSE);
             },
             dot: true, // 默认false
         }, {
