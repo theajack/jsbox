@@ -1,11 +1,13 @@
 <template>
-    <el-dialog class='select-dialog' :close-on-click-modal='false' :visible.sync='visible' :before-close='beforeClose'>
+    <el-dialog
+        ref='dialog' class='select-dialog' :close-on-click-modal='false' :visible.sync='visible' :before-close='beforeClose'>
         <el-select
             v-model='value'
             multiple
             filterable
             allow-create
             default-first-option
+            :automatic-dropdown='true'
             placeholder='请选择或输入依赖'>
             <el-option
                 v-for='item in libs'
@@ -18,8 +20,8 @@
             </el-option>
         </el-select>
         <div slot='footer' class='dialog-footer'>
-            <i class="ei-cloud-download" @click='load'></i>
-            <i class="ei-times" @click='close'></i>
+            <i class='ei-cloud-download' @click='load'></i>
+            <i class='ei-times' @click='close'></i>
         </div>
     </el-dialog>
 </template>
@@ -27,7 +29,8 @@
     import {getLibOption} from '../js/select-data';
     import event from '../../js/event';
     import {EVENT} from '../../js/constant';
-    import {loadResources} from '../js/lib'
+    import {loadResources} from '../js/lib';
+    import $ from 'easy-dom-util';
     export default {
         data () {
             return {
@@ -37,6 +40,7 @@
             };
         },
         mounted () {
+            window.dialog = this.$refs.dialog;
             event.regist(EVENT.OPEN_LIB_CHOOSE, () => {
                 this.open();
             });
@@ -47,6 +51,23 @@
         methods: {
             open () {
                 this.visible = true;
+                window.$ = $;
+                setTimeout(() => {
+                    let dialog = this.$refs.dialog;
+                    dialog.$children[0].handleFocus();
+                    let arrow = $.query(dialog.$el).query('.el-select__caret')[0];
+                    if (!arrow.el.__init) {
+                        arrow.el.__init = true;
+                        arrow.click(() => {
+                            console.log(111);
+                            if (arrow.hasClass('is-reverse')) {
+                                setTimeout(() => {
+                                    dialog.$children[0].handleClose();
+                                }, 100);
+                            }
+                        });
+                    }
+                }, 200);
             },
             close () {
                 this.clearData();
@@ -66,7 +87,7 @@
                         this.close();
                     }
                 });
-            },
+            }
         }
     };
 </script>

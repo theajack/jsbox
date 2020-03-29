@@ -1,7 +1,7 @@
 module.exports = {
     'jquery': '',
     'vue': '',
-    'react': '',
+    'react': 'https://cdn.jsdelivr.net/npm/react@16.13.1/cjs/react.production.min.js',
     'angular': '',
     'vuex': '',
     'redux': '',

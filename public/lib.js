@@ -9,7 +9,11 @@ window.jsbox_libs = {
     },
     'react': {
         'version': '16.13.1',
-        'url': 'https://cdn.jsdelivr.net/npm/react@16.13.1/index.min.js'
+        'url': 'https://unpkg.com/react@16/umd/react.production.min.js'
+    },
+    'react-dom': {
+        'version': '16.13.1',
+        'url': 'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js'
     },
     'angular': {
         'version': '1.7.9',
@@ -71,7 +75,7 @@ window.jsbox_libs = {
         'version': '0.8.22',
         'url': 'https://cdn.jsdelivr.net/npm/js-xlsx@0.8.22/dist/xlsx.min.js'
     },
-    'recast':{
+    'recast': {
         'version': '0.18.7',
         'url': 'https://cdn.jsdelivr.net/npm/recast@0.18.7/main.min.js'
     },
