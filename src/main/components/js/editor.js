@@ -16,6 +16,15 @@ export const LANG = {
 };
 
 let Monaco = window.monaco;
+Monaco.languages.setMonarchTokensProvider('javascript', {
+    tokenizer: {
+        root: [
+            [/\d+/, {token: 'keyword'}],
+            [/axs2/, {token: 'string'}],
+            [/^\[(\w+)\]/, {token: 'custom-$1'}]
+        ],
+    }
+});
 
 export class Editor {
     constructor ({
@@ -89,5 +98,9 @@ export class Editor {
         } else {
             return this.editor.getValue();
         }
+    }
+    resize () {
+        if (this.editor)
+            this.editor.layout();
     }
 }

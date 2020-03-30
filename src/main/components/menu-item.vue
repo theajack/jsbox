@@ -21,7 +21,6 @@
             text: {type: String},
             title: {type: String},
             index: {type: Number},
-            key: {type: String},
             dot: {type: Boolean},
             active: {type: Boolean},
             hasActiveItem: {type: Boolean},

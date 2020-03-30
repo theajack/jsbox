@@ -35,6 +35,9 @@ module.exports = {
             test: /\.css$/,
             use: ['style-loader', 'css-loader'],
         }, {
+            test: /\.less$/,
+            use: ['style-loader', 'css-loader', 'less-loader'],
+        }, {
             test: /\.(woff|ttf)$/,
             loader: 'url-loader',
             options: {
@@ -48,6 +51,9 @@ module.exports = {
                     js: 'babel-loader',
                 },
             },
+        }, {
+            test: /\.html$/,
+            loader: 'html-loader',
         }]
     },
     plugins: [

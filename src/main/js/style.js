@@ -2,7 +2,7 @@
 import 'easy-icon';
 import $ from 'easy-dom-util';
 import '../style/index.css';
-import {TOOL_HEIGHT} from './initEvent';
+import {TOOL_HEIGHT} from './constant';
 import {IsPC} from './util';
 
 $.reportStyle({

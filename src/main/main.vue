@@ -1,16 +1,9 @@
 <template>
     <div>
         <jsbox-menu></jsbox-menu>
-        <div class='jsbox-main-panel' ref='panel'>
+        <div class='jsbox-main-panel' :class='{"no-select":inDrag}' :style="{height: height+'px'}">
             <jsbox-code></jsbox-code>
-            <div @el='logPanel' class='log-panel'>
-                <div @el='drag' class='drag-bar'></div>
-                <div @el='html' class='log-html'>
-                    <i @el='htmlBtn' class='ei-chevron-right' title='隐藏log(ctrl + k)' @event='toggleLog'></i>
-                    <div @el='htmlContent' class='log-content'></div>
-                </div>
-                <div @el='log' class='log-log'></div>
-            </div>
+            <jsbox-log></jsbox-log>
         </div>
     </div>
 </template>
@@ -19,16 +12,40 @@
     import './style/import.css';
     import JsboxMenu from './components/menu.vue';
     import JsboxCode from './components/code.vue';
-    // import JsboxLog from './components/log.vue';
+    import JsboxLog from './components/log.vue';
+    import event from './js/event';
+    import $ from 'easy-dom-util';
+    import {EVENT, TOOL_HEIGHT} from './js/constant';
+    
     export default {
         components: {
             JsboxMenu,
             JsboxCode,
-            // JsboxLog
+            JsboxLog
         },
         data () {
             return {
+                height: 0,
+                inDrag: false,
             };
+        },
+        created () {
+            this.initHeight();
+        },
+        methods: {
+            initHeight () {
+                this.height = $.windowSize().height - TOOL_HEIGHT;
+            }
+        },
+        mounted () {
+            event.regist({
+                [EVENT.RESIZE]: () => {
+                    this.initHeight();
+                },
+                [EVENT.DRAG_STATUS]: (bool) => {
+                    this.inDrag = bool;
+                }
+            });
         }
     };
     
