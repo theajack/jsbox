@@ -1,7 +1,7 @@
 
 import 'easy-icon';
 import $ from 'easy-dom-util';
-import '../style/index.css';
+import '../style/index.less';
 import {TOOL_HEIGHT} from './constant';
 import {IsPC} from './util';
 

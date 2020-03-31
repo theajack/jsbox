@@ -1,11 +1,11 @@
-
+import javascript from './javascript';
 export const THEME = {
     LIGHT: 'light',
     DARK: 'dark'
 };
 
 export const LANG = {
-    'JAVASCRIPT': 'javascript', 'HTML': 'html', 'CSS': 'css', 'JSON': 'json', 'TYPESCRIPT': 'typescript',
+    'JAVASCRIPT': 'jx-js', 'HTML': 'html', 'CSS': 'css', 'JSON': 'json', 'TYPESCRIPT': 'typescript',
     'PYTHON': 'python', 'C++': 'cpp', 'C': 'c', 'C#': 'csharp', 'JAVA': 'java', 'GO': 'go', 'MARKDOWN': 'markdown',
     'SQL': 'sql', 'OBJECTIVE-C': 'objective-c', 'SWIFT': 'swift', 'KOTLIN': 'kotlin', 'PHP': 'php',
     'LESS': 'less', 'SCSS': 'scss', 'COFFEESCRIPT': 'coffeescript', 'MYSQL': 'mysql', 'XML': 'xml',
@@ -16,14 +16,29 @@ export const LANG = {
 };
 
 let Monaco = window.monaco;
-Monaco.languages.setMonarchTokensProvider('javascript', {
-    tokenizer: {
-        root: [
-            [/\d+/, {token: 'keyword'}],
-            [/axs2/, {token: 'string'}],
-            [/^\[(\w+)\]/, {token: 'custom-$1'}]
-        ],
-    }
+Monaco.languages.register({id: 'jx-js'});
+Monaco.languages.setMonarchTokensProvider('jx-js', javascript);
+Monaco.editor.defineTheme('vsc-dark', {
+    base: 'vs-dark',
+    inherit: true,
+    rules: [
+        {token: 'keyword1', foreground: '569cd6'},
+        {token: 'keyword2', foreground: 'c586c0'},
+        {token: 'keyword3', foreground: '3ac9b0'},
+        {token: 'identifier', foreground: '9cdcfe'},
+        {token: 'function', foreground: 'dcdcaa'}
+    ]
+});
+Monaco.editor.defineTheme('vsc-light', {
+    base: 'vs',
+    inherit: true,
+    rules: [
+        {token: 'keyword1', foreground: '0000ff'},
+        {token: 'keyword2', foreground: 'af00db'},
+        {token: 'keyword3', foreground: '267f99'},
+        {token: 'identifier', foreground: '001090'},
+        {token: 'function', foreground: 'b27878'}
+    ]
 });
 
 export class Editor {
@@ -48,15 +63,14 @@ export class Editor {
             this.editor = Monaco.editor.create(this.el, {
                 model: null,
             });
-            if (code) {
-                this.changeLang(lang, code);
-            }
+            this.changeLang(lang, code);
         }
         if (theme !== THEME.LIGHT) {
             this.changeTheme(theme);
         } else {
             Editor.theme = THEME.LIGHT;
         }
+        window.editor = this.editor;
     }
     changeLang (lang, code) {
         code = code || this.code();
@@ -82,7 +96,8 @@ export class Editor {
     }
     changeTheme (theme) {
         Editor.theme = theme;
-        Monaco.editor.setTheme((theme === THEME.DARK ? 'vs-dark' : 'vs' ));
+        // Monaco.editor.setTheme((theme === THEME.DARK ? 'vs-dark' : 'vs' ));
+        Monaco.editor.setTheme('vsc-dark');
     }
     destroy () {
         if (this.editor.getModel()) {

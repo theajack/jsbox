@@ -47,6 +47,8 @@
             menuClick () {
                 if (this.items.length > 0) {
                     this.$emit('active', this.index);
+                } else if (this.onclick) {
+                    this.onclick();
                 }
             },
             menuMouseEnter () {

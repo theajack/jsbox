@@ -1,8 +1,14 @@
 <template>
-    <el-dialog class='select-dialog' :close-on-click-modal='false' :visible.sync='visible' :before-close='beforeClose'>
+    <el-dialog
+        ref='dialog'
+        class='jx-select-dialog'
+        :close-on-click-modal='false'
+        :visible.sync='visible'
+        :before-close='beforeClose'>
         <el-select
             v-model='value'
             filterable
+            popper-class='jx-select-dd'
             default-first-option
             placeholder='请选择运行环境'>
             <el-option
@@ -16,7 +22,7 @@
             </el-option>
         </el-select>
         <div slot='footer' class='dialog-footer'>
-            <i class='ei-cloud-download' @click='load'></i>
+            <i class='ei-check' @click='load'></i>
             <i class='ei-times' @click='close'></i>
         </div>
     </el-dialog>
@@ -25,6 +31,7 @@
     import {getEnvOption} from '../js/select-data';
     import event from '../../js/event';
     import {EVENT} from '../../js/constant';
+    import fixSelect from '../js/fix-select';
     export default {
         data () {
             return {
@@ -44,6 +51,7 @@
         methods: {
             open () {
                 this.visible = true;
+                fixSelect.call(this);
             },
             close () {
                 this.clearData();

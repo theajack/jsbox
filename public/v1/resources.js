@@ -71,7 +71,7 @@ window.jsbox_libs = {
         'version': '0.8.22',
         'url': 'https://cdn.jsdelivr.net/npm/js-xlsx@0.8.22/dist/xlsx.min.js'
     },
-    'recast':{
+    'recast': {
         'version': '0.18.7',
         'url': 'https://cdn.jsdelivr.net/npm/recast@0.18.7/main.min.js'
     },

@@ -1,13 +1,12 @@
 import $ from 'easy-dom-util';
-import event from './event';
-import {EVENT} from './constant';
-import {dragPercent, dragStatus} from './status';
 
-export function initResize () {
-    window.addEventListener('resize', () => {
+export const TOOL_HEIGHT = 35;
+
+export function initResize (el) {
+    window.onresize = () => {
         let size = $.windowSize();
-        event.emit(EVENT.RESIZE, size);
-    }, false);
+        el.panel.style('height', size.height - TOOL_HEIGHT + 'px');
+    };
 }
 
 export function initKeyEvent (el, method) {
@@ -42,44 +41,4 @@ export function initKeyEvent (el, method) {
         }
     };
 
-}
-
-export function initDrag (drag) {
-    let width = 0;
-    let minWidth = 200;
-    dragPercent.init();
-    let setDrag = (bool) => {
-        dragStatus.set(bool);
-        if (bool) {
-            width = $.windowSize().width;
-        } else {
-            dragPercent.save();
-        }
-    };
-    let setSize = (x) => {
-        if (x < minWidth || x > width - minWidth) {
-            return;
-        }
-        dragPercent.stash((x / width) * 100);
-    };
-    $.query('body').on({
-        mousemove (e) {
-            if (dragStatus.get()) {
-                setSize(e.clientX);
-            }
-        },
-        mouseup () {
-            if (dragStatus.get()) {
-                setDrag(false);
-            }
-        },
-        mouseenter () {
-            setDrag(false);
-        }
-    });
-    $.query(drag).on({
-        mousedown () {
-            setDrag(true);
-        }
-    });
 }

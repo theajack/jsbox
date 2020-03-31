@@ -1,6 +1,5 @@
-import {copyText} from '../log/util';
+import {copyText} from './log/util';
 import {toast, loading} from 'tacl-ui';
-import $ from 'easy-dom-util';
 
 
 export function readCookie (name, cookie = document.cookie) {
@@ -83,9 +82,7 @@ copy(string); 复制内容到剪切板
 `.trim();
 
 export function initWindowFunc () {
-    window.log = function (...args) {
-        console.log(...args);
-    };
+    window.log = console.log;
     window.copy = copyText;
 }
 
@@ -104,39 +101,24 @@ export function toggleCls (el, a, b) {
     el.cls(el.cls() === a ? b : a);
 }
 let inExe = false;
+let script = null;
 export function exeJs (code) {
     if (inExe) {
         toast('正在执行中，请勿重复操作');
         return;
     }
+    if (script) {
+        document.body.removeChild(script);
+    }
     inExe = true;
     loading();
     let blob = new Blob([code], {type: 'application/text'});
     let objectURL = window.URL.createObjectURL(blob);
-    let s = document.createElement('script');
-    s.onload = () => {
+    script = document.createElement('script');
+    script.onload = () => {
         inExe = false;
         loading.close();
     };
-    s.src = objectURL;
-    document.body.appendChild(s);
-}
-export function goGithub (url) {
-    window.open(url || 'https://www.github.com/theajack/jsbox');
-}
-
-export function isUndf (v) {
-    return typeof v === 'undefined';
-}
-export function isObject (v) {
-    return typeof v === 'object';
-}
-
-export function checkElOverflow (el) {
-    let width = $.windowSize().width;
-    let rect = el.getBoundingClientRect();
-    let left = width - rect.left - rect.width;
-    if (left < 0) {
-        el.style.left = left + 'px';
-    }
+    script.src = objectURL;
+    document.body.appendChild(script);
 }

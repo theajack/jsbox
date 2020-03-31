@@ -1,3 +1,14 @@
+import {LANG} from './editor';
+export const langs = (() => {
+    let arr = [];
+    for (let k in LANG) {
+        arr.push({
+            name: k.toLowerCase(),
+            value: LANG[k]
+        });
+    }
+    return arr;
+})();
 
 
 function getVersion (item) {

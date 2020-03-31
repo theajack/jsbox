@@ -4,8 +4,10 @@
   "description": "js在线运行环境",
   "scripts": {
     "build": "webpack --config webpack-config/build.js",
+    "build-v1": "webpack --config webpack-config/build-v1.js",
     "build-all": "npm run build && npm run build-npm",
     "dev": "webpack-dev-server --open --config webpack-config/dev.js",
+    "dev-v1": "webpack-dev-server --open --config webpack-config/dev-v1.js",
     "lint": "eslint src --ext js",
     "update": "node ./package/index.js",
     "build-npm": "webpack --config webpack-config/build-npm.js && npm run copy-cdn",

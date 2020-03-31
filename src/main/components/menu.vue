@@ -15,32 +15,19 @@
         ></jsbox-menu-item>
         <lib-select></lib-select>
         <env-select></env-select>
-        <!-- <i class='ei-github' title='github' @event='goGithub'></i>
-        <i class='ei-play' title='运行代码(ctrl + enter)' @event='run'></i>
-        <i class='ei-zoom-in' title='放大字体(ctrl + +)' @event='fontUp'></i>
-        <i class='ei-zoom-out' title='缩小字体(ctrl + -)' @event='fontDown'></i>
-        <i class='ei-moon' title='切换主题(ctrl + m)' id='themeIcon' @el='theme' @event='theme'></i>
-        <i class='ei-trash' title='清空代码(ctrl + d)' @event='clear'></i>
-        <i class='ei-save' title='暂存代码(ctrl + s)' @event='save'></i>
-        <i class='ei-history' title='重置代码(ctrl + e)' @event='reset'></i>
-        <i class='ei-copy' title='复制代码(ctrl + q)' @event='copy'></i>
-        <i class='ei-book' title='三方库引入(ctrl + i)' @event='lib'></i>
-        <i class='ei-cube-alt' title='运行环境(ctrl + n)' @event='env'></i>
-        <i class='ei-link' title='生成链接(ctrl + l)' @event='link'></i>
-        <i class='ei-info' title='使用说明页' @event='hello'></i>
-        <i class='ei-code' title='使用html(ctrl + g)' id='changeMode' @el='codeMode' @event='changeMode'></i> -->
-        <!--<i class="ei-cog" title='设置' @event='config'></i>-->
+        <lang-select></lang-select>
     </div>
 </template>
 <script>
     import JsboxMenuItem from './menu-item.vue';
     import libSelect from './select/lib.vue';
     import envSelect from './select/env.vue';
+    import langSelect from './select/language.vue';
     import {goGithub, checkElOverflow} from '../js/util';
     import {menus} from './js/menu-items';
     import $ from 'easy-dom-util';
     export default {
-        components: {JsboxMenuItem, libSelect, envSelect},
+        components: {JsboxMenuItem, libSelect, envSelect, langSelect},
         data () {
             return {
                 hasActiveItem: false,

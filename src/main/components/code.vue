@@ -1,23 +1,25 @@
 <template>
-    <div class='code-panel' :style='{width: percent+"%"}' ref='editor'>
+    <div class='code-panel' :class='{"code-full":codeFull}' :style='{width: percent+"%"}' ref='editor'>
     </div>
 </template>
 <script>
     import '../style/editor.less';
-    import {Editor} from './js/editor';
+    import {Editor, LANG, THEME} from './js/editor';
     import event from '../js/event';
     import {EVENT} from '../js/constant';
+    import {code, language} from '../js/status';
     export default {
         data () {
             return {
-                percent: 50
+                percent: 50,
+                codeFull: false,
             };
         },
         mounted () {
             let editor = new Editor({
-                el: this.$refs.editor,
-                code: 'var a = "Hello world"'
+                el: this.$refs.editor
             });
+            window.editor = editor;
             event.regist({
                 [EVENT.RESIZE]: () => {
                     editor.resize();
@@ -27,8 +29,24 @@
                     this.$nextTick(() => {
                         editor.resize();
                     });
+                },
+                [EVENT.LANG_CHANGE]: (lang) => {
+                    editor.changeLang(lang);
+                    this.codeFull = (lang !== LANG.JAVASCRIPT && lang !== LANG.HTML);
+                    this.$nextTick(() => {
+                        editor.resize();
+                    });
+                },
+                [EVENT.CODE_CHANGE]: (value) => {
+                    editor.code(value);
+                },
+                [EVENT.USE_CODE]: (fn) => {
+                    fn(editor.code());
                 }
             });
+            code.init();
+            language.init();
+            editor.changeTheme(THEME.DARK);
         },
     };
 </script>

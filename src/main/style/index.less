@@ -1,4 +1,9 @@
-
+.panel-half{
+    height: 100%;
+    width:50%;
+    float: left;
+    overflow: hidden;
+}
 
 .jsbox-main-panel.no-select{
     user-select: none;
@@ -11,22 +16,26 @@ body,html{
 html *{
     box-sizing: border-box;
 }
-.jsbox-tool-w i{
+.menu-item-dropdown i{
     cursor: pointer;
     transition: all .1s linear;
 }
-.log-panel, .code-panel{
-    height: 100%;
-    width:50%;
-    float: left;
-    overflow: hidden;
-    /* border-top: 1px solid #ddd; */
-}
-.log-panel {
+
+.log-panel{
+    .panel-half();
     border-left: 1px solid #ddd;
     background-color: #fff;
     position: relative;
     padding-left:4px;
+    &.log-hide{
+        display: none;
+    }
+}
+.code-panel{
+    .panel-half();
+    &.code-full{
+        width: 100%!important;
+    }
 }
 .log-log,.log-html{
     width: 100%;
@@ -54,13 +63,6 @@ html *{
     overflow-y: auto;
     padding: 10px;
 }
-.log-html.log-half{
-    display: inline-block;
-}
-.log-html.log-full{
-    width: 100%;
-    display: inline-block;
-}
 .log-html > i{
     z-index: 10;
     position: absolute;
@@ -71,6 +73,23 @@ html *{
     padding: 0 3px;
     border-radius: 2px;
     cursor: pointer;
+}
+.html-mode{
+    .log-html{
+        float: left;
+        display: block;
+        &.hide-log{
+            width: 100%;
+            display: inline-block;
+        }
+    }
+    .log-log{
+        float: left;
+        width: 50%;
+        &.hide-log{
+            display: none;
+        }
+    }
 }
 .drag-bar{
     position: absolute;
@@ -95,7 +114,7 @@ html *{
 }
 .tc-log-list{
     font-family: Consolas, Lucida Console, monospace;
-    font-size: 16px;
+    font-size: 14px;
 }
 .tc-log-block{
     word-break: break-all;
@@ -106,7 +125,7 @@ html *{
 }
 .tc-log-funcs {
     position: fixed!important;
-    top: 6px;
+    top: 4px;
     right: 0;
     bottom: auto!important;
     left: auto!important;
@@ -128,13 +147,13 @@ html *{
 
 
 @media (min-width: 600px){
-    .jsbox-tool-w i:hover{
+    .menu-item-dropdown i:hover{
         color: #000;
         transform: scale(1.3);
     }
 }
 @media (max-width: 400px){
-    .jsbox-tool-w i.ei-angle-down{
+    .menu-item-dropdown i.ei-angle-down{
         display: none;
     }
 }
@@ -163,7 +182,7 @@ html *{
     }
     
 }
-.jsbox-tool-w i:active{
+.menu-item-dropdown i:active{
     color: #6b1616;
     transform: scale(1.1);
 }
