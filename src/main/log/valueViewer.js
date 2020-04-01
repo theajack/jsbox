@@ -19,13 +19,16 @@ class ValuetViewer {
             }));
         } else {
             this._block = generateLogBlock(type);
-            tool.append(this._block, generateDiv(value));
+            tool.append(this._block, generateDiv(value, type));
         }
     }
 }
 
-function generateDiv (value) {
-    let div = tool.create('div');
+{/* <i class="ei-exclamation-sign"></i>
+<i class="ei-remove-sign"></i>
+<i class="ei-info-sign"></i> */}
+function generateDiv (value, type) {
+    let div = tool.create('div', 'a');
     switch (typeof value) {
         case 'undefined': generateLogSpan(div, 'undefined'); break;
         case 'object': generateLogSpan(div, 'null'); break;// 只可能是null
@@ -38,6 +41,18 @@ function generateDiv (value) {
     tool.append(div, tool.create('span', 'log-copy', 'copy', () => {
         copyText(value);
     }));
+    let iconClass = '';
+    switch (type) {
+        case 'info': iconClass = 'ei-info-sign'; break;
+        case 'error': iconClass = 'ei-remove-sign'; break;
+        case 'warn': iconClass = 'ei-exclamation-sign'; break;
+        default :break;
+    }
+    if (iconClass) {
+        let icon = tool.create('i');
+        tool.addClass(icon, iconClass + ' tc-log-icon');
+        div.insertBefore(icon, div.children[0]);
+    }
     return div;
 }
 

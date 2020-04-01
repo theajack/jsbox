@@ -38,15 +38,14 @@ function initStyle () {
             display: none;
         }
         ::-webkit-scrollbar-track-piece {
-            background-color:#ddd;
+            background-color:#88888811;
         }
         ::-webkit-scrollbar-thumb{
-            background-color:#bbb;
-            border-radius:5px;
+            background-color:#88888866;
             cursor: pointer;
         }
         ::-webkit-scrollbar-thumb:hover{
-            background-color:#aaa;
+            background-color:#88888888;
             cursor: pointer;
         }` : ''}
     `;

@@ -7,6 +7,7 @@ export const TYPE = {
     DRAG_STATUS: 'drag_status',
     LANGUAGE: 'language',
     HTML_PANEL: 'html_panel',
+    FONT_SIZE: 'font_size',
 };
 
 export function read (key) {

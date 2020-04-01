@@ -1,10 +1,28 @@
 import {MENU_TYPE, EVENT} from '../../js/constant';
 import event from '../../js/event';
 import {toast} from 'tacl-ui';
-import {code, language} from '../../js/status';
+import {code, language, theme} from '../../js/status';
 import {copyText} from '../../log/util';
-import {LANG} from './editor';
+import {LANG, THEME} from './editor';
 import {exeHTML, exeJs} from './execute';
+
+// let currentTheme = sun
+
+let themeItem = {
+    title: '切换主题',
+    icon: theme.get() === THEME.LIGHT ? 'moon' : 'sun',
+    key: ['ctrl', 'p'],
+    onclick () {
+        let isDark = theme.get() === THEME.DARK;
+        this.icon = isDark ? 'sun' : 'moon';
+        theme.set(isDark ? THEME.LIGHT : THEME.DARK);
+        return false;
+    }
+};
+
+event.regist(EVENT.THEME_TOGGLE, () => {
+    themeItem.onclick();
+});
 
 export let menus = [
     {
@@ -59,30 +77,25 @@ export let menus = [
     }, {
         title: '外观',
         active: false,
-        items: [{
-            title: '切换主题',
-            icon: 'sun',
-            key: ['ctrl', 'p'], // 默认null
-            onclick () {
-                if (this.icon)
-                    this.icon = 'moon';
-                return false;
-            },
-        }, {
-            title: '放大字体',
-            icon: 'zoom-in',
-            key: ['ctrl', '-'], // 默认null
-            onclick () {
-                return false;
-            },
-        }, {
-            title: '缩小字体',
-            icon: 'zoom-out',
-            key: ['ctrl', '+'], // 默认null
-            onclick () {
-                return false;
-            },
-        }]
+        items: [
+            themeItem,
+            {
+                title: '放大字体',
+                icon: 'zoom-in',
+                key: ['ctrl', '-'], // 默认null
+                onclick () {
+                    event.emit(EVENT.FONT_SIZE_CHANGE, 'up');
+                    return false;
+                },
+            }, {
+                title: '缩小字体',
+                icon: 'zoom-out',
+                key: ['ctrl', '+'], // 默认null
+                onclick () {
+                    event.emit(EVENT.FONT_SIZE_CHANGE, 'down');
+                    return false;
+                },
+            }]
     }, {
         title: '环境',
         active: false,

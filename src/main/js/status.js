@@ -18,7 +18,7 @@ function generateStatus ({
             return this._value;
         },
         set (value, save = true, emitThis = true) {
-            this.stash(value);
+            this.stash(value, false);
             if (save) {
                 this.save();
             }
@@ -74,4 +74,9 @@ export const htmlLog = generateStatus({
     def: true,
     name: TYPE.HTML_PANEL,
     emit: EVENT.HTML_PANEL_CHANGE
+});
+export const fontSize = generateStatus({
+    def: 14,
+    name: TYPE.FONT_SIZE,
+    emit: EVENT.FONT_SIZE_CHANGE
 });

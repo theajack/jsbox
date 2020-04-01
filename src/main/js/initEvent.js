@@ -10,38 +10,39 @@ export function initResize () {
     }, false);
 }
 
-export function initKeyEvent (el, method) {
-    window.onkeydown = (event) => {
-        if (event.ctrlKey) {
-            let c = (s) => {return s.charCodeAt(0);};
-            let pd = () => {event.preventDefault();};
-            switch (event.keyCode) {
-                case c('M'):method.theme(); pd(); break;
-                case c('D'):method.clear(); pd(); break;
-                case c('S'):method.save(); pd(); break;
-                case c('Q'):method.reset(); pd(); break;
-                case c('P'):method.copy(); pd(); break;
-                case c('I'):method.config(); pd(); break;
-                case c('L'):method.link(); pd(); break;
-                case c('K'):method.toggleLog(); pd(); break;
-                case c('N'):method.env(); pd(); break;
-                case c('E'):$.query('.tc-log-clear').el.click(); pd(); break;
-                case 187:method.fontUp(); pd(); break;
-                case 189:method.fontDown(); pd(); break;
-                case 13:method.run(); pd(); break;
-            }
-                
+function onKeyDown (e, method) {
+    if (e.ctrlKey) {
+        let c = (s) => {return s.charCodeAt(0);};
+        let pd = () => {e.preventDefault();};
+        let eventName = '', value = null;
+        switch (e.keyCode) {
+            case c('M'):eventName = EVENT.THEME_TOGGLE; pd(); break;
+            case c('D'):eventName = EVENT.CLEAR_CODE; pd(); pd(); break;
+            case c('S'):eventName = EVENT.SAVE_CODE; pd(); break;
+            case c('Q'):eventName = EVENT.CLEAR_CODE; pd(); break;
+            case c('P'):method.copy(); pd(); break;
+            case c('I'):method.config(); pd(); break;
+            case c('L'):method.link(); pd(); break;
+            case c('K'):method.toggleLog(); pd(); break;
+            case c('N'):method.env(); pd(); break;
+            case c('E'):$.query('.tc-log-clear').el.click(); pd(); break;
+            case 187:method.fontUp(); pd(); break;
+            case 189:method.fontDown(); pd(); break;
+            case 13:method.run(); pd(); break;
         }
-    };
-    el.code.query('.code_editor')[0].el.onkey = (event) => {
-        if (event.ctrlKey) {
-            let pd = () => {event.preventDefault();};
-            switch (event.keyCode) {
-                case 13:pd(); break;
-            }
+        if (eventName) {
+            event.emit(eventName, value);
         }
-    };
+    }
+}
 
+export function initKeyEvent () {
+    window.addEventListener('keydown', onKeyDown, false);
+    event.regist(EVENT.EDITOR_MOUNTED, (editor) => {
+        setTimeout(() => {
+            editor.el.querySelector('.inputarea').addEventListener('keydown', onKeyDown, false);
+        }, 10);
+    });
 }
 
 export function initDrag (drag) {

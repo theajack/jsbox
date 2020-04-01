@@ -1,11 +1,22 @@
+// import {liftOff} from '../../js/grammars/configure-tokenizer';
+
+import html from './html';
 import javascript from './javascript';
+// import 'monaco-editor/min/vs/loader';
+// import 'monaco-editor/esm/vs/nls';
+// import * as Monaco from 'monaco-editor/esm/vs/editor/editor.main';
+
+// import 'monaco-editor/esm/vs/language/typescript/tsMode';
+// import 'monaco-editor/esm/vs/basic-languages/javascript/javascript';
+// import 'monaco-editor/esm/vs/basic-languages/typescript/typescript';
+
 export const THEME = {
     LIGHT: 'light',
     DARK: 'dark'
 };
 
 export const LANG = {
-    'JAVASCRIPT': 'jx-js', 'HTML': 'html', 'CSS': 'css', 'JSON': 'json', 'TYPESCRIPT': 'typescript',
+    'JAVASCRIPT': 'jx-js', 'HTML': 'jx-html', 'CSS': 'css', 'JSON': 'json', 'TYPESCRIPT': 'typescript',
     'PYTHON': 'python', 'C++': 'cpp', 'C': 'c', 'C#': 'csharp', 'JAVA': 'java', 'GO': 'go', 'MARKDOWN': 'markdown',
     'SQL': 'sql', 'OBJECTIVE-C': 'objective-c', 'SWIFT': 'swift', 'KOTLIN': 'kotlin', 'PHP': 'php',
     'LESS': 'less', 'SCSS': 'scss', 'COFFEESCRIPT': 'coffeescript', 'MYSQL': 'mysql', 'XML': 'xml',
@@ -16,8 +27,12 @@ export const LANG = {
 };
 
 let Monaco = window.monaco;
+
+// liftOff(Monaco);
 Monaco.languages.register({id: 'jx-js'});
 Monaco.languages.setMonarchTokensProvider('jx-js', javascript);
+Monaco.languages.register({id: 'jx-html'});
+Monaco.languages.setMonarchTokensProvider('jx-html', html);
 Monaco.editor.defineTheme('vsc-dark', {
     base: 'vs-dark',
     inherit: true,
@@ -41,36 +56,67 @@ Monaco.editor.defineTheme('vsc-light', {
     ]
 });
 
+const DEFAULT_FONT_SIZE = 14;
+const MAX_FONT_SIZE = 20;
+const MIN_FONT_SIZE = 10;
+
 export class Editor {
     constructor ({
         el,
         code = '',
         diffCode = '',
         lang = LANG.JAVASCRIPT,
-        theme = THEME.LIGHT
+        theme = THEME.LIGHT,
+        fontSize = DEFAULT_FONT_SIZE
     }) {
+        this.fontSize = fontSize;
         this.lang = lang;
         this.el = (typeof el === 'string') ? document.querySelector(el) : el;
         if (diffCode) {
             this.type = 'diff-editor';
             this.diffCode = diffCode;
-            this.editor = Monaco.editor.createDiffEditor(this.el, {
-                enableSplitViewResizing: false
-            });
-            this.changeLang(lang, code);
         } else {
             this.type = 'editor';
-            this.editor = Monaco.editor.create(this.el, {
-                model: null,
-            });
-            this.changeLang(lang, code);
         }
+        this._initEditor(code);
         if (theme !== THEME.LIGHT) {
             this.changeTheme(theme);
         } else {
             Editor.theme = THEME.LIGHT;
         }
         window.editor = this.editor;
+    }
+    _initEditor (code) {
+        code = typeof code === 'string' ? code : this.code();
+        if (this.editor)
+            this.editor.dispose();
+        if (this.type === 'diff-editor') {
+            this.editor = Monaco.editor.createDiffEditor(this.el, {
+                enableSplitViewResizing: false,
+                fontSize: this.fontSize
+            });
+            this.changeLang(this.lang, code);
+        } else {
+            this.editor = Monaco.editor.create(this.el, {
+                model: null,
+                fontSize: this.fontSize
+            });
+            this.changeLang(this.lang, code);
+        }
+    }
+    setFontSize (size) {
+        if (size > MAX_FONT_SIZE || size < MIN_FONT_SIZE) {
+            return false;
+        }
+        this.fontSize = size;
+        this._initEditor();
+        return true;
+    }
+    fontSizeUp () {
+        return this.setFontSize(this.fontSize + 1);
+    }
+    fontSizeDown () {
+        return this.setFontSize(this.fontSize - 1);
     }
     changeLang (lang, code) {
         code = code || this.code();
@@ -96,8 +142,11 @@ export class Editor {
     }
     changeTheme (theme) {
         Editor.theme = theme;
-        // Monaco.editor.setTheme((theme === THEME.DARK ? 'vs-dark' : 'vs' ));
-        Monaco.editor.setTheme('vsc-dark');
+        Monaco.editor.setTheme((theme === THEME.DARK ? 'vsc-dark' : 'vsc-light' ));
+        return theme;
+    }
+    toggleTheme () {
+        return this.changeTheme((Editor.theme === THEME.DARK ? THEME.LIGHT : THEME.DARK ));
     }
     destroy () {
         if (this.editor.getModel()) {

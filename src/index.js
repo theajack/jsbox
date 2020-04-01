@@ -10,7 +10,7 @@ import 'element-ui/lib/theme-chalk/button.css';
 import 'element-ui/lib/theme-chalk/select-dropdown.css';
 import './main/style/element.less';
 import './main/js/style';
-import {initResize} from './main/js/initEvent';
+import {initResize, initKeyEvent} from './main/js/initEvent';
 import {initWindowFunc} from './main/js/util';
 
 Vue.use(Dialog);
@@ -20,6 +20,7 @@ Vue.use(Button);
 $.query('body').append($.create('div#jsbox-container'));
 
 initResize();
+initKeyEvent();
 initWindowFunc();
 
 new Vue({

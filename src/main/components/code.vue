@@ -7,7 +7,8 @@
     import {Editor, LANG, THEME} from './js/editor';
     import event from '../js/event';
     import {EVENT} from '../js/constant';
-    import {code, language} from '../js/status';
+    import {code, language, theme, fontSize} from '../js/status';
+    import {toast} from 'tacl-ui';
     export default {
         data () {
             return {
@@ -17,12 +18,15 @@
         },
         mounted () {
             let editor = new Editor({
-                el: this.$refs.editor
+                el: this.$refs.editor,
+                fontSize: fontSize.get()
             });
             window.editor = editor;
             event.regist({
                 [EVENT.RESIZE]: () => {
-                    editor.resize();
+                    setTimeout(() => {
+                        editor.resize();
+                    }, 10);
                 },
                 [EVENT.DRAG_PERCENT]: (percent) => {
                     this.percent = percent;
@@ -42,11 +46,23 @@
                 },
                 [EVENT.USE_CODE]: (fn) => {
                     fn(editor.code());
+                },
+                [EVENT.THEME_CHANGE]: (theme) => {
+                    document.body.className = (theme === THEME.DARK) ? 'dark' : '';
+                    editor.changeTheme(theme);
+                },
+                [EVENT.FONT_SIZE_CHANGE]: (type) => {
+                    if (!editor[type === 'up' ? 'fontSizeUp' : 'fontSizeDown']()) {
+                        toast('超过可设置大小');
+                    } else {
+                        fontSize.set(editor.fontSize, true, false);
+                    }
                 }
             });
+            event.emit(EVENT.EDITOR_MOUNTED, editor);
             code.init();
             language.init();
-            editor.changeTheme(THEME.DARK);
+            theme.init();
         },
     };
 </script>

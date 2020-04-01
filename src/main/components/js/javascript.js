@@ -68,7 +68,7 @@ export default {
                 }
             }],
             [/[A-Z][\w\$]*/, 'type.identifier'],  // to show class names nicely
-            [/\..*?\(/, 'function'],  // to show class names nicely
+            // [/\..*?\(/, 'function'],  // to show class names nicely
             // [/[A-Z][\w\$]*/, 'identifier'],
 
             // whitespace
