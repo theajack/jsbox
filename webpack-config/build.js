@@ -5,6 +5,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 分离css
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 function initRes () {
     gulp.src('public/env.js')
@@ -13,6 +14,10 @@ function initRes () {
 
     gulp.src('public/lib.js')
         .pipe(gulp.dest('cdn/assets/js'));
+    gulp.src('public/css/*.css')
+        .pipe(gulp.dest('cdn/assets/css/editor'));
+    gulp.src('public/js/*.js')
+        .pipe(gulp.dest('cdn/assets/js/editor'));
 }
 initRes();
 
@@ -38,6 +43,9 @@ module.exports = () => {
                     exclude: /node_modules/
                 }, {
                     test: /\.css$/,
+                    use: [ MiniCssExtractPlugin.loader, 'css-loader'],
+                }, {
+                    test: /\.less$/,
                     use: [ MiniCssExtractPlugin.loader, 'css-loader',  'less-loader'],
                 }, {
                     test: /\.(woff|ttf)$/,
@@ -65,7 +73,7 @@ module.exports = () => {
                 filename: 'assets/css/[name].min.css',
             }),
             new HtmlWebpackPlugin({
-                template: './src/index.tpl.html',
+                template: './cdn/index.tpl.html',
                 filename: 'index.html',
             }),
             new OptimizeCssAssetsPlugin()

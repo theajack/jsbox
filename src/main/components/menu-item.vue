@@ -1,8 +1,10 @@
 <template>
     <div class='menu-item' :class='{"active": active}' @click='menuClick' @mouseenter='menuMouseEnter'>
-        <span>{{text || title}}</span>
-        <i v-if='items.length>0' class='ei-angle-down'></i>
-        <i v-else :class='"ei-"+icon' :title='title'></i>
+        <div :title='title'>
+            <span>{{text || title}}</span>
+            <i v-if='items.length>0' class='ei-angle-down menu-icon'></i>
+            <i v-else :class='"ei-"+icon'></i>
+        </div>
         <div v-if='items.length>0' class='menu-item-dropdown'>
             <div class='menu-dd-item' v-for='(item,index) in items' :key='index' @click.stop='menuItemClick(item)'>
                 <i v-if='item.icon' :class='"ei-"+item.icon+" ddi-icon"'></i>
@@ -31,6 +33,9 @@
             onclick: {
                 type: Function
             },
+            mounted: {
+                type: Function
+            },
             items: {
                 type: Array,
                 default () {
@@ -43,17 +48,27 @@
                 MENU_TYPE,
             };
         },
+        mounted () {
+            if (this.mounted) {
+                this.mounted();
+            }
+            this.items.forEach((item) => {
+                if (item.mounted) {
+                    item.mounted();
+                }
+            });
+        },
         methods: {
-            menuClick () {
+            menuClick (isClick) {
                 if (this.items.length > 0) {
                     this.$emit('active', this.index);
-                } else if (this.onclick) {
+                } else if (this.onclick && isClick !== false) {
                     this.onclick();
                 }
             },
             menuMouseEnter () {
                 if (IsPC() && this.hasActiveItem && !this.active) {
-                    this.menuClick();
+                    this.menuClick(false);
                 }
             },
             menuItemClick (item) {
@@ -101,7 +116,7 @@
     .menu-item.active .menu-item-dropdown{
         display: block;
     }
-    .menu-item.active > .ei-angle-down:before{
+    .menu-item.active .menu-icon:before{
         transform: rotate(180deg);
     }
     .menu-dd-item{

@@ -9,6 +9,8 @@
     import {EVENT} from '../js/constant';
     import {code, language, theme, fontSize} from '../js/status';
     import {toast} from 'tacl-ui';
+    import {getUrlParam, DEFAULT_CODE} from '../js/util';
+    import {initConfig} from './js/config';
     export default {
         data () {
             return {
@@ -60,9 +62,30 @@
                 }
             });
             event.emit(EVENT.EDITOR_MOUNTED, editor);
-            code.init();
-            language.init();
-            theme.init();
+            this.initCode();
         },
+        methods: {
+            initCode () {
+                theme.init(getUrlParam('theme'));
+                initConfig(code, () => {
+                    event.emit(EVENT.RUN_CODE);
+                }, () => {
+                    let _code = getUrlParam('code');
+                    let _lang = getUrlParam('lang');
+                    if (_lang === 'js' || _lang === 'javascript') {
+                        _lang = LANG.JAVASCRIPT;
+                    }
+                    if (_lang === 'html') {
+                        _lang = LANG.HTML;
+                    }
+                    if (location.hash === '#hello') {
+                        _code = DEFAULT_CODE;
+                        _lang = LANG.JAVASCRIPT;
+                    }
+                    code.init(_code);
+                    language.init(_lang);
+                });
+            }
+        }
     };
 </script>

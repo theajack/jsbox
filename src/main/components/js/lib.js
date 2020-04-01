@@ -1,6 +1,5 @@
 import {tool as $, loading} from 'tacl-ui';
-import {Message} from 'element-ui';
-import 'element-ui/lib/theme-chalk/message.css';
+import {toast} from '../../js/util';
 
 export const LOAD_TYPE = {
     SET: 'set',
@@ -98,6 +97,13 @@ export function loadResources ({
     if (jsboxLib) {
         libs.push(window.jsbox_libs);
     }
+    // 解决 loader.js 会阻碍第三方cdn包的加载
+    window.resetDefine();
+    let _success = success;
+    success = () => {
+        _success();
+        window.useDefine();
+    };
     array =  checkResource(libs, array);
     if (array.length === 0) {
         success();
@@ -119,11 +125,11 @@ export function loadResources ({
                 if (num >= array.length) {
                     loading(`${(isDep) ? '依赖: ' : ''}${num} / ${array.length}`);
                     if (isDep) {
-                        Message.info('依赖加载完成');
+                        toast.info('依赖加载完成');
                     } else {
                         loading.close();
                         if (showToast) {
-                            Message.success(`所有${(isDep) ? '依赖: ' : '资源'}加载成功!`);
+                            toast.success(`所有${(isDep) ? '依赖: ' : '资源'}加载成功!`);
                         }
                     }
                     if (success)success();
@@ -179,9 +185,5 @@ function loadError (item) {
     } else {
         text = `${item.name}:${item.url}`;
     }
-    Message.error({
-        message: `资源加载失败:${text}`,
-        duration: 0,
-        showClose: true,
-    });
+    toast.error(`资源加载失败:${text}`, false);
 }

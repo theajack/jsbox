@@ -33,7 +33,7 @@ function main () {
                 <i class="ei-moon" title='切换主题(ctrl + m)' id='themeIcon' @el='theme' @event='theme'></i>
                 <i class="ei-trash" title='清空代码(ctrl + d)' @event='clear'></i>
                 <i class="ei-save" title='暂存代码(ctrl + s)' @event='save'></i>
-                <i class="ei-history" title="重置代码(ctrl + e)" @event="reset"></i>
+                <i class="ei-history" title="重置代码(ctrl + t)" @event="reset"></i>
                 <i class="ei-copy" title='复制代码(ctrl + q)' @event='copy'></i>
                 <i class="ei-book" title='三方库引入(ctrl + i)' @event='lib'></i>
                 <i class="ei-cube-alt" title='运行环境(ctrl + n)' @event='env'></i>

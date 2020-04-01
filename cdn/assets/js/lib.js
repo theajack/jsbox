@@ -9,11 +9,11 @@ window.jsbox_libs = {
     },
     'react': {
         'version': '16.13.1',
-        'url': 'https://unpkg.com/react@16/umd/react.production.min.js'
+        'url': 'https://cdn.jsdelivr.net/npm/react@16.13.1/umd/react.production.min.js'
     },
     'react-dom': {
         'version': '16.13.1',
-        'url': 'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js'
+        'url': 'https://cdn.jsdelivr.net/npm/react-dom@16.13.1/umd/react-dom.production.min.js'
     },
     'angular': {
         'version': '1.7.9',

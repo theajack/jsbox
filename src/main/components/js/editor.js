@@ -156,7 +156,7 @@ export class Editor {
         this.editor = null;
     }
     code (v) {
-        if (v) {
+        if (typeof v === 'string') {
             this.editor.setValue(v);
             return this;
         } else {

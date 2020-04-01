@@ -1,8 +1,30 @@
 import {copyText} from '../log/util';
-import {toast, loading} from 'tacl-ui';
+import {loading} from 'tacl-ui';
 import $ from 'easy-dom-util';
+import {Message} from 'element-ui';
+import 'element-ui/lib/theme-chalk/message.css';
 
+const TYPE = {
+    SUCCESS: 'success',
+    WARN: 'warning',
+    INFO: 'info',
+    ERROR: 'error'
+};
 
+export function toast (text, time = 1500, type = TYPE.INFO) {
+    Message[type]({
+        message: text,
+        duration: time === false ? 0 : time,
+        showClose: true,
+        customClass: 'jx-message'
+    });
+}
+toast.success = (text, time) => {toast(text, time, TYPE.SUCCESS);};
+toast.warn = (text, time) => {toast(text, time, TYPE.WARN);};
+toast.info = (text, time) => {toast(text, time, TYPE.INFO);};
+toast.error = (text, time) => {toast(text, time, TYPE.ERROR);};
+
+window.toast = toast;
 export function readCookie (name, cookie = document.cookie) {
     if (cookie.length > 0 && name) {
         let reg = new RegExp('(^|; ?)' + name + '=([^&]*?)(;|$)', 'i');
@@ -57,12 +79,13 @@ ctrl - : 缩小字体
 ctrl m : 切换主题
 ctrl d : 清空代码
 ctrl s : 暂存代码：暂存之后代码会被保存起来，刷新页面或重置代码都会还原到保存的状态
-ctrl e : 重置代码：回到初始态或暂存状态
-ctrl q : 复制代码
-ctrl i : 设置
-ctrl l : 生成链接：该链接打开可以还原当前正在编辑的代码
+ctrl q : 重置代码：回到初始态或暂存状态
+ctrl p : 复制代码
+ctrl l : 加载第三方库
+ctrl i : 加载运行环境
+ctrl g : 选择编程语言
 ctrl e : 清空log
-ctrl enter : 运行代码
+ctrl y : 运行代码
 */
 
 /*

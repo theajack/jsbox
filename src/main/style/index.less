@@ -1,3 +1,4 @@
+@error-red: #ff4a4a;
 .panel-half{
     height: 100%;
     width:50%;
@@ -190,8 +191,8 @@ html *{
 .tc-log-func{
     background-color: transparent!important;
     &.tc-log-error{
-        border-color: #f44!important;
-        color: #f44;
+        border-color: @error-red!important;
+        color: @error-red;
     }
     &.tc-log-info{
         border-color: #6464fb!important;
@@ -212,9 +213,24 @@ html *{
     color: #ffb300;
 }
 .tc-log-error .tc-log-icon{
-    color: #f44;
+    color: @error-red;
 }
-
+.jx-confirm-dialog{
+    .el-dialog__body{
+        color: #222;
+        font-size: 15px;
+        text-align: center;
+    }
+    .el-dialog{
+        max-width: 400px!important;
+        padding: 5px;
+    }
+}
+.jx-message{
+    background-color: #eee !important;
+    border-radius: 0 !important;
+    border: none;
+}
 /*dark mode*/
 
 body.dark{
@@ -248,7 +264,8 @@ body.dark{
         background-color: #444a;
     }
     .log-log{
-        background-color: #2a2a2a;
+        background-color: #1e1e1e;
+        border-left: 1px solid #333;
     }
     .tc-log-copy{
         color:#8686ff
@@ -258,12 +275,11 @@ body.dark{
         border-bottom: 1px solid #444;
         background-color: transparent;
         &.tc-log-error{
-            border-color: #f44!important;
-            color: #f44!important;
-        }
-        &.tc-log-error{
-            border-color: #f44!important;
-            color: #f44!important;
+            border-color: @error-red!important;
+            color: @error-red!important;
+            .tc-obj-string{
+                color: @error-red!important;
+            }
         }
         &.tc-log-info{
             border-color: #6464fb!important;
@@ -306,8 +322,14 @@ body.dark{
         }
     }
     .jx-select-dialog {
+        .el-select__input{
+            color: #eee;
+        }
         .el-dialog__footer i{
             background-color: #fff3;
+        }
+        .el-dialog__footer i:hover{
+            background-color: #fff5;
         }
         .el-dialog, .el-input__inner{
             background-color: #3c3c3c;
@@ -329,11 +351,21 @@ body.dark{
         .lib-name{
             color: #eee;
         }
+        .el-select-dropdown__item{
+            color: #eee;
+        }
         .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
             background-color: #555!important;
         }
         .el-select-dropdown__item.selected {
             background-color: #777;
         }
+    }
+    .jx-confirm-dialog .el-dialog__body{
+        color: #eee;
+    }
+    .jx-message{
+        background-color: #444 !important;
+        border: 1px solid #222;
     }
 }

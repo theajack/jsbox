@@ -35,8 +35,8 @@ function generateStatus ({
         save () {
             write(name, this._value);
         },
-        init () {
-            this.set(this.get());
+        init (value, save = false) {
+            this.set(value || this.get(), save);
         }
     };
 }

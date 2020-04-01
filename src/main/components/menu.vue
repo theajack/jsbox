@@ -4,11 +4,14 @@
         <jsbox-menu-item
             v-for='(item, index) in menus'
             :key='index'
+            :text='item.text'
             :title='item.title'
             :icon='item.icon'
             :items='item.items'
             :index='index'
             :active='item.active'
+            :tip='item.tip'
+            :mounted='item.mounted'
             :onclick='item.onclick'
             :hasActiveItem='hasActiveItem'
             @active='active'
@@ -16,6 +19,7 @@
         <lib-select></lib-select>
         <env-select></env-select>
         <lang-select></lang-select>
+        <confirm-box></confirm-box>
     </div>
 </template>
 <script>
@@ -23,11 +27,12 @@
     import libSelect from './select/lib.vue';
     import envSelect from './select/env.vue';
     import langSelect from './select/language.vue';
+    import confirmBox from './select/confirm.vue';
     import {goGithub, checkElOverflow} from '../js/util';
     import {menus} from './js/menu-items';
     import $ from 'easy-dom-util';
     export default {
-        components: {JsboxMenuItem, libSelect, envSelect, langSelect},
+        components: {JsboxMenuItem, libSelect, envSelect, langSelect, confirmBox},
         data () {
             return {
                 hasActiveItem: false,
@@ -36,7 +41,6 @@
             };
         },
         mounted () {
-            window._v = this;
             document.addEventListener('click', () => {
                 if (!this.ignoreClick) {
                     this.active(-1);

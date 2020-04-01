@@ -24,6 +24,21 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/typescript/typescript.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/javascript/javascript.js"></script> -->
 
+    <!-- <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script> -->
+    <!-- Babel.transform('let a=()=>{}',{ presets: ['es2015','react'] }) -->
+<!-- <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+
+<div id="example"></div>
+<script type="text/babel">
+ReactDOM.render(
+ <h1>Hello, world!</h1>,
+ document.getElementById('example')
+);
+</script> -->
     <script>var require = { paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs' } };</script>
     <script src="./js/loader.js"></script>
     <script src="./js/editor.main.nls.js"></script>
@@ -32,6 +47,14 @@
     <script src="./js/typescript.js"></script>
     <script src="./js/javascript.js"></script>
     <script src="./bundle.js"></script>
-    <!-- <script>window.define=null</script> -->
+    <script>
+        window.useDefine = function(){
+            window.define = __define;
+        }
+        window.resetDefine = function(){
+            window.__define = window.define;
+            window.define = null;
+        }
+    </script>
 </body>
 </html>

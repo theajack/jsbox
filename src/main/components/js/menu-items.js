@@ -1,28 +1,10 @@
 import {MENU_TYPE, EVENT} from '../../js/constant';
 import event from '../../js/event';
-import {toast} from 'tacl-ui';
 import {code, language, theme} from '../../js/status';
 import {copyText} from '../../log/util';
 import {LANG, THEME} from './editor';
 import {exeHTML, exeJs} from './execute';
-
-// let currentTheme = sun
-
-let themeItem = {
-    title: '切换主题',
-    icon: theme.get() === THEME.LIGHT ? 'moon' : 'sun',
-    key: ['ctrl', 'p'],
-    onclick () {
-        let isDark = theme.get() === THEME.DARK;
-        this.icon = isDark ? 'sun' : 'moon';
-        theme.set(isDark ? THEME.LIGHT : THEME.DARK);
-        return false;
-    }
-};
-
-event.regist(EVENT.THEME_TOGGLE, () => {
-    themeItem.onclick();
-});
+import {toast} from '../../js/util';
 
 export let menus = [
     {
@@ -38,21 +20,40 @@ export let menus = [
                     toast('已复制');
                 });
             },
+            mounted () {
+                event.regist(EVENT.COPY_CODE, this.onclick);
+            },
             type: MENU_TYPE.FUNC,
         }, {
             icon: 'trash',
             title: '清空',
             key: ['ctrl', 'd'],
             onclick () {
-                // event.emit()
+                event.emit(EVENT.OPEN_CONFIRM, {
+                    text: '是否确认清空代码?',
+                    confirm () {
+                        event.emit(EVENT.CODE_CHANGE, '');
+                    }
+                });
+            },
+            mounted () {
+                event.regist(EVENT.CLEAR_CODE, this.onclick);
             },
             type: MENU_TYPE.FUNC,
         }, {
             icon: 'history',
             title: '重置',
-            key: ['ctrl', 'e'],
+            key: ['ctrl', 'q'],
             onclick () {
-
+                event.emit(EVENT.OPEN_CONFIRM, {
+                    text: '是否确认重置为暂存代码?',
+                    confirm () {
+                        event.emit(EVENT.CODE_CHANGE, code.get());
+                    }
+                });
+            },
+            mounted () {
+                event.regist(EVENT.RESET_CODE, this.onclick);
             },
             type: MENU_TYPE.FUNC,
         }, {
@@ -64,6 +65,9 @@ export let menus = [
                     code.set(value);
                     toast('暂存代码成功');
                 });
+            },
+            mounted () {
+                event.regist(EVENT.SAVE_CODE, this.onclick);
             },
             type: MENU_TYPE.FUNC,
         }, {
@@ -77,32 +81,53 @@ export let menus = [
     }, {
         title: '外观',
         active: false,
-        items: [
-            themeItem,
-            {
-                title: '放大字体',
-                icon: 'zoom-in',
-                key: ['ctrl', '-'], // 默认null
-                onclick () {
-                    event.emit(EVENT.FONT_SIZE_CHANGE, 'up');
-                    return false;
+        items: [{
+            title: '切换深色主题',
+            icon: 'moon',
+            key: ['ctrl', 'p'],
+            methods: {
+                setInfo (item) {
+                    let isDark = theme.get() === THEME.DARK;
+                    item.title = `切换${isDark ? '浅色' : '深色'}主题`;
+                    item.icon = isDark ? 'sun' : 'moon';
                 },
-            }, {
-                title: '缩小字体',
-                icon: 'zoom-out',
-                key: ['ctrl', '+'], // 默认null
-                onclick () {
-                    event.emit(EVENT.FONT_SIZE_CHANGE, 'down');
-                    return false;
-                },
-            }]
+            },
+            onclick () {
+                theme.set(theme.get() === THEME.DARK ? THEME.LIGHT : THEME.DARK);
+                this.methods.setInfo(this);
+                return false;
+            },
+            mounted () {
+                this.methods.setInfo(this);
+                event.regist(EVENT.THEME_TOGGLE, () => {
+                    this.onclick(this);
+                });
+            }
+        },
+        {
+            title: '放大字体',
+            icon: 'zoom-in',
+            key: ['ctrl', '-'], // 默认null
+            onclick () {
+                event.emit(EVENT.FONT_SIZE_CHANGE, 'up');
+                return false;
+            },
+        }, {
+            title: '缩小字体',
+            icon: 'zoom-out',
+            key: ['ctrl', '+'], // 默认null
+            onclick () {
+                event.emit(EVENT.FONT_SIZE_CHANGE, 'down');
+                return false;
+            },
+        }]
     }, {
         title: '环境',
         active: false,
         items: [{
             title: '加载第三方库',
             icon: 'book',
-            key: ['ctrl', 'i'], // 默认null
+            key: ['ctrl', 'l'], // 默认null
             onclick () {
                 event.emit(EVENT.OPEN_LIB_CHOOSE);
             },
@@ -110,7 +135,7 @@ export let menus = [
         }, {
             title: '运行环境',
             icon: 'cube-alt',
-            key: ['ctrl', 'n'], // 默认null
+            key: ['ctrl', 'i'], // 默认null
             onclick () {
                 event.emit(EVENT.OPEN_ENV_CHOOSE);
             },
@@ -130,11 +155,20 @@ export let menus = [
         items: [{
             title: '生成链接',
             icon: 'link',
-            key: ['ctrl', 'l'],
             onclick () {
-
+                event.emit(EVENT.USE_CODE, (code) => {
+                    const host = 'https://theajack.gitee.io/';
+                    let url = `${host}jsbox?theme=${theme.get()}`;
+                    url += `&code=${encodeURIComponent(code)}`;
+                    console.log(url);
+                    copyText(url, false);
+                    toast('代码链接已复制到剪切板');
+                });
             },
-            type: MENU_TYPE.LINK,
+            mounted () {
+                event.regist(EVENT.GENE_LINK, this.onclick);
+            },
+            type: MENU_TYPE.FUNC,
         }, {
             title: '使用说明',
             icon: 'info',
@@ -159,7 +193,8 @@ export let menus = [
             type: MENU_TYPE.LINK,
         }]
     }, {
-        title: '运行',
+        text: '运行',
+        title: '运行(ctrl+y)',
         icon: 'play',
         active: false,
         onclick () {
@@ -179,6 +214,9 @@ export let menus = [
             } else {
                 toast('只支持运行js和html代码');
             }
+        },
+        mounted () {
+            event.regist(EVENT.RUN_CODE, this.onclick);
         }
     }
 ];
