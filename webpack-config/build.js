@@ -18,6 +18,8 @@ function initRes () {
         .pipe(gulp.dest('cdn/assets/css/editor'));
     gulp.src('public/js/*.js')
         .pipe(gulp.dest('cdn/assets/js/editor'));
+    gulp.src('public/lib/*.js')
+        .pipe(gulp.dest('cdn/assets/js/lib'));
 }
 initRes();
 

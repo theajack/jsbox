@@ -21,6 +21,15 @@
     <script src="assets/js/editor/tsMode.js"></script>
     <script src="assets/js/editor/typescript.js"></script>
     <script src="assets/js/editor/javascript.js"></script>
+    <script>
+        window.useDefine = function(){
+            window.define = __define;
+        }
+        window.resetDefine = function(){
+            window.__define = window.define;
+            window.define = null;
+        }
+    </script>
 </body>
 
 </html>

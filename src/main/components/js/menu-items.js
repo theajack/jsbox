@@ -32,7 +32,7 @@ export let menus = [
                 event.emit(EVENT.OPEN_CONFIRM, {
                     text: '是否确认清空代码?',
                     confirm () {
-                        event.emit(EVENT.CODE_CHANGE, '');
+                        event.emit(EVENT.SET_CODE, '');
                     }
                 });
             },
@@ -48,7 +48,7 @@ export let menus = [
                 event.emit(EVENT.OPEN_CONFIRM, {
                     text: '是否确认重置为暂存代码?',
                     confirm () {
-                        event.emit(EVENT.CODE_CHANGE, code.get());
+                        event.emit(EVENT.SET_CODE, code.get());
                     }
                 });
             },
@@ -62,7 +62,7 @@ export let menus = [
             key: ['ctrl', 's'], // 默认null
             onclick () {
                 event.emit(EVENT.USE_CODE, (value) => {
-                    code.set(value);
+                    code.set(value, true, false);
                     toast('暂存代码成功');
                 });
             },
@@ -197,26 +197,36 @@ export let menus = [
         title: '运行(ctrl+y)',
         icon: 'play',
         active: false,
-        onclick () {
+        onclick (c) {
             let lang = language.get();
             if (lang === LANG.JAVASCRIPT || lang === LANG.HTML) {
-                event.emit(EVENT.USE_CODE, (code) => {
-                    if (code.trim() === '') {
+                if (typeof c === 'string') {
+                    if (c.trim() === '') {
                         toast('请输入一些代码');
                         return;
                     }
-                    if (lang === LANG.HTML) {
-                        exeHTML(code);
-                    } else {
-                        exeJs(code);
-                    }
-                });
+                    exeJs(c);
+                } else {
+                    event.emit(EVENT.USE_CODE, (code) => {
+                        if (code.trim() === '') {
+                            toast('请输入一些代码');
+                            return;
+                        }
+                        if (lang === LANG.HTML) {
+                            exeHTML(code);
+                        } else {
+                            exeJs(code);
+                        }
+                    });
+                }
             } else {
                 toast('只支持运行js和html代码');
             }
         },
         mounted () {
-            event.regist(EVENT.RUN_CODE, this.onclick);
+            event.regist(EVENT.RUN_CODE, (code) => {
+                this.onclick(code);
+            });
         }
     }
 ];

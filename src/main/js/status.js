@@ -1,4 +1,4 @@
-import {THEME, LANG} from '../components/js/editor';
+import {THEME, LANG, DEFAULT_FONT_SIZE} from '../components/js/editor';
 import {read, write, TYPE} from '../../notebook';
 import event from './event';
 import {EVENT} from './constant';
@@ -10,7 +10,10 @@ function generateStatus ({
 }) {
     return {
         _value: null,
-        get () {
+        get (storage) {
+            if (storage === true) {
+                return read(name);
+            }
             if (this._value === null) {
                 let v = read(name);
                 this._value = v === null ? def : v;
@@ -62,7 +65,7 @@ export const dragStatus = generateStatus({
 export const code = generateStatus({
     def: '',
     name: TYPE.CODE,
-    emit: EVENT.CODE_CHANGE
+    emit: EVENT.SET_CODE
 });
 
 export const language = generateStatus({
@@ -76,7 +79,7 @@ export const htmlLog = generateStatus({
     emit: EVENT.HTML_PANEL_CHANGE
 });
 export const fontSize = generateStatus({
-    def: 14,
+    def: DEFAULT_FONT_SIZE,
     name: TYPE.FONT_SIZE,
     emit: EVENT.FONT_SIZE_CHANGE
 });

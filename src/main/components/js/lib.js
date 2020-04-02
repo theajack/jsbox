@@ -1,5 +1,7 @@
 import {tool as $, loading} from 'tacl-ui';
 import {toast} from '../../js/util';
+import {EVENT} from '../../js/constant';
+import event from '../../js/event';
 
 export const LOAD_TYPE = {
     SET: 'set',
@@ -10,8 +12,8 @@ export function getTypeByFix (lib) {
     return (lib.substr(lib.lastIndexOf('.')) === '.css') ? 'style' : 'script';
 }
 
-let Libs = [];
-window.libs = Libs;
+export let Libs = [];
+
 function checkIsJsBoxLib (item) {
     if (item.indexOf('jsbox.') === 0) {
         return item.replace('jsbox.', '');
@@ -75,6 +77,7 @@ function checkResource (libs, array) {
             i--;
         } else {
             Libs.push(name);
+            event.emit(EVENT.ADD_LIB, name);
         }
     }
     return res;

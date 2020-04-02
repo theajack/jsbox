@@ -1,5 +1,6 @@
 <template>
     <div class='code-panel' :class='{"code-full":codeFull}' :style='{width: percent+"%"}' ref='editor'>
+        <status-bar></status-bar>
     </div>
 </template>
 <script>
@@ -11,7 +12,9 @@
     import {toast} from 'tacl-ui';
     import {getUrlParam, DEFAULT_CODE} from '../js/util';
     import {initConfig} from './js/config';
+    import StatusBar from './status.vue';
     export default {
+        components: {StatusBar},
         data () {
             return {
                 percent: 50,
@@ -21,9 +24,11 @@
         mounted () {
             let editor = new Editor({
                 el: this.$refs.editor,
-                fontSize: fontSize.get()
+                fontSize: fontSize.get(),
+                onchange () {
+                    event.emit(EVENT.CODE_CHANGE);
+                }
             });
-            window.editor = editor;
             event.regist({
                 [EVENT.RESIZE]: () => {
                     setTimeout(() => {
@@ -43,7 +48,7 @@
                         editor.resize();
                     });
                 },
-                [EVENT.CODE_CHANGE]: (value) => {
+                [EVENT.SET_CODE]: (value) => {
                     editor.code(value);
                 },
                 [EVENT.USE_CODE]: (fn) => {

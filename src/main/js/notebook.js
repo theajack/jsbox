@@ -19,7 +19,7 @@ export function read (key) {
     } else if (type === 'boolean') {
         return value === 'true';
     } else if (type === 'object') {
-        return JSON.parse(type);
+        return JSON.parse(value);
     }
     return value;
 }

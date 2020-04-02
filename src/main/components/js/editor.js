@@ -56,7 +56,7 @@ Monaco.editor.defineTheme('vsc-light', {
     ]
 });
 
-const DEFAULT_FONT_SIZE = 14;
+export const DEFAULT_FONT_SIZE = 14;
 const MAX_FONT_SIZE = 20;
 const MIN_FONT_SIZE = 10;
 
@@ -67,8 +67,10 @@ export class Editor {
         diffCode = '',
         lang = LANG.JAVASCRIPT,
         theme = THEME.LIGHT,
-        fontSize = DEFAULT_FONT_SIZE
+        fontSize = DEFAULT_FONT_SIZE,
+        onchange = null
     }) {
+        this.onchange = onchange;
         this.fontSize = fontSize;
         this.lang = lang;
         this.el = (typeof el === 'string') ? document.querySelector(el) : el;
@@ -103,6 +105,11 @@ export class Editor {
             });
             this.changeLang(this.lang, code);
         }
+        if (this.onchange) {
+            this.editor.onDidChangeModelContent(() => {
+                this.onchange();
+            });
+        }
     }
     setFontSize (size) {
         if (size > MAX_FONT_SIZE || size < MIN_FONT_SIZE) {
@@ -121,6 +128,7 @@ export class Editor {
     changeLang (lang, code) {
         code = code || this.code();
         let oldModel = this.editor.getModel();
+        this.lang = lang;
         if (this.type === 'editor') {
             let newModel = Monaco.editor.createModel(code, lang);
             this.editor.setModel(newModel);
@@ -156,7 +164,7 @@ export class Editor {
         this.editor = null;
     }
     code (v) {
-        if (typeof v === 'string') {
+        if (v) {
             this.editor.setValue(v);
             return this;
         } else {

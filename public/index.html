@@ -12,8 +12,8 @@
     <!-- <link rel="stylesheet" href="./css/editor.main.css"> -->
     <!-- <link rel="stylesheet" href="https://gitee.com/theajack/tc-editor/raw/master/assets/css/index.css"> -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/editor/editor.main.css">
-    <script src="./lib.js"></script>
-    <script src="./env.js"></script>
+    <script src="./lib/lib.js"></script>
+    <script src="./lib/env.js"></script>
 </head>
 <body>
     
@@ -24,7 +24,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/typescript/typescript.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/javascript/javascript.js"></script> -->
 
-    <!-- <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script> -->
+    <script src="./lib/babel.standalone.js"></script>
+    <script src="./lib/less.standalone.js" ></script>
     <!-- Babel.transform('let a=()=>{}',{ presets: ['es2015','react'] }) -->
 <!-- <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
 <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
@@ -43,10 +44,22 @@ ReactDOM.render(
     <script src="./js/loader.js"></script>
     <script src="./js/editor.main.nls.js"></script>
     <script src="./js/editor.main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/language/css/cssMode.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/css/css.js"></script>
+    <script>
+        let fn = monaco.languages.registerCompletionItemProvider;
+        monaco.languages.registerCompletionItemProvider = function(...args){
+            debugger
+            fn.call(this, ...args)
+        }
+    </script>
     <script src="./js/tsMode.js"></script>
     <script src="./js/typescript.js"></script>
     <script src="./js/javascript.js"></script>
-    <script src="./bundle.js"></script>
+    <script src="./js/cssMode.js"></script>
+    <script src="./js/css.js"></script>
+    <script src="./js/htmlMode.js"></script>
+    <script src="./js/html.js"></script>
     <script>
         window.useDefine = function(){
             window.define = __define;
@@ -56,5 +69,6 @@ ReactDOM.render(
             window.define = null;
         }
     </script>
+    <script src="./bundle.js"></script>
 </body>
 </html>

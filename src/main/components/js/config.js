@@ -4,6 +4,8 @@ import {getUrlParam} from '../../js/util';
 import {loadResources} from './lib';
 import {LANG} from './editor';
 import {language, code} from '../../js/status';
+import {EVENT} from '../../js/constant';
+import event from '../../js/event';
 
 // config > env > lib
 
@@ -45,11 +47,13 @@ function initEnv (serachCode, success) {
             success () {
                 setCode(_code);
                 success();
+                event.emit(EVENT.SET_ENV, env);
             }
         });
     } else {
         setCode(_code);
         success();
+        event.emit(EVENT.SET_ENV, env);
     }
     return true;
 }

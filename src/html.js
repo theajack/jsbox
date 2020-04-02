@@ -82,6 +82,7 @@ export function isHtmlMode () {
 }
 
 export function extractScript (html) {
+    html = transformLess(html);
     let reg = /<script(.|\n)*?>(.|\n)*?<\/script>/g;
     let arr = html.match(reg);
     if (!arr) {
@@ -90,11 +91,42 @@ export function extractScript (html) {
     let js = arr.map(item => {
         if (!(/<script(.|\n)*?src( ?)*=(.|\n)*?>/.test(item))) {
             html = html.replace(item, ''); // 待提取src
+            let js = extractContent(item);
+            if (/<script(.|\n)*? babel[ \n=]?*>/.test(item) && window.Babel) {
+                let opt = {presets: ['es2015']};
+                if (/<script(.|\n)*? react[ \n=]?*>/.test(item)) {
+                    opt.presets.push('react');
+                }
+                js = window.Babel.transform(js, opt);
+            }
+            return js;
         }
-        return item.substring(item.indexOf('>') + 1, item.lastIndexOf('</script>')).trim();
+        return '';
     }).join('\n').trim();
     if (js) {
         js = '//@ sourceURL=jsbox_run.js \n' + js;
     }
     return {html, js};
+}
+
+function transformLess (html) {
+    if (!window.less || !window.less.toCss) {
+        return html;
+    }
+    let reg = /<style(.|\n)*?>(.|\n)*?<\/style>/g;
+    let arr = html.match(reg);
+    if (!arr) {
+        return html;
+    }
+    arr.forEach(item => {
+        if ((/<style(.|\n)*? less[ \n=]?*>/.test(item))) {
+            let less = extractContent();
+            html = html.replace(less, window.less.toCss(less)); // 待提取src
+        }
+    });
+    return html;
+}
+
+export function extractContent (html) {
+    return html.substring(html.indexOf('>') + 1, html.lastIndexOf('</')).trim();
 }
