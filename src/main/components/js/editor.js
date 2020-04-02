@@ -1,7 +1,7 @@
 // import {liftOff} from '../../js/grammars/configure-tokenizer';
 
-import html from './html';
-import javascript from './javascript';
+// import html from './html';
+// import javascript from './javascript';
 // import 'monaco-editor/min/vs/loader';
 // import 'monaco-editor/esm/vs/nls';
 // import * as Monaco from 'monaco-editor/esm/vs/editor/editor.main';
@@ -16,7 +16,7 @@ export const THEME = {
 };
 
 export const LANG = {
-    'JAVASCRIPT': 'jx-js', 'HTML': 'jx-html', 'CSS': 'css', 'JSON': 'json', 'TYPESCRIPT': 'typescript',
+    'JAVASCRIPT': 'javascript', 'HTML': 'html', 'CSS': 'css', 'JSON': 'json', 'TYPESCRIPT': 'typescript',
     'PYTHON': 'python', 'C++': 'cpp', 'C': 'c', 'C#': 'csharp', 'JAVA': 'java', 'GO': 'go', 'MARKDOWN': 'markdown',
     'SQL': 'sql', 'OBJECTIVE-C': 'objective-c', 'SWIFT': 'swift', 'KOTLIN': 'kotlin', 'PHP': 'php',
     'LESS': 'less', 'SCSS': 'scss', 'COFFEESCRIPT': 'coffeescript', 'MYSQL': 'mysql', 'XML': 'xml',
@@ -29,10 +29,10 @@ export const LANG = {
 let Monaco = window.monaco;
 
 // liftOff(Monaco);
-Monaco.languages.register({id: 'jx-js'});
-Monaco.languages.setMonarchTokensProvider('jx-js', javascript);
-Monaco.languages.register({id: 'jx-html'});
-Monaco.languages.setMonarchTokensProvider('jx-html', html);
+// Monaco.languages.register({id: 'jx-js'});
+// Monaco.languages.setMonarchTokensProvider('jx-js', javascript);
+// Monaco.languages.register({id: 'jx-html'});
+// Monaco.languages.setMonarchTokensProvider('jx-html', html);
 Monaco.editor.defineTheme('vsc-dark', {
     base: 'vs-dark',
     inherit: true,

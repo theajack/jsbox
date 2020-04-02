@@ -7,3 +7,4 @@
 **/*.html
 /public/lib/babel.standalone.js
 /public/lib/less.standalone.js
+/public/vs

@@ -40,26 +40,26 @@ ReactDOM.render(
  document.getElementById('example')
 );
 </script> -->
-    <script>var require = { paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs' } };</script>
-    <script src="./js/loader.js"></script>
+<script>var require = { paths: { 'vs': 'http://localhost:8080/vs' } };</script>
+<script src="./js/loader.js"></script>
     <script src="./js/editor.main.nls.js"></script>
     <script src="./js/editor.main.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/language/css/cssMode.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/css/css.js"></script>
-    <script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/language/css/cssMode.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/css/css.js"></script> -->
+    <!-- <script>
         let fn = monaco.languages.registerCompletionItemProvider;
         monaco.languages.registerCompletionItemProvider = function(...args){
             debugger
             fn.call(this, ...args)
         }
-    </script>
-    <script src="./js/tsMode.js"></script>
+    </script> -->
+    <!-- <script src="./js/tsMode.js"></script>
     <script src="./js/typescript.js"></script>
-    <script src="./js/javascript.js"></script>
-    <script src="./js/cssMode.js"></script>
+    <script src="./js/javascript.js"></script> -->
+    <!-- <script src="./js/cssMode.js"></script>
     <script src="./js/css.js"></script>
     <script src="./js/htmlMode.js"></script>
-    <script src="./js/html.js"></script>
+    <script src="./js/html.js"></script> -->
     <script>
         window.useDefine = function(){
             window.define = __define;
