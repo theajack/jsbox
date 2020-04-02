@@ -28,7 +28,7 @@ class ValuetViewer {
 <i class="ei-remove-sign"></i>
 <i class="ei-info-sign"></i> */}
 function generateDiv (value, type) {
-    let div = tool.create('div', 'a');
+    let div = tool.create('div');
     switch (typeof value) {
         case 'undefined': generateLogSpan(div, 'undefined'); break;
         case 'object': generateLogSpan(div, 'null'); break;// 只可能是null

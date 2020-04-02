@@ -52,23 +52,23 @@ window.jsbox_envs = {
 var app = new Vue({
     el: '#app',
     data() {
-    return {
-        form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
+        return {
+            form: {
+            name: '',
+            region: '',
+            date1: '',
+            date2: '',
+            delivery: false,
+            type: [],
+            resource: '',
+            desc: ''
+            }
         }
-    }
     },
     methods: {
-    onSubmit() {
-        console.log('submit!', this.form);
-    }
+        onSubmit() {
+            console.log('submit!', this.form);
+        }
     }
 })
 </script>`,
@@ -99,6 +99,17 @@ log('中华人民共和国'.stroke('array'));
         `,
         type: 'html',
         deps: ['vue']
+    },
+    'react': {
+        code: /* html*/`<div id="example"></div>
+<script babel react>
+    ReactDOM.render(
+    <h1>Hello, world!</h1>,
+    document.getElementById('example')
+    );
+</script>`,
+        type: 'html',
+        deps: ['react-dom']
     }
 };
 /**

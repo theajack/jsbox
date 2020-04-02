@@ -26,40 +26,59 @@ export const LANG = {
     'PLAINTEXT': 'plaintext', 'PUG': 'pug'
 };
 
-let Monaco = window.monaco;
-
-// liftOff(Monaco);
-// Monaco.languages.register({id: 'jx-js'});
-// Monaco.languages.setMonarchTokensProvider('jx-js', javascript);
-// Monaco.languages.register({id: 'jx-html'});
-// Monaco.languages.setMonarchTokensProvider('jx-html', html);
-Monaco.editor.defineTheme('vsc-dark', {
-    base: 'vs-dark',
-    inherit: true,
-    rules: [
-        {token: 'keyword1', foreground: '569cd6'},
-        {token: 'keyword2', foreground: 'c586c0'},
-        {token: 'keyword3', foreground: '3ac9b0'},
-        {token: 'identifier', foreground: '9cdcfe'},
-        {token: 'function', foreground: 'dcdcaa'}
-    ]
-});
-Monaco.editor.defineTheme('vsc-light', {
-    base: 'vs',
-    inherit: true,
-    rules: [
-        {token: 'keyword1', foreground: '0000ff'},
-        {token: 'keyword2', foreground: 'af00db'},
-        {token: 'keyword3', foreground: '267f99'},
-        {token: 'identifier', foreground: '001090'},
-        {token: 'function', foreground: 'b27878'}
-    ]
-});
-
 export const DEFAULT_FONT_SIZE = 14;
 const MAX_FONT_SIZE = 20;
 const MIN_FONT_SIZE = 10;
+let Monaco = null;
 
+export function loadMonaco () {
+    let timer = null;
+    return new Promise((resolve) => {
+        if (window.monaco) {
+            resolve(window.monaco);
+        } else {
+            timer = setInterval(() => {
+                if (window.monaco) {
+                    resolve(window.monaco);
+                    clearInterval(timer);
+                }
+            }, 200);
+        }
+    });
+}
+
+function initMonaco () {
+    if (Monaco === null) {
+        Monaco = window.monaco;
+        // liftOff(Monaco);
+        // Monaco.languages.register({id: 'jx-js'});
+        // Monaco.languages.setMonarchTokensProvider('jx-js', javascript);
+        // Monaco.languages.register({id: 'jx-html'});
+        // Monaco.languages.setMonarchTokensProvider('jx-html', html);
+        window.monaco.editor.defineTheme('vsc-dark', {
+            base: 'vs-dark',
+            inherit: true,
+            rules: [
+                {token: 'keyword1', foreground: '569cd6'},
+                {token: 'keyword2', foreground: 'c586c0'},
+                {token: 'keyword3', foreground: '3ac9b0'},
+                {token: 'identifier', foreground: '9cdcfe'},
+                {token: 'function', foreground: 'dcdcaa'}
+            ]
+        });
+        window.monaco.editor.defineTheme('vsc-light', {
+            base: 'vs',
+            inherit: true,
+            rules: [
+                {token: 'keyword1', foreground: '0000ff'},
+                {token: 'keyword2', foreground: 'af00db'},
+                {token: 'keyword3', foreground: '267f99'},
+                {token: 'identifier', foreground: '001090'},
+                {token: 'function', foreground: 'b27878'}
+            ]
+        });
+    }
+}
 export class Editor {
     constructor ({
         el,
@@ -70,6 +89,7 @@ export class Editor {
         fontSize = DEFAULT_FONT_SIZE,
         onchange = null
     }) {
+        initMonaco();
         this.onchange = onchange;
         this.fontSize = fontSize;
         this.lang = lang;

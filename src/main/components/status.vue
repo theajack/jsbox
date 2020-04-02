@@ -23,10 +23,11 @@
     import {EVENT} from '../js/constant';
     import {LANG} from './js/editor';
     import {fileStatus, envStstus} from './js/status-plugin';
+    import {dragPercent} from '../js/status';
     export default {
         data () {
             return {
-                percent: 50,
+                percent: dragPercent.get(),
                 codeFull: false,
                 file: fileStatus.data,
                 env: envStstus.data,
@@ -62,6 +63,9 @@
         font-size: 12px;
         line-height: 25px;
         padding: 0 10px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         &.code-full{
             width: 100%!important;
         }

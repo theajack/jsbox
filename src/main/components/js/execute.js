@@ -76,6 +76,11 @@ export function exeJs (code) {
     }
     if (code.indexOf('\n') === -1) {
         code = `log(${code})`;
+    } else {
+        if (/\/\/(.)*?babel(.)*?/.test(code.substring(0, code.indexOf('\n'))) && window.Babel) {
+            code = window.Babel.transform(code,  {presets: ['es2015']}).code;
+            console.log(code);
+        }
     }
     inExe = true;
     loading();

@@ -23,14 +23,15 @@
     import event from '../js/event';
     import Log from '../log';
     import {LANG} from './js/editor';
-    import {htmlLog, language} from '../js/status';
+    import {htmlLog, language, dragPercent} from '../js/status';
     import {initConsole, focusEnd} from './js/log-console';
+    let lang = language.get();
     export default {
         data () {
             return {
-                percent: 50,
-                codeFull: false,
-                isHtml: false,
+                percent: 100 - dragPercent.get(),
+                codeFull: (lang !== LANG.JAVASCRIPT && lang !== LANG.HTML),
+                isHtml: (lang === LANG.HTML),
                 htmlLog: true,
                 html: '',
             };
