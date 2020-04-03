@@ -20,6 +20,7 @@
         <env-select></env-select>
         <lang-select></lang-select>
         <confirm-box></confirm-box>
+        <diff-editor></diff-editor>
     </div>
 </template>
 <script>
@@ -28,11 +29,12 @@
     import envSelect from './select/env.vue';
     import langSelect from './select/language.vue';
     import confirmBox from './select/confirm.vue';
+    import diffEditor from './diff-code.vue';
     import {goGithub, checkElOverflow} from '../js/util';
     import {menus} from './js/menu-items';
     import $ from 'easy-dom-util';
     export default {
-        components: {JsboxMenuItem, libSelect, envSelect, langSelect, confirmBox},
+        components: {JsboxMenuItem, libSelect, envSelect, langSelect, confirmBox, diffEditor},
         data () {
             return {
                 hasActiveItem: false,

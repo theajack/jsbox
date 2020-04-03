@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, max-scale=1.0">
     <meta name="keywords" content="JSBox,js沙盒环境,在线运行代码,在线演示">
     <meta name="description" content="js在线运行环境,支持引入npm包">
     <link rel="shortcut icon" href="./icon.ico" type="image/x-icon">
@@ -17,49 +17,12 @@
 </head>
 <body>
     
-	<!-- <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/loader.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/editor/editor.main.nls.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/editor/editor.main.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/language/typescript/tsMode.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/typescript/typescript.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/javascript/javascript.js"></script> -->
-
     <script src="./lib/babel.standalone.js"></script>
     <script src="./lib/less.standalone.js" ></script>
-    <!-- Babel.transform('let a=()=>{}',{ presets: ['es2015','react'] }) -->
-<!-- <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
-<script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
-<script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
-</head>
-<body>
-
-<div id="example"></div>
-<script type="text/babel">
-ReactDOM.render(
- <h1>Hello, world!</h1>,
- document.getElementById('example')
-);
-</script> -->
-<script>var require = { paths: { 'vs': 'http://localhost:8080/vs' } };</script>
-<script src="./js/loader.js"></script>
+    <script>var require = { paths: { 'vs': 'http://localhost:8080/vs' } };</script>
+    <script src="./js/loader.js"></script>
     <script src="./js/editor.main.nls.js"></script>
     <script src="./js/editor.main.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/language/css/cssMode.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/basic-languages/css/css.js"></script> -->
-    <!-- <script>
-        let fn = monaco.languages.registerCompletionItemProvider;
-        monaco.languages.registerCompletionItemProvider = function(...args){
-            debugger
-            fn.call(this, ...args)
-        }
-    </script> -->
-    <!-- <script src="./js/tsMode.js"></script>
-    <script src="./js/typescript.js"></script>
-    <script src="./js/javascript.js"></script> -->
-    <!-- <script src="./js/cssMode.js"></script>
-    <script src="./js/css.js"></script>
-    <script src="./js/htmlMode.js"></script>
-    <script src="./js/html.js"></script> -->
     <script>
         window.DEFINE = window.define;
         window.useDefine = function(){

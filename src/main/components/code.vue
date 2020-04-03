@@ -9,8 +9,7 @@
     import event from '../js/event';
     import {EVENT} from '../js/constant';
     import {code, language, theme, fontSize, dragPercent} from '../js/status';
-    import {toast} from 'tacl-ui';
-    import {getUrlParam, DEFAULT_CODE} from '../js/util';
+    import {getUrlParam, DEFAULT_CODE, toast} from '../js/util';
     import {initConfig} from './js/config';
     import StatusBar from './status.vue';
     export default {
@@ -28,6 +27,9 @@
                     fontSize: fontSize.get(),
                     onchange () {
                         event.emit(EVENT.CODE_CHANGE);
+                    },
+                    oncursorchange (position) {
+                        event.emit(EVENT.CURSOR_CHANGE, position);
                     }
                 });
                 event.regist({
@@ -48,6 +50,7 @@
                         this.$nextTick(() => {
                             editor.resize();
                         });
+                        event.emit(EVENT.EDITOR_MOUNTED, editor);
                     },
                     [EVENT.SET_CODE]: (value) => {
                         editor.code(value);
@@ -64,6 +67,7 @@
                             toast('超过可设置大小');
                         } else {
                             fontSize.set(editor.fontSize, true, false);
+                            event.emit(EVENT.EDITOR_MOUNTED, editor);
                         }
                     }
                 });

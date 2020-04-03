@@ -10,6 +10,8 @@ export function initResize () {
     }, false);
 }
 
+let timer = null;
+
 function onKeyDown (e) {
     if (e.ctrlKey) {
         let c = (s) => {return s.charCodeAt(0);};
@@ -25,12 +27,19 @@ function onKeyDown (e) {
             case c('L'):eventName = EVENT.OPEN_LIB_CHOOSE; pd(); break;
             case c('K'):eventName = EVENT.TOGGLE_LOG; pd(); break;
             case c('I'):eventName = EVENT.OPEN_ENV_CHOOSE; pd(); break;
+            case c('O'):eventName = EVENT.OPEN_FILE; pd(); break;
             case c('E'):$.query('.tc-log-clear').el.click(); pd(); break;
             case 187:eventName = EVENT.FONT_SIZE_CHANGE; value = 'up'; pd(); break;
             case 189:eventName = EVENT.FONT_SIZE_CHANGE; value = 'down'; pd(); break;
             case c('Y'):eventName = EVENT.RUN_CODE; pd(); break;
         }
         if (eventName) {
+            if (timer !== null) {
+                return true;
+            }
+            timer = setTimeout(() => {
+                timer = null;
+            }, 200);
             event.emit(eventName, value);
             return true;
         }
@@ -42,11 +51,14 @@ export function initKeyEvent () {
     window.addEventListener('keydown', onKeyDown, false);
     event.regist(EVENT.EDITOR_MOUNTED, (editor) => {
         setTimeout(() => {
-            editor.el.querySelector('.inputarea').addEventListener('keydown', (e) => {
-                if (onKeyDown(e)) {
-                    e.stopPropagation();
-                }
-            }, false);
+            let els = editor.el.querySelectorAll('.inputarea');
+            for (let i = 0; i < els.length; i++) {
+                els[i].addEventListener('keydown', (e) => {
+                    if (onKeyDown(e)) {
+                        e.stopPropagation();
+                    }
+                }, false);
+            }
         }, 10);
     });
 }

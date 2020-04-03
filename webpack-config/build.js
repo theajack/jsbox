@@ -8,18 +8,20 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 function initRes () {
-    gulp.src('public/env.js')
-        .pipe(babel({presets: ['@babel/env']}))
-        .pipe(gulp.dest('cdn/assets/js'));
 
-    gulp.src('public/lib.js')
-        .pipe(gulp.dest('cdn/assets/js'));
     gulp.src('public/css/*.css')
         .pipe(gulp.dest('cdn/assets/css/editor'));
     gulp.src('public/js/*.js')
         .pipe(gulp.dest('cdn/assets/js/editor'));
     gulp.src('public/lib/*.js')
         .pipe(gulp.dest('cdn/assets/js/lib'));
+    gulp.src('public/lib/*.js')
+        .pipe(gulp.dest('cdn/assets/js/lib'));
+    gulp.src('public/lib/env.js')
+        .pipe(babel({presets: ['@babel/env']}))
+        .pipe(gulp.dest('cdn/assets/js/lib'));
+    gulp.src('public/vs/**/*')
+        .pipe(gulp.dest('cdn/assets/js/vs'));
 }
 initRes();
 

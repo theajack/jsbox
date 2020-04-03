@@ -130,11 +130,11 @@ export function loadResources ({
                     if (isDep) {
                         toast.info('依赖加载完成');
                     } else {
-                        loading.close();
                         if (showToast) {
                             toast.success(`所有${(isDep) ? '依赖: ' : '资源'}加载成功!`);
                         }
                     }
+                    loading.close();
                     if (success)success();
                 } else {
                     loading(`${num} / ${array.length}`);

@@ -202,7 +202,6 @@ function initCode (els, success) {
         toast,
         buttons: false,
     });
-    window.editor = editor;
     initConfig(code, editor, success, els.codeMode);
     return editor;
 }

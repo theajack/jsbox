@@ -5,12 +5,47 @@ import {copyText} from '../../log/util';
 import {LANG, THEME} from './editor';
 import {exeHTML, exeJs} from './execute';
 import {toast} from '../../js/util';
+import {download, openFile} from './file';
 
 export let menus = [
     {
         title: '编辑',
         active: false,
         items: [{
+            icon: 'file-o',
+            title: '打开文件',
+            key: ['ctrl', 'o'],
+            onclick () {
+                setTimeout(openFile);
+            },
+            mounted () {
+                event.regist(EVENT.OPEN_FILE, this.onclick);
+            },
+            type: MENU_TYPE.OPEN,
+        }, {
+            icon: 'save',
+            title: '暂存',
+            key: ['ctrl', 's'], // 默认null
+            onclick () {
+                event.emit(EVENT.USE_CODE, (value) => {
+                    code.set(value, true, false);
+                    toast('暂存代码成功');
+                });
+            },
+            mounted () {
+                event.regist(EVENT.SAVE_CODE, this.onclick);
+            },
+            type: MENU_TYPE.FUNC,
+        }, {
+            icon: 'download-alt',
+            title: '保存到本地',
+            onclick () {
+                setTimeout(() => {
+                    download();
+                });
+            },
+            type: MENU_TYPE.FUNC,
+        }, {
             icon: 'copy',
             title: '复制',
             key: ['ctrl', 'p'],
@@ -56,25 +91,11 @@ export let menus = [
                 event.regist(EVENT.RESET_CODE, this.onclick);
             },
             type: MENU_TYPE.FUNC,
-        }, {
-            icon: 'save',
-            title: '暂存',
-            key: ['ctrl', 's'], // 默认null
-            onclick () {
-                event.emit(EVENT.USE_CODE, (value) => {
-                    code.set(value, true, false);
-                    toast('暂存代码成功');
-                });
-            },
-            mounted () {
-                event.regist(EVENT.SAVE_CODE, this.onclick);
-            },
-            type: MENU_TYPE.FUNC,
-        }, {
+        },  {
             icon: 'random',
             title: '与暂存版本对比',
             onclick () {
-
+                event.emit(EVENT.OPEN_DIFF);
             },
             type: MENU_TYPE.OPEN,
         }]

@@ -36,7 +36,7 @@
         data () {
             return {
                 langs,
-                value: language.get(),
+                value: '',
                 visible: false,
             };
         },
@@ -50,6 +50,7 @@
         },
         methods: {
             open () {
+                this.value = language.get();
                 this.visible = true;
                 fixSelect.call(this);
             },

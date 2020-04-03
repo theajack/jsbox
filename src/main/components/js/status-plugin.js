@@ -3,7 +3,7 @@ import {EVENT} from '../../js/constant';
 import {LANG} from './editor';
 import {toast} from '../../js/util';
 import {Libs} from './lib';
-import {code as Code} from '../../js/status';
+import {code as Code, language} from '../../js/status';
 
 export let fileStatus = (() => {
     let blob = null;
@@ -60,6 +60,10 @@ export let fileStatus = (() => {
             return confirmationMessage;
         }
     });
+
+    setTimeout(() => {
+        setSize();
+    }, 100);
     return {data, method};
 })();
 
@@ -74,6 +78,12 @@ export let envStstus = (() => {
     let method = {
         showLib () {
             toast('当前加载的第三方库:' + Libs.join(' , '), false);
+        },
+        selectLang () {
+            event.emit(EVENT.OPEN_LANG_CHOOSE);
+        },
+        selectEnv () {
+            event.emit(EVENT.OPEN_ENV_CHOOSE);
         }
     };
     event.regist({
@@ -84,9 +94,13 @@ export let envStstus = (() => {
                 case LANG['C#']:lang = 'c#'; break;
                 case LANG['C++']:lang = 'c++'; break;
             }
+            language.stash(lang, false);
             data.lang = lang;
         },
         [EVENT.ADD_LIB]: (name) => {
+            if (name.length > 20) {
+                name = `${name.substring(0, 10)}…${name.substring(name.length - 10)} `;
+            }
             if (Libs.length > 1) {
                 name += '…';
             }

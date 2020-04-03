@@ -87,10 +87,12 @@ export class Editor {
         lang = LANG.JAVASCRIPT,
         theme = THEME.LIGHT,
         fontSize = DEFAULT_FONT_SIZE,
-        onchange = null
+        onchange = null,
+        oncursorchange = null
     }) {
         initMonaco();
         this.onchange = onchange;
+        this.oncursorchange = oncursorchange;
         this.fontSize = fontSize;
         this.lang = lang;
         this.el = (typeof el === 'string') ? document.querySelector(el) : el;
@@ -106,12 +108,11 @@ export class Editor {
         } else {
             Editor.theme = THEME.LIGHT;
         }
-        window.editor = this.editor;
     }
     _initEditor (code) {
         code = typeof code === 'string' ? code : this.code();
         if (this.editor)
-            this.editor.dispose();
+            this.destroy();
         if (this.type === 'diff-editor') {
             this.editor = Monaco.editor.createDiffEditor(this.el, {
                 enableSplitViewResizing: false,
@@ -128,6 +129,11 @@ export class Editor {
         if (this.onchange) {
             this.editor.onDidChangeModelContent(() => {
                 this.onchange();
+            });
+        }
+        if (this.oncursorchange) {
+            this.editor.onDidChangeCursorPosition((e) => {
+                this.oncursorchange(e.position);
             });
         }
     }
@@ -177,22 +183,40 @@ export class Editor {
         return this.changeTheme((Editor.theme === THEME.DARK ? THEME.LIGHT : THEME.DARK ));
     }
     destroy () {
-        if (this.editor.getModel()) {
-            this.editor.getModel().dispose();
+        let model = this.editor.getModel();
+        if (model) {
+            if (this.type === 'editor') {
+                model.dispose();
+            } else {
+                model.original.dispose();
+                model.modified.dispose();
+            }
         }
         this.editor.dispose();
         this.editor = null;
     }
     code (v) {
         if (v) {
-            this.editor.setValue(v);
+            if (this.type === 'editor') {
+                this.editor.setValue(v);
+            } else {
+                this.editor.getModel().modified.setValue(v);
+            }
             return this;
         } else {
-            return this.editor.getValue();
+            if (this.type === 'editor') {
+                return this.editor.getValue();
+            }
+            return this.editor.getModel().modified.getValue();
         }
     }
     resize () {
         if (this.editor)
             this.editor.layout();
+    }
+    getPosition () {
+        if (this.editor)
+            return this.editor.getPosition();
+        return {lineNumber: 0, column: 0};
     }
 }

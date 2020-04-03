@@ -1,6 +1,7 @@
 import {toast, loading} from 'tacl-ui';
 import event from '../../js/event';
 import {EVENT} from '../../js/constant';
+import {loadResources} from './lib';
 let inExe = false;
 let script = null;
 
@@ -9,14 +10,51 @@ export function exeHTML (code) {
         toast('正在执行中，请勿重复操作');
         return;
     }
-    let res = extractScript(code);
-    event.emit(EVENT.HTML_CONTENT_CHANGE, res.html);
-    if (res.js) {
-        exeJs(res.js);
+    let libs = [];
+    code = extractLink(code, libs);
+    let res = extractScript(code, libs);
+    code = res.html.trim();
+    let exe = () => {
+        event.emit(EVENT.HTML_CONTENT_CHANGE, res.html);
+        if (res.js) {
+            exeJs(res.js);
+        }
+    };
+    if (libs.length > 0) {
+        loadResources({
+            array: libs,
+            jsboxLib: false,
+            isDep: true,
+            success () {
+                exe();
+            }
+        });
+    } else {
+        exe();
     }
 }
 
-export function extractScript (html) {
+function extractLink (html, libs) {
+    html = transformLess(html);
+    let reg = /<link(.|\n)*?href( ?)*=(.|\n)*?>/g;
+    let res = html.match(reg);
+    if (!res) {
+        return html;
+    }
+    res.forEach(item => {
+        html = html.replace(item, '');
+        let arr = item.match(/href *?= *?["'].*["']/);
+        if (arr) {
+            arr = arr[0].match(/["'].*["']/);
+            if (arr) {
+                libs.push(arr[0].substring(1, arr[0].length - 1));
+            }
+        }
+    });
+    return html;
+}
+
+export function extractScript (html, libs) {
     html = transformLess(html);
     let reg = /<script(.|\n)*?>(.|\n)*?<\/script>/g;
     let arr = html.match(reg);
@@ -25,7 +63,6 @@ export function extractScript (html) {
     }
     let js = arr.map(item => {
         if (!(/<script(.|\n)*?src( ?)*=(.|\n)*?>/.test(item))) {
-            html = html.replace(item, ''); // 待提取src
             let _js = extractContent(item);
             if (/<script(.|\n)*? babel(>|([ \n=]+.*?>))/.test(item) && window.Babel) {
                 let opt = {presets: ['es2015']};
@@ -35,7 +72,16 @@ export function extractScript (html) {
                 _js = window.Babel.transform(_js, opt).code;
             }
             return _js;
+        } else {
+            let arr = item.match(/src *?= *?["'].*["']/);
+            if (arr) {
+                arr = arr[0].match(/["'].*["']/);
+                if (arr) {
+                    libs.push(arr[0].substring(1, arr[0].length - 1));
+                }
+            }
         }
+        html = html.replace(item, ''); // 待提取src
         return '';
     }).join('\n').trim();
     if (js) {

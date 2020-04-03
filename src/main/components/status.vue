@@ -4,17 +4,20 @@
             <i class='ei-book'></i>
             <span>{{env.lib}}</span>
         </span>
-        <span v-if='env.env!==""' class='status-item hover' title='运行环境'>
+        <span v-if='env.env!==""' class='status-item hover' @click='selectEnv' title='运行环境'>
             <i class='ei-cube-alt'></i>
             <span>{{env.env}}</span>
         </span>
-        <span v-if='env.lang!==""' class='status-item hover' title='语言'>
+        <span v-if='env.lang!==""' class='status-item hover' @click='selectLang' title='语言'>
             <i class='ei-code'></i>
             <span>{{env.lang}}</span>
         </span>
         <span class='status-item'>
             <i :class='file.modified?"ei-file":"ei-file-code"' :title='file.modified?"未暂存":"已暂存"' @click='saveCode'></i>
             <span title='文件大小'>{{file.size}}</span>
+        </span>
+        <span class='status-item status-right'>
+            行 {{lineNumber}}, 列 {{column}}
         </span>
     </div>
 </template>
@@ -23,14 +26,16 @@
     import {EVENT} from '../js/constant';
     import {LANG} from './js/editor';
     import {fileStatus, envStstus} from './js/status-plugin';
-    import {dragPercent} from '../js/status';
+    // import {dragPercent} from '../js/status';
     export default {
         data () {
             return {
-                percent: dragPercent.get(),
+                percent: 100,
                 codeFull: false,
                 file: fileStatus.data,
                 env: envStstus.data,
+                lineNumber: 0,
+                column: 0,
             };
         },
         mounted () {
@@ -41,11 +46,18 @@
                 [EVENT.LANG_CHANGE]: (lang) => {
                     this.codeFull = (lang !== LANG.JAVASCRIPT && lang !== LANG.HTML);
                 },
+                [EVENT.CURSOR_CHANGE]: (position) => {
+                    this.lineNumber = position.lineNumber;
+                    this.column = position.column;
+                },
             });
         },
         methods: {
             saveCode: fileStatus.method.saveCode,
             showLib: envStstus.method.showLib,
+            selectEnv: envStstus.method.selectEnv,
+            selectLang: envStstus.method.selectLang,
+            
         }
     };
 </script>
@@ -68,6 +80,8 @@
         text-overflow: ellipsis;
         &.code-full{
             width: 100%!important;
+            bottom: 0!important;
+            transform: translateY(0)!important;
         }
         i{
             cursor: pointer;
@@ -81,13 +95,16 @@
                 cursor: pointer;
                 color: #ddd;
             }
+            &.status-right{
+                float:right;
+            }
         }
     }
     @media (max-width: 600px){
         .jsbox-status-bar{
             width: 100%!important;
-            top: 50%;
-            transform: translateY(-10px);
+            bottom: 50%;
+            transform: translateY(16px);
         }
     }
 </style>
