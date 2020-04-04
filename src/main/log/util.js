@@ -9,7 +9,7 @@ export function generateLogBlock (type) {
     tool.append(block, hide);
     return block;
 }
-export function copyText (str, log = true) {
+export function copyText (str) {
     var input = document.getElementById('_copy_input_');
     if (!input) {
         input = document.createElement('input');
@@ -26,10 +26,9 @@ export function copyText (str, log = true) {
 
     try {
         if (document.execCommand('Copy')) {
-            if (log)
-                console.tc('复制内容成功');
+            console.log('复制内容成功');
         } else {
-            console.tc('复制内容失败');
+            console.log('复制内容失败');
         }
     } catch (err) {
         console.error('浏览器不支持复制功能');

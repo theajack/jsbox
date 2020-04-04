@@ -1,7 +1,8 @@
 export const MENU_TYPE = {
     OPEN: 'open',
     LINK: 'link',
-    FUNC: 'func'
+    FUNC: 'func',
+    SPLIT: 'split'
 };
 
 export const EVENT = {
@@ -35,6 +36,8 @@ export const EVENT = {
     OPEN_DIFF: 'OPEN_DIFF',
     CURSOR_CHANGE: 'CURSOR_CHANGE',
     OPEN_FILE: 'OPEN_FILE',
+    TOGGLE_FULLSCREEN: 'TOGGLE_FULLSCREEN',
+    CONSOLE_VAL_CHANGE: 'CONSOLE_VAL_CHANGE',
     // drag相关
     DRAG_PERCENT: 'DRAG_PERCENT',
     DRAG_STATUS: 'DRAG_STATUS',

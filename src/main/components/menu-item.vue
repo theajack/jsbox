@@ -6,11 +6,13 @@
             <i v-else :class='"ei-"+icon'></i>
         </div>
         <div v-if='items.length>0' class='menu-item-dropdown'>
-            <div class='menu-dd-item' v-for='(item,index) in items' :key='index' @click.stop='menuItemClick(item)'>
-                <i v-if='item.icon' :class='"ei-"+item.icon+" ddi-icon"'></i>
-                <span class='dd-link ddi-name'>{{item.title}}{{item.type===MENU_TYPE.OPEN?'…':''}}</span>
-                <span v-if='item.key' class='dd-link ddi-key'>{{item.key.join('+')}}</span>
-                <i v-if='item.type===MENU_TYPE.LINK' class='ei-angle-right ddi-link'></i>
+            <div v-for='(item,index) in items' class='menu-dd-item' :class='{"menu-split":item.type === MENU_TYPE.SPLIT}' :key='index' @click.stop='menuItemClick(item)'>
+                <span v-if='item.type!==MENU_TYPE.SPLIT'>
+                    <i v-if='item.icon' :class='"ei-"+item.icon+" ddi-icon"'></i>
+                    <span class='dd-link ddi-name'>{{item.title}}{{item.type===MENU_TYPE.OPEN?'…':''}}</span>
+                    <span v-if='item.key' class='dd-link ddi-key'>{{item.key.join('+')}}</span>
+                    <i v-if='item.type===MENU_TYPE.LINK' class='ei-angle-right ddi-link'></i>
+                </span>
             </div>
         </div>
     </div>
@@ -109,6 +111,8 @@
         z-index: 2;
         font-size: 13px;
         color: #555;
+        padding: 3px 0;
+        margin-top: -1px;
     }
     .menu-item.active .menu-item-dropdown{
         display: block;
@@ -124,6 +128,11 @@
         white-space: nowrap;
         padding: 0 24px;
         cursor: pointer;
+    }
+    .menu-split{
+        border-bottom: 1px solid #e2e2e2;
+        width: 94%;
+        margin: 5px auto;
     }
     .menu-dd-item:hover{
         background-color:#dcdcdc;

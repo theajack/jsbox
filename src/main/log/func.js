@@ -2,6 +2,7 @@ import tool from './tool';
 import TYPE from './type';
 let state = TYPE.all;
 let laseEl;
+
 function gc (el, type) {
     let cls = 'log-func log-' + type;
     if (type === state) {
@@ -34,20 +35,25 @@ function gc (el, type) {
 export function generateFunc (log) {
     let el = log.blockList;
     laseEl = gc(el, TYPE.all);
+    let array = [
+        tool.create('div', 'log-func log-clear', '+', () => {
+            log.blockList.innerHTML = '';
+            // console.log('Console all clear');
+        }),
+        gc(el, TYPE.error),
+        gc(el, TYPE.warn),
+        gc(el, TYPE.info),
+        gc(el, TYPE.log),
+        // gc(el, TYPE.tc),
+        laseEl
+    ];
+    let title = ['清空log(ctrl+e)', 'error', 'warning', 'info', 'log', '显示全部'];
+    array.forEach((item, index) => {
+        item.title = title[index];
+    });
     return tool.append(
         tool.create('div', 'log-funcs'),
-        [
-            tool.create('div', 'log-func log-clear', '+', () => {
-                log.blockList.innerHTML = '';
-                console.tc('Console all clear');
-            }),
-            gc(el, TYPE.error),
-            gc(el, TYPE.warn),
-            gc(el, TYPE.info),
-            gc(el, TYPE.log),
-            gc(el, TYPE.tc),
-            laseEl
-        ]
+        array
     );
 }
 export function checkType (el, type) {

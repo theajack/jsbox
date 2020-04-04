@@ -27,7 +27,7 @@ html *{
     border-left: 1px solid #ddd;
     background-color: #fff;
     position: relative;
-    padding-left:4px;
+    // padding-left:4px;
     &.log-hide{
         display: none;
     }
@@ -97,11 +97,12 @@ html *{
     position: absolute;
     left: 0;
     height: 100%;
-    width: 4px;
-    background-color: #ddd; /* 浏览器不支持时显示 */
-    background-image: linear-gradient(#ddd, #0299ff, #ddd);
+    width: 6px;
+    // background-color: #ddd; /* 浏览器不支持时显示 */
+    // background-image: linear-gradient(#ddd, #0299ff, #ddd);
+    background-color: transparent;
     cursor: ew-resize;
-    box-shadow: 0 0 5px 0 #444;
+    // box-shadow: 0 0 5px 0 #444;
     z-index: 1;
 }
 .j-code{
@@ -137,6 +138,9 @@ html *{
 }
 .tc-log-func.tc-log-clear {
     line-height: 14px!important;
+}
+.tc-log-func.tc-log-tc {
+    border-color: #ccc!important;
 }
 .g-confirm-gamer .g-confirm-confirm {
     border: 1px solid #409EFF;
@@ -269,6 +273,9 @@ body.dark{
     .menu-dd-item:hover {
         background-color: #444;
     }
+    .menu-split{
+        border-bottom: 1px solid #555;
+    }
     .log-html{
         background-color: #1e1e1e;
         color: #fff;
@@ -334,10 +341,10 @@ body.dark{
     .log-panel{
         border-left: 1px solid #222;
     }
-    .drag-bar{
-        background-color: #4f4f4f;
-        background-image: linear-gradient(#4f4f4f, #007acc, #4f4f4f);
-    }
+    // .drag-bar{
+    //     background-color: #4f4f4f;
+    //     background-image: linear-gradient(#4f4f4f, #007acc, #4f4f4f);
+    // }
     @media (min-width: 600px) {
         .menu-item-dropdown i:hover {
             color: #fff;

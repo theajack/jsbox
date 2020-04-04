@@ -30,6 +30,7 @@ export function initConsole (el) {
     });
     element.addEventListener('input', function () {
         currentValue = this.innerText;
+        event.emit(EVENT.CONSOLE_VAL_CHANGE, currentValue);
     });
 }
 function getCursorLine () {
@@ -78,6 +79,7 @@ function prev () {
     if (historyIndex > 0) {
         historyIndex--;
         element.innerText = history[historyIndex];
+        event.emit(EVENT.CONSOLE_VAL_CHANGE, history[historyIndex]);
         focusEnd();
     }
 }
@@ -86,9 +88,11 @@ function next () {
     if (historyIndex < history.length - 1) {
         historyIndex++;
         element.innerText = history[historyIndex];
+        event.emit(EVENT.CONSOLE_VAL_CHANGE, history[historyIndex]);
         focusEnd();
     } else if (element.innerText !== currentValue) {
         element.innerText = currentValue;
+        event.emit(EVENT.CONSOLE_VAL_CHANGE, currentValue);
         historyIndex++;
         focusEnd();
     }

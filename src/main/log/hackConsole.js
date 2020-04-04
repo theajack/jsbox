@@ -6,8 +6,8 @@ let hconsole = {
 };
 function hackConsole () {
     // 定义一个输出运行js结果的函数
-    window.console.tc = window.console.log;
-    window.console.html = window.console.log;
+    // window.console.tc = window.console.log;
+    // window.console.html = window.console.log;
     TYPE.list.forEach((name) => {
         hack(name);
     });

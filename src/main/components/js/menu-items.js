@@ -4,7 +4,7 @@ import {code, language, theme} from '../../js/status';
 import {copyText} from '../../log/util';
 import {LANG, THEME} from './editor';
 import {exeHTML, exeJs} from './execute';
-import {toast} from '../../js/util';
+import {toast, openFullscreen, closeFullscreen, isFullScreen} from '../../js/util';
 import {download, openFile} from './file';
 
 export let menus = [
@@ -45,6 +45,8 @@ export let menus = [
                 });
             },
             type: MENU_TYPE.FUNC,
+        }, {
+            type: MENU_TYPE.SPLIT
         }, {
             icon: 'copy',
             title: '复制',
@@ -91,6 +93,8 @@ export let menus = [
                 event.regist(EVENT.RESET_CODE, this.onclick);
             },
             type: MENU_TYPE.FUNC,
+        }, {
+            type: MENU_TYPE.SPLIT
         },  {
             icon: 'random',
             title: '与暂存版本对比',
@@ -103,6 +107,24 @@ export let menus = [
         title: '外观',
         active: false,
         items: [{
+            title: '放大字体',
+            icon: 'zoom-in',
+            key: ['ctrl', '-'], // 默认null
+            onclick () {
+                event.emit(EVENT.FONT_SIZE_CHANGE, 'up');
+                return false;
+            },
+        }, {
+            title: '缩小字体',
+            icon: 'zoom-out',
+            key: ['ctrl', '+'], // 默认null
+            onclick () {
+                event.emit(EVENT.FONT_SIZE_CHANGE, 'down');
+                return false;
+            },
+        }, {
+            type: MENU_TYPE.SPLIT
+        }, {
             title: '切换深色主题',
             icon: 'moon',
             key: ['ctrl', 'p'],
@@ -121,26 +143,37 @@ export let menus = [
             mounted () {
                 this.methods.setInfo(this);
                 event.regist(EVENT.THEME_TOGGLE, () => {
-                    this.onclick(this);
+                    this.onclick();
                 });
             }
-        },
-        {
-            title: '放大字体',
-            icon: 'zoom-in',
-            key: ['ctrl', '-'], // 默认null
-            onclick () {
-                event.emit(EVENT.FONT_SIZE_CHANGE, 'up');
-                return false;
-            },
         }, {
-            title: '缩小字体',
-            icon: 'zoom-out',
-            key: ['ctrl', '+'], // 默认null
-            onclick () {
-                event.emit(EVENT.FONT_SIZE_CHANGE, 'down');
-                return false;
+            title: '全屏',
+            icon: 'expand-full',
+            key: ['f11'],
+            methods: {
+                fullScreenChange () {
+                    let isfull = !isFullScreen();
+                    this.icon = isfull ? 'expand-full' : 'collapse-full';
+                    this.title = isfull ? '全屏' : '退出全屏';
+                    return isfull;
+                }
             },
+            onclick () {
+                let isFullScreen = this.methods.fullScreenChange.call(this);
+                if (isFullScreen) {
+                    openFullscreen();
+                } else {
+                    closeFullscreen();
+                }
+            },
+            mounted () {
+                document.onfullscreenchange = () => {
+                    this.methods.fullScreenChange.call(this);
+                };
+                event.regist(EVENT.TOGGLE_FULLSCREEN, () => {
+                    this.onclick();
+                });
+            }
         }]
     }, {
         title: '环境',
@@ -162,7 +195,9 @@ export let menus = [
             },
             type: MENU_TYPE.OPEN,
         }, {
-            title: '开发语言',
+            type: MENU_TYPE.SPLIT,
+        }, {
+            title: '选择开发语言',
             icon: 'terminal',
             key: ['ctrl', 'g'], // 默认null
             onclick () {
@@ -190,6 +225,8 @@ export let menus = [
                 event.regist(EVENT.GENE_LINK, this.onclick);
             },
             type: MENU_TYPE.FUNC,
+        }, {
+            type: MENU_TYPE.SPLIT
         }, {
             title: '使用说明',
             icon: 'info',

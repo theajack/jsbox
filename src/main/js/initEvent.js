@@ -13,9 +13,15 @@ export function initResize () {
 let timer = null;
 
 function onKeyDown (e) {
+    let c = (s) => {return s.charCodeAt(0);};
+    let pd = () => {e.preventDefault();};
+    if (e.keyCode === 122) {
+        event.emit(EVENT.TOGGLE_FULLSCREEN);
+        pd();
+        return;
+    }
+
     if (e.ctrlKey) {
-        let c = (s) => {return s.charCodeAt(0);};
-        let pd = () => {e.preventDefault();};
         let eventName = '', value = null;
         switch (e.keyCode) {
             case c('M'):eventName = EVENT.THEME_TOGGLE; pd(); break;

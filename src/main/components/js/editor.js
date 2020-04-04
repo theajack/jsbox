@@ -88,13 +88,15 @@ export class Editor {
         theme = THEME.LIGHT,
         fontSize = DEFAULT_FONT_SIZE,
         onchange = null,
-        oncursorchange = null
+        oncursorchange = null,
+        option = {}
     }) {
         initMonaco();
         this.onchange = onchange;
         this.oncursorchange = oncursorchange;
         this.fontSize = fontSize;
         this.lang = lang;
+        this.option = option;
         this.el = (typeof el === 'string') ? document.querySelector(el) : el;
         if (diffCode) {
             this.type = 'diff-editor';
@@ -113,22 +115,20 @@ export class Editor {
         code = typeof code === 'string' ? code : this.code();
         if (this.editor)
             this.destroy();
+        this.option.fontSize = this.fontSize;
         if (this.type === 'diff-editor') {
-            this.editor = Monaco.editor.createDiffEditor(this.el, {
-                enableSplitViewResizing: false,
-                fontSize: this.fontSize
-            });
+            this.option.enableSplitViewResizing = false;
+            this.editor = Monaco.editor.createDiffEditor(this.el, this.option);
             this.changeLang(this.lang, code);
         } else {
-            this.editor = Monaco.editor.create(this.el, {
-                model: null,
-                fontSize: this.fontSize
-            });
+            this.option.model = null;
+            this.option.fontSize = this.fontSize;
+            this.editor = Monaco.editor.create(this.el, this.option);
             this.changeLang(this.lang, code);
         }
         if (this.onchange) {
             this.editor.onDidChangeModelContent(() => {
-                this.onchange();
+                this.onchange(this.code());
             });
         }
         if (this.oncursorchange) {
@@ -196,7 +196,7 @@ export class Editor {
         this.editor = null;
     }
     code (v) {
-        if (v) {
+        if (typeof v === 'string') {
             if (this.type === 'editor') {
                 this.editor.setValue(v);
             } else {
@@ -218,5 +218,23 @@ export class Editor {
         if (this.editor)
             return this.editor.getPosition();
         return {lineNumber: 0, column: 0};
+    }
+    getLines (code) {
+        if (typeof code === 'string') {
+            return code.split('\n').length;
+        }
+        return this.code().split('\n').length;
+    }
+    focusEnd (needFocus = true) {
+        let arr = this.code().split('\n');
+        this.editor.setPosition({
+            lineNumber: arr.length,
+            column: arr[arr.length - 1].length + 1
+        });
+        if (needFocus)
+            this.focus();
+    }
+    focus () {
+        this.editor.focus();
     }
 }

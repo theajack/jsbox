@@ -20,9 +20,9 @@ export let fileStatus = (() => {
     };
     function fixSize (size) {
         if (size < 1000) {
-            return size + ' bytes';
+            return size + ' byte';
         }
-        return parseFloat((size / 1000).toFixed(2)) + ' kb';
+        return parseFloat((size / 1024).toFixed(2)) + ' kb';
     }
     function setSize () {
         modifiedWithSize = false;

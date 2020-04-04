@@ -113,7 +113,7 @@ function generateOpenItem (block, key, value) {
 // 生成一个不可展开的head
 function generateUnopenHead () {
     return tool.create('div', 'log-obj-head log-ell log-node', '', function () {
-        console.tc(this.innerText);
+        console.log(this.innerText);
     });
 }
 

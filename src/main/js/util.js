@@ -163,3 +163,57 @@ export function checkElOverflow (el) {
         el.style.left = left + 'px';
     }
 }
+
+
+export function openFullscreen () {
+    let elem = document.documentElement;
+    try {
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen().catch(() => {});
+        } else if (elem.mozRequestFullScreen) {
+            /* Firefox */
+            elem.mozRequestFullScreen().catch(() => {});
+        } else if (elem.webkitRequestFullscreen) {
+            /* Chrome, Safari and Opera */
+            elem.webkitRequestFullscreen().catch(() => {});
+        } else if (elem.msRequestFullscreen) {
+            /* IE/Edge */
+            elem.msRequestFullscreen().catch(() => {});
+        }
+    } catch (e) {}
+}
+
+export function closeFullscreen () {
+    try {
+        if (document.exitFullscreen) {
+            document.exitFullscreen().catch(() => {});
+        } else if (document.mozCancelFullScreen) {
+        /* Firefox */
+            document.mozCancelFullScreen().catch(() => {});
+        } else if (document.webkitExitFullscreen) {
+        /* Chrome, Safari and Opera */
+            document.webkitExitFullscreen().catch(() => {});
+        } else if (document.msExitFullscreen) {
+        /* IE/Edge */
+            document.msExitFullscreen().catch(() => {});
+        }
+    } catch (e) {}
+}
+export function isFullScreen () {
+    return (document.fullscreenElement ||
+           document.msFullscreenElement  ||
+           document.mozFullScreenElement ||
+           document.webkitFullscreenElement || null) !== null;
+}
+
+export function debounce (fn, time) {
+    var timeout = null;
+    return function (...args) {
+        var self = this;
+        if (timeout !== null) { clearTimeout(timeout); }
+        timeout = setTimeout(function () {
+            fn.apply(self, args);
+            timeout = null;
+        }, time);
+    };
+};

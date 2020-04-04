@@ -15,9 +15,11 @@ export function exeHTML (code) {
     let res = extractScript(code, libs);
     code = res.html.trim();
     let exe = () => {
-        event.emit(EVENT.HTML_CONTENT_CHANGE, res.html);
+        event.emit(EVENT.HTML_CONTENT_CHANGE, code);
         if (res.js) {
-            exeJs(res.js);
+            setTimeout(() => {
+                exeJs(res.js);
+            }, 50);
         }
     };
     if (libs.length > 0) {
@@ -62,6 +64,7 @@ export function extractScript (html, libs) {
         return {html, js: ''};
     }
     let js = arr.map(item => {
+        html = html.replace(item, ''); // 待提取src
         if (!(/<script(.|\n)*?src( ?)*=(.|\n)*?>/.test(item))) {
             let _js = extractContent(item);
             if (/<script(.|\n)*? babel(>|([ \n=]+.*?>))/.test(item) && window.Babel) {
@@ -81,7 +84,6 @@ export function extractScript (html, libs) {
                 }
             }
         }
-        html = html.replace(item, ''); // 待提取src
         return '';
     }).join('\n').trim();
     if (js) {

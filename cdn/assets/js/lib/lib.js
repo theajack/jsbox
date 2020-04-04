@@ -16,9 +16,9 @@ window.jsbox_libs = {
         'url': 'https://cdn.jsdelivr.net/npm/react-dom@16.13.1/umd/react-dom.production.min.js',
         'deps': ['react']
     },
-    'angular': {
+    'angularjs': {
         'version': '1.7.9',
-        'url': 'https://cdn.jsdelivr.net/npm/angular@1.7.9/index.min.js'
+        'url': 'https://cdn.bootcss.com/angular.js/1.7.9/angular.min.js'
     },
     'vuex': {
         'version': '3.1.3',

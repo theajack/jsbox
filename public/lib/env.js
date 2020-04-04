@@ -104,12 +104,27 @@ log('中华人民共和国'.stroke('array'));
         code: /* html*/`<div id="example"></div>
 <script babel react>
     ReactDOM.render(
-    <h1>Hello, world!</h1>,
-    document.getElementById('example')
+        <h1>Hello, world!</h1>,
+        document.getElementById('example')
     );
 </script>`,
         type: 'html',
         deps: ['react-dom']
+    },
+    'angularjs': {
+        code: `<div ng-app="myApp" ng-controller="myCtrl">
+    名字: <input ng-model="name">
+    <h1>你输入了: {{name}}</h1>
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+    $scope.name = "John Doe";
+});
+</script>`,
+        type: 'html',
+        deps: ['angularjs']
     }
 };
 /**
