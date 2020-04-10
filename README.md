@@ -15,7 +15,7 @@ JSBox 是一个通用的 在线js运行环境，您可以通过编写配置文�
 #### 1. npm 安装 
 
 ```
-npm install jsbox
+npm install jsbox-util
 ```
 
 ```js
