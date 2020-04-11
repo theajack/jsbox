@@ -1,7 +1,7 @@
 import event from '../../js/event';
 import {EVENT} from '../../js/constant';
 import {LANG} from './editor';
-import {toast} from '../../js/util';
+import {toast, getUrlParam} from '../../js/util';
 import {Libs} from './lib';
 import {code as Code, language} from '../../js/status';
 
@@ -52,14 +52,15 @@ export let fileStatus = (() => {
     event.regist(EVENT.SAVE_CODE, () => {
         data.modified = false;
     });
-    
-    window.addEventListener('beforeunload', function (e) {
-        if (fileStatus.data.modified) {
-            var confirmationMessage = '\o/';
-            (e || window.event).returnValue = confirmationMessage;
-            return confirmationMessage;
-        }
-    });
+    if (getUrlParam('remind') !== 'false') {
+        window.addEventListener('beforeunload', function (e) {
+            if (fileStatus.data.modified) {
+                var confirmationMessage = '\o/';
+                (e || window.event).returnValue = confirmationMessage;
+                return confirmationMessage;
+            }
+        });
+    }
 
     setTimeout(() => {
         setSize();
