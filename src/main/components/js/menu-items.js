@@ -4,8 +4,10 @@ import {code, language, theme} from '../../js/status';
 import {copyText} from '../../log/util';
 import {LANG, THEME} from './editor';
 import {exeHTML, exeJs} from './execute';
-import {toast, openFullscreen, closeFullscreen, isFullScreen} from '../../js/util';
+import {toast, openFullscreen, closeFullscreen, isFullScreen, getUrlParam} from '../../js/util';
 import {download, openFile} from './file';
+import {isCustomConfig} from './config';
+import {Libs} from './lib';
 
 export let menus = [
     {
@@ -204,6 +206,18 @@ export let menus = [
                 event.emit(EVENT.OPEN_LANG_CHOOSE);
             },
             type: MENU_TYPE.OPEN,
+        }, {
+            type: MENU_TYPE.SPLIT,
+            visible: isCustomConfig,
+        }, {
+            title: '选择自定义代码',
+            icon: 'paper-clip',
+            visible: isCustomConfig,
+            // key: ['ctrl', 'g'], // 默认null
+            onclick () {
+                event.emit(EVENT.OPEN_CONFIG_CHOOSE);
+            },
+            type: MENU_TYPE.OPEN,
         }]
     }, {
         title: '帮助',
@@ -213,8 +227,14 @@ export let menus = [
             icon: 'link',
             onclick () {
                 event.emit(EVENT.USE_CODE, (code) => {
-                    const host = 'https://theajack.gitee.io/';
-                    let url = `${host}jsbox?theme=${theme.get()}`;
+                    const host = `${location.protocol}//${location.host}/`;
+                    let url = `${host}jsbox?theme=${theme.get()}&lang=${language.get()}&lib=${Libs.join(',')}`;
+                    ['mes', 'remind', 'run'].forEach((item) => {
+                        let value = getUrlParam(item);
+                        if (value) {
+                            url += `&${item}=${value}`;
+                        }
+                    });
                     url += `&code=${encodeURIComponent(code)}`;
                     console.log(url);
                     copyText(url, false);
@@ -231,7 +251,7 @@ export let menus = [
             title: '使用说明',
             icon: 'info',
             onclick () {
-                const host = 'https://theajack.gitee.io/';
+                const host = `${location.protocol}//${location.host}/`;
                 window.open(`${host}jsbox#hello`);
             },
             type: MENU_TYPE.LINK,

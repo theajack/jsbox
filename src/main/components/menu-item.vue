@@ -6,7 +6,12 @@
             <i v-else :class='"ei-"+icon'></i>
         </div>
         <div v-if='items.length>0' class='menu-item-dropdown'>
-            <div v-for='(item,index) in items' class='menu-dd-item' :class='{"menu-split":item.type === MENU_TYPE.SPLIT}' :key='index' @click.stop='menuItemClick(item)'>
+            <div v-for='(item,index) in items'
+                 class='menu-dd-item'
+                 :class='{"menu-split":item.type === MENU_TYPE.SPLIT}'
+                 :key='index'
+                 @click.stop='menuItemClick(item)'
+                 v-show='item.visible!==false'>
                 <span v-if='item.type!==MENU_TYPE.SPLIT'>
                     <i v-if='item.icon' :class='"ei-"+item.icon+" ddi-icon"'></i>
                     <span class='dd-link ddi-name'>{{item.title}}{{item.type===MENU_TYPE.OPEN?'…':''}}</span>

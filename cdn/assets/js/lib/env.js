@@ -1,6 +1,6 @@
 window.jsbox_envs = {
     'element-ui': {
-        type: 'html',
+        lang: 'html',
         code:
         /* html*/`<div id='app'>
 <el-form ref="form" :model="form" label-width="80px">
@@ -97,7 +97,7 @@ log('中华人民共和国'.stroke('array'));
     })
 </script>
         `,
-        type: 'html',
+        lang: 'html',
         deps: ['vue']
     },
     'react': {
@@ -108,7 +108,7 @@ log('中华人民共和国'.stroke('array'));
         document.getElementById('example')
     );
 </script>`,
-        type: 'html',
+        lang: 'html',
         deps: ['react-dom']
     },
     'angularjs': {
@@ -123,7 +123,7 @@ app.controller('myCtrl', function($scope) {
     $scope.name = "John Doe";
 });
 </script>`,
-        type: 'html',
+        lang: 'html',
         deps: ['angularjs']
     }
 };

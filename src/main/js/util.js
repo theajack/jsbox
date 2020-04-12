@@ -42,9 +42,9 @@ export function getUrlParam (name, defVal) {
 }
 
 export function parseUrlParam (search, name, defVal) {
-    if (search === true) {
-        search = decodeURIComponent(window.location.search);
-    }
+    // if (search === true) {
+    //     search = decodeURIComponent(window.location.search);
+    // }
     if (search[search.length - 1] === '/') {
         search = search.substr(0, search.length - 1);
     }
@@ -53,7 +53,8 @@ export function parseUrlParam (search, name, defVal) {
             let reg = new RegExp('(^|&)' + name + '=([^&]*?)(&|$)', 'i');
             let r = search.substr(1).match(reg);
             if (r != null) {
-                return unescape(r[2]);
+                // return unescape(r[2]); //unescape会将汉字乱码
+                return r[2];
             }
         }
         return (typeof defVal !== 'undefined') ? defVal : null;

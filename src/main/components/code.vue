@@ -77,11 +77,19 @@
         },
         methods: {
             initCode () {
+                let autoRun = getUrlParam('run') !== 'false';
                 theme.init(getUrlParam('theme'));
                 initConfig(code, () => {
-                    event.emit(EVENT.RUN_CODE);
+                    if (autoRun) {
+                        event.emit(EVENT.RUN_CODE);
+                    }
                 }, () => {
                     let _code = getUrlParam('code');
+                    if (_code === null) {
+                        _code = '';
+                    } else {
+                        _code = decodeURIComponent(_code);
+                    }
                     let _lang = getUrlParam('lang');
                     if (_lang === 'js' || _lang === 'javascript') {
                         _lang = LANG.JAVASCRIPT;
@@ -95,6 +103,9 @@
                     }
                     code.init(_code);
                     language.init(_lang);
+                    if (_code !== '' && autoRun) {
+                        event.emit(EVENT.RUN_CODE);
+                    }
                 });
             }
         }

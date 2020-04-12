@@ -1,7 +1,9 @@
 import {tool as $, loading} from 'tacl-ui';
-import {toast} from '../../js/util';
+import {toast, getUrlParam} from '../../js/util';
 import {EVENT} from '../../js/constant';
 import event from '../../js/event';
+
+let showToastConfig = getUrlParam('mes') !== 'false';
 
 export const LOAD_TYPE = {
     SET: 'set',
@@ -127,11 +129,13 @@ export function loadResources ({
                 num ++;
                 if (num >= array.length) {
                     loading(`${(isDep) ? '依赖: ' : ''}${num} / ${array.length}`);
-                    if (isDep) {
-                        toast.info('依赖加载完成');
-                    } else {
-                        if (showToast) {
-                            toast.success(`所有${(isDep) ? '依赖: ' : '资源'}加载成功!`);
+                    if (showToastConfig) {
+                        if (isDep) {
+                            toast.info('依赖加载完成');
+                        } else {
+                            if (showToast) {
+                                toast.success(`所有${(isDep) ? '依赖: ' : '资源'}加载成功!`);
+                            }
                         }
                     }
                     loading.close();

@@ -19,6 +19,7 @@
         <lib-select></lib-select>
         <env-select></env-select>
         <lang-select></lang-select>
+        <config-select v-if='isCustomConfig'></config-select>
         <confirm-box></confirm-box>
         <diff-editor></diff-editor>
     </div>
@@ -28,18 +29,21 @@
     import libSelect from './select/lib.vue';
     import envSelect from './select/env.vue';
     import langSelect from './select/language.vue';
+    import configSelect from './select/config.vue';
     import confirmBox from './select/confirm.vue';
     import diffEditor from './diff-code.vue';
     import {goGithub, checkElOverflow} from '../js/util';
     import {menus} from './js/menu-items';
+    import {isCustomConfig} from './js/config';
     import $ from 'easy-dom-util';
     export default {
-        components: {JsboxMenuItem, libSelect, envSelect, langSelect, confirmBox, diffEditor},
+        components: {JsboxMenuItem, libSelect, envSelect, langSelect, configSelect, confirmBox, diffEditor},
         data () {
             return {
                 hasActiveItem: false,
                 ignoreClick: false,
                 menus,
+                isCustomConfig: isCustomConfig
             };
         },
         mounted () {

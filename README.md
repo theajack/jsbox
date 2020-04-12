@@ -63,6 +63,9 @@ JSBox.open({
 4. config: 使用自定义的配置文件url
 5. id: 使用指定的id加载代码块，需要与config参数一起使用
 6. env: 使用[jsbox预定义的运行环境](https://github.com/theajack/jsbox/blob/master/cdn/env.js)
+7. run: 当有code时，会自动运行，如不希望自动运行，请设置 run=false
+8. remind: 默认当代码改变时离开或刷新页面 会触发弹窗提示，如不希望提示，请设置 remind=false
+9. mes: 加载第三方库时会有加载提示，如不希望提示，请设置 mes=false
 
 
 ## 2. 操作手册

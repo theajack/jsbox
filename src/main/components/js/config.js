@@ -9,6 +9,12 @@ import event from '../../js/event';
 
 // config > env > lib
 
+export let isCustomConfig = (() => {
+    let config = getUrlParam('config');
+    let id = getUrlParam('id');
+    return (config !== null && id !== null);
+})();
+
 function setCode (v) {
     code.init(v, false);
 }
@@ -34,13 +40,7 @@ function initEnv (serachCode, success) {
     }
     let _code = envs[env].code || serachCode || '';
     _code = _code.trim();
-    let lang = envs[env].type;
-    if (lang === 'html') {
-        lang = LANG.HTML;
-    } else if (lang === 'js' || lang === 'javascript' || typeof lang === 'undefined') {
-        lang = LANG.JAVASCRIPT;
-    }
-    language.init(lang, false);
+    extractLang(envs[env]);
     if (envs[env].deps && envs[env].deps.length > 0) {
         loadResources({
             array: envs[env].deps,
@@ -56,6 +56,42 @@ function initEnv (serachCode, success) {
         event.emit(EVENT.SET_ENV, env);
     }
     return true;
+}
+
+function extractLang (obj) {
+    let lang = obj.lang;
+    if (lang === 'html') {
+        lang = LANG.HTML;
+    } else if (lang === 'js' || lang === 'javascript' || typeof lang === 'undefined') {
+        lang = LANG.JAVASCRIPT;
+    }
+    language.init(lang, false);
+    return lang;
+}
+
+export function getConfigCodes () {
+    let configs = window.jsbox_config;
+    if (!configs || !configs.codes) {
+        return [];
+    }
+    let data = [];
+    for (let k in configs.codes) {
+        let item = configs.codes[k];
+        if (typeof item === 'string') {
+            item = {
+                code: item,
+                id: k
+            };
+        }
+        data.push({
+            code: item.code,
+            lang: item.lang || 'javascript',
+            dep: item.dep || [],
+            desc: item.desc || '',
+            id: k
+        });
+    }
+    return data;
 }
 
 export function initConfig (serachCode, success = () => {}, none = () => {}) {
@@ -78,6 +114,7 @@ export function initConfig (serachCode, success = () => {}, none = () => {}) {
                 let _code, value = config.codes[id];
                 if (typeof value === 'object') {
                     _code = value.code || serachCode;
+                    extractLang(value);
                     let deps = value.dep;
                     if (!deps || !(deps instanceof Array)) { // 没有dep
                         loadDeps({

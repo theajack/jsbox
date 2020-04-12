@@ -13,9 +13,15 @@ window.jsbox_config = {
     codes: { //
         'helloWorld': 'console.log("Hello world")', // 默认使用上面定义的所有依赖
         'testCnchar': {
+            desc: '测试',
             code: 'cnchar.spell("你好")',
             dep: ['cnchar-order'], // 定义依赖，优先从当前文件中查找，如果没有会尝试在jsbox预定义库中查找
         },
+        'test': {
+            lang: 'html',
+            code: '<div>111</div><script>cnchar.spell("你好")</script>',
+            dep: ['cnchar-order'], // 定义依赖，优先从当前文件中查找，如果没有会尝试在jsbox预定义库中查找
+        }
     }
 };
 
