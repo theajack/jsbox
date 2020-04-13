@@ -87,22 +87,22 @@ window.jsbox_libs = {
     'cnchar-poly': {
         'version': '2.1.3',
         url: 'https://cdn.jsdelivr.net/npm/cnchar-poly@2.1.3/cnchar.poly.min.js',
-        dep: ['cnchar']
+        deps: ['cnchar']
     },
     'cnchar-order': {
         'version': '2.1.3',
         url: 'https://cdn.jsdelivr.net/npm/cnchar-order@2.1.3/cnchar.order.min.js',
-        dep: ['cnchar']
+        deps: ['cnchar']
     },
     'cnchar-trad': {
         'version': '2.1.3',
         url: 'https://cdn.jsdelivr.net/npm/cnchar-trad@2.1.3/cnchar.trad.min.js',
-        dep: ['cnchar']
+        deps: ['cnchar']
     },
     'cnchar-draw': {
         'version': '2.1.3',
         url: 'https://cdn.jsdelivr.net/npm/cnchar-draw@2.1.3/cnchar.draw.min.js',
-        dep: ['cnchar']
+        deps: ['cnchar']
     },
     'cnchar-all': {
         'version': '2.1.3',

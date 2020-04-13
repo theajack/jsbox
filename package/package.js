@@ -20,18 +20,33 @@ module.exports = {
         def: '/dist/xlsx.min.js'
     },
     'recast': '',
-    'cnchar': 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.latest.min.js',
+    'cnchar': {
+        'version': '2.1.3',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar@2.1.3/cnchar.min.js',
+    },
     'cnchar-poly': {
-        url: 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.poly.min.js',
+        'version': '2.1.3',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-poly@2.1.3/cnchar.poly.min.js',
         deps: ['cnchar']
     },
     'cnchar-order': {
-        url: 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.order.min.js',
+        'version': '2.1.3',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-order@2.1.3/cnchar.order.min.js',
         deps: ['cnchar']
     },
     'cnchar-trad': {
-        url: 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.trad.min.js',
+        'version': '2.1.3',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-trad@2.1.3/cnchar.trad.min.js',
         deps: ['cnchar']
+    },
+    'cnchar-draw': {
+        'version': '2.1.3',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-draw@2.1.3/cnchar.draw.min.js',
+        deps: ['cnchar']
+    },
+    'cnchar-all': {
+        'version': '2.1.3',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-all@2.1.3/cnchar.all.min.js'
     },
     'easy-icon': {
         url: 'https://cdn.jsdelivr.net/gh/theajack/easy-icon/dist/easy-icon.min.css',
