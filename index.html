@@ -19,7 +19,10 @@
     <script src="./cdn/assets/js/lib/babel.standalone.js"></script>
     <script src="./cdn/assets/js/lib/less.standalone.js" ></script>
     <!-- <script>var require = { paths: { 'vs': 'http://localhost:8080/vs' } };</script> -->
-    <script>var require = { paths: { 'vs': 'https://theajack.gitee.io/jsbox/cdn/assets/js/vs' } };</script>
+    <script>
+        var host = (!location.host || location.host.indexOf('localhost')!==-1)?'theajack.gitee.io':location.host;
+        var require = { paths: { 'vs': 'https://'+host+'/jsbox/cdn/assets/js/vs' } };
+    </script>
     <script src="./cdn/assets/js/vs/loader.js"></script>
     <script src="./cdn/assets/js/vs/editor/editor.main.nls.js"></script>
     <script src="./cdn/assets/js/vs/editor/editor.main.js"></script>
