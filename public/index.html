@@ -19,7 +19,10 @@
     
     <script src="./lib/babel.standalone.js"></script>
     <script src="./lib/less.standalone.js" ></script>
-    <script>var require = { paths: { 'vs': 'http://localhost:8080/vs' } };</script>
+    <script>
+    
+    var require = { paths: { 'vs': 'http://'+location.host+'/vs' } };
+    </script>
     <script src="./js/loader.js"></script>
     <script src="./js/editor.main.nls.js"></script>
     <script src="./js/editor.main.js"></script>
