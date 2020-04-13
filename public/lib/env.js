@@ -81,7 +81,7 @@ var app = new Vue({
 log('中华人民共和国'.spell());
 log('中华人民共和国'.stroke('array'));
 `,
-        deps: ['cnchar']
+        deps: ['cnchar-all']
     },
     'vue': {
         code: /* html*/`

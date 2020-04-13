@@ -80,18 +80,33 @@ window.jsbox_libs = {
         'version': '0.18.7',
         'url': 'https://cdn.jsdelivr.net/npm/recast@0.18.7/main.min.js'
     },
-    'cnchar': 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.latest.min.js',
+    'cnchar': {
+        'version': '2.1.3',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar@2.1.3/cnchar.min.js',
+    },
     'cnchar-poly': {
-        url: 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.poly.latest.min.js',
-        deps: ['cnchar']
+        'version': '2.1.3',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-poly@2.1.3/cnchar.poly.min.js',
+        dep: ['cnchar']
     },
     'cnchar-order': {
-        url: 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.order.latest.min.js',
-        deps: ['cnchar']
+        'version': '2.1.3',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-order@2.1.3/cnchar.order.min.js',
+        dep: ['cnchar']
     },
     'cnchar-trad': {
-        url: 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.trad.latest.min.js',
-        deps: ['cnchar']
+        'version': '2.1.3',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-trad@2.1.3/cnchar.trad.min.js',
+        dep: ['cnchar']
+    },
+    'cnchar-draw': {
+        'version': '2.1.3',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-draw@2.1.3/cnchar.draw.min.js',
+        dep: ['cnchar']
+    },
+    'cnchar-all': {
+        'version': '2.1.3',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-all@2.1.3/cnchar.all.min.js'
     },
     'easy-icon': {
         'url': 'https://cdn.jsdelivr.net/gh/theajack/easy-icon/dist/easy-icon.min.css',
