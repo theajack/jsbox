@@ -12,7 +12,10 @@
     "update": "node ./package/index.js",
     "build-npm": "webpack --config webpack-config/build-npm.js && npm run copy-cdn",
     "copy-cdn": "node ./helper/copy-cdn.js",
-    "publish": "npm publish npm"
+    "publish": "npm publish npm",
+    "dev:docs": "vuepress dev docs",
+    "build:docs": "vuepress build docs && npm run build:config",
+    "build:config": "node ./helper/build-config.js",
   },
   "author": "theajack",
   "repository": {
@@ -71,7 +74,16 @@
     "vue-template-compiler": "^2.6.11",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9",
-    "webpack-dev-server": "^3.8.2"
+    "webpack-dev-server": "^3.8.2",
+    "@vuepress/plugin-back-to-top": "^1.0.0-rc.1",
+    "@vuepress/plugin-medium-zoom": "^1.0.0-rc.1",
+    "chalk": "^3.0.0",
+    "highlight.js": "^9.15.8",
+    "inputmask": "^3.3.11",
+    "vue-highlight.js": "^2.2.0",
+    "vuepress": "^1.0.2",
+    "gulp-markdown-toc": "^1.1.0",
+    "vuepress-plugin-comment": "^0.7.3"
   },
   "dependencies": {
     "request": "^2.81.0"
