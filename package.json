@@ -15,7 +15,7 @@
     "publish": "npm publish npm",
     "dev:docs": "vuepress dev docs",
     "build:docs": "vuepress build docs && npm run build:config",
-    "build:config": "node ./helper/build-config.js",
+    "build:config": "node ./helper/build-config.js"
   },
   "author": "theajack",
   "repository": {
