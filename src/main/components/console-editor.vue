@@ -85,13 +85,16 @@
                     event.emit(EVENT.EDITOR_MOUNTED, this.editor);
                 });
             },
+            isSuggestClose () {
+                return document.getElementsByClassName('suggest-widget visible').length === 0;
+            },
             initEvent () {
                 this.editor.editor.onKeyDown((e) => {
                     let preventDefault = function () {
                         e.preventDefault();
                         e.stopPropagation();
                     };
-                    if (e.keyCode === 16 || e.keyCode === 18) { // up || down
+                    if ((e.keyCode === 16 || e.keyCode === 18) && this.isSuggestClose()) { // up || down
                         if (e.keyCode === 16 && currentLine === 1) {
                             this.prev();
                             preventDefault();

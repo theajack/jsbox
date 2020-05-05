@@ -67,7 +67,7 @@ function checkMaxLength (str) {
 }
 
 function generateLogSpan (div, str, cls) {
-    let span = tool.create('span', cls || 'obj-key', str);
+    let span = tool.create('span', cls || 'obj-key', str.toString());
     if (div.children.length === 0) {
         div.appendChild(span);
     } else {

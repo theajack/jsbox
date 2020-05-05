@@ -7,7 +7,7 @@ const FILES = 'files';
 let files = null;
 
 export function initFileSystem () {
-    debugger;
+    // debugger;
     let _f = read(FILES);
     if (!_f) {
         files = [];
