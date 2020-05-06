@@ -1,7 +1,9 @@
 <template>
     <div>
         <jsbox-menu></jsbox-menu>
+        <jsbox-files-header></jsbox-files-header>
         <div class='jsbox-main-panel' :class='{"no-select":inDrag}' :style="{height: height+'px'}">
+            <jsbox-files :list='files'></jsbox-files>
             <jsbox-code></jsbox-code>
             <jsbox-log></jsbox-log>
         </div>
@@ -11,30 +13,37 @@
     import './style/index.less';
     import './style/import.less';
     import JsboxMenu from './components/menu.vue';
+    import JsboxFiles from './components/files/files.vue';
+    import JsboxFilesHeader from './components/files/file-header.vue';
     import JsboxCode from './components/code.vue';
     import JsboxLog from './components/log.vue';
     import event from './js/event';
     import $ from 'easy-dom-util';
     import {EVENT, TOOL_HEIGHT} from './js/constant';
+    import {initFileSystem, FILE_HEIGHT} from './components/files/file-system';
     
     export default {
         components: {
+            JsboxFiles,
             JsboxMenu,
             JsboxCode,
-            JsboxLog
+            JsboxLog,
+            JsboxFilesHeader
         },
         data () {
             return {
                 height: 0,
                 inDrag: false,
+                files: []
             };
         },
         created () {
             this.initHeight();
+            this.files = initFileSystem();
         },
         methods: {
             initHeight () {
-                this.height = $.windowSize().height - TOOL_HEIGHT;
+                this.height = $.windowSize().height - TOOL_HEIGHT - FILE_HEIGHT;
             }
         },
         mounted () {

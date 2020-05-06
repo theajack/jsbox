@@ -11,9 +11,12 @@ export class JXFile {
         this.name = name;
         this.type = 'file';
         this.content = '';
+        if (this.parent && typeof this.parent !== 'string') {
+            this.parent.children.push(this);
+        }
     }
     getContent () {
-
+        return this.content;
     }
     save () {
         
@@ -25,11 +28,15 @@ export class JXFile {
 
 export class JXDir {
     constructor ({
-        name = 'file',
+        name = 'dir',
         parent = 'root',
     }) {
         this.type = 'dir';
         this.name = name;
         this.parent = parent;
+        this.children = [];
+    }
+    remove () {
+        
     }
 }

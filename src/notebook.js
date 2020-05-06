@@ -3,11 +3,13 @@ let storage = window.localStorage;
 export const TYPE = {
     CODE: 'code',
     THEME: 'theme',
-    DRAG_PERCENT: 'drag_percent',
-    DRAG_STATUS: 'drag_status',
     LANGUAGE: 'language',
     HTML_PANEL: 'html_panel',
     FONT_SIZE: 'font_size',
+    DRAG_PERCENT: 'drag_percent',
+    DRAG_STATUS: 'drag_status',
+    CODE_DRAG_PERCENT: 'code_drag_percent',
+    CODE_DRAG_STATUS: 'code_drag_status'
 };
 
 export function read (key) {

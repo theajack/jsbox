@@ -7,14 +7,10 @@
                :title='(htmlLog?"隐藏":"显示")+"log(ctrl + k)"'></i>
             <div class='log-content' v-html='html'></div>
         </div>
-        <div class='log-log' :class='{"hide-log": !htmlLog}'>
+        <div class='log-log' ref='logWrapper' :class='{"hide-log": !htmlLog}'>
             <div class='console-mask' @click='focuConsole'></div>
             <div ref='log'></div>
-            <div class='console-w'>
-                <i class='ei-angle-right console-i'></i>
-                <div v-show='showPh' class='console-placeholder'>运行代码…</div>
-                <div type='text' ref='console' contenteditable='true' class='console-input'></div>
-            </div>
+            <console-editor ref='editor' @onwheel='onwheel' @scrollToBottom='scrollToBottom'></console-editor>
         </div>
     </div>
 </template>
@@ -25,9 +21,12 @@
     import Log from '../log';
     import {LANG} from './js/editor';
     import {htmlLog, language, dragPercent} from '../js/status';
-    import {initConsole, focusEnd} from './js/log-console';
+    // import {initConsole, focusEnd} from './js/log-console';
+    // import {initConsole, focusEnd} from './js/log-console';
+    import ConsoleEditor from './console-editor.vue';
     let lang = language.get();
     export default {
+        components: {ConsoleEditor},
         data () {
             return {
                 percent: 100 - dragPercent.get(),
@@ -55,9 +54,6 @@
                 },
                 [EVENT.HTML_CONTENT_CHANGE]: (html) => {
                     this.html = html;
-                },
-                [EVENT.CONSOLE_VAL_CHANGE]: (val) => {
-                    this.showPh = val === '';
                 }
             });
             initDrag(this.$refs.drag);
@@ -70,51 +66,42 @@
                 log.page = this.$refs.log;
                 log.index = 0;
                 log.mounted();
-                initConsole(this.$refs.console);
+                // initConsole(this.$refs.console);
             },
             toggleLogShow () {
                 htmlLog.set(!this.htmlLog);
             },
-            focuConsole: focusEnd,
+            onwheel (scroll) {
+                let el = this.$refs.logWrapper;
+                let top = el.scrollTop + scroll;
+                if (top > el.scrollHeight) {
+                    el.scrollTop = el.scrollHeight;
+                } else if (top < 0) {
+                    el.scrollTop = 0;
+                } else {
+                    el.scrollTop = top;
+                }
+            },
+            scrollToBottom () {
+                let el = this.$refs.logWrapper;
+                el.scrollTop = el.scrollHeight;
+            },
+            focuConsole () {
+                this.$refs.editor.focuConsole();
+            }
         }
     };
 </script>
 <style lang="less">
     .log-log{
-        padding-bottom: 30px;
         .tc-log-list{
             padding-bottom: 0!important;
-        }
-        .console-w{
-            position: relative;
-            .console-i{
-                position: absolute;
-                top: 2px;
-            }
-            .console-input{
-                padding-left: 20px;
-                outline: none;
-                font-size: 13px;
-                position: relative;
-                top: 2px;
-            }
-            .console-placeholder{
-                font-size: 12px;
-                position: absolute;
-                padding-left: 21px;
-                top: 2px;
-                color: #bbb;
-            }
         }
         .console-mask{
             position: absolute;
             width: 100%;
             height: 100%;
-        }
-    }
-    body.dark{
-        .console-placeholder{
-            color: #666;
+            cursor: text;
         }
     }
 </style>

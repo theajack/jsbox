@@ -12,14 +12,11 @@ import './main/style/element.less';
 import './main/js/style';
 import {initResize, initKeyEvent} from './main/js/initEvent';
 import {initWindowFunc} from './main/js/util';
-import {initFileSystem} from './main/components/files/file-system';
 Vue.use(Dialog);
 Vue.use(Select);
 Vue.use(Option);
 Vue.use(Button);
 $.query('body').append($.create('div#jsbox-container'));
-
-initFileSystem();
 
 initResize();
 initKeyEvent();

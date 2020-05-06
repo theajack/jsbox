@@ -42,6 +42,8 @@ export const EVENT = {
     // drag相关
     DRAG_PERCENT: 'DRAG_PERCENT',
     DRAG_STATUS: 'DRAG_STATUS',
+    CODE_DRAG_PERCENT: 'CODE_DRAG_PERCENT',
+    CODE_DRAG_STATUS: 'CODE_DRAG_STATUS',
 };
 
 export const TOOL_HEIGHT = 30;

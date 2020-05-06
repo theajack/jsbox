@@ -1,6 +1,7 @@
 <template>
     <div class='log-panel' :class='{"log-hide": codeFull, "html-mode":isHtml}' :style='{width: percent+"%"}'>
-        <div class='drag-bar' ref='drag'></div>
+        <!-- <div class='drag-bar' ref='drag'></div> -->
+        <drag-bar name='log'></drag-bar>
         <div class='log-html' :class='{"hide-log": !htmlLog}'>
             <i :class='"ei-chevron-"+(htmlLog?"right":"left")'
                @click='toggleLogShow'
@@ -16,7 +17,6 @@
 </template>
 <script>
     import {EVENT} from '../js/constant';
-    import {initDrag} from '../js/initEvent';
     import event from '../js/event';
     import Log from '../log';
     import {LANG} from './js/editor';
@@ -24,9 +24,10 @@
     // import {initConsole, focusEnd} from './js/log-console';
     // import {initConsole, focusEnd} from './js/log-console';
     import ConsoleEditor from './console-editor.vue';
+    import DragBar from './drag-bar.vue';
     let lang = language.get();
     export default {
-        components: {ConsoleEditor},
+        components: {ConsoleEditor, DragBar},
         data () {
             return {
                 percent: 100 - dragPercent.get(),
@@ -56,7 +57,6 @@
                     this.html = html;
                 }
             });
-            initDrag(this.$refs.drag);
             this.initLog();
             htmlLog.init();
         },

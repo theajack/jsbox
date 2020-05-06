@@ -3,6 +3,7 @@ import {read, write, TYPE} from '../../notebook';
 import event from './event';
 import {EVENT} from './constant';
 
+
 function generateStatus ({
     def,
     name,
@@ -28,8 +29,13 @@ function generateStatus ({
             this.emit(emitThis);
         },
         emit (emitThis = true) {
-            if (emit && emitThis)
-                event.emit(emit, this._value);
+            if (emit && emitThis) {
+                if (typeof emit === 'string') {
+                    event.emit(emit, this._value);
+                } else if (typeof emit === 'function') {
+                    emit(this._value);
+                }
+            }
         },
         stash (value, emitThis = true) {
             this._value = value;
@@ -47,23 +53,23 @@ function generateStatus ({
     };
 }
 
+export let status = {};
+
+export function buildStatus (name, options) {
+    if (!status[name]) {
+        options.name = name;
+        status[name] = generateStatus(options);
+    }
+    return status[name];
+}
+
+
 export const theme = generateStatus({
     def: THEME.LIGHT,
     name: TYPE.THEME,
     emit: EVENT.THEME_CHANGE
 });
 
-export const dragPercent = generateStatus({
-    def: 50,
-    name: TYPE.DRAG_PERCENT,
-    emit: EVENT.DRAG_PERCENT
-});
-
-export const dragStatus = generateStatus({
-    def: false,
-    name: TYPE.DRAG_STATUS,
-    emit: EVENT.DRAG_STATUS
-});
 
 export const code = generateStatus({
     def: '',
@@ -86,3 +92,50 @@ export const fontSize = generateStatus({
     name: TYPE.FONT_SIZE,
     emit: EVENT.FONT_SIZE_CHANGE
 });
+
+export const dragPercentOption = {
+    def: 50,
+    name: TYPE.DRAG_PERCENT,
+    emit: EVENT.DRAG_PERCENT
+};
+
+export const dragPercent = generateStatus(dragPercentOption);
+
+export const dragStatusOption = {
+    def: false,
+    name: TYPE.DRAG_STATUS,
+    emit: EVENT.DRAG_STATUS
+};
+
+export const dragStatus = generateStatus(dragStatusOption);
+
+export const codeDragPercent = generateStatus({
+    def: 50,
+    name: TYPE.CODE_DRAG_PERCENT,
+    emit: EVENT.CODE_DRAG_PERCENT
+});
+
+export const codeDragStatus = generateStatus({
+    def: false,
+    name: TYPE.CODE_DRAG_STATUS,
+    emit: EVENT.CODE_DRAG_STATUS
+});
+
+export function getDragStatus (name) {
+    if (name === 'log') {
+        return {
+            percent: dragPercent,
+            status: dragStatus,
+            percentEvent: EVENT.DRAG_PERCENT,
+            statusEvent: EVENT.DRAG_STATUS
+        };
+    }
+    if (name === 'code') {
+        return {
+            percent: codeDragPercent,
+            status: codeDragStatus,
+            percentEvent: EVENT.CODE_DRAG_PERCENT,
+            statusEvent: EVENT.CODE_DRAG_STATUS
+        };
+    }
+}
