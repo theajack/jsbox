@@ -9,9 +9,13 @@ export const TYPE = {
     LANGUAGE: 'language',
     HTML_PANEL: 'html_panel',
     FONT_SIZE: 'font_size',
+    HISTORY: 'history'
 };
 
-const encodeList = [TYPE.CODE];
+const encodeList = [
+    TYPE.CODE,
+    TYPE.HISTORY
+];
 
 function checkEncode (key, value, encode = true) {
     if (encodeList.indexOf(key) !== -1) {
@@ -36,7 +40,7 @@ export function read (key) {
     } else if (type === 'boolean') {
         return value === 'true';
     } else if (type === 'object') {
-        return JSON.parse(type);
+        return JSON.parse(value);
     }
     return value;
 }

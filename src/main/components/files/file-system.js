@@ -1,6 +1,5 @@
 // import {read, write, remove} from '../../../notebook';
 import {read} from '../../js/notebook';
-// import LZString from 'lz-string';
 
 const FILES = 'files';
 

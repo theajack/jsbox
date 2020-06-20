@@ -1,17 +1,22 @@
-import lzString from 'lz-string';
+import {
+    compressToEncodedURIComponent,
+    decompressFromEncodedURIComponent,
+    compress as _compress,
+    decompress as _decompress,
+} from 'lz-string';
 
 export function compressUrl (str) {
-    return lzString.compressToEncodedURIComponent(str);
+    return compressToEncodedURIComponent(str);
 }
 
 export function decompressUrl (str) {
-    return lzString.decompressFromEncodedURIComponent(str);
+    return decompressFromEncodedURIComponent(str);
 }
 
 export function compress (str) {
-    return lzString.compress(str);
+    return _compress(str);
 }
 
 export function decompress (str) {
-    return lzString.decompress(str);
+    return _decompress(str);
 }
