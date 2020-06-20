@@ -73,7 +73,6 @@ export function extractScript (html, libs) {
                     opt.presets.push('react');
                 }
                 _js = window.Babel.transform(_js, opt).code;
-                debugger;
             }
             return _js;
         } else {
@@ -106,7 +105,6 @@ function transformLess (html) {
         if ((/<style(.|\n)*? less(>|([ \n=]+.*?>))/.test(item))) {
             let less = extractContent(item, 'style');
             let css = window.less.toCss(less);
-            debugger;
             html = html.replace(less, css); // 待提取src
         }
     });

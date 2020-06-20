@@ -18,7 +18,6 @@ Vue.use(Select);
 Vue.use(Option);
 Vue.use(Button);
 $.query('body').append($.create('div#jsbox-container'));
-
 initFileSystem();
 
 initResize();

@@ -1,4 +1,4 @@
-import {write, read} from './notebook';
+import {write, read} from './main/js/notebook';
 import {getUrlParam, exeJs} from './util';
 import {toast} from 'tacl-ui';
 let _editor = null;

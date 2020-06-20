@@ -12,6 +12,7 @@
     import {getUrlParam, DEFAULT_CODE, toast} from '../js/util';
     import {initConfig} from './js/config';
     import StatusBar from './status.vue';
+    import {decompressUrl} from '../js/compress';
     export default {
         components: {StatusBar},
         data () {
@@ -88,7 +89,7 @@
                     if (_code === null) {
                         _code = '';
                     } else {
-                        _code = decodeURIComponent(_code);
+                        _code = decompressUrl(_code);
                     }
                     let _lang = getUrlParam('lang');
                     if (_lang === 'js' || _lang === 'javascript') {

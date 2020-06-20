@@ -8,6 +8,7 @@ import {toast, openFullscreen, closeFullscreen, isFullScreen, getUrlParam} from 
 import {download, openFile} from './file';
 import {isCustomConfig} from './config';
 import {Libs} from './lib';
+import {compressUrl} from '../../js/compress';
 
 export let menus = [
     {
@@ -235,7 +236,7 @@ export let menus = [
                             url += `&${item}=${value}`;
                         }
                     });
-                    url += `&code=${encodeURIComponent(code)}`;
+                    url += `&code=${compressUrl(code)}`;
                     console.log(url);
                     copyText(url, false);
                     toast('代码链接已复制到剪切板');
