@@ -9,6 +9,7 @@ export const PARAM = {
     RUN: 'run',
     REMIND: 'remind',
     MES: 'mes',
+    LANG: 'lang'
 };
 
 export const THEME = {

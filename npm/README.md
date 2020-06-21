@@ -57,6 +57,7 @@ JSBox.config({
     config?: string;
     id?: string;
     env?: string;
+    lang?: string;
     run?: boolean;
     mes?: boolean;
     remind?: boolean;
@@ -70,22 +71,25 @@ JSBox.open({
 
 ```
 
+theme, lib, env, lang 可用值请参考3.3参数说明
+
 ##### 3.2 内嵌JSBox
 
 功能开发中......
 
 ##### 3.3 参数说明
 
-1. theme: 开启dark代码编辑模式，默认为normal
+1. theme: 开启dark代码编辑模式，默认为light, 可选dark
 2. code: 设置编辑器代码，需要经过 encodeURIComponent
-3. lib: 加载第三方库，可以是一个url或者[jsbox预定义的库](https://github.com/theajack/jsbox/blob/master/src/npm/index.d.ts)，需要经过 encodeURIComponent
+3. lib: 加载第三方库，可以是一个url或者[jsbox预定义的库#L26](https://github.com/theajack/jsbox/blob/master/src/npm/index.d.ts)，需要经过 encodeURIComponent
     如果不是url，且不在jsbox预定义库中，jsbox会尝试从unpkg官网获取，但不保证可用
 4. config: 使用自定义的配置文件url
 5. id: 使用指定的id加载代码块，需要与config参数一起使用
-6. env: 使用[jsbox预定义的运行环境](https://github.com/theajack/jsbox/blob/master/src/npm/index.d.ts)
-7. run: 当有code时，会自动运行，如不希望自动运行，请设置 run=false
-8. remind: 默认当代码改变时离开或刷新页面 会触发弹窗提示，如不希望提示，请设置 remind=false
-9. mes: 加载第三方库时会有加载提示，如不希望提示，请设置 mes=false
+6. env: 使用[jsbox预定义的运行环境](https://github.com/theajack/jsbox/blob/master/src/npm/index.d.ts#L58)
+7. lang: 设置[开发语言](https://github.com/theajack/jsbox/blob/master/src/npm/index.d.ts#L76)，优先级低于 env 和 config+id 中配置的语言
+8. run: 当有code时，会自动运行，如不希望自动运行，请设置 run=false
+9. remind: 默认当代码改变时离开或刷新页面 会触发弹窗提示，如不希望提示，请设置 remind=false
+10. mes: 加载第三方库时会有加载提示，如不希望提示，请设置 mes=false
 
 ## 2. 操作手册
 

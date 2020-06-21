@@ -5,7 +5,7 @@
 </template>
 <script>
     import '../style/editor.less';
-    import {Editor, LANG, THEME, loadMonaco} from './js/editor';
+    import {Editor, LANG, THEME, loadMonaco, ALIAS} from './js/editor';
     import event from '../js/event';
     import {EVENT} from '../js/constant';
     import {code, language, theme, fontSize, dragPercent} from '../js/status';
@@ -92,11 +92,8 @@
                         _code = decompressUrl(_code);
                     }
                     let _lang = getUrlParam('lang');
-                    if (_lang === 'js' || _lang === 'javascript') {
-                        _lang = LANG.JAVASCRIPT;
-                    }
-                    if (_lang === 'html') {
-                        _lang = LANG.HTML;
+                    if (ALIAS[_lang]) {
+                        _lang = ALIAS[_lang];
                     }
                     if (location.hash === '#hello') {
                         _code = DEFAULT_CODE;

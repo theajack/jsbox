@@ -2,6 +2,8 @@ declare type envs = "element-ui" | "cnchar" | "vue" | "react" | "angularjs";
 
 declare type libs = "jquery" | "vue" | "react" | "react-dom" | "angularjs" | "vuex" | "redux" | "loadsh" | "virtual-dom" | "node-html-parser" | "jest" | "mocha" | "moment" | "dayjs" | "underscore" | "axios" | "qrcode" | "backbone" | "js-xlsx" | "recast" | "cnchar" | "cnchar-poly" | "cnchar-order" | "cnchar-trad" | "cnchar-draw" | "cnchar-all" | "easy-icon" | "element-ui" | "element-ui-style";
 
+declare type lang = "js" | "ts" | "cs" | "oc" | "py" | "javascript" | "html" | "css" | "json" | "typescript" | "python" | "cpp" | "c" | "csharp" | "java" | "go" | "markdown" | "sql" | "objective-c" | "swift" | "kotlin" | "php" | "less" | "scss" | "coffeescript" | "mysql" | "xml" | "pascal" | "perl" | "lua" | "r" | "redis" | "ruby" | "rust" | "shell" | "powershell" | "yaml" | "dockerfile" | "graphql" | "handlebars" | "bat" | "clojure" | "plaintext" | "pug";
+
 declare type theme = "dark" | "light";
 
 declare interface PARAM {
@@ -61,6 +63,17 @@ declare interface ENV {
     'angularjs': 'angularjs'
 };
 
+declare interface LANG {
+    'JAVASCRIPT': 'javascript'; 'HTML': 'html'; 'CSS': 'css'; 'JSON': 'json'; 'TYPESCRIPT': 'typescript';
+    'PYTHON': 'python'; 'C++': 'cpp'; 'C': 'c'; 'C#': 'csharp'; 'JAVA': 'java'; 'GO': 'go'; 'MARKDOWN': 'markdown';
+    'SQL': 'sql'; 'OBJECTIVE-C': 'objective-c'; 'SWIFT': 'swift'; 'KOTLIN': 'kotlin'; 'PHP': 'php';
+    'LESS': 'less'; 'SCSS': 'scss'; 'COFFEESCRIPT': 'coffeescript'; 'MYSQL': 'mysql'; 'XML': 'xml';
+    'PASCAL': 'pascal'; 'PERL': 'perl'; 'LUA': 'lua'; 'R': 'r'; 'REDIS': 'redis'; 'RUBY': 'ruby';
+    'RUST': 'rust'; 'SHELL': 'shell'; 'POWERSHELL': 'powershell'; 'YAML': 'yaml'; 'DOCKERFILE': 'dockerfile';
+    'GRAPHQL': 'graphql'; 'HANDLEBARS': 'handlebars'; 'BAT': 'bat'; 'CLOJURE': 'clojure';
+    'PLAINTEXT': 'plaintext'; 'PUG': 'pug'
+};
+
 declare interface config {
     theme?: theme;
     code?: string;
@@ -68,6 +81,7 @@ declare interface config {
     config?: string;
     id?: string;
     env?: envs;
+    lang?: lang;
     run?: boolean;
     mes?: boolean;
     remind?: boolean;
@@ -77,9 +91,10 @@ declare interface JSBoxStatic {
     open(options?: config): void;
     config(options?: config): config;
     PARAM: PARAM;
-    THEME: THEME,
+    THEME: THEME;
     ENV: ENV;
     LIB: LIB;
+    LANG: LANG;
 };
 
 declare const JSBox:JSBoxStatic;

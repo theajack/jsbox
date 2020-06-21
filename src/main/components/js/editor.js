@@ -26,6 +26,14 @@ export const LANG = {
     'PLAINTEXT': 'plaintext', 'PUG': 'pug'
 };
 
+export const ALIAS = {
+    js: 'javascript',
+    ts: 'typescript',
+    cs: 'coffeescript',
+    oc: 'objective-c',
+    py: 'python'
+};
+
 export const DEFAULT_FONT_SIZE = 14;
 const MAX_FONT_SIZE = 20;
 const MIN_FONT_SIZE = 10;

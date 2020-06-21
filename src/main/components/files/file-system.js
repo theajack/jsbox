@@ -13,7 +13,8 @@ export function initFileSystem () {
     } else {
 
     }
-    console.log(files);
+    return files;
+    // console.log(files);
 }
 
 // function compress (str) {

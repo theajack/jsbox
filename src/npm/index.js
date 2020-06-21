@@ -20,6 +20,7 @@ let CONFIG = {
     run: null,
     remind: null,
     mes: null,
+    lang: null,
 };
 
 const BASE_URL = 'https://theajack.gitee.io/jsbox?';
@@ -37,8 +38,13 @@ function open (options) {
     } else if (_config[PARAM.LIB]) {
         url = appendParam(url, PARAM.LIB, _config);
     }
-    if ((!((_config[PARAM.CONFIG] && _config[PARAM.ID]) || _config[PARAM.ENV])) && _config[PARAM.CODE]) {
-        url = appendParam(url, PARAM.CODE, _config);
+    if (!((_config[PARAM.CONFIG] && _config[PARAM.ID]) || _config[PARAM.ENV])) {
+        if (_config[PARAM.CODE]) {
+            url = appendParam(url, PARAM.CODE, _config);
+        }
+        if (_config[PARAM.LANG]) {
+            url = appendParam(url, PARAM.LANG, _config);
+        }
     }
     // 公共参数
     [
