@@ -1,5 +1,5 @@
 // import {read, write, remove} from '../../../notebook';
-import {read} from '../../../notebook';
+import {read} from '../../js/notebook';
 import {JXDir, JXFile} from './file';
 // import event from '../../js/event';
 // import LZString from 'lz-string';
@@ -25,6 +25,7 @@ export function initFileSystem () {
     console.log(files);
     window.files = files;
     return files;
+    // console.log(files);
 }
 
 // function compress (str) {

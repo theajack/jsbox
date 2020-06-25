@@ -5,13 +5,14 @@
 </template>
 <script>
     import '../style/editor.less';
-    import {Editor, LANG, THEME, loadMonaco} from './js/editor';
+    import {Editor, LANG, THEME, loadMonaco, ALIAS} from './js/editor';
     import event from '../js/event';
     import {EVENT} from '../js/constant';
     import {code, language, theme, fontSize, dragPercent} from '../js/status';
     import {getUrlParam, DEFAULT_CODE, toast} from '../js/util';
     import {initConfig} from './js/config';
     import StatusBar from './status.vue';
+    import {decompressUrl} from '../js/compress';
     export default {
         components: {StatusBar},
         data () {
@@ -88,14 +89,11 @@
                     if (_code === null) {
                         _code = '';
                     } else {
-                        _code = decodeURIComponent(_code);
+                        _code = decompressUrl(_code);
                     }
                     let _lang = getUrlParam('lang');
-                    if (_lang === 'js' || _lang === 'javascript') {
-                        _lang = LANG.JAVASCRIPT;
-                    }
-                    if (_lang === 'html') {
-                        _lang = LANG.HTML;
+                    if (ALIAS[_lang]) {
+                        _lang = ALIAS[_lang];
                     }
                     if (location.hash === '#hello') {
                         _code = DEFAULT_CODE;

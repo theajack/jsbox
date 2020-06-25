@@ -1,5 +1,5 @@
 import {THEME, LANG, DEFAULT_FONT_SIZE} from '../components/js/editor';
-import {read, write, TYPE} from '../../notebook';
+import {read, write, TYPE} from './notebook';
 import event from './event';
 import {EVENT} from './constant';
 

@@ -104,7 +104,8 @@ function transformLess (html) {
     arr.forEach(item => {
         if ((/<style(.|\n)*? less(>|([ \n=]+.*?>))/.test(item))) {
             let less = extractContent(item, 'style');
-            html = html.replace(less, window.less.toCss(less)); // 待提取src
+            let css = window.less.toCss(less);
+            html = html.replace(less, css); // 待提取src
         }
     });
     return html;

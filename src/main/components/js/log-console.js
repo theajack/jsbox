@@ -1,9 +1,9 @@
 import event from '../../js/event';
 import {EVENT} from '../../js/constant';
-import {write, read} from '../../js/notebook';
+import {write, read, TYPE} from '../../js/notebook';
 
 let historyMax = 50;
-let history = read('history') || [];
+let history = read(TYPE.HISTORY) || [];
 let historyIndex = history.length;
 let element = null;
 let currentValue = '';
@@ -72,7 +72,7 @@ function pushToHistory (code) {
     historyIndex = history.length;
     element.innerText = '';
     currentValue = '';
-    write('history', history);
+    write(TYPE.HISTORY, history);
 }
 
 function prev () {
