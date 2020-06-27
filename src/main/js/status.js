@@ -1,7 +1,6 @@
-import {THEME, LANG, DEFAULT_FONT_SIZE} from '../components/js/editor';
 import {read, write, TYPE} from './notebook';
 import event from './event';
-import {EVENT} from './constant';
+import {EVENT, THEME, LANG, DEFAULT_FONT_SIZE} from './constant';
 
 
 function generateStatus ({
@@ -121,6 +120,19 @@ export const codeDragStatus = generateStatus({
     emit: EVENT.CODE_DRAG_STATUS
 });
 
+
+export const fileDragPercent = generateStatus({
+    def: 20,
+    name: TYPE.FILE_DRAG_PERCENT,
+    emit: EVENT.FILE_DRAG_PERCENT
+});
+
+export const fileDragStatus = generateStatus({
+    def: false,
+    name: TYPE.FILE_DRAG_STATUS,
+    emit: EVENT.FILE_DRAG_STATUS
+});
+
 export function getDragStatus (name) {
     if (name === 'log') {
         return {
@@ -136,6 +148,14 @@ export function getDragStatus (name) {
             status: codeDragStatus,
             percentEvent: EVENT.CODE_DRAG_PERCENT,
             statusEvent: EVENT.CODE_DRAG_STATUS
+        };
+    }
+    if (name === 'file') {
+        return {
+            percent: fileDragPercent,
+            status: fileDragStatus,
+            percentEvent: EVENT.FILE_DRAG_PERCENT,
+            statusEvent: EVENT.FILE_DRAG_STATUS
         };
     }
 }

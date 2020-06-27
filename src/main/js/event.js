@@ -78,7 +78,7 @@ class _event {
     }
 }
 
-export default {
+let event = {
     EVENT, // 事件枚举
     // init, // 初始化一个事件（注册一个发布者） // 初始化与注册和到一起
     emit, // 触发事件
@@ -86,3 +86,7 @@ export default {
     checkEvent, // 检查是否存在事件
     remove
 };
+
+export let evt = event;
+
+export default event;

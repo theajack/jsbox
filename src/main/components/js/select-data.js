@@ -1,4 +1,5 @@
-import {LANG} from './editor';
+import {LANG} from '../../js/constant';
+
 export const langs = (() => {
     let arr = [];
     for (let k in LANG) {

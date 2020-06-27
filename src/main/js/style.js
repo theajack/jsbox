@@ -1,5 +1,5 @@
 
-import 'easy-icon';
+// import 'easy-icon';
 import $ from 'easy-dom-util';
 import '../style/index.less';
 import {TOOL_HEIGHT} from './constant';

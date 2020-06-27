@@ -6,9 +6,9 @@
     </div>
 </template>
 <script>
-    import {Editor, loadMonaco, LANG} from './js/editor';
+    import {Editor, loadMonaco} from './js/editor';
     import event from '../js/event';
-    import {EVENT} from '../js/constant';
+    import {EVENT, LANG} from '../js/constant';
     import {fontSize, theme} from '../js/status';
     import {write, read} from '../js/notebook';
     // import {debounce} from '../js/util';

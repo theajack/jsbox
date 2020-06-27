@@ -2,9 +2,8 @@
 
 import {getUrlParam} from '../../js/util';
 import {loadResources} from './lib';
-import {LANG} from './editor';
 import {language, code} from '../../js/status';
-import {EVENT} from '../../js/constant';
+import {EVENT, LANG} from '../../js/constant';
 import event from '../../js/event';
 
 // config > env > lib

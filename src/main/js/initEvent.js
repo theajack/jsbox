@@ -39,7 +39,13 @@ function onKeyDown (e) {
             case 189:eventName = EVENT.FONT_SIZE_CHANGE; value = 'down'; pd(); break;
             case c('Y'):eventName = EVENT.RUN_CODE; pd(); break;
         }
-        if (eventName) {
+        
+        if (e.altKey) {
+            switch (e.keyCode) {
+                case c('S'):eventName = EVENT.SAVE_SINGLE_CODE; pd(); break;
+            }
+        }
+        if (eventName) { // 防止快速重复出发两次事件
             if (timer !== null) {
                 return true;
             }

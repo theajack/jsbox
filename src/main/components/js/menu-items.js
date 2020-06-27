@@ -1,8 +1,7 @@
-import {MENU_TYPE, EVENT} from '../../js/constant';
+import {MENU_TYPE, EVENT, LANG, THEME} from '../../js/constant';
 import event from '../../js/event';
 import {code, language, theme} from '../../js/status';
 import {copyText} from '../../log/util';
-import {LANG, THEME} from './editor';
 import {exeHTML, exeJs} from './execute';
 import {toast, openFullscreen, closeFullscreen, isFullScreen, getUrlParam} from '../../js/util';
 import {download, openFile} from './file';
@@ -27,25 +26,50 @@ export let menus = [
             type: MENU_TYPE.OPEN,
         }, {
             icon: 'save',
-            title: '暂存',
+            title: '全部保存',
             key: ['ctrl', 's'], // 默认null
             onclick () {
-                event.emit(EVENT.USE_CODE, (value) => {
-                    code.set(value, true, false);
-                    toast('暂存代码成功');
-                });
+                // event.emit(EVENT.USE_CODE, (value) => {
+                //     code.set(value, true, false);
+                //     toast('保存代码成功');
+                // });
+                event.emit(EVENT.SAVE_CODE);
             },
-            mounted () {
-                event.regist(EVENT.SAVE_CODE, this.onclick);
+            // mounted () {
+            //     event.regist(EVENT.SAVE_CODE, this.onclick);
+            // },
+            type: MENU_TYPE.FUNC,
+        }, {
+            icon: 'save',
+            title: '保存当前文件',
+            key: ['alt', 's'], // 默认null
+            onclick () {
+                // event.emit(EVENT.USE_CODE, (value) => {
+                //     code.set(value, true, false);
+                //     toast('保存代码成功');
+                // });
+                event.emit(EVENT.SAVE_SINGLE_CODE);
             },
+            // mounted () {
+            //     event.regist(EVENT.SAVE_CODE, this.onclick);
+            // },
             type: MENU_TYPE.FUNC,
         }, {
             icon: 'download-alt',
-            title: '保存到本地',
+            title: '保存当前文件到本地',
             onclick () {
                 setTimeout(() => {
                     download();
                 });
+            },
+            type: MENU_TYPE.FUNC,
+        }, {
+            icon: 'download-alt',
+            title: '保存当前项目到本地',
+            onclick () {
+                // setTimeout(() => {
+                //     download();
+                // });
             },
             type: MENU_TYPE.FUNC,
         }, {
@@ -130,7 +154,7 @@ export let menus = [
         }, {
             title: '切换深色主题',
             icon: 'moon',
-            key: ['ctrl', 'p'],
+            key: ['ctrl', 'm'],
             methods: {
                 setInfo (item) {
                     let isDark = theme.get() === THEME.DARK;

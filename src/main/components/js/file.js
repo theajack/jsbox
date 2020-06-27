@@ -1,7 +1,6 @@
 import event from '../../js/event';
-import {EVENT} from '../../js/constant';
+import {EVENT, LANG} from '../../js/constant';
 import {language} from '../../js/status';
-import {LANG} from './editor';
 import {toast} from '../../js/util';
 
 let downloadLink = null;
@@ -30,7 +29,7 @@ function getSuffix (language) {
     return '.' + language;
 }
 
-function getLang (fileName) {
+export function getLang (fileName) {
     let suffix = '';
     if (fileName.indexOf('.') === -1) {
         return LANG.PLAINTEXT;

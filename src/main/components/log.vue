@@ -16,10 +16,9 @@
     </div>
 </template>
 <script>
-    import {EVENT} from '../js/constant';
+    import {EVENT, LANG} from '../js/constant';
     import event from '../js/event';
     import Log from '../log';
-    import {LANG} from './js/editor';
     import {htmlLog, language, dragPercent} from '../js/status';
     // import {initConsole, focusEnd} from './js/log-console';
     // import {initConsole, focusEnd} from './js/log-console';

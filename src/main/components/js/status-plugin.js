@@ -1,6 +1,5 @@
 import event from '../../js/event';
-import {EVENT} from '../../js/constant';
-import {LANG} from './editor';
+import {EVENT, LANG} from '../../js/constant';
 import {toast, getUrlParam} from '../../js/util';
 import {Libs} from './lib';
 import {code as Code, language} from '../../js/status';
@@ -15,7 +14,7 @@ export let fileStatus = (() => {
     };
     let method = {
         saveCode () {
-            event.emit(EVENT.SAVE_CODE);
+            event.emit(EVENT.SAVE_SINGLE_CODE);
         }
     };
     function fixSize (size) {
@@ -36,18 +35,19 @@ export let fileStatus = (() => {
             setSize();
         }
     }, 2000);
-    event.regist(EVENT.CODE_CHANGE, () => {
+    event.regist(EVENT.CODE_CHANGE, (code) => {
         modifiedWithSize = true;
         if (initial) {
             initial = false;
-            event.emit(EVENT.USE_CODE, (code) => {
-                data.modified = !(code === Code.get(true));
-            });
+            data.modified = !(code === Code.get(true));
         } else {
             if (!data.modified) {
                 data.modified = true;
             }
         }
+    });
+    event.regist(EVENT.COUNT_FILE_SIZE, () => {
+        setSize();
     });
     event.regist(EVENT.SAVE_CODE, () => {
         data.modified = false;
@@ -55,7 +55,7 @@ export let fileStatus = (() => {
     if (getUrlParam('remind') !== 'false') {
         window.addEventListener('beforeunload', function (e) {
             if (fileStatus.data.modified) {
-                var confirmationMessage = '\o/';
+                var confirmationMessage = '当前文件未保存，是否确认离开？';
                 (e || window.event).returnValue = confirmationMessage;
                 return confirmationMessage;
             }

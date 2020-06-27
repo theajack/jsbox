@@ -23,8 +23,7 @@
 </template>
 <script>
     import event from '../js/event';
-    import {EVENT} from '../js/constant';
-    import {LANG} from './js/editor';
+    import {EVENT, LANG} from '../js/constant';
     import {fileStatus, envStstus} from './js/status-plugin';
     // import {dragPercent} from '../js/status';
     export default {
@@ -104,7 +103,11 @@
         .jsbox-status-bar{
             width: 100%!important;
             bottom: 50%;
-            transform: translateY(16px);
+            // transform: translateY(16px);
+            transform: translateY(30px);
         }
+        // .jsbox-files .jsbox-status-bar{
+        //     transform: translateY(30px);
+        // }
     }
 </style>

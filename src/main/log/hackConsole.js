@@ -21,21 +21,25 @@ function hack (name) {
     let f = window.console[name];
     console['_' + name] = f;
     window.console[name] = function (...arg) {
-        f(...arg);
-        if (arg.length == 0) {
-            return;
-        }
-        if (arg.length === 1) {
-            arg = arg[0];
-            if (obejectViewer.test(arg)) {
-                hconsole.onConsole(obejectViewer(arg, name), arg, name);
-            } else {
-                hconsole.onConsole(valueViewer(arg, name), arg, name);
-            }
-        } else {
-            renderMutil(arg, name);
-        }
+        triggerLog(name, arg);
     };
+}
+
+function triggerLog (name, arg) {
+    console['_' + name](...arg);
+    if (arg.length == 0) {
+        return;
+    }
+    if (arg.length === 1) {
+        arg = arg[0];
+        if (obejectViewer.test(arg)) {
+            hconsole.onConsole(obejectViewer(arg, name), arg, name);
+        } else {
+            hconsole.onConsole(valueViewer(arg, name), arg, name);
+        }
+    } else {
+        renderMutil(arg, name);
+    }
 }
 
 function renderMutil (arg, name) {

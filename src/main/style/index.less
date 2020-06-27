@@ -6,9 +6,9 @@
     overflow: hidden;
 }
 
-.jsbox-main-panel.no-select{
-    user-select: none;
-    cursor: ew-resize;
+.jsbox-main-panel.no-select *{
+    user-select: none!important;
+    cursor: ew-resize!important;
 }
 body,html{
     margin: 0;
@@ -181,7 +181,7 @@ html *{
         border-left: none;
         border-top: 1px solid #eee;
     }
-    .drag-bar{
+    .drag-bar-log{
         display:none;
     }
     .el-message,.el-message-box{

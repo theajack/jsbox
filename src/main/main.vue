@@ -3,7 +3,6 @@
         <jsbox-menu></jsbox-menu>
         <jsbox-files-header></jsbox-files-header>
         <div class='jsbox-main-panel' :class='{"no-select":inDrag}' :style="{height: height+'px'}">
-            <jsbox-files :list='files'></jsbox-files>
             <jsbox-code></jsbox-code>
             <jsbox-log></jsbox-log>
         </div>
@@ -13,8 +12,7 @@
     import './style/index.less';
     import './style/import.less';
     import JsboxMenu from './components/menu.vue';
-    import JsboxFiles from './components/files/files.vue';
-    import JsboxFilesHeader from './components/files/file-header.vue';
+    import JsboxFilesHeader from './components/files/components/file-header.vue';
     import JsboxCode from './components/code.vue';
     import JsboxLog from './components/log.vue';
     import event from './js/event';
@@ -24,7 +22,6 @@
     
     export default {
         components: {
-            JsboxFiles,
             JsboxMenu,
             JsboxCode,
             JsboxLog,
@@ -33,13 +30,12 @@
         data () {
             return {
                 height: 0,
-                inDrag: false,
-                files: []
+                inDrag: false
             };
         },
         created () {
             this.initHeight();
-            this.files = initFileSystem();
+            initFileSystem();
         },
         methods: {
             initHeight () {
@@ -52,6 +48,9 @@
                     this.initHeight();
                 },
                 [EVENT.DRAG_STATUS]: (bool) => {
+                    this.inDrag = bool;
+                },
+                [EVENT.FILE_DRAG_STATUS]: (bool) => {
                     this.inDrag = bool;
                 }
             });

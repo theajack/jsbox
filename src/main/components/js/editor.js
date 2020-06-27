@@ -1,5 +1,8 @@
 // import {liftOff} from '../../js/grammars/configure-tokenizer';
 
+import {globalFileAttr} from '../files/file';
+import {LANG, THEME, DEFAULT_FONT_SIZE} from '../../js/constant';
+
 // import html from './html';
 // import javascript from './javascript';
 // import 'monaco-editor/min/vs/loader';
@@ -10,31 +13,6 @@
 // import 'monaco-editor/esm/vs/basic-languages/javascript/javascript';
 // import 'monaco-editor/esm/vs/basic-languages/typescript/typescript';
 
-export const THEME = {
-    LIGHT: 'light',
-    DARK: 'dark'
-};
-
-export const LANG = {
-    'JAVASCRIPT': 'javascript', 'HTML': 'html', 'CSS': 'css', 'JSON': 'json', 'TYPESCRIPT': 'typescript',
-    'PYTHON': 'python', 'C++': 'cpp', 'C': 'c', 'C#': 'csharp', 'JAVA': 'java', 'GO': 'go', 'MARKDOWN': 'markdown',
-    'SQL': 'sql', 'OBJECTIVE-C': 'objective-c', 'SWIFT': 'swift', 'KOTLIN': 'kotlin', 'PHP': 'php',
-    'LESS': 'less', 'SCSS': 'scss', 'COFFEESCRIPT': 'coffeescript', 'MYSQL': 'mysql', 'XML': 'xml',
-    'PASCAL': 'pascal', 'PERL': 'perl', 'LUA': 'lua', 'R': 'r', 'REDIS': 'redis', 'RUBY': 'ruby',
-    'RUST': 'rust', 'SHELL': 'shell', 'POWERSHELL': 'powershell', 'YAML': 'yaml', 'DOCKERFILE': 'dockerfile',
-    'GRAPHQL': 'graphql', 'HANDLEBARS': 'handlebars', 'BAT': 'bat', 'CLOJURE': 'clojure',
-    'PLAINTEXT': 'plaintext', 'PUG': 'pug'
-};
-
-export const ALIAS = {
-    js: 'javascript',
-    ts: 'typescript',
-    cs: 'coffeescript',
-    oc: 'objective-c',
-    py: 'python'
-};
-
-export const DEFAULT_FONT_SIZE = 14;
 const MAX_FONT_SIZE = 20;
 const MIN_FONT_SIZE = 10;
 let Monaco = null;
@@ -135,9 +113,22 @@ export class Editor {
             this.changeLang(this.lang, code);
         }
         if (this.onchange) {
+            this._keyDownChange = false;
+            this._preCode = code;
+            this._fileId = globalFileAttr.openedId;
             this.editor.onDidChangeModelContent(() => {
-                this.onchange(this.code());
+                let code = this.code();
+                if (this._keyDownChange && this._fileId === globalFileAttr.openedId) {
+                    this.onchange(code);
+                    this._keyDownChange = false;
+                } else {
+                    this._fileId = globalFileAttr.openedId;
+                }
             });
+            this.editor.onKeyDown(() => {
+                this._keyDownChange = true;
+            });
+            window.editor = this.editor;
         }
         if (this.oncursorchange) {
             this.editor.onDidChangeCursorPosition((e) => {

@@ -23,6 +23,7 @@ export const EVENT = {
     HTML_CONTENT_CHANGE: 'HTML_CONTENT_CHANGE',
     FONT_SIZE_CHANGE: 'FONT_SIZE_CHANGE',
     EDITOR_MOUNTED: 'EDITOR_MOUNTED',
+    MIAN_EDITOR_INITED: 'MIAN_EDITOR_INITED',
     OPEN_CONFIRM: 'OPEN_CONFIRM',
     CLEAR_CODE: 'CLEAR_CODE',
     RESET_CODE: 'RESET_CODE',
@@ -39,11 +40,47 @@ export const EVENT = {
     TOGGLE_FULLSCREEN: 'TOGGLE_FULLSCREEN',
     CONSOLE_VAL_CHANGE: 'CONSOLE_VAL_CHANGE',
     OPEN_CONFIG_CHOOSE: 'OPEN_CONFIG_CHOOSE',
+    COUNT_FILE_SIZE: 'COUNT_FILE_SIZE',
     // drag相关
     DRAG_PERCENT: 'DRAG_PERCENT',
     DRAG_STATUS: 'DRAG_STATUS',
     CODE_DRAG_PERCENT: 'CODE_DRAG_PERCENT',
     CODE_DRAG_STATUS: 'CODE_DRAG_STATUS',
+    FILE_DRAG_PERCENT: 'FILE_DRAG_PERCENT',
+    FILE_DRAG_STATUS: 'FILE_DRAG_STATUS',
+    FILE_CLICK: 'FILE_CLICK',
+    SAVE_SINGLE_CODE: 'SAVE_SINGLE_CODE',
 };
 
 export const TOOL_HEIGHT = 30;
+
+export const THEME = {
+    LIGHT: 'light',
+    DARK: 'dark'
+};
+
+export const LANG = {
+    'JAVASCRIPT': 'javascript', 'HTML': 'html', 'CSS': 'css', 'JSON': 'json', 'TYPESCRIPT': 'typescript',
+    'PYTHON': 'python', 'C++': 'cpp', 'C': 'c', 'C#': 'csharp', 'JAVA': 'java', 'GO': 'go', 'MARKDOWN': 'markdown',
+    'SQL': 'sql', 'OBJECTIVE-C': 'objective-c', 'SWIFT': 'swift', 'KOTLIN': 'kotlin', 'PHP': 'php',
+    'LESS': 'less', 'SCSS': 'scss', 'COFFEESCRIPT': 'coffeescript', 'MYSQL': 'mysql', 'XML': 'xml',
+    'PASCAL': 'pascal', 'PERL': 'perl', 'LUA': 'lua', 'R': 'r', 'REDIS': 'redis', 'RUBY': 'ruby',
+    'RUST': 'rust', 'SHELL': 'shell', 'POWERSHELL': 'powershell', 'YAML': 'yaml', 'DOCKERFILE': 'dockerfile',
+    'GRAPHQL': 'graphql', 'HANDLEBARS': 'handlebars', 'BAT': 'bat', 'CLOJURE': 'clojure',
+    'PLAINTEXT': 'plaintext', 'PUG': 'pug'
+};
+
+export const ALIAS = {
+    js: 'javascript',
+    ts: 'typescript',
+    cs: 'coffeescript',
+    oc: 'objective-c',
+    py: 'python'
+};
+
+export const DEFAULT_FONT_SIZE = 14;
+
+export const MOUSE_BTN = {
+    LEFT: 0,
+    RIGHT: 2
+};

@@ -15,11 +15,12 @@ function initRes () {
         .pipe(gulp.dest('cdn/assets/js/editor'));
     gulp.src('public/lib/*.js')
         .pipe(gulp.dest('cdn/assets/js/lib'));
-    gulp.src('public/lib/*.js')
-        .pipe(gulp.dest('cdn/assets/js/lib'));
     gulp.src('public/lib/env.js')
         .pipe(babel({presets: ['@babel/env']}))
-        .pipe(gulp.dest('cdn/assets/js/lib'));
+        .pipe(gulp.dest('cdn/assets/js/lib')); ;
+    // gulp.src('public/lib/pre-log.js')
+    //     .pipe(babel({presets: ['@babel/env']}))
+    //     .pipe(babel({presets: ['@babel/env']}))
     gulp.src('public/vs/**/*')
         .pipe(gulp.dest('cdn/assets/js/vs'));
 }

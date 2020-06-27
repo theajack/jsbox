@@ -1,23 +1,30 @@
 <template>
-    <div class='code-panel' :class='{"code-full":codeFull}' :style='{width: percent+"%"}' ref='editor'>
+    <div class='code-panel' :class='{"code-full":codeFull}' :style='{width: percent+"%"}'>
+        <jsbox-files></jsbox-files>
+        <div ref='editor' class='code-area' :style='{width: filePercent+"%"}'>
+            <drag-bar name='file'></drag-bar>
+        </div>
         <status-bar></status-bar>
     </div>
 </template>
 <script>
     import '../style/editor.less';
-    import {Editor, LANG, THEME, loadMonaco, ALIAS} from './js/editor';
+    import {Editor, loadMonaco} from './js/editor';
     import event from '../js/event';
-    import {EVENT} from '../js/constant';
-    import {code, language, theme, fontSize, dragPercent} from '../js/status';
+    import {LANG, THEME, ALIAS, EVENT} from '../js/constant';
+    import {code, language, theme, fontSize, dragPercent, fileDragPercent} from '../js/status';
     import {getUrlParam, DEFAULT_CODE, toast} from '../js/util';
     import {initConfig} from './js/config';
     import StatusBar from './status.vue';
     import {decompressUrl} from '../js/compress';
+    import JsboxFiles from './files/components/files.vue';
+    import DragBar from './drag-bar.vue';
     export default {
-        components: {StatusBar},
+        components: {StatusBar, JsboxFiles, DragBar},
         data () {
             return {
                 percent: dragPercent.get(),
+                filePercent: 100 - fileDragPercent.get(),
                 codeFull: false,
             };
         },
@@ -26,8 +33,8 @@
                 let editor = new Editor({
                     el: this.$refs.editor,
                     fontSize: fontSize.get(),
-                    onchange () {
-                        event.emit(EVENT.CODE_CHANGE);
+                    onchange (c) {
+                        event.emit(EVENT.CODE_CHANGE, c);
                     },
                     oncursorchange (position) {
                         event.emit(EVENT.CURSOR_CHANGE, position);
@@ -45,6 +52,12 @@
                             editor.resize();
                         });
                     },
+                    [EVENT.FILE_DRAG_PERCENT]: (filePercent) => {
+                        this.filePercent = 100 - filePercent;
+                        this.$nextTick(() => {
+                            editor.resize();
+                        });
+                    },
                     [EVENT.LANG_CHANGE]: (lang) => {
                         editor.changeLang(lang);
                         this.codeFull = (lang !== LANG.JAVASCRIPT && lang !== LANG.HTML);
@@ -52,6 +65,7 @@
                             editor.resize();
                         });
                         event.emit(EVENT.EDITOR_MOUNTED, editor);
+                        event.emit(EVENT.MIAN_EDITOR_INITED, editor);
                     },
                     [EVENT.SET_CODE]: (value) => {
                         editor.code(value);
@@ -109,3 +123,21 @@
         }
     };
 </script>
+<style lang="less">
+    .code-panel{
+        .drag-bar{
+
+        }
+        .files-w{
+            width: 20%;
+            height: 100%;
+            float: left;
+        }
+        .code-area{
+            width: 80%;
+            height: 100%;
+            float: left;
+            position: relative;
+        }
+    }
+</style>

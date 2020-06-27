@@ -1,4 +1,5 @@
-import 'easy-icon';
+// import 'easy-icon';
+// import 'easy-icon/easy-icon-f';
 import $ from 'easy-dom-util';
 import Vue from 'vue/dist/vue.esm';
 import Main from './main/main.vue';

@@ -9,12 +9,23 @@ export const TYPE = {
     LANGUAGE: 'language',
     HTML_PANEL: 'html_panel',
     FONT_SIZE: 'font_size',
-    HISTORY: 'history'
+    HISTORY: 'history',
+    CODE_DRAG_PERCENT: 'code_drag_percent',
+    CODE_DRAG_STATUS: 'code_drag_status',
+    FILE_DRAG_PERCENT: 'file_drag_percent',
+    FILE_DRAG_STATUS: 'file_drag_status',
+    // 存储
+    FILE_ID: 'fid',
+    FILES_HEADER: 'fh',
+    FILES: 'files',
+    FILE_OPEN_ID: 'foid',
+    FILE_CONENT_ID: 'fcid'
 };
 
 const encodeList = [
     TYPE.CODE,
-    TYPE.HISTORY
+    TYPE.HISTORY,
+    TYPE.FILES,
 ];
 
 function checkEncode (key, value, encode = true) {
@@ -34,7 +45,11 @@ export function read (key) {
     }
     let type = value.substr(0, value.indexOf(':'));
     value = value.substr(value.indexOf(':') + 1);
+    // if (key === TYPE.FILES)
+    //     console.log(value, value.length);
     value = checkEncode(key, value, false);
+    // if (key === TYPE.FILES)
+    //     console.log(value, value.length);
     if (type === 'number') {
         return parseFloat(value);
     } else if (type === 'boolean') {

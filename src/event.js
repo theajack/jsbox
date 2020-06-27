@@ -29,7 +29,6 @@ export function initKeyEvent (el, method) {
                 case 189:method.fontDown(); pd(); break;
                 case 13:method.run(); pd(); break;
             }
-                
         }
     };
     el.code.query('.code_editor')[0].el.onkey = (event) => {
