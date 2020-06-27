@@ -50,6 +50,9 @@ export const EVENT = {
     FILE_DRAG_STATUS: 'FILE_DRAG_STATUS',
     FILE_CLICK: 'FILE_CLICK',
     SAVE_SINGLE_CODE: 'SAVE_SINGLE_CODE',
+
+    // 多编辑器
+    FILE_SHOW: 'FILE_SHOW'
 };
 
 export const TOOL_HEIGHT = 30;

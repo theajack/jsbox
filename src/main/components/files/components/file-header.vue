@@ -16,7 +16,7 @@
                   "drag-over": index === dragOverIndex
               }'>
             <i :class='"file-type "+item.style.icon' :style='{color: fileIconColor(item)}'></i>
-            <span class='file-name'>{{item.name}}</span>
+            <span class='file-name'>{{item.name}}{{item.id}}</span>
             <i class='ei-times file-close file-tail' @mousedown='stopPropagation' @mouseup='closeFile(index)'></i>
             <i class='ei-circle file-unsave file-tail'></i>
         </span>

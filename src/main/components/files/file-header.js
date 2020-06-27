@@ -4,9 +4,12 @@ import {EVENT} from '../../js/constant';
 import {readFilesHeader, writeFilesHeader, writeOpenFileID, writeContentFileID, writeFiles} from './storage';
 import {idFiles, switchOpenFile} from './file-system';
 
-export let fileHeaderList = [];
+export let fileHeaderList = null;
 
 export function initFileHeaders () {
+    if (fileHeaderList) {
+        return fileHeaderList;
+    }
     fileHeaderList = readFilesHeader();
     return fileHeaderList;
 }
