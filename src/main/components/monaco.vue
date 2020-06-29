@@ -9,8 +9,9 @@
     import {EVENT} from '../js/constant';
     // import {LANG, THEME, ALIAS, EVENT} from '../js/constant';
     // import {code, language, theme, fontSize} from '../js/status';
-    import {fontSize} from '../js/status';
+    import {fontSize, theme} from '../js/status';
     import {globalFileAttr} from './files/file';
+    import {toast} from '../js/util';
     // import {getUrlParam, DEFAULT_CODE, toast} from '../js/util';
     // import {initConfig} from './js/config';
     // import {decompressUrl} from '../js/compress';
@@ -31,25 +32,47 @@
         watch: {
             'globalFileAttr.openedId': function (newOid) {
                 if (newOid === this.file.id) {
-                    this.initEditor();
+                    if (this._editor) {
+                        if (this.isActive()) {
+                            this.$nextTick(() => {
+                                this._editor.resize();
+                                this._editor.changeTheme(theme.get());
+                                this._editor.setFontSize(fontSize.get());
+                            });
+                        }
+                    } else {
+                        this.initEditor();
+                    }
                 }
             }
         },
         mounted () {
-            if (this.globalFileAttr.openedId === this.file.id) {
+            if (this.isActive()) {
                 this.initEditor();
             }
         },
         methods: {
+            isActive (callback) {
+                let active = this.globalFileAttr.openedId === this.file.id;
+                if (active && typeof callback === 'function') {callback();}
+                return active;
+            },
+            resize () {
+                if (this.isActive()) {
+                    this.$nextTick(() => {
+                        this._editor.resize();
+                    });
+                }
+            },
             initEditor () {
-                if (this.init) {
+                if (this._editor) {
                     return;
                 }
-                this.init = true;
                 loadMonaco().then(() => {
-                    let editor = new Editor({
+                    this._editor = new Editor({
                         el: this.$refs.editor,
                         fontSize: fontSize.get(),
+                        theme: theme.get(),
                         onchange (c) {
                             event.emit(EVENT.CODE_CHANGE, c);
                         },
@@ -57,32 +80,46 @@
                             event.emit(EVENT.CURSOR_CHANGE, position);
                         }
                     });
-                    console._log(editor);
                     event.regist({
                         [EVENT.RESIZE]: () => {
-                            setTimeout(() => {
-                                editor.resize();
-                            }, 10);
+                            console.log('resize');
+                            this.resize();
                         },
-                    // [EVENT.DRAG_PERCENT]: () => {
-                    //     this.$nextTick(() => {
-                    //         editor.resize();
-                    //     });
-                    // },
-                    // [EVENT.FILE_DRAG_PERCENT]: () => {
-                    //     this.$nextTick(() => {
-                    //         editor.resize();
-                    //     });
-                    // },
-                    // [EVENT.LANG_CHANGE]: (lang) => {
-                    //     editor.changeLang(lang);
-                    //     this.codeFull = (lang !== LANG.JAVASCRIPT && lang !== LANG.HTML);
-                    //     this.$nextTick(() => {
-                    //         editor.resize();
-                    //     });
-                    //     event.emit(EVENT.EDITOR_MOUNTED, editor);
-                    //     event.emit(EVENT.MIAN_EDITOR_INITED, editor);
-                    // },
+                        [EVENT.DRAG_PERCENT]: () => {
+                            this.resize();
+                        },
+                        [EVENT.FILE_DRAG_PERCENT]: () => {
+                            this.resize();
+                        },
+                        [EVENT.USE_CODE]: (fn) => {
+                            if (this.isActive()) {
+                                fn(this._editor.code());
+                            }
+                        },
+                        [EVENT.THEME_CHANGE]: (theme) => {
+                            if (this.isActive()) {
+                                this._editor.changeTheme(theme);
+                            }
+                        },
+                        [EVENT.FONT_SIZE_CHANGE]: (type) => {
+                            if (this.isActive()) {
+                                if (!this._editor[type === 'up' ? 'fontSizeUp' : 'fontSizeDown']()) {
+                                    toast('超过可设置大小');
+                                } else {
+                                    fontSize.set(this._editor.fontSize, true, false);
+                                    // event.emit(EVENT.EDITOR_MOUNTED, editor);
+                                }
+                            }
+                        }
+                        // [EVENT.LANG_CHANGE]: (lang) => {
+                        //     this._editor.changeLang(lang);
+                        //     this.codeFull = (lang !== LANG.JAVASCRIPT && lang !== LANG.HTML);
+                        //     this.$nextTick(() => {
+                        //         this._editor.resize();
+                        //     });
+                        //     // event.emit(EVENT.EDITOR_MOUNTED, editor);
+                        //     // event.emit(EVENT.MIAN_EDITOR_INITED, editor);
+                        // },
                     // [EVENT.SET_CODE]: (value) => {
                     //     editor.code(value);
                     // },
@@ -105,7 +142,7 @@
                 // event.emit(EVENT.EDITOR_MOUNTED, editor);
                 // this.initCode();
                 });
-            }
+            },
         }
     };
 </script>

@@ -91,11 +91,12 @@ export class Editor {
             this.type = 'editor';
         }
         this._initEditor(code);
-        if (theme !== THEME.LIGHT) {
-            this.changeTheme(theme);
-        } else {
-            Editor.theme = THEME.LIGHT;
-        }
+        this.changeTheme(theme);
+        // if (theme !== THEME.LIGHT) {
+        //     this.changeTheme(theme);
+        // } else {
+        //     Editor.theme = THEME.LIGHT;
+        // }
     }
     _initEditor (code) {
         code = typeof code === 'string' ? code : this.code();
@@ -128,7 +129,7 @@ export class Editor {
             this.editor.onKeyDown(() => {
                 this._keyDownChange = true;
             });
-            window.editor = this.editor;
+            // window.editor = this.editor;
         }
         if (this.oncursorchange) {
             this.editor.onDidChangeCursorPosition((e) => {
@@ -137,7 +138,7 @@ export class Editor {
         }
     }
     setFontSize (size) {
-        if (size > MAX_FONT_SIZE || size < MIN_FONT_SIZE) {
+        if (size > MAX_FONT_SIZE || size < MIN_FONT_SIZE || size === this.fontSize) {
             return false;
         }
         this.fontSize = size;
@@ -151,6 +152,9 @@ export class Editor {
         return this.setFontSize(this.fontSize - 1);
     }
     changeLang (lang, code) {
+        // if (lang === this.lang) {
+        //     return;
+        // }
         code = code || this.code();
         let oldModel = this.editor.getModel();
         this.lang = lang;
@@ -174,7 +178,11 @@ export class Editor {
         }
     }
     changeTheme (theme) {
+        if (theme === Editor.theme) {
+            return;
+        }
         Editor.theme = theme;
+        console.log(theme);
         Monaco.editor.setTheme((theme === THEME.DARK ? 'vsc-dark' : 'vsc-light' ));
         return theme;
     }
