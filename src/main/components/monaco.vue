@@ -38,20 +38,29 @@
                                 this._editor.resize();
                                 this._editor.changeTheme(theme.get());
                                 this._editor.setFontSize(fontSize.get());
+                                this.focus();
                             });
                         }
                     } else {
                         this.initEditor();
+                        this.focus(true);
                     }
                 }
             }
         },
         mounted () {
+            // 关闭一个再打开会有bug
+            // 点击文件新打开一个不会focus
             if (this.isActive()) {
                 this.initEditor();
             }
         },
         methods: {
+            focus (end = false) {
+                setTimeout(() => {
+                    this._editor[end ? 'focusEnd' : 'focus']();
+                }, 200);
+            },
             isActive (callback) {
                 let active = this.globalFileAttr.openedId === this.file.id;
                 if (active && typeof callback === 'function') {callback();}
