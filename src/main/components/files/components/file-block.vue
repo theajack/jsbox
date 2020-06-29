@@ -17,7 +17,7 @@
 </template>
 <script>
     import {globalFileAttr} from '../file';
-    import {THEME} from '../../../js/constant';
+    import {THEME, ROOT, FILE_TYPE} from '../../../js/constant';
     
     export default {
         name: 'file-block',
@@ -34,7 +34,7 @@
             },
             type: {
                 required: false,
-                default: 'root',
+                default: ROOT,
                 type: String
             },
             list: {
@@ -47,14 +47,14 @@
         },
         methods: {
             clickFile (item) {
-                if (item.type === 'file') {
+                if (item.type === FILE_TYPE.FILE) {
                     item.click();
                 } else {
                     item.click();
                 }
             },
             fileIcon (item) {
-                if (item.type === 'file') {
+                if (item.type === FILE_TYPE.FILE) {
                     return item.style.icon;
                 } else {
                     return (item.opened) ? 'ei-angle-down' : 'ei-angle-right';
@@ -62,7 +62,7 @@
             },
             fileIconColor (item) {
                 let isDark = globalFileAttr.theme === THEME.DARK;
-                if (item.type === 'file') {
+                if (item.type === FILE_TYPE.FILE) {
                     return isDark ? item.style.dark : item.style.light;
                 } else {
                     return isDark ? '#bbb' : '#444';

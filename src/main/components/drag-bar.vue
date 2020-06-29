@@ -4,7 +4,7 @@
 <script>
     import {getDragStatus, dragPercent as logPercent, language} from '../js/status';
     import $ from 'easy-dom-util';
-    import {LANG} from '../js/constant';
+    import {LANG, DRAG_TYPE} from '../js/constant';
     
     export default {
         props: {
@@ -21,13 +21,13 @@
             initDrag (dragPercent, dragStatus) {
                 let drag = this.$refs.drag;
                 let width = 0;
-                let minWidth = (this.name === 'file') ? 100 : 200;
+                let minWidth = (this.name === DRAG_TYPE.FILE) ? 100 : 200;
                 dragPercent.init();
                 let setDrag = (bool) => {
                     dragStatus.set(bool);
                     if (bool) {
                         width = $.windowSize().width;
-                        if (this.name === 'file' && width > 600 && (language.get() === LANG.JAVASCRIPT || language.get() === LANG.HTML)) {
+                        if (this.name === DRAG_TYPE.FILE && width > 600 && (language.get() === LANG.JAVASCRIPT || language.get() === LANG.HTML)) {
                             width = width * logPercent.get() * 0.01;
                         }
                     } else {
@@ -36,7 +36,7 @@
                 };
                 let setSize = (x) => {
                     if (x < minWidth || x > width - minWidth) {
-                        if (x < minWidth / 2 && this.name === 'file') {
+                        if (x < minWidth / 2 && this.name === DRAG_TYPE.FILE) {
                             dragPercent.stash(0);
                         }
                         if (x > width - minWidth / 2 && this.name === 'log') {

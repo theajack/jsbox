@@ -4,6 +4,7 @@ import {fileHeaderList} from './file-header';
 import {globalFileAttr, JXDir, JXFile} from './file';
 import {files} from './file-system';
 import {fileId} from './file';
+import {ROOT, FILE_TYPE} from '../../js/constant';
 
 // 存储文件系统相关数据
 
@@ -92,7 +93,7 @@ export function readFiles () {
     if (!_f) {
         return [];
     }
-    return mapReadFiles(_f, 'root');
+    return mapReadFiles(_f, ROOT);
 }
 
 // {i,c,ct,n,o} {id,children,content,name,opened}
@@ -140,7 +141,7 @@ function mapWriteFiles (arr) {
             n: item.name,
             i: item.id,
         };
-        if (item.type === 'file') {
+        if (item.type === FILE_TYPE.FILE) {
             file.ct = item.content;
         } else {
             file.o = item.opened ? 1 : 0;

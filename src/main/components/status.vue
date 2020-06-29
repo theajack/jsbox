@@ -40,6 +40,9 @@
         mounted () {
             event.regist({
                 [EVENT.DRAG_PERCENT]: (percent) => {
+                    if (percent > 98) {
+                        percent = 100;
+                    }
                     this.percent = percent;
                 },
                 [EVENT.LANG_CHANGE]: (lang) => {

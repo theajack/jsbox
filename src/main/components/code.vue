@@ -16,7 +16,7 @@
     import '../style/editor.less';
     // import {Editor, loadMonaco} from './js/editor';
     import event from '../js/event';
-    import {LANG, ALIAS, EVENT} from '../js/constant';
+    import {LANG, ALIAS, EVENT, THEME} from '../js/constant';
     import {code, language, theme, dragPercent, fileDragPercent} from '../js/status';
     import {getUrlParam, DEFAULT_CODE} from '../js/util';
     // import {LANG, THEME, ALIAS, EVENT} from '../js/constant';
@@ -43,6 +43,18 @@
             };
         },
         mounted () {
+            event.regist({
+                [EVENT.DRAG_PERCENT]: (percent) => {
+                    this.percent = percent;
+                },
+                [EVENT.FILE_DRAG_PERCENT]: (filePercent) => {
+                    this.filePercent = 100 - filePercent;
+                },
+                [EVENT.THEME_CHANGE]: (theme) => {
+                    document.body.className = (theme === THEME.DARK) ? 'dark' : '';
+                },
+            });
+            theme.init(getUrlParam('theme'));
             // loadMonaco().then(() => {
             //     let editor = new Editor({
             //         el: this.$refs.editor,

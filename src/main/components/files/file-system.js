@@ -1,7 +1,7 @@
 import {readFiles, writeFiles} from './storage';
 import event from '../../js/event';
-import {EVENT} from '../../js/constant';
-import {globalFileAttr} from './file';
+import {EVENT, ROOT} from '../../js/constant';
+import {globalFileAttr, JXFile, JXDir} from './file';
 import {initUnsaveEvent} from './file-save-status';
 
 export let files = null;
@@ -64,4 +64,31 @@ export function unsaveFile (id, code) {
     file.unsave = true;
     console.log('file.usContent', code);
     file.usContent = code;
+}
+export function createNewFile (name = '', parentId = ROOT) {
+    let {children, parent} = getParent(parentId);
+    children.push(new JXFile({
+        parent,
+        name
+    }));
+}
+export function createNewDir (name, parentId = ROOT) {
+    let {children, parent} = getParent(parentId);
+    children.push(new JXDir({
+        parent,
+        name
+    }));
+}
+window.createNewFile = createNewFile;
+function getParent (parentId) {
+    if (parentId === ROOT) {
+        return {
+            children: files,
+            parent: ROOT
+        };
+    }
+    return {
+        children: idFiles[parentId].children,
+        parent: idFiles[parentId]
+    };
 }

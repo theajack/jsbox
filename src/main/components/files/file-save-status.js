@@ -34,9 +34,9 @@ export function initUnsaveEvent () {
         unsaveFiles.splice(index, 1);
     });
     window.unsaveFiles = unsaveFiles;
-    window.addEventListener('beforeunload', function (e) {
-        var confirmationMessage = (unsaveFiles.length > 0) ? `当前有${unsaveFiles.length}个文件未保存，是否放弃保存` : '';
-        (e || window.event).returnValue = confirmationMessage;
-        return confirmationMessage;
-    });
+    // window.addEventListener('beforeunload', function (e) {
+    //     var confirmationMessage = (unsaveFiles.length > 0) ? `当前有${unsaveFiles.length}个文件未保存，是否放弃保存` : '';
+    //     (e || window.event).returnValue = confirmationMessage;
+    //     return confirmationMessage;
+    // });
 }

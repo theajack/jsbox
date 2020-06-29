@@ -87,3 +87,16 @@ export const MOUSE_BTN = {
     LEFT: 0,
     RIGHT: 2
 };
+
+export const ROOT = 'root';
+
+export const FILE_TYPE = {
+    FILE: 'file',
+    DIR: 'dir'
+};
+
+export const DRAG_TYPE = {
+    LOG: 'log',
+    CODE: 'code',
+    FILE: 'file'
+};

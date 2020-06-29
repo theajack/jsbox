@@ -1,6 +1,7 @@
 const request = require('request');
 const fs = require('fs');
 const packages = require('./package');
+const {FILE_TYPE} = require('../src/main/js/constant');
 const path = 'https://cdn.jsdelivr.net/npm/';
 const httpBase = 'https://data.jsdelivr.com/v1/package/npm/';
 
@@ -83,7 +84,7 @@ function findDefJs (files, pkg, name) {
             if (res) {
                 return res;
             }
-        } else if (file.type === 'file') {
+        } else if (file.type === FILE_TYPE.FILE) {
             let fileName = file.name.toLowerCase();
             if (fileName.indexOf(pkg.toLowerCase()) !== -1 && fileName.substr(fileName.lastIndexOf('.')) === '.js') {
                 return name + file.name;

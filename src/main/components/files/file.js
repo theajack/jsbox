@@ -6,8 +6,8 @@
 import {getLangStyle} from './file-type';
 import {theme} from '../../js/status';
 import event from '../../js/event';
-import {EVENT} from '../../js/constant';
-import {writeIDFiles} from './file-system';
+import {EVENT, ROOT, FILE_TYPE} from '../../js/constant';
+import {writeIDFiles, idFiles} from './file-system';
 import {onFileClick, onChangeContentFile} from './file-header';
 import {readFileID, writeFileID, readOpenFileID, writeFiles, readContentFileID, writeContentFileID} from './storage';
 
@@ -29,31 +29,30 @@ export let globalFileAttr = {
 event.regist(EVENT.THEME_CHANGE, v => {
     globalFileAttr.theme = v;
 });
-export class JXFile {
+
+class JXFileBase {
     constructor ({
         id,
-        name = 'file',
-        parent = 'root',
-        content = '',
+        name = FILE_TYPE.FILE,
+        parentId = ROOT,
+        renamed = false,
     }) {
         this.id = typeof id === 'number' ? id : getID();
         writeIDFiles(this.id, this);
         this.parent = parent;
         this.name = name;
-        this.style = getLangStyle(this.name);
-        this.type = 'file';
-        this.content = content;
-        this.rename = false;
-        this.unsave = false;
-        if (this.parent && typeof this.parent !== 'string') {
-            this.parent.children.push(this);
+        this.renamed = renamed;
+        this.tempName = ''; // 重命名时的临时名字
+        this.parentId = parentId;
+        if (renamed) {
+            this.rename();
         }
     }
-    getContent () {
-        return this.content;
-    }
-    save () {
-        
+    parent () {
+        if (this.parentId === ROOT) {
+            return ROOT;
+        }
+        return idFiles[this.parentId];
     }
     remove () {
         
@@ -61,47 +60,58 @@ export class JXFile {
     click () {
         onChangeContentFile(this.id);
         writeContentFileID();
-        onFileClick(this);
     }
     rename () {
-        this.rename = true;
+        this.renamed = true;
+        this.tempName = this.name;
     }
 }
 
-export class JXDir {
+export class JXFile extends JXFileBase {
     constructor ({
         id,
-        name = 'dir',
-        parent = 'root',
+        name,
+        parentId,
+        renamed,
+        content,
+    }) {
+        super({id, name, parentId, renamed});
+        this.type = FILE_TYPE.FILE;
+        this.content = content;
+        this.style = getLangStyle(this.name);
+        this.unsave = false;
+    }
+    click () {
+        super.click();
+        onFileClick(this);
+    }
+}
+
+export class JXDir extends JXFileBase {
+    constructor ({
+        id,
+        name,
+        parentId,
+        renamed,
         opened = false,
         children = []
     }) {
-        this.id = typeof id === 'number' ? id : getID();
-        writeIDFiles(this.id, this);
+        super({id, name, parentId, renamed});
+        this.type = FILE_TYPE.DIR;
         this.opened = opened;
-        this.type = 'dir';
-        this.name = name;
-        this.parent = parent;
-        this.rename = false;
         children.forEach(child => {
-            child.parent = this;
+            if (child.parentId === ROOT)
+                child.parentId = this.id;
         });
         this.children = children;
     }
-    remove () {
-        
-    }
     click () {
-        this.opened = !this.opened;
-        onChangeContentFile(this.id);
-        writeContentFileID();
+        super.click();
         writeFiles();
+        this.opened = !this.opened;
     }
     open () {
         this.opened = true;
-    }
-    rename () {
-        this.rename = true;
     }
 }
 

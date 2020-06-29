@@ -1,6 +1,6 @@
 import {globalFileAttr} from './file';
 import event from '../../js/event';
-import {EVENT} from '../../js/constant';
+import {EVENT, ROOT, FILE_TYPE} from '../../js/constant';
 import {readFilesHeader, writeFilesHeader, writeOpenFileID, writeContentFileID, writeFiles} from './storage';
 import {idFiles, switchOpenFile} from './file-system';
 
@@ -16,7 +16,7 @@ export function initFileHeaders () {
 
 export function onFileClick (file) {
     // let file = idFiles[id];
-    if (!file || file.type !== 'file') {
+    if (!file || file.type !== FILE_TYPE.FILE) {
         return;
     }
     event.emit(EVENT.FILE_CLICK, file);
@@ -40,7 +40,7 @@ export function onOpenFile (id) {
 
 export function checkParent (id) {
     let parent = idFiles[id].parent;
-    if (parent !== 'root' && !parent.opened) {
+    if (parent !== ROOT && !parent.opened) {
         parent.opened = true;
         writeFiles();
     }
