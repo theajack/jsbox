@@ -48,7 +48,6 @@
             }
         },
         mounted () {
-            // 关闭一个再打开会有bug
             if (this.isActive()) {
                 this.initEditor();
             }

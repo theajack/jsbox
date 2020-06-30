@@ -3,7 +3,7 @@
         <div class='file-line'></div>
         <div class='file-list' :style="{'margin-left': -(5+deep*13 -3) +'px'}" v-for='(item, index) in list' :key='index'>
             <div class='file-name'
-                 :class='{active: globalFileAttr.contentId === item.id}'
+                 :class='{active: chooseActive(item), "line-active": lineActive(item)}'
                  :style="{'padding-left': 5+deep*13 +'px'}"
                  @click='clickFile(item)'
             >
@@ -44,16 +44,25 @@
                 type: Array
             },
         },
-        mounted () {
-            window._v = this;
-        },
         methods: {
-            clickFile (item) {
-                if (item.type === FILE_TYPE.FILE) {
-                    item.click();
-                } else {
-                    item.click();
+            chooseActive (item) {
+                return globalFileAttr.contentId === item.id;
+            },
+            lineActive (item) {
+                if (item.type === FILE_TYPE.DIR && this.chooseActive(item)) {
+                    return true;
                 }
+                if (item.type === FILE_TYPE.DIR) {
+                    if (item.children.find(file => {
+                        return file.type === FILE_TYPE.FILE && this.chooseActive(file);
+                    })) {
+                        return true;
+                    }
+                }
+                return false;
+            },
+            clickFile (item) {
+                item.click();
             },
             fileIcon (item) {
                 if (item.type === FILE_TYPE.FILE) {
@@ -107,7 +116,7 @@
         &.active{
             background-color: #aaa4;
         }
-        &.active + .file-block{
+        &.line-active + .file-block{
             border-left: 1px solid #a9a9a9;
         }
     }
@@ -134,7 +143,7 @@ body.dark{
             &.active{
                 background-color: #aaa2;
             }
-            &.active + .file-block{
+            &.line-active + .file-block{
                 border-left: 1px solid #585858;
             }
         }

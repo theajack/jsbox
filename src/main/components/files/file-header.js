@@ -1,7 +1,7 @@
 import {globalFileAttr} from './file';
 import event from '../../js/event';
 import {EVENT, ROOT, FILE_TYPE} from '../../js/constant';
-import {readFilesHeader, writeFilesHeader, writeOpenFileID, writeContentFileID, writeFiles} from './storage';
+import {readFilesHeader, writeFilesHeader, writeOpenFileID, writeContentFileID} from './storage';
 import {idFiles, switchOpenFile} from './file-system';
 
 export let fileHeaderList = null;
@@ -39,10 +39,9 @@ export function onOpenFile (id) {
 }
 
 export function checkParent (id) {
-    let parent = idFiles[id].parent;
-    if (parent !== ROOT && !parent.opened) {
-        parent.opened = true;
-        writeFiles();
+    let parentId = idFiles[id].parentId;
+    if (parentId !== ROOT) {
+        idFiles[parentId].open();
     }
 }
 

@@ -139,12 +139,16 @@ export class JXDir extends JXFileBase {
         this.opened = !this.opened;
     }
     open () {
-        if (!this.opened)
+        if (!this.opened) {
             this.opened = true;
+            writeFiles();
+        }
     }
     close () {
-        if (this.opened)
+        if (this.opened) {
             this.opened = false;
+            writeFiles();
+        }
     }
     append (file) {
         if (!this.children.find(item => {
