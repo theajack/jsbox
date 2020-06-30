@@ -64,7 +64,9 @@
                     return;
                 }
                 this.removeFromOpenPath(this.openFiles[index].id);
+                console.log(this.openFiles);
                 onRemoveFileHeader(index);
+                console.log(this.openFiles);
                 console.log(event);
                 event.stopPropagation();
             },
@@ -159,6 +161,7 @@
                 [EVENT.DRAG_PERCENT]: this.countWidth,
                 [EVENT.RESIZE]: this.countWidth,
                 [EVENT.FILE_CLICK]: (item) => {
+                    console.log(item);
                     this.reinitPosition(item.id);
                 }
             });

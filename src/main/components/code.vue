@@ -43,6 +43,7 @@
             };
         },
         mounted () {
+            window._v = this;
             event.regist({
                 [EVENT.DRAG_PERCENT]: (percent) => {
                     this.percent = percent;

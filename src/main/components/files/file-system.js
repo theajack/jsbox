@@ -1,6 +1,6 @@
 import {readFiles, writeFiles} from './storage';
 import event from '../../js/event';
-import {EVENT, ROOT} from '../../js/constant';
+import {EVENT, ROOT, FILE_TYPE} from '../../js/constant';
 import {globalFileAttr, JXFile, JXDir} from './file';
 import {initUnsaveEvent} from './file-save-status';
 
@@ -80,6 +80,7 @@ export function createNewDir (name, parentId = ROOT) {
     }));
 }
 window.createNewFile = createNewFile;
+window.createNewDir = createNewDir;
 function getParent (parentId) {
     if (parentId === ROOT) {
         return {
@@ -91,4 +92,22 @@ function getParent (parentId) {
         children: idFiles[parentId].children,
         parent: idFiles[parentId]
     };
+}
+
+export function openAllFolder () {
+    folderCommon('open');
+}
+
+export function closeAllFolder () {
+    folderCommon('close');
+}
+
+function folderCommon (func) {
+    for (let k in idFiles) {
+        let file = idFiles[k];
+        if (file.type === FILE_TYPE.DIR) {
+            file[func]();
+        }
+    }
+    writeFiles();
 }

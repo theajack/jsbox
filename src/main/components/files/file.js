@@ -7,7 +7,7 @@ import {getLangStyle} from './file-type';
 import {theme} from '../../js/status';
 import event from '../../js/event';
 import {EVENT, ROOT, FILE_TYPE} from '../../js/constant';
-import {writeIDFiles, idFiles} from './file-system';
+import {writeIDFiles, idFiles, files} from './file-system';
 import {onFileClick, onChangeContentFile} from './file-header';
 import {readFileID, writeFileID, readOpenFileID, writeFiles, readContentFileID, writeContentFileID} from './storage';
 
@@ -33,13 +33,12 @@ event.regist(EVENT.THEME_CHANGE, v => {
 class JXFileBase {
     constructor ({
         id,
-        name = FILE_TYPE.FILE,
+        name = '',
         parentId = ROOT,
         renamed = false,
     }) {
         this.id = typeof id === 'number' ? id : getID();
         writeIDFiles(this.id, this);
-        this.parent = parent;
         this.name = name;
         this.renamed = renamed;
         this.tempName = ''; // 重命名时的临时名字
@@ -47,6 +46,7 @@ class JXFileBase {
         if (renamed) {
             this.rename();
         }
+
     }
     parent () {
         if (this.parentId === ROOT) {
@@ -55,15 +55,43 @@ class JXFileBase {
         return idFiles[this.parentId];
     }
     remove () {
-        
+        let parent = this.parent();
+        let cs;
+        if (parent === ROOT) {
+            cs = files;
+        } else {
+            cs = parent.children;
+        }
+        let index = cs.indexOf(this);
+        cs.splice(index, 1);
+        writeFiles();
     }
     click () {
         onChangeContentFile(this.id);
         writeContentFileID();
     }
-    rename () {
+    rename (el) {
         this.renamed = true;
         this.tempName = this.name;
+        if (el && !el.__init_rename) {
+            el.__init_rename = true;
+            document.addEventListener('blur', () => {
+                this.renameFinish();
+            }, false);
+        }
+    }
+    renameFinish () {
+        // 结束重命名
+        this.renamed = false;
+        if (this.tempName === '') {
+            if (this.name === '') { // 新建未命名文件
+                this.name = '未命名'; // 或者删除这个文件
+                writeFiles();
+            }
+        } else {
+            this.name = this.tempName;
+            writeFiles();
+        }
     }
 }
 
@@ -111,7 +139,20 @@ export class JXDir extends JXFileBase {
         this.opened = !this.opened;
     }
     open () {
-        this.opened = true;
+        if (!this.opened)
+            this.opened = true;
+    }
+    close () {
+        if (this.opened)
+            this.opened = false;
+    }
+    append (file) {
+        if (!this.children.find(item => {
+            return item.id === file.id;
+        })) {
+            this.children.push(file);
+            file.parentId = this.id;
+        }
     }
 }
 

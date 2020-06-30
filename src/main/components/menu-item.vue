@@ -5,27 +5,17 @@
             <i v-if='items.length>0' class='ei-angle-down menu-icon'></i>
             <i v-else :class='"ei-"+icon'></i>
         </div>
-        <div v-if='items.length>0' class='menu-item-dropdown'>
-            <div v-for='(item,index) in items'
-                 class='menu-dd-item'
-                 :class='{"menu-split":item.type === MENU_TYPE.SPLIT}'
-                 :key='index'
-                 @click.stop='menuItemClick(item)'
-                 v-show='item.visible!==false'>
-                <span v-if='item.type!==MENU_TYPE.SPLIT'>
-                    <i v-if='item.icon' :class='"ei-"+item.icon+" ddi-icon"'></i>
-                    <span class='dd-link ddi-name'>{{item.title}}{{item.type===MENU_TYPE.OPEN?'…':''}}</span>
-                    <span v-if='item.key' class='dd-link ddi-key'>{{item.key.join('+')}}</span>
-                    <i v-if='item.type===MENU_TYPE.LINK' class='ei-angle-right ddi-link'></i>
-                </span>
-            </div>
-        </div>
+        <menu-dropdown
+            :menus='items'
+            @menuClick='menuClick'
+        ></menu-dropdown>
     </div>
 </template>
 <script>
-    import {MENU_TYPE} from '../js/constant';
+    import MenuDropdown from './menu-dropdown.vue';
     import {IsPC} from '../js/util';
     export default {
+        components: {MenuDropdown},
         props: {
             text: {type: String},
             title: {type: String},
@@ -50,20 +40,10 @@
                 }
             }
         },
-        data () {
-            return {
-                MENU_TYPE,
-            };
-        },
         mounted () {
             if (this.mounted) {
                 this.mounted();
             }
-            this.items.forEach((item) => {
-                if (item.mounted) {
-                    item.mounted();
-                }
-            });
         },
         methods: {
             menuClick (isClick) {
@@ -78,11 +58,6 @@
                     this.menuClick(false);
                 }
             },
-            menuItemClick (item) {
-                if (item.onclick() !== false) {
-                    this.menuClick();
-                }
-            }
         }
     };
 </script>

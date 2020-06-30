@@ -7,6 +7,7 @@
     </div>
 </template>
 <script>
+    import {openAllFolder, closeAllFolder} from '../file-system';
     export default {
         name: 'file-tool',
         methods: {
@@ -17,10 +18,10 @@
 
             },
             expandAll () {
-
+                openAllFolder();
             },
             collapseAll () {
-
+                closeAllFolder();
             },
         }
     };

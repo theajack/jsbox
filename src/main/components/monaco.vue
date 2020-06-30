@@ -43,14 +43,12 @@
                         }
                     } else {
                         this.initEditor();
-                        this.focus(true);
                     }
                 }
             }
         },
         mounted () {
             // 关闭一个再打开会有bug
-            // 点击文件新打开一个不会focus
             if (this.isActive()) {
                 this.initEditor();
             }
@@ -59,7 +57,7 @@
             focus (end = false) {
                 setTimeout(() => {
                     this._editor[end ? 'focusEnd' : 'focus']();
-                }, 200);
+                }, 100);
             },
             isActive (callback) {
                 let active = this.globalFileAttr.openedId === this.file.id;
@@ -82,6 +80,7 @@
                         el: this.$refs.editor,
                         fontSize: fontSize.get(),
                         theme: theme.get(),
+                        code: this.file.content,
                         onchange (c) {
                             event.emit(EVENT.CODE_CHANGE, c);
                         },
@@ -148,7 +147,8 @@
                     //     }
                     // }
                     });
-                // event.emit(EVENT.EDITOR_MOUNTED, editor);
+                    event.emit(EVENT.EDITOR_MOUNTED, this._editor);
+                    this.focus(true);
                 // this.initCode();
                 });
             },

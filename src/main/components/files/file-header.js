@@ -19,7 +19,6 @@ export function onFileClick (file) {
     if (!file || file.type !== FILE_TYPE.FILE) {
         return;
     }
-    event.emit(EVENT.FILE_CLICK, file);
     if (globalFileAttr.openedId === file.id) {
         return;
     }
@@ -29,6 +28,7 @@ export function onFileClick (file) {
         // 打开新文件
         writeFilesHeader();
     }
+    event.emit(EVENT.FILE_CLICK, file);
 }
 
 export function onOpenFile (id) {
@@ -53,5 +53,6 @@ export function onChangeContentFile (id) {
 
 export function onRemoveFileHeader (index) {
     fileHeaderList.splice(index, 1);
+    console.log(fileHeaderList);
     writeFilesHeader();
 }

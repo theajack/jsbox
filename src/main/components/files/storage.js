@@ -124,7 +124,7 @@ function mapReadFiles (arr, parent) {
 
 
 export function writeFiles () {
-    console.log('writeFiles');
+    // console.log('writeFiles');
     if (!storageMark.files) {
         storageMark.files = _writeFiles;
     }

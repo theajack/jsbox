@@ -136,7 +136,7 @@ export let menus = [
         items: [{
             title: '放大字体',
             icon: 'zoom-in',
-            key: ['ctrl', '-'], // 默认null
+            key: ['ctrl', '+'], // 默认null
             onclick () {
                 event.emit(EVENT.FONT_SIZE_CHANGE, 'up');
                 return false;
@@ -144,7 +144,7 @@ export let menus = [
         }, {
             title: '缩小字体',
             icon: 'zoom-out',
-            key: ['ctrl', '+'], // 默认null
+            key: ['ctrl', '-'], // 默认null
             onclick () {
                 event.emit(EVENT.FONT_SIZE_CHANGE, 'down');
                 return false;

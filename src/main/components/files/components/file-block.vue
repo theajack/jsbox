@@ -5,10 +5,12 @@
             <div class='file-name'
                  :class='{active: globalFileAttr.contentId === item.id}'
                  :style="{'padding-left': 5+deep*13 +'px'}"
-                 @click='clickFile(item)'>
+                 @click='clickFile(item)'
+            >
                 <div class='file-name-w'>
                     <i :class="'file-icon '+fileIcon(item)" :style='{color: fileIconColor(item)}'></i>
-                    <span>{{item.name}}</span>
+                    <input class='file-rename' v-if='item.renamed' v-model='item.tempName' type='text'>
+                    <span v-else>{{item.name}}</span>
                 </div>
             </div>
             <file-block v-if='item.children' v-show='item.opened' :list='item.children' type='child' :deep='deep+1'></file-block>
@@ -84,8 +86,19 @@
             padding-top: 3px;
             padding-bottom: 3px;
             padding-left: 3px;
+            display: flex;
+            align-items: center;
             .file-icon{
                 margin-right: 3px;
+            }
+            .file-rename{
+                width: 100%;
+                height: 17px;
+                outline: none;
+                border-radius: 0;
+                background-color: #fff;
+                color: #555;
+                border: 1px solid #ccc;
             }
         }
         &:hover{
@@ -109,7 +122,11 @@ body.dark{
         .file-name{
             color: #aaa;
             .file-name-w{
-            
+                .file-rename{
+                    background-color: #3c3c3c;
+                    color: #aaa;
+                    border: 1px solid #888;
+                }
             }
             &:hover{
                 background-color: #aaa1;

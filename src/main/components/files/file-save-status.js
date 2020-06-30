@@ -8,7 +8,7 @@ let unsaveFiles = [];
 
 export function initUnsaveEvent () {
     event.regist(EVENT.CODE_CHANGE, (code) => {
-        console.log(EVENT.CODE_CHANGE, code);
+        // console.log(EVENT.CODE_CHANGE, code);
         if (unsaveFiles.indexOf(globalFileAttr.openedId) === -1) {
             unsaveFiles.push(globalFileAttr.openedId);
         }

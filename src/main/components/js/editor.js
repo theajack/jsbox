@@ -182,7 +182,6 @@ export class Editor {
             return;
         }
         Editor.theme = theme;
-        console.log(theme);
         Monaco.editor.setTheme((theme === THEME.DARK ? 'vsc-dark' : 'vsc-light' ));
         return theme;
     }

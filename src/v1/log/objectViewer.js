@@ -95,7 +95,7 @@ function generateItem (key, value, isArray, needTail) {
         case 'string':html += '<span class="tc-obj-string">"' + value + '"</span>'; break;
         case 'number':html += '<span class="tc-obj-number">' + value + '</span>'; break;
         case 'boolean':html += '<span class="tc-obj-key">' + value + '</span>'; break;
-        case 'function':html += ' <span class="tc-obj-key">f</span>(){}'; break;
+        case 'function':html += '<span class="tc-obj-key">f</span>(){}'; break;
         default :html += value.toString();
     }
     if (needTail) {
