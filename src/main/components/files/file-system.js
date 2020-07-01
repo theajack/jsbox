@@ -72,7 +72,7 @@ export function createNewFile (name = '', parentId = ROOT) {
         name
     }));
 }
-export function createNewDir (name, parentId = ROOT) {
+export function createNewDir (name = '', parentId = ROOT) {
     let {children, parent} = getParent(parentId);
     children.push(new JXDir({
         parent,

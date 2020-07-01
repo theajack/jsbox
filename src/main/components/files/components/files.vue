@@ -21,7 +21,8 @@
     import FileTool from './file-tool.vue';
     import {initFileSystem} from '../file-system';
     import MenuDropdown from '../../menu-dropdown.vue';
-    import fileMenus from '../file-menu';
+    import {fileMenus, setFileMenuVue} from '../file-menu';
+    import {hitEventParent} from '../../../js/util';
     export default {
         name: 'files',
         components: {FileBlock, FileTool, MenuDropdown},
@@ -32,7 +33,8 @@
                 menus: fileMenus,
                 left: 0,
                 top: 0,
-                menuVisible: false
+                menuVisible: false,
+                menuFileId: -1 // 右键到的fileId
             };
         },
         mounted () {
@@ -50,15 +52,29 @@
                     this.ignoreClick = false;
                 }
             });
+            setFileMenuVue(this);
         },
         methods: {
             onMenu (e) {
                 e.preventDefault();
+                if (hitEventParent(e, 'file-tools', 'files-w')) {
+                    this.menuVisible = false;
+                    return;
+                }
+                let el = hitEventParent(e, 'file-name', 'files-w');
+                if (el) {
+                    this.menuFileId = parseInt(el.attr('file-id'));
+                } else {
+                    this.menuFileId = -1;
+                }
+                console.log(this.menuFileId);
+                console.log(e);
                 console.log(e.clientX, e.clientY);
                 this.left = e.clientX;
                 this.top = e.clientY;
                 this.menuVisible = true;
             },
+            // getF
             menuClick () {
                 console.log('file-menu-click');
             },
@@ -67,7 +83,6 @@
                 this.ignoreClick = true;
                 e.stopPropagation();
             }
-            
         }
     };
 </script>

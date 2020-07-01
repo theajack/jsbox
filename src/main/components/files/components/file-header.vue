@@ -3,34 +3,33 @@
         --><span class='files-header-block' :style='{width: fileWidth+"px"}'>
             <span><i class='ef-package'></i> 资源管理器</span>
         </span><!--
-        --><span v-for='(item, index) in openFiles'
-              :key='index' draggable='true'
-              @mousedown='activeFile(index)'
-              @dragstart='dragStart(index)'
-              @drop='drop(index)'
-              @dragover='allowDrop(index)'
-              class='files-header'
-              :class='{
-                  "file-open": item.id === globalFileAttr.openedId,
-                  "unsaved": item.unsave === true,
-                  "drag-over": index === dragOverIndex
-              }'>
-            <i :class='"file-type "+item.style.icon' :style='{color: fileIconColor(item)}'></i>
-            <span class='file-name'>{{item.name}}{{item.id}}</span>
-            <i class='ei-times file-close file-tail' @mousedown='stopPropagation' @mouseup='closeFile(index)'></i>
-            <i class='ei-circle file-unsave file-tail'></i>
-        </span>
+        --><file-header-single
+                v-for='(item, index) in openFiles'
+                :file='item'
+                :index='index'
+                :key='index'
+                :dragOverIndex='dragOverIndex'
+                :theme='globalFileAttr.theme'
+                :openedId='globalFileAttr.openedId'
+                @drop='drop'
+                @closeFile='closeFile'
+                @dragStart='dragStart'
+                @activeFile='activeFile'
+                @dragOver='dragOver'
+            ></file-header-single>
     </div>
 </template>
 <script>
-    import {EVENT, THEME, MOUSE_BTN} from '../../../js/constant';
+    import {EVENT, MOUSE_BTN} from '../../../js/constant';
     import {evt} from '../../../js/event';
     import {fileDragPercent, dragPercent} from '../../../js/status';
     import $ from 'easy-dom-util';
     import {globalFileAttr} from '../file';
     import {initFileHeaders, onRemoveFileHeader, onOpenFile, onChangeContentFile, checkParent} from '../file-header';
     import {writeFilesHeader, writeOpenFileID} from '../storage';
+    import FileHeaderSingle from './file-header-single.vue';
     export default {
+        components: {FileHeaderSingle},
         methods: {
             drop (dropIndex) {
                 if (dropIndex !== this.dragIndex) {
@@ -45,12 +44,11 @@
                         }
                     }
                     this.openFiles.splice(dropIndex, 1, dragItem);
-
                     writeFilesHeader();
                 }
                 this.dragOverIndex = -1;
             },
-            allowDrop (index) {
+            dragOver (index) {
                 if (index !== this.dragOverIndex) {
                     this.dragOverIndex = index;
                 }
@@ -68,12 +66,6 @@
                 onRemoveFileHeader(index);
                 console.log(this.openFiles);
                 console.log(event);
-                event.stopPropagation();
-            },
-            stopPropagation (event) {
-                if (event.button !== MOUSE_BTN.LEFT) {
-                    return;
-                }
                 event.stopPropagation();
             },
             activeFile (index) {
@@ -147,10 +139,6 @@
                         this.$refs.header.scrollLeft = el.offsetLeft - this.fileWidth;
                     }
                 });
-            },
-            fileIconColor (item) {
-                let isDark = globalFileAttr.theme === THEME.DARK;
-                return isDark ? item.style.dark : item.style.light;
             }
         },
         mounted () {
@@ -184,64 +172,11 @@
                 dragIndex: -1,
                 globalFileAttr,
                 openFiles: initFileHeaders()
-                // [{
-                //     id: 0,
-                //     name: 'index0.txt',
-                // }, {
-                //     id: 1,
-                //     name: 'index1.txt',
-                //     unsave: true,
-                // }, {
-                //     id: 2,
-                //     name: 'index2.txt',
-                // }, {
-                //     id: 3,
-                //     name: 'index3.txt',
-                // }, {
-                //     id: 4,
-                //     name: 'index311111.txt',
-                // }, {
-                //     id: 5,
-                //     name: 'index3.txt',
-                // }, {
-                //     id: 6,
-                //     name: 'index311111.txt',
-                // }, {
-                //     id: 7,
-                //     name: 'index3.txt',
-                // }, {
-                //     id: 8,
-                //     name: 'index311111.txt',
-                // }, {
-                //     id: 9,
-                //     name: 'index3.txt',
-                // }, {
-                //     id: 10,
-                //     name: 'index311111.txt',
-                // }, {
-                //     id: 11,
-                //     name: 'index3.txt',
-                // }, {
-                //     id: 12,
-                //     name: 'index311111.txt',
-                // }, {
-                //     id: 13,
-                //     name: 'index3.txt',
-                // }, {
-                //     id: 14,
-                //     name: 'index311111.txt',
-                // }, {
-                //     id: 15,
-                //     name: 'index3.txt',
-                // }, {
-                //     id: 16,
-                //     name: 'index311111.txt',
-                // }]
             };
         }
     };
 </script>
-<style lang="less" scoped>
+<style lang="less">
     .files-header-w{
         white-space: nowrap;
         overflow-x: auto;

@@ -26,6 +26,8 @@ export let globalFileAttr = {
     openedId: readOpenFileID()
 };
 
+window.globalFileAttr = globalFileAttr;
+
 event.regist(EVENT.THEME_CHANGE, v => {
     globalFileAttr.theme = v;
 });
@@ -37,6 +39,9 @@ class JXFileBase {
         parentId = ROOT,
         renamed = false,
     }) {
+        if (name === '') {
+            renamed = true;
+        }
         this.id = typeof id === 'number' ? id : getID();
         writeIDFiles(this.id, this);
         this.name = name;
@@ -46,7 +51,6 @@ class JXFileBase {
         if (renamed) {
             this.rename();
         }
-
     }
     parent () {
         if (this.parentId === ROOT) {
@@ -83,7 +87,7 @@ class JXFileBase {
     renameFinish () {
         // 结束重命名
         this.renamed = false;
-        if (this.tempName === '') {
+        if (this.tempName.trim() === '') {
             if (this.name === '') { // 新建未命名文件
                 this.name = '未命名'; // 或者删除这个文件
                 writeFiles();

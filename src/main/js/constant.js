@@ -92,11 +92,16 @@ export const ROOT = 'root';
 
 export const FILE_TYPE = {
     FILE: 'file',
-    DIR: 'dir'
+    DIR: 'dir',
+    PROJECT: 'project'
 };
 
 export const DRAG_TYPE = {
     LOG: 'log',
     CODE: 'code',
     FILE: 'file'
+};
+
+export const KEY_CODE = {
+    ENTER: 13
 };

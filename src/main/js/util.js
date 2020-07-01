@@ -218,3 +218,17 @@ export function debounce (fn, time) {
         }, time);
     };
 };
+window.$ = $;
+export function hitEventParent (e, target, stop = null) {
+    let el = $.query(e.target);
+    if (stop && el.hasClass(stop)) {
+        return null;
+    }
+    while (!el.hasClass(target)) {
+        el = el.parent();
+        if (el === null || (stop && el.hasClass(stop))) {
+            return null;
+        }
+    }
+    return el;
+}

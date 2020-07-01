@@ -7,15 +7,15 @@
     </div>
 </template>
 <script>
-    import {openAllFolder, closeAllFolder} from '../file-system';
+    import {openAllFolder, closeAllFolder, createNewFile, createNewDir} from '../file-system';
     export default {
         name: 'file-tool',
         methods: {
             createFile () {
-
+                createNewFile();
             },
             createFolder () {
-
+                createNewDir();
             },
             expandAll () {
                 openAllFolder();

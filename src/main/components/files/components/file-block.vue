@@ -2,27 +2,19 @@
     <div class='file-block' :style="{'margin-left': (5+deep*13 -3) +'px'}">
         <div class='file-line'></div>
         <div class='file-list' :style="{'margin-left': -(5+deep*13 -3) +'px'}" v-for='(item, index) in list' :key='index'>
-            <div class='file-name'
-                 :class='{active: chooseActive(item), "line-active": lineActive(item)}'
-                 :style="{'padding-left': 5+deep*13 +'px'}"
-                 @click='clickFile(item)'
-            >
-                <div class='file-name-w'>
-                    <i :class="'file-icon '+fileIcon(item)" :style='{color: fileIconColor(item)}'></i>
-                    <input class='file-rename' v-if='item.renamed' v-model='item.tempName' type='text'>
-                    <span v-else>{{item.name}}</span>
-                </div>
-            </div>
+            <file-single :file='item' :contentId='globalFileAttr.contentId' :deep='deep'></file-single>
             <file-block v-if='item.children' v-show='item.opened' :list='item.children' type='child' :deep='deep+1'></file-block>
         </div>
     </div>
 </template>
 <script>
     import {globalFileAttr} from '../file';
-    import {THEME, ROOT, FILE_TYPE} from '../../../js/constant';
+    import {ROOT} from '../../../js/constant';
+    import FileSingle from './file-single.vue';
     
     export default {
         name: 'file-block',
+        components: {FileSingle},
         data () {
             return {
                 globalFileAttr
@@ -45,44 +37,10 @@
             },
         },
         methods: {
-            chooseActive (item) {
-                return globalFileAttr.contentId === item.id;
-            },
-            lineActive (item) {
-                if (item.type === FILE_TYPE.DIR && this.chooseActive(item)) {
-                    return true;
-                }
-                if (item.type === FILE_TYPE.DIR) {
-                    if (item.children.find(file => {
-                        return file.type === FILE_TYPE.FILE && this.chooseActive(file);
-                    })) {
-                        return true;
-                    }
-                }
-                return false;
-            },
-            clickFile (item) {
-                item.click();
-            },
-            fileIcon (item) {
-                if (item.type === FILE_TYPE.FILE) {
-                    return item.style.icon;
-                } else {
-                    return (item.opened) ? 'ei-angle-down' : 'ei-angle-right';
-                }
-            },
-            fileIconColor (item) {
-                let isDark = globalFileAttr.theme === THEME.DARK;
-                if (item.type === FILE_TYPE.FILE) {
-                    return isDark ? item.style.dark : item.style.light;
-                } else {
-                    return isDark ? '#bbb' : '#444';
-                }
-            }
         }
     };
 </script>
-<style lang="less" scoped>
+<style lang="less">
 .file-block{
     border-left: 1px solid transparent;
     .file-name{
