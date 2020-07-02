@@ -1,21 +1,25 @@
 <template>
     <div class='file-name'
          :file-id='file.id'
-         :class='{active: chooseActive(), "line-active": lineActive()}'
+         :class='{active: chooseActive(file), "line-active": lineActive()}'
          :style="{'padding-left': 5+deep*13 +'px'}"
          @click='clickFile()'
     >
         <div class='file-name-w'>
             <i :class="'file-icon '+fileIcon()" :style='{color: fileIconColor()}'></i>
-            <input ref='input'
-                   class='file-rename'
-                   type='text'
-                   @click='clickInput'
-                   @keydown='renameKeyDown'
-                   @blur='renameFinish'
-                   v-if='file.renamed'
-                   v-model='file.tempName'>
+            <input
+                class='file-rename'
+                :class='{"file-name-repeat": file.renameRepeat}'
+                type='text'
+                :id='"rename-input-"+file.id'
+                @click='clickInput'
+                @keydown='renameKeyDown'
+                @blur='renameFinish'
+                @input='renameCheck'
+                v-if='file.renamed'
+                v-model='file.tempName'>
             <span v-else>{{file.name}}</span>
+            <span class='repeat-tip' v-if='file.renameRepeat'>此位置已存在该名称文件，请选择其他名称。</span>
         </div>
     </div>
 </template>
@@ -40,28 +44,33 @@
                 type: Object
             },
         },
-        mounted () {
-            this.focusRename();
-        },
+        // mounted () {
+        //     this.focusRename();
+        // },
         methods: {
             renameKeyDown (e) {
                 if (e.keyCode === KEY_CODE.ENTER) {
-                    this.renameFinish();
+                    console.log('renameKeyDown byEnter');
+                    this.file.renameFinish(true);
                 }
             },
             renameFinish () {
                 this.file.renameFinish();
             },
+            renameCheck () {
+                this.file.renameCheck();
+            },
             clickInput (e) {
                 e.stopPropagation();
             },
-            focusRename () {
-                if (this.file.renamed) {
-                    this.$refs.input.focus();
-                }
-            },
-            chooseActive () {
-                return this.contentId === this.file.id;
+            // focusRename () {
+            //     console.log(this.$refs.input, this.file);
+            //     if (this.file.renamed) {
+            //         this.$refs.input.focus();
+            //     }
+            // },
+            chooseActive (file) {
+                return this.contentId === file.id;
             },
             lineActive () {
                 if (this.file.type === FILE_TYPE.DIR && this.chooseActive(this.file)) {

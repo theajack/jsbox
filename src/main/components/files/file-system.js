@@ -66,20 +66,28 @@ export function unsaveFile (id, code) {
     file.usContent = code;
 }
 export function createNewFile (name = '', parentId = getCurrentParentId()) {
-    console.log(parentId);
-    let {children, parent} = getParent(parentId);
-    children.push(new JXFile({
-        parent,
-        name
-    }));
+    createBase(JXFile, name, parentId);
 }
 export function createNewDir (name = '', parentId = getCurrentParentId()) {
-    console.log(parentId);
-    let {children, parent} = getParent(parentId);
-    children.push(new JXDir({
-        parent,
+    createBase(JXDir, name, parentId);
+}
+function createBase (JXClass, name, parentId) {
+    let children = getParentChildren(parentId);
+    let file = new JXClass({
+        parentId,
         name
-    }));
+    });
+    if (file.type === FILE_TYPE.DIR) {
+        children.unshift(file);
+    } else {
+        for (let i = 0; i < children.length; i++) {
+            if (children[i].type === FILE_TYPE.FILE) {
+                children.splice(i, 0, file);
+                return;
+            }
+        }
+        children.push(file);
+    }
 }
 window.createNewFile = createNewFile;
 window.createNewDir = createNewDir;
@@ -97,17 +105,8 @@ function getCurrentParentId () {
     return file.parentId;
 }
 
-function getParent (parentId) {
-    if (parentId === ROOT) {
-        return {
-            children: files,
-            parent: ROOT
-        };
-    }
-    return {
-        children: idFiles[parentId].children,
-        parent: idFiles[parentId]
-    };
+export function getParentChildren (parentId) {
+    return (parentId === ROOT) ? files : idFiles[parentId].children;
 }
 
 export function openAllFolder () {
@@ -129,7 +128,7 @@ function folderCommon (func) {
 }
 
 export function sortFiles (parentId = ROOT) {
-    let children = getParent(parentId).children;
+    let children = getParentChildren(parentId);
     children.sort((a, b) => {
         if (a.type === FILE_TYPE.DIR && b.type === FILE_TYPE.FILE) {
             return -1;
@@ -137,7 +136,22 @@ export function sortFiles (parentId = ROOT) {
         if (a.type === FILE_TYPE.FILE && b.type === FILE_TYPE.DIR) {
             return 1;
         }
-        return a.name.charCodeAt(0) - b.name.charCodeAt(0);
+        let index = 0;
+        let num = () => {
+            return a.name.charCodeAt(index) - b.name.charCodeAt(index);
+        };
+        let d = num();
+        while (d === 0) {
+            index ++;
+            if (index === a.name.length) {
+                return -1;
+            }
+            if (index === b.name.length) {
+                return 1;
+            }
+            d = num();
+        }
+        return d;
     });
 }
 

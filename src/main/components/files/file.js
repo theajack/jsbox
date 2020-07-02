@@ -7,7 +7,7 @@ import {getLangStyle} from './file-type';
 import {theme} from '../../js/status';
 import event from '../../js/event';
 import {EVENT, ROOT, FILE_TYPE} from '../../js/constant';
-import {writeIDFiles, idFiles, files} from './file-system';
+import {writeIDFiles, idFiles, files, getParentChildren, sortFiles} from './file-system';
 import {onFileClick, onChangeContentFile} from './file-header';
 import {readFileID, writeFileID, readOpenFileID, writeFiles, readContentFileID, writeContentFileID} from './storage';
 
@@ -23,7 +23,8 @@ function getID () {
 export let globalFileAttr = {
     contentId: readContentFileID(),
     theme: theme.get(),
-    openedId: readOpenFileID()
+    openedId: readOpenFileID(),
+    menuFileId: -1,
 };
 
 window.globalFileAttr = globalFileAttr;
@@ -46,6 +47,7 @@ class JXFileBase {
         writeIDFiles(this.id, this);
         this.name = name;
         this.renamed = renamed;
+        this.renameRepeat = false;
         this.tempName = ''; // 重命名时的临时名字
         this.parentId = parentId;
         if (renamed) {
@@ -74,27 +76,79 @@ class JXFileBase {
         onChangeContentFile(this.id);
         writeContentFileID();
     }
-    rename (el) {
+    rename () {
         this.renamed = true;
         this.tempName = this.name;
-        if (el && !el.__init_rename) {
-            el.__init_rename = true;
-            document.addEventListener('blur', () => {
-                this.renameFinish();
-            }, false);
+        setTimeout(() => {
+            let input = document.getElementById('rename-input-' + this.id);
+            if (!input) {
+                console.warn('rename input = null');
+                return;
+            }
+            if (this.tempName !== '') {
+                let start = 0, end = this.tempName.length;
+                let index = this.tempName.lastIndexOf('.');
+                if (index !== -1) {
+                    end = index;
+                }
+                if (input.setSelectionRange) {
+                    // fix chrome issue
+                    window.setTimeout(function () {
+                        input.setSelectionRange(start, end);
+                    }, 0);
+                } else if (input.createTextRange) {
+                    let range = input.createTextRange();
+                    range.collapse(true);
+                    range.moveEnd('character', end);
+                    range.moveStart('character', start);
+                    range.select();
+                }
+            }
+            input.focus();
+        }, 100);
+        // if (el && !el.__init_rename) {
+        //     el.__init_rename = true;
+        //     // el.addEventListener('blur', () => {
+        //     //     this.renameFinish();
+        //     // }, false);
+        // }
+    }
+    renameCheck () {
+        let bros = getParentChildren(this.parentId);
+        if (bros.find(item => {
+            return item.name === this.tempName && item.id !== this.id;
+        })) {
+            this.renameRepeat = true;
+        } else {
+            this.renameRepeat = false;
         }
     }
-    renameFinish () {
+    renameFinish (byEnter) {
         // 结束重命名
+        if (this.renameRepeat) {
+            if (byEnter === true) {
+                return;
+            }
+            if (this.name !== '') {
+                this.renamed = false;
+            } else {
+                this.remove();
+            }
+            this.renameRepeat = false;
+            return;
+        }
         this.renamed = false;
         if (this.tempName.trim() === '') {
             if (this.name === '') { // 新建未命名文件
-                this.name = '未命名'; // 或者删除这个文件
-                writeFiles();
+                // name = '未命名'; // 或者删除这个文件
+                // writeFiles();
+                this.remove();
+                return;
             }
         } else {
             this.name = this.tempName;
             writeFiles();
+            sortFiles(this.parentId);
         }
     }
 }
@@ -110,12 +164,23 @@ export class JXFile extends JXFileBase {
         super({id, name, parentId, renamed});
         this.type = FILE_TYPE.FILE;
         this.content = content;
-        this.style = getLangStyle(this.name);
         this.unsave = false;
+        this.initStyle();
+    }
+    initStyle (name) {
+        this.style = getLangStyle(name || this.name);
     }
     click () {
         super.click();
         onFileClick(this);
+    }
+    renameFinish (byEnter) {
+        super.renameFinish(byEnter);
+        this.initStyle();
+    }
+    renameCheck () {
+        super.renameCheck();
+        this.initStyle(this.tempName);
     }
 }
 
@@ -131,6 +196,7 @@ export class JXDir extends JXFileBase {
         super({id, name, parentId, renamed});
         this.type = FILE_TYPE.DIR;
         this.opened = opened;
+        this.unnameIndex = 0;
         children.forEach(child => {
             if (child.parentId === ROOT)
                 child.parentId = this.id;

@@ -1,4 +1,7 @@
-import {MENU_TYPE, FILE_TYPE} from '../../js/constant';
+import {MENU_TYPE, FILE_TYPE, EVENT} from '../../js/constant';
+import {globalFileAttr} from './file';
+import {idFiles} from './file-system';
+import event from '../../js/event';
 
 let _v = null;
 
@@ -54,7 +57,7 @@ export let fileMenus = [
         title: '重命名',
         // key: ['alt', 's'], // 默认null
         onclick () {
-
+            idFiles[globalFileAttr.menuFileId].rename();
         },
         // mounted () {
         //     event.regist(EVENT.SAVE_CODE, this.onclick);
@@ -65,12 +68,16 @@ export let fileMenus = [
         title: '删除',
         // key: ['alt', 's'], // 默认null
         onclick () {
-            
-            _v.menuFileId;
-        // event.emit(EVENT.USE_CODE, (value) => {
-        //     code.set(value, true, false);
-        //     toast('保存代码成功');
-        // });
+            let file = idFiles[globalFileAttr.menuFileId];
+            let text = file.type === FILE_TYPE.DIR ?
+                `是否确认删除“${file.name}”及其内容 (不可撤销)?` :
+                `是否确认删除当前文件“${file.name}” (不可撤销)?`;
+            event.emit(EVENT.OPEN_CONFIRM, {
+                text,
+                confirm () {
+                    file.remove();
+                }
+            });
         },
         // mounted () {
         //     event.regist(EVENT.SAVE_CODE, this.onclick);

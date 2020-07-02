@@ -1,5 +1,5 @@
 <template>
-    <div v-if='menus.length>0' class='menu-item-dropdown' :style='menuStyle'>
+    <div v-if='menus.length>0' class='menu-item-dropdown' @click.stop :style='menuStyle'>
         <div v-for='(item,index) in menus'
              class='menu-dd-item'
              :class='{"menu-split":item.type === MENU_TYPE.SPLIT}'
