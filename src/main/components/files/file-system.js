@@ -66,6 +66,7 @@ export function unsaveFile (id, code) {
     file.usContent = code;
 }
 export function createNewFile (name = '', parentId = ROOT) {
+    // let parentId = globalFileAttr.contentId; //
     let {children, parent} = getParent(parentId);
     children.push(new JXFile({
         parent,
@@ -111,3 +112,18 @@ function folderCommon (func) {
     }
     writeFiles();
 }
+
+export function sortFiles (parentId = ROOT) {
+    let children = getParent(parentId).children;
+    children.sort((a, b) => {
+        if (a.type === FILE_TYPE.DIR && b.type === FILE_TYPE.FILE) {
+            return -1;
+        }
+        if (a.type === FILE_TYPE.FILE && b.type === FILE_TYPE.DIR) {
+            return 1;
+        }
+        return a.name.charCodeAt(0) - b.name.charCodeAt(0);
+    });
+}
+
+window.sortFiles = sortFiles;
