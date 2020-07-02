@@ -65,15 +65,16 @@ export function unsaveFile (id, code) {
     console.log('file.usContent', code);
     file.usContent = code;
 }
-export function createNewFile (name = '', parentId = ROOT) {
-    // let parentId = globalFileAttr.contentId; //
+export function createNewFile (name = '', parentId = getCurrentParentId()) {
+    console.log(parentId);
     let {children, parent} = getParent(parentId);
     children.push(new JXFile({
         parent,
         name
     }));
 }
-export function createNewDir (name = '', parentId = ROOT) {
+export function createNewDir (name = '', parentId = getCurrentParentId()) {
+    console.log(parentId);
     let {children, parent} = getParent(parentId);
     children.push(new JXDir({
         parent,
@@ -82,6 +83,20 @@ export function createNewDir (name = '', parentId = ROOT) {
 }
 window.createNewFile = createNewFile;
 window.createNewDir = createNewDir;
+
+function getCurrentParentId () {
+    let cid = globalFileAttr.contentId;
+    if (cid === -1) {
+        return ROOT;
+    }
+    let file = idFiles[cid];
+    if (file.type === FILE_TYPE.DIR) {
+        file.open();
+        return file.id;
+    }
+    return file.parentId;
+}
+
 function getParent (parentId) {
     if (parentId === ROOT) {
         return {

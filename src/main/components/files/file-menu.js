@@ -7,7 +7,7 @@ export function setFileMenuVue (v) {
     console.log(_v);
 }
 
-export let fileItems = [
+export let fileMenus = [
     {
         belongs: [FILE_TYPE.FILE],
         icon: 'file-o',
