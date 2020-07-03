@@ -226,6 +226,12 @@ html *{
     .el-tag{
         border-radius: 0;
     }
+    .el-dialog__footer i{
+        background-color: #fff5;
+        &.confirm-focus{
+            border: 1px solid #fff;
+        }
+    }
 }
 .jx-select-dd{
     .popper__arrow{
@@ -384,6 +390,9 @@ body.dark{
         }
         .el-dialog__footer i{
             background-color: #fff3;
+            &.confirm-focus{
+                border: 1px solid #ccc;
+            }
         }
         .el-dialog__footer i:hover{
             background-color: #fff5;

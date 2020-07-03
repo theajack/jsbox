@@ -14,7 +14,7 @@ const SUFFIX = {
     'PASCAL': 'pascal', 'PERL': 'perl', 'LUA': 'lua', 'R': 'r', 'REDIS': 'redis', 'RUBY': 'ruby',
     'RUST': 'rs', 'SHELL': 'sh', 'POWERSHELL': 'sh', 'YAML': 'yml', 'DOCKERFILE': '',
     'GRAPHQL': 'graphql', 'HANDLEBARS': 'handlebars', 'BAT': 'bat', 'CLOJURE': 'clj',
-    'PLAINTEXT': 'txt', 'PUG': 'pug'
+    'PLAINTEXT': 'txt', 'PUG': 'pug', 'VUE': 'vue', 'JSX': 'jsx'
 };
 
 function getSuffix (language) {

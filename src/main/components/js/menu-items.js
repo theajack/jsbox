@@ -8,6 +8,7 @@ import {download, openFile} from './file';
 import {isCustomConfig} from './config';
 import {Libs} from './lib';
 import {compressUrl} from '../../js/compress';
+import {clearAllFiles} from '../files/storage';
 
 export let menus = [
     {
@@ -90,13 +91,14 @@ export let menus = [
             type: MENU_TYPE.FUNC,
         }, {
             icon: 'trash',
-            title: '清空',
+            title: '删除所有文件',
             key: ['ctrl', 'd'],
             onclick () {
                 event.emit(EVENT.OPEN_CONFIRM, {
-                    text: '是否确认清空代码?',
+                    text: '是否确认删除所有文件(不可撤销)?',
+                    focusComfirm: false,
                     confirm () {
-                        event.emit(EVENT.SET_CODE, '');
+                        clearAllFiles();
                     }
                 });
             },
@@ -126,7 +128,7 @@ export let menus = [
             icon: 'random',
             title: '与暂存版本对比',
             onclick () {
-                event.emit(EVENT.OPEN_DIFF);
+                // event.emit(EVENT.OPEN_DIFF);
             },
             type: MENU_TYPE.OPEN,
         }]

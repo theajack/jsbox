@@ -149,7 +149,7 @@
                 [EVENT.DRAG_PERCENT]: this.countWidth,
                 [EVENT.RESIZE]: this.countWidth,
                 [EVENT.FILE_CLICK]: (item) => {
-                    console.log(item);
+                    // console.log('EVENT.FILE_CLICK', item);
                     this.reinitPosition(item.id);
                 }
             });

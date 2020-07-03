@@ -7,6 +7,11 @@ import {initUnsaveEvent} from './file-save-status';
 export let files = null;
 
 export let idFiles = {};
+window.idFiles = idFiles;
+export function clearFiles () {
+    files.splice(0, files.length);
+    idFiles = {};
+}
 
 export function writeIDFiles (id, item) {
     idFiles[id] = item;
@@ -62,7 +67,7 @@ export function saveFile (id) {
 export function unsaveFile (id, code) {
     let file = idFiles[id];
     file.unsave = true;
-    console.log('file.usContent', code);
+    // console.log('file.usContent', code);
     file.usContent = code;
 }
 export function createNewFile (name = '', parentId = getCurrentParentId()) {
@@ -75,7 +80,8 @@ function createBase (JXClass, name, parentId) {
     let children = getParentChildren(parentId);
     let file = new JXClass({
         parentId,
-        name
+        name,
+        path: getParentPath(parentId)
     });
     if (file.type === FILE_TYPE.DIR) {
         children.unshift(file);
@@ -94,7 +100,7 @@ window.createNewDir = createNewDir;
 
 function getCurrentParentId () {
     let cid = globalFileAttr.contentId;
-    if (cid === -1) {
+    if (cid === -1 || typeof cid !== 'number' ) {
         return ROOT;
     }
     let file = idFiles[cid];
@@ -103,6 +109,10 @@ function getCurrentParentId () {
         return file.id;
     }
     return file.parentId;
+}
+
+function getParentPath (parentId) {
+    return parentId === ROOT ? '' : idFiles[parentId].path;
 }
 
 export function getParentChildren (parentId) {
@@ -153,6 +163,43 @@ export function sortFiles (parentId = ROOT) {
         }
         return d;
     });
+}
+
+export function copyFile (id = globalFileAttr.menuFileId) {
+    globalFileAttr.copyFileId = id;
+    globalFileAttr.cutFileId = -1;
+    event.emit(EVENT.PASTE_FILE_CHANGE, true);
+}
+
+export function cutFile (id = globalFileAttr.menuFileId) {
+    globalFileAttr.copyFileId = -1;
+    globalFileAttr.cutFileId = id;
+    event.emit(EVENT.PASTE_FILE_CHANGE, true);
+}
+
+export function pasteFile (id = globalFileAttr.menuFileId) {
+    let parentId = id == -1 ? ROOT : id;
+    if (globalFileAttr.copyFileId === -1 && globalFileAttr.cutFileId === -1) {
+        return;
+    }
+    let isCopy, cid;
+    if (globalFileAttr.copyFileId !== -1) {
+        cid = globalFileAttr.copyFileId;
+        isCopy = true;
+    } else {
+        cid = globalFileAttr.cutFileId;
+        isCopy = false;
+    }
+    let file = idFiles[cid];
+    
+    if (isCopy) {
+        file.copyTo(parentId);
+    } else {
+        file.cutTo(parentId);
+    }
+    globalFileAttr.copyFileId = -1;
+    globalFileAttr.cutFileId = -1;
+    event.emit(EVENT.PASTE_FILE_CHANGE, false);
 }
 
 window.sortFiles = sortFiles;

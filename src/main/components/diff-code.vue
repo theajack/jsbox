@@ -5,6 +5,10 @@
         :visible.sync='visible'
         :before-close='beforeClose'>
         <i class='ei-times close-diff' @click='close'></i>
+        <div class='diff-title'>
+            <span class='diff-file-name' :title='diffCodes.prevPath'>{{diffCodes.prevPath}}</span>
+            <span class='diff-file-name' :title='diffCodes.nextPath'>{{diffCodes.nextPath}}</span>
+        </div>
         <div class='diff-editor' ref='editor'></div>
     </el-dialog>
 </template>
@@ -12,12 +16,14 @@
     import {Editor} from './js/editor';
     import event from '../js/event';
     import {EVENT} from '../js/constant';
-    import {code, fontSize, theme, language} from '../js/status';
+    import {fontSize, theme} from '../js/status';
+    import {diffCodes} from './js/store';
     export default {
         data () {
             return {
                 visible: false,
-                editor: null
+                editor: null,
+                diffCodes,
             };
         },
         mounted () {
@@ -29,8 +35,8 @@
                         }, 10);
                     }
                 },
-                [EVENT.OPEN_DIFF]: () => {
-                    this.open();
+                [EVENT.OPEN_DIFF]: (codes) => {
+                    this.open(codes);
                 },
                 [EVENT.FONT_SIZE_CHANGE]: (type) => {
                     if (this.visible && this.editor) {
@@ -49,20 +55,18 @@
             });
         },
         methods: {
-            open () {
+            open (codes) {
                 this.visible = true;
                 this.$nextTick(() => {
-                    event.emit(EVENT.USE_CODE, c => {
-                        this.editor = new Editor({
-                            el: this.$refs.editor,
-                            code: c,
-                            lang: language.get(),
-                            diffCode: code.get(),
-                            fontSize: fontSize.get(),
-                            theme: theme.get()
-                        });
-                        event.emit(EVENT.EDITOR_MOUNTED, this.editor);
+                    this.editor = new Editor({
+                        el: this.$refs.editor,
+                        code: codes.next,
+                        lang: codes.lang,
+                        diffCode: codes.prev,
+                        fontSize: fontSize.get(),
+                        theme: theme.get()
                     });
+                    event.emit(EVENT.EDITOR_MOUNTED, this.editor);
                 });
             },
             close () {
@@ -86,6 +90,19 @@
     .jx-diff-dialog{
         display: flex;
         align-items: center;
+        .diff-title{
+            position: absolute;
+            top: -26px;
+            color: #eee;
+            width: 100%;
+            .diff-file-name{
+                display: inline-block;
+                width: 48%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
         .close-diff{
             color: #eee;
             position: absolute;

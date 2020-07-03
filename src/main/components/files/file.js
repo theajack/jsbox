@@ -6,13 +6,17 @@
 import {getLangStyle} from './file-type';
 import {theme} from '../../js/status';
 import event from '../../js/event';
-import {EVENT, ROOT, FILE_TYPE} from '../../js/constant';
+import {EVENT, ROOT, FILE_TYPE, RENAME_ERROR} from '../../js/constant';
 import {writeIDFiles, idFiles, files, getParentChildren, sortFiles} from './file-system';
-import {onFileClick, onChangeContentFile} from './file-header';
-import {readFileID, writeFileID, readOpenFileID, writeFiles, readContentFileID, writeContentFileID} from './storage';
+import {onFileClick, onChangeContentFile, clearHeaderByRemoveFile} from './file-header';
+import {readFileID, writeFileID, readOpenFileID, writeFiles, readContentFileID, writeContentFileID, writeOpenFileID} from './storage';
+import {toast} from '../../js/util';
 
 // https://blog.csdn.net/qq_37003559/article/details/103970901?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1&utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1
 export let fileId = readFileID();
+
+const FILE_NAME_REG = /[\\/:\*\?"'<>\|]/;
+const FILE_NAME_REG_ALL = /[\\/:\*\?"'<>\|]/g;
 
 function getID () {
     let id = fileId++;
@@ -20,12 +24,37 @@ function getID () {
     return id;
 }
 
+
 export let globalFileAttr = {
     contentId: readContentFileID(),
     theme: theme.get(),
     openedId: readOpenFileID(),
     menuFileId: -1,
+    copyFileId: -1,
+    cutFileId: -1,
 };
+
+export function clearFileAttrById (id) {
+    if (globalFileAttr.contentId === id) {
+        globalFileAttr.contentId = -1;
+        writeContentFileID();
+    }
+    if (globalFileAttr.openedId === id) {
+        globalFileAttr.openedId = -1;
+        writeOpenFileID();
+    }
+    if (globalFileAttr.menuFileId === id) {
+        globalFileAttr.menuFileId = -1;
+    }
+}
+
+export function clearFileAttr () {
+    globalFileAttr.contentId = -1;
+    globalFileAttr.openedId = -1;
+    globalFileAttr.menuFileId = -1;
+    fileId = 0;
+}
+
 
 window.globalFileAttr = globalFileAttr;
 
@@ -39,20 +68,30 @@ class JXFileBase {
         name = '',
         parentId = ROOT,
         renamed = false,
+        path = ''
     }) {
+        // console.log(name, 333);
         if (name === '') {
             renamed = true;
+            this.newFile = true;
+        } else {
+            this.newFile = false;
         }
         this.id = typeof id === 'number' ? id : getID();
         writeIDFiles(this.id, this);
         this.name = name;
+        this.parentPath = path;
+        this.initPath();
         this.renamed = renamed;
-        this.renameRepeat = false;
+        this.renameError = '';
         this.tempName = ''; // 重命名时的临时名字
         this.parentId = parentId;
         if (renamed) {
             this.rename();
         }
+    }
+    initPath () {
+        this.path = this.parentPath + '/' + this.name;
     }
     parent () {
         if (this.parentId === ROOT) {
@@ -70,6 +109,7 @@ class JXFileBase {
         }
         let index = cs.indexOf(this);
         cs.splice(index, 1);
+        clearHeaderByRemoveFile(this);
         writeFiles();
     }
     click () {
@@ -118,14 +158,22 @@ class JXFileBase {
         if (bros.find(item => {
             return item.name === this.tempName && item.id !== this.id;
         })) {
-            this.renameRepeat = true;
-        } else {
-            this.renameRepeat = false;
+            this.renameError = RENAME_ERROR.REPEAT;
+            return;
         }
+        if (FILE_NAME_REG.test(this.tempName)) {
+            this.renameError = RENAME_ERROR.NOT_VALID;
+            return;
+        }
+        this.renameError = '';
     }
     renameFinish (byEnter) {
         // 结束重命名
-        if (this.renameRepeat) {
+        if (this.renameError === RENAME_ERROR.NOT_VALID) {
+            this.tempName = this.tempName.replace(FILE_NAME_REG_ALL, '');
+            this.renameCheck();
+        }
+        if (this.renameError === RENAME_ERROR.REPEAT) {// 存在重名文件
             if (byEnter === true) {
                 return;
             }
@@ -134,14 +182,12 @@ class JXFileBase {
             } else {
                 this.remove();
             }
-            this.renameRepeat = false;
+            this.renameError = '';
             return;
         }
         this.renamed = false;
         if (this.tempName.trim() === '') {
             if (this.name === '') { // 新建未命名文件
-                // name = '未命名'; // 或者删除这个文件
-                // writeFiles();
                 this.remove();
                 return;
             }
@@ -149,6 +195,9 @@ class JXFileBase {
             this.name = this.tempName;
             writeFiles();
             sortFiles(this.parentId);
+            this.initPath();
+            this.renameError = '';
+            clearTimeout(this._timer);
         }
     }
 }
@@ -159,13 +208,15 @@ export class JXFile extends JXFileBase {
         name,
         parentId,
         renamed,
-        content,
+        content = '',
+        path
     }) {
-        super({id, name, parentId, renamed});
+        super({id, name, parentId, renamed, path});
         this.type = FILE_TYPE.FILE;
         this.content = content;
         this.unsave = false;
         this.initStyle();
+        this.lang = this.style.lang;
     }
     initStyle (name) {
         this.style = getLangStyle(name || this.name);
@@ -177,10 +228,47 @@ export class JXFile extends JXFileBase {
     renameFinish (byEnter) {
         super.renameFinish(byEnter);
         this.initStyle();
+        if (this.lang !== this.style.lang) {
+            this.lang = this.style.lang;
+        }
+
+        if (this.newFile && this.renameError === '' && this.name !== '') {
+            this.click();
+            this.newFile = false;
+        }
     }
     renameCheck () {
         super.renameCheck();
         this.initStyle(this.tempName);
+    }
+    copyTo (newPid) {
+        if (!checkPasteTarget(newPid, this.parentId, this.name)) {
+            return;
+        }
+        let newcs = getParentChildren(newPid);
+        newcs.push(new JXFile({
+            name: this.name,
+            parentId: newPid,
+            renamed: false,
+            content: this.content,
+            path: newPid === ROOT ? '' : idFiles[newPid].path
+        }));
+        sortFiles(newPid);
+        writeFiles();
+    }
+    cutTo (newPid) {
+        if (!checkPasteTarget(newPid, this.parentId, this.name)) {
+            return;
+        }
+        let newcs = getParentChildren(newPid);
+        let cs = getParentChildren(this.parentId);
+        cs.splice(cs.indexOf(this), 1);
+        this.parentId = newPid;
+        this.parentPath = newPid === ROOT ? '' : idFiles[newPid].path;
+        newcs.push(this);
+        sortFiles(newPid);
+        this.initPath();
+        writeFiles();
     }
 }
 
@@ -191,9 +279,10 @@ export class JXDir extends JXFileBase {
         parentId,
         renamed,
         opened = false,
-        children = []
+        children = [],
+        path
     }) {
-        super({id, name, parentId, renamed});
+        super({id, name, parentId, renamed, path});
         this.type = FILE_TYPE.DIR;
         this.opened = opened;
         this.unnameIndex = 0;
@@ -228,6 +317,28 @@ export class JXDir extends JXFileBase {
             file.parentId = this.id;
         }
     }
+    renameFinish (byEnter) {
+        super.renameFinish(byEnter);
+        if (this.newFile) {this.newFile = false;}
+    }
+    copyTo () {
+        
+    }
+    cutTo () {
+        
+    }
+}
+
+function checkPasteTarget (newPid, oldPid, name) {
+    if (newPid === oldPid) {return false;}
+    let newcs = getParentChildren(newPid);
+    if (newcs.find(item => {
+        return item.name === name;
+    })) {
+        toast('粘贴失败, 目标区域存在重名文件');
+        return false;
+    }
+    return true;
 }
 
 window.JXDir = JXDir;

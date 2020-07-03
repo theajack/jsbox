@@ -13,7 +13,7 @@ export function initUnsaveEvent () {
             unsaveFiles.push(globalFileAttr.openedId);
         }
         unsaveFile(globalFileAttr.openedId, code);
-        console.log(unsaveFiles);
+        // console.log('unsaveFiles', unsaveFiles);
     });
     event.regist(EVENT.SAVE_CODE, (a) => {
         console.log('SAVE_CODE', a);

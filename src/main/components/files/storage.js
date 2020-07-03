@@ -1,7 +1,7 @@
-import {read, write, TYPE} from '../../js/notebook';
-import {idFiles, switchOpenFile} from './file-system';
-import {fileHeaderList} from './file-header';
-import {globalFileAttr, JXDir, JXFile} from './file';
+import {read, write, TYPE, remove} from '../../js/notebook';
+import {idFiles, switchOpenFile, clearFiles} from './file-system';
+import {fileHeaderList, clearFileHeader} from './file-header';
+import {globalFileAttr, JXDir, JXFile, clearFileAttr} from './file';
 import {files} from './file-system';
 import {fileId} from './file';
 import {ROOT, FILE_TYPE} from '../../js/constant';
@@ -93,11 +93,11 @@ export function readFiles () {
     if (!_f) {
         return [];
     }
-    return mapReadFiles(_f, ROOT);
+    return mapReadFiles(_f, ROOT, '');
 }
 
 // {i,c,ct,n,o} {id,children,content,name,opened}
-function mapReadFiles (arr, parent) {
+function mapReadFiles (arr, parentId, path) {
     let files = [];
     arr.forEach(item => {
         let file = null;
@@ -105,15 +105,17 @@ function mapReadFiles (arr, parent) {
             file = new JXDir({
                 id: item.i,
                 name: item.n,
-                parent,
-                children: mapReadFiles(item.c, file),
+                parentId,
+                path,
+                children: mapReadFiles(item.c, item.i, path + '/' + item.n),
                 opened: item.o === 1
             });
         } else {
             file = new JXFile({
                 id: item.i,
                 name: item.n,
-                parent,
+                parentId,
+                path,
                 content: item.ct,
             });
         }
@@ -124,7 +126,7 @@ function mapReadFiles (arr, parent) {
 
 
 export function writeFiles () {
-    // console.log('writeFiles');
+    // console.log('mark writeFiles');
     if (!storageMark.files) {
         storageMark.files = _writeFiles;
     }
@@ -166,4 +168,16 @@ function saveFileStorage () {
     }
 }
 
+export function clearAllFiles () {
+    remove(TYPE.FILES);
+    remove(TYPE.FILES_HEADER);
+    remove(TYPE.FILE_CONENT_ID);
+    remove(TYPE.FILE_ID);
+    remove(TYPE.FILE_OPEN_ID);
+    clearFiles();
+    clearFileHeader();
+    clearFileAttr();
+}
+
 window.saveFileStorage = saveFileStorage;
+window.clearAllFiles = clearAllFiles;

@@ -1,7 +1,7 @@
 // import {liftOff} from '../../js/grammars/configure-tokenizer';
 
 import {globalFileAttr} from '../files/file';
-import {LANG, THEME, DEFAULT_FONT_SIZE} from '../../js/constant';
+import {LANG, THEME, DEFAULT_FONT_SIZE, getFinalLang} from '../../js/constant';
 
 // import html from './html';
 // import javascript from './javascript';
@@ -69,7 +69,7 @@ export class Editor {
     constructor ({
         el,
         code = '',
-        diffCode = '',
+        diffCode,
         lang = LANG.JAVASCRIPT,
         theme = THEME.LIGHT,
         fontSize = DEFAULT_FONT_SIZE,
@@ -77,6 +77,8 @@ export class Editor {
         oncursorchange = null,
         option = {}
     }) {
+        // console.log('Editorlang', lang);
+        console.log('console.log(code, diffCode);', code, diffCode);
         initMonaco();
         this.onchange = onchange;
         this.oncursorchange = oncursorchange;
@@ -84,7 +86,7 @@ export class Editor {
         this.lang = lang;
         this.option = option;
         this.el = (typeof el === 'string') ? document.querySelector(el) : el;
-        if (diffCode) {
+        if (typeof diffCode === 'string') {
             this.type = 'diff-editor';
             this.diffCode = diffCode;
         } else {
@@ -155,9 +157,10 @@ export class Editor {
         // if (lang === this.lang) {
         //     return;
         // }
-        code = code || this.code();
+        code = typeof code === 'string' ? code : this.code();
         let oldModel = this.editor.getModel();
         this.lang = lang;
+        lang = getFinalLang(lang);
         if (this.type === 'editor') {
             let newModel = Monaco.editor.createModel(code, lang);
             this.editor.setModel(newModel);

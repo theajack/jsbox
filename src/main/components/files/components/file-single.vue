@@ -5,11 +5,11 @@
          :style="{'padding-left': 5+deep*13 +'px'}"
          @click='clickFile()'
     >
-        <div class='file-name-w'>
+        <div class='file-name-w' :title='file.path'>
             <i :class="'file-icon '+fileIcon()" :style='{color: fileIconColor()}'></i>
             <input
                 class='file-rename'
-                :class='{"file-name-repeat": file.renameRepeat}'
+                :class='{"file-name-error": file.renameError!==""}'
                 type='text'
                 :id='"rename-input-"+file.id'
                 @click='clickInput'
@@ -19,13 +19,13 @@
                 v-if='file.renamed'
                 v-model='file.tempName'>
             <span v-else>{{file.name}}</span>
-            <span class='repeat-tip' v-if='file.renameRepeat'>此位置已存在该名称文件，请选择其他名称。</span>
+            <span class='repeat-tip' v-if='file.renameError!==""'>{{file.renameError | renameErrorText}}</span>
         </div>
     </div>
 </template>
 <script>
     import {globalFileAttr} from '../file';
-    import {THEME, FILE_TYPE, KEY_CODE} from '../../../js/constant';
+    import {THEME, FILE_TYPE, KEY_CODE, RENAME_ERROR_TEXT} from '../../../js/constant';
     
     export default {
         name: 'file-block',
@@ -47,6 +47,11 @@
         // mounted () {
         //     this.focusRename();
         // },
+        filters: {
+            renameErrorText (v) {
+                return RENAME_ERROR_TEXT[v];
+            }
+        },
         methods: {
             renameKeyDown (e) {
                 if (e.keyCode === KEY_CODE.ENTER) {

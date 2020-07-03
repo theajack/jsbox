@@ -18,7 +18,7 @@ function onKeyDown (e) {
     if (e.keyCode === 122) {
         event.emit(EVENT.TOGGLE_FULLSCREEN);
         pd();
-        return;
+        return true;
     }
 
     if (e.ctrlKey) {
@@ -38,6 +38,9 @@ function onKeyDown (e) {
             case 187:eventName = EVENT.FONT_SIZE_CHANGE; value = 'up'; pd(); break;
             case 189:eventName = EVENT.FONT_SIZE_CHANGE; value = 'down'; pd(); break;
             case c('Y'):eventName = EVENT.RUN_CODE; pd(); break;
+            case c('C'):eventName = EVENT.COPY; value = e; break;
+            case c('X'):eventName = EVENT.CUT; value = e; break;
+            case c('V'):eventName = EVENT.PASTE; value = e; break;
         }
         
         if (e.altKey) {

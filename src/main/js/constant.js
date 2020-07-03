@@ -52,7 +52,15 @@ export const EVENT = {
     SAVE_SINGLE_CODE: 'SAVE_SINGLE_CODE',
 
     // 多编辑器
-    FILE_SHOW: 'FILE_SHOW'
+    FILE_SHOW: 'FILE_SHOW',
+
+    DIFF_CODE_CHOOSED: 'DIFF_CODE_CHOOSED',
+    PASTE_FILE_CHANGE: 'PASTE_FILE_CHANGE',
+
+    COPY: 'COPY',
+    CUT: 'CUT',
+    PASTE: 'PASTE',
+
 };
 
 export const TOOL_HEIGHT = 30;
@@ -70,8 +78,16 @@ export const LANG = {
     'PASCAL': 'pascal', 'PERL': 'perl', 'LUA': 'lua', 'R': 'r', 'REDIS': 'redis', 'RUBY': 'ruby',
     'RUST': 'rust', 'SHELL': 'shell', 'POWERSHELL': 'powershell', 'YAML': 'yaml', 'DOCKERFILE': 'dockerfile',
     'GRAPHQL': 'graphql', 'HANDLEBARS': 'handlebars', 'BAT': 'bat', 'CLOJURE': 'clojure',
-    'PLAINTEXT': 'plaintext', 'PUG': 'pug'
+    'PLAINTEXT': 'plaintext', 'PUG': 'pug', 'VUE': 'vue', 'JSX': 'jsx'
 };
+
+export function getFinalLang (lang) {
+    switch (lang) {
+        case LANG.VUE:return LANG.HTML;
+        case LANG.JSX:return LANG.JAVASCRIPT;
+    }
+    return lang;
+}
 
 export const ALIAS = {
     js: 'javascript',
@@ -103,5 +119,18 @@ export const DRAG_TYPE = {
 };
 
 export const KEY_CODE = {
-    ENTER: 13
+    ENTER: 13,
+    LEFT: 37,
+    RIGHT: 39,
+};
+
+export const RENAME_ERROR = {
+    REPEAT: 'REPEAT',
+    NOT_VALID: 'NOT_VALID'
+};
+
+export const RENAME_ERROR_TEXT = {
+    NO_ERROR: '',
+    REPEAT: '此位置已存在该名称文件，请选择其他名称。',
+    NOT_VALID: '文件名称中不可出现“\\ / : * ? " \' < > |”'
 };

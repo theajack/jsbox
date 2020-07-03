@@ -45,6 +45,9 @@
                         this.initEditor();
                     }
                 }
+            },
+            'file.lang': function (lang) {
+                this._editor.changeLang(lang);
             }
         },
         mounted () {
@@ -80,6 +83,7 @@
                         fontSize: fontSize.get(),
                         theme: theme.get(),
                         code: this.file.content,
+                        lang: this.file.style.lang,
                         onchange (c) {
                             event.emit(EVENT.CODE_CHANGE, c);
                         },

@@ -1,13 +1,14 @@
 import {MENU_TYPE, FILE_TYPE, EVENT} from '../../js/constant';
 import {globalFileAttr} from './file';
-import {idFiles} from './file-system';
+import {idFiles, copyFile, pasteFile, cutFile} from './file-system';
 import event from '../../js/event';
+import {setDiffCode, diffCode} from '../js/diff-code';
 
 let _v = null;
 
 export function setFileMenuVue (v) {
     _v = v;
-    console.log(_v);
+    console.log('setFileMenuVue', _v);
 }
 
 export let fileMenus = [
@@ -17,8 +18,7 @@ export let fileMenus = [
         title: '打开',
         // key: ['ctrl', 'o'],
         onclick () {
-        },
-        mounted () {
+            idFiles[globalFileAttr.menuFileId].click();
         },
         type: MENU_TYPE.FUNC,
     }, {
@@ -26,27 +26,55 @@ export let fileMenus = [
         icon: 'copy',
         title: '复制',
         // key: ['ctrl', 's'], // 默认null
-        onclick () {
-            console.log(this);
+        onclick (id) {
+            // console.log(this);
+            copyFile(id);
         },
-        // mounted () {
-        //     event.regist(EVENT.SAVE_CODE, this.onclick);
-        // },
+        mounted () {
+            event.regist(EVENT.COPY, () => {
+                this.onclick(globalFileAttr.contentId);
+            });
+        },
         type: MENU_TYPE.FUNC,
     }, {
         belongs: [FILE_TYPE.FILE, FILE_TYPE.DIR],
         icon: 'cut',
         title: '剪切',
         // key: ['alt', 's'], // 默认null
-        onclick () {
+        onclick (id) {
+            cutFile(id);
         // event.emit(EVENT.USE_CODE, (value) => {
         //     code.set(value, true, false);
         //     toast('保存代码成功');
         // });
         },
-        // mounted () {
-        //     event.regist(EVENT.SAVE_CODE, this.onclick);
-        // },
+        mounted () {
+            event.regist(EVENT.CUT, () => {
+                this.onclick(globalFileAttr.contentId);
+            });
+        },
+        type: MENU_TYPE.FUNC,
+    }, {
+        belongs: [FILE_TYPE.FILE, FILE_TYPE.DIR],
+        icon: 'paste',
+        title: '粘贴',
+        visible: false,
+        // key: ['alt', 's'], // 默认null
+        onclick (id) {
+            pasteFile(id);
+        // event.emit(EVENT.USE_CODE, (value) => {
+        //     code.set(value, true, false);
+        //     toast('保存代码成功');
+        // });
+        },
+        mounted () {
+            event.regist(EVENT.PASTE_FILE_CHANGE, canPaste => {
+                this.visible = canPaste;
+            });
+            event.regist(EVENT.PASTE, () => {
+                this.onclick(globalFileAttr.contentId);
+            });
+        },
         type: MENU_TYPE.FUNC,
     }, {
         belongs: [FILE_TYPE.FILE, FILE_TYPE.DIR],
@@ -112,13 +140,24 @@ export let fileMenus = [
         icon: 'random',
         title: '选择以进行比较',
         onclick () {
+            setDiffCode();
         },
         type: MENU_TYPE.OPEN,
     },  {
         belongs: [FILE_TYPE.FILE],
         icon: 'random',
-        title: '与选择文件进行比较',
+        title: '',
+        visible: false,
         onclick () {
+            diffCode();
+        },
+        mounted () {
+            event.regist(EVENT.DIFF_CODE_CHOOSED, (name) => {
+                this.title = `与选择文件 (${name}) 进行比较`;
+                if (!this.visible) {
+                    this.visible = true;
+                }
+            });
         },
         type: MENU_TYPE.OPEN,
     }

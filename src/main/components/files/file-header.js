@@ -1,10 +1,33 @@
-import {globalFileAttr} from './file';
+import {globalFileAttr, clearFileAttrById} from './file';
 import event from '../../js/event';
 import {EVENT, ROOT, FILE_TYPE} from '../../js/constant';
 import {readFilesHeader, writeFilesHeader, writeOpenFileID, writeContentFileID} from './storage';
 import {idFiles, switchOpenFile} from './file-system';
 
 export let fileHeaderList = null;
+
+export function clearHeaderByRemoveFile (file) {
+    clearFileAttrById(file.id);
+    if (file.type === FILE_TYPE.DIR) {
+        file.children.forEach((item) => {
+            clearHeaderByRemoveFile(item);
+        });
+    } else {
+        removeFromHeaderByFile(file);
+    }
+    writeFilesHeader();
+}
+
+function removeFromHeaderByFile (file) {
+    let index = fileHeaderList.indexOf(file);
+    if (index !== -1) {
+        fileHeaderList.splice(index, 1);
+    }
+}
+
+export function clearFileHeader () {
+    fileHeaderList.splice(0, fileHeaderList.length);
+}
 
 export function initFileHeaders () {
     if (fileHeaderList) {

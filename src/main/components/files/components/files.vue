@@ -122,7 +122,7 @@
                     background-color: #fff;
                     color: #555;
                     border: 1px solid #ccc;
-                    &.file-name-repeat{
+                    &.file-name-error{
                         border: 1px solid #f44;
                         background-color: rgba(255,55,55,.1);
                     }
@@ -172,7 +172,7 @@
                         background-color: #3c3c3c;
                         color: #aaa;
                         border: 1px solid #888;
-                        &.file-name-repeat{
+                        &.file-name-error{
                             border: 1px solid #b44;
                             background-color: rgba(255,55,55,.1);
                         }
@@ -180,7 +180,7 @@
                     .repeat-tip{
                         background-color: rgb(59, 39, 39);
                         border: 1px solid #b44;
-                        color: #666;
+                        color: #aaa;
                     }
                 }
                 &:hover{

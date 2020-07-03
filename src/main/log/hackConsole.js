@@ -26,6 +26,9 @@ function hack (name) {
 }
 
 function triggerLog (name, arg) {
+    // if (name === 'log') {
+    //     console.trace();
+    // }
     console['_' + name](...arg);
     if (arg.length == 0) {
         return;

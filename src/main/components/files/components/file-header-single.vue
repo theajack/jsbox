@@ -1,5 +1,6 @@
 <template>
     <span
+        :title='file.path'
         draggable='true'
         @mousedown='activeFile'
         @dragstart='dragStart'

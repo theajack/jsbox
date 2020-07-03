@@ -11,6 +11,21 @@ const LANG_STYLE = {
         light: '#49a4c9',
         dark: '#419aba',
         icon: 'ef-ts'
+    },
+    [LANG.VUE]: {
+        light: '#7fae42',
+        dark: '#8dc149',
+        icon: 'ef-vue'
+    },
+    [LANG.JSX]: {
+        light: '#498ba7',
+        dark: '#519aba',
+        icon: 'ef-react'
+    },
+    [LANG.JAVA]: {
+        light: '#b8383d',
+        dark: '#cc3144',
+        icon: 'ef-java'
     }
 };
 
