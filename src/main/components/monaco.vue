@@ -47,7 +47,8 @@
                 }
             },
             'file.lang': function (lang) {
-                this._editor.changeLang(lang);
+                if (this._editor)
+                    this._editor.changeLang(lang);
             }
         },
         mounted () {

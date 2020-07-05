@@ -1,5 +1,5 @@
 <template>
-    <div v-if='menus.length>0' class='menu-item-dropdown' @click.stop :style='menuStyle'>
+    <div ref='menuEl' v-if='menus.length>0' class='menu-item-dropdown' @click.stop :style='menuStyle'>
         <div v-for='(item,index) in menus'
              class='menu-dd-item'
              :class='{"menu-split":item.type === MENU_TYPE.SPLIT}'
@@ -42,6 +42,15 @@
                 default: false
             }
         },
+        watch: {
+            top (v) {
+                this.$nextTick(() => {
+                    if (this.$refs.menuEl.offsetHeight + v + 25 > window.innerHeight) {
+                        this.$emit('reinitTop', window.innerHeight - this.$refs.menuEl.offsetHeight - 30);
+                    }
+                });
+            }
+        },
         computed: {
             menuStyle () {
                 let style = {
@@ -63,6 +72,7 @@
             };
         },
         mounted () {
+            
             this.menus.forEach((item) => {
                 if (item.mounted) {
                     item.mounted();

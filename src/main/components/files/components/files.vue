@@ -7,6 +7,7 @@
         <menu-dropdown
             :menus='menus'
             @menuClick='menuClick'
+            @reinitTop='reinitTop'
             position='fixed'
             :left='left'
             :top='top'
@@ -58,6 +59,9 @@
             setFileMenuVue(this);
         },
         methods: {
+            reinitTop (top) {
+                this.top = top;
+            },
             onMenu (e) {
                 e.preventDefault();
                 if (hitEventParent(e, 'file-tools', 'files-w')) {
