@@ -42,7 +42,7 @@
     "chalk": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
-    "easy-icon": "^1.0.2",
+    "easy-icon": "^1.0.8",
     "element-ui": "^2.13.0",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",

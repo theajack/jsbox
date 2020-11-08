@@ -81,32 +81,47 @@ window.jsbox_libs = {
         'url': 'https://cdn.jsdelivr.net/npm/recast@0.18.7/main.min.js'
     },
     'cnchar': {
-        'version': '2.1.3',
-        url: 'https://cdn.jsdelivr.net/npm/cnchar@2.1.3/cnchar.min.js',
+        'version': '2.2.7',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar@2.2.7/cnchar.min.js',
     },
     'cnchar-poly': {
-        'version': '2.1.3',
-        url: 'https://cdn.jsdelivr.net/npm/cnchar-poly@2.1.3/cnchar.poly.min.js',
+        'version': '2.2.7',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-poly@2.2.7/cnchar.poly.min.js',
         deps: ['cnchar']
     },
     'cnchar-order': {
-        'version': '2.1.3',
-        url: 'https://cdn.jsdelivr.net/npm/cnchar-order@2.1.3/cnchar.order.min.js',
+        'version': '2.2.7',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-order@2.2.7/cnchar.order.min.js',
         deps: ['cnchar']
     },
     'cnchar-trad': {
-        'version': '2.1.3',
-        url: 'https://cdn.jsdelivr.net/npm/cnchar-trad@2.1.3/cnchar.trad.min.js',
+        'version': '2.2.7',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-trad@2.2.7/cnchar.trad.min.js',
         deps: ['cnchar']
     },
     'cnchar-draw': {
-        'version': '2.1.3',
-        url: 'https://cdn.jsdelivr.net/npm/cnchar-draw@2.1.3/cnchar.draw.min.js',
+        'version': '2.2.7',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-draw@2.2.7/cnchar.draw.min.js',
+        deps: ['cnchar']
+    },
+    'cnchar-idiom': {
+        'version': '2.2.7',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-idiom@2.2.7/cnchar.idiom.min.js',
+        deps: ['cnchar']
+    },
+    'cnchar-xhy': {
+        'version': '2.2.7',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-xhy@2.2.7/cnchar.xhy.min.js',
+        deps: ['cnchar']
+    },
+    'cnchar-radical': {
+        'version': '2.2.7',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-radical@2.2.7/cnchar.radical.min.js',
         deps: ['cnchar']
     },
     'cnchar-all': {
-        'version': '2.1.3',
-        url: 'https://cdn.jsdelivr.net/npm/cnchar-all@2.1.3/cnchar.all.min.js'
+        'version': '2.2.7',
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-all@2.2.7/cnchar.all.min.js'
     },
     'easy-icon': {
         'url': 'https://cdn.jsdelivr.net/gh/theajack/easy-icon/dist/easy-icon.min.css',
