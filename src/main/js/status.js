@@ -39,7 +39,7 @@ function generateStatus ({
             write(name, this._value);
         },
         init (value, save = false) {
-            if (typeof value === 'undefined' || value === null) {
+            if (typeof value === 'undefined' || value === null || value === '') {
                 value = this.get();
             }
             this.set(value, save);
