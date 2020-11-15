@@ -1,9 +1,14 @@
 <template>
     <div class='file-name'
          :file-id='file.id'
-         :class='{active: chooseActive(file), "line-active": lineActive()}'
+         :class='{active: chooseActive(file), "line-active": lineActive(), "drag-over": globalFileAttr.dragOverId === file.id}'
          :style="{'padding-left': 5+deep*13 +'px'}"
          @click='clickFile()'
+         
+         draggable='true'
+         @dragstart='dragStart'
+         @drop='drop'
+         @dragover='dragOver'
     >
         <div class='file-name-w' :title='file.path'>
             <i :class="'file-icon '+fileIcon()" :style='{color: fileIconColor()}'></i>
@@ -18,17 +23,23 @@
                 @input='renameCheck'
                 v-if='file.renamed'
                 v-model='file.tempName'>
-            <span v-else>{{file.name}}</span>
+            <span v-else>{{file.name}} {{file.id}}</span>
             <span class='repeat-tip' v-if='file.renameError!==""'>{{file.renameError | renameErrorText}}</span>
         </div>
     </div>
 </template>
 <script>
     import {globalFileAttr} from '../file';
-    import {THEME, FILE_TYPE, KEY_CODE, RENAME_ERROR_TEXT} from '../../../js/constant';
+    import {THEME, FILE_TYPE, KEY_CODE, RENAME_ERROR_TEXT, FILE_NONE, DROP_TYPE} from '../../../js/constant';
+    import {cutFile, idFiles, pasteFile} from '../file-system';
     
     export default {
         name: 'file-block',
+        data () {
+            return {
+                globalFileAttr,
+            };
+        },
         props: {
             deep: {
                 required: false,
@@ -53,6 +64,29 @@
             }
         },
         methods: {
+            dragStart () {
+                globalFileAttr.dragId = this.file.id;
+                globalFileAttr.dropType = DROP_TYPE.FILE;
+            },
+            drop () {
+                let dragId = globalFileAttr.dragId;
+                if (
+                    this.file.type === FILE_TYPE.DIR ||
+                    idFiles[dragId].parentId !== this.file.parentId
+                ) {
+                    cutFile(dragId);
+                    pasteFile(this.file.id);
+                }
+                globalFileAttr.dragId = FILE_NONE;
+                globalFileAttr.dragOverId = FILE_NONE;
+                globalFileAttr.dropType = DROP_TYPE.NONE;
+            },
+            dragOver () {
+                if (globalFileAttr.dropType === DROP_TYPE.FILE) {
+                    globalFileAttr.dragOverId = this.file.id;
+                    event.preventDefault();
+                }
+            },
             renameKeyDown (e) {
                 if (e.keyCode === KEY_CODE.ENTER) {
                     console.log('renameKeyDown byEnter');

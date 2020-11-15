@@ -159,6 +159,7 @@
             width: 20%;
             height: 100%;
             float: left;
+            overflow: hidden;
         }
         .code-area{
             width: 80%;

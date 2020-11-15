@@ -1,5 +1,7 @@
 <template>
     <div class='files-w'
+         @dragover='dragOver'
+         @drop='drop'
          :class='{"files-w-active": filesWActive}'
          :style='{width: filePercent+"%"}' @contextmenu='onMenu' @click='clickFilesW'>
         <file-tool></file-tool>
@@ -17,11 +19,11 @@
 </template>
 <script>
     import {fileDragPercent} from '../../../js/status';
-    import {EVENT} from '../../../js/constant';
+    import {DROP_TYPE, EVENT, FILE_NONE, ROOT} from '../../../js/constant';
     import event from '../../../js/event';
     import FileBlock from './file-block.vue';
     import FileTool from './file-tool.vue';
-    import {initFileSystem} from '../file-system';
+    import {cutFile, idFiles, initFileSystem, pasteFile} from '../file-system';
     import MenuDropdown from '../../menu-dropdown.vue';
     import {fileMenus, setFileMenuVue} from '../file-menu';
     import {hitEventParent} from '../../../js/util';
@@ -59,6 +61,24 @@
             setFileMenuVue(this);
         },
         methods: {
+            dragOver (event) {
+                if (globalFileAttr.dropType === DROP_TYPE.FILE) {
+                    event.preventDefault();
+                }
+            },
+            drop () {
+                let dragId = globalFileAttr.dragId;
+                if (dragId === FILE_NONE) { // 已经被文件接受了
+                    return;
+                }
+                if (idFiles[dragId].parentId !== ROOT) {
+                    cutFile(dragId);
+                    pasteFile(ROOT);
+                }
+                globalFileAttr.dragId = FILE_NONE;
+                globalFileAttr.dragOverId = FILE_NONE;
+                globalFileAttr.dropType = DROP_TYPE.NONE;
+            },
             reinitTop (top) {
                 this.top = top;
             },
@@ -151,6 +171,9 @@
             &.active{
                 background-color: #aaa4;
             }
+            &.drag-over{
+                background-color: #aaa3;
+            }
             &.line-active + .file-block{
                 border-left: 1px solid #a9a9a9;
             }
@@ -192,6 +215,9 @@
                 }
                 &.active{
                     background-color: #aaa2;
+                }
+                &.drag-over{
+                    background-color: #aaa3;
                 }
                 &.line-active + .file-block{
                     border-left: 1px solid #585858;

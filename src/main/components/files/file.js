@@ -6,7 +6,7 @@
 import {getLangStyle} from './file-type';
 import {theme} from '../../js/status';
 import event from '../../js/event';
-import {EVENT, ROOT, FILE_TYPE, RENAME_ERROR} from '../../js/constant';
+import {EVENT, ROOT, FILE_TYPE, RENAME_ERROR, FILE_NONE, DROP_TYPE} from '../../js/constant';
 import {writeIDFiles, idFiles, files, getParentChildren, sortFiles} from './file-system';
 import {onFileClick, onChangeContentFile, clearHeaderByRemoveFile} from './file-header';
 import {readFileID, writeFileID, readOpenFileID, writeFiles, readContentFileID, writeContentFileID, writeOpenFileID} from './storage';
@@ -32,7 +32,13 @@ export let globalFileAttr = {
     menuFileId: -1,
     copyFileId: -1,
     cutFileId: -1,
+
+    // 拖拽文件的相关id
+    dragId: FILE_NONE,
+    dragOverId: FILE_NONE,
+    dropType: DROP_TYPE.NONE
 };
+window.globalFileAttr = globalFileAttr;
 
 export function clearFileAttrById (id) {
     if (globalFileAttr.contentId === id) {
@@ -89,6 +95,13 @@ class JXFileBase {
         if (renamed) {
             this.rename();
         }
+        this.cuted = false;
+    }
+    cut () {
+        this.cuted = true;
+    }
+    cutEnd () {
+        this.cuted = false;
     }
     initPath () {
         this.path = this.parentPath + '/' + this.name;

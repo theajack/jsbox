@@ -20,7 +20,7 @@
     </div>
 </template>
 <script>
-    import {EVENT, MOUSE_BTN} from '../../../js/constant';
+    import {DROP_TYPE, EVENT, MOUSE_BTN} from '../../../js/constant';
     import {evt} from '../../../js/event';
     import {fileDragPercent, dragPercent} from '../../../js/status';
     import $ from 'easy-dom-util';
@@ -47,15 +47,19 @@
                     writeFilesHeader();
                 }
                 this.dragOverIndex = -1;
+                globalFileAttr.dropType = DROP_TYPE.NONE;
             },
             dragOver (index) {
-                if (index !== this.dragOverIndex) {
-                    this.dragOverIndex = index;
+                if (globalFileAttr.dropType === DROP_TYPE.HEADER) {
+                    if (index !== this.dragOverIndex) {
+                        this.dragOverIndex = index;
+                    }
+                    event.preventDefault();
                 }
-                event.preventDefault();
             },
             dragStart (index) {
                 this.dragIndex = index;
+                globalFileAttr.dropType = DROP_TYPE.HEADER;
             },
             closeFile (index) {
                 if (event.button !== MOUSE_BTN.LEFT) {

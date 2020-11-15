@@ -134,3 +134,11 @@ export const RENAME_ERROR_TEXT = {
     REPEAT: '此位置已存在该名称文件，请选择其他名称。',
     NOT_VALID: '文件名称中不可出现“\\ / : * ? " \' < > |”'
 };
+
+export const FILE_NONE = -1;
+
+export const DROP_TYPE = {
+    NONE: -1,
+    HEADER: 0,
+    FILE: 1,
+};

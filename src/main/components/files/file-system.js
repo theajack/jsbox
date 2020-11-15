@@ -1,6 +1,6 @@
 import {readFiles, writeFiles} from './storage';
 import event from '../../js/event';
-import {EVENT, ROOT, FILE_TYPE} from '../../js/constant';
+import {EVENT, ROOT, FILE_TYPE, FILE_NONE} from '../../js/constant';
 import {globalFileAttr, JXFile, JXDir} from './file';
 import {initUnsaveEvent} from './file-save-status';
 
@@ -24,10 +24,11 @@ export function initFileSystem () {
     if (!files) {
         files = readFiles();
         event.regist(EVENT.MIAN_EDITOR_INITED, () => {
-            switchOpenFile(-1, globalFileAttr.openedId);
+            switchOpenFile(FILE_NONE, globalFileAttr.openedId);
         });
         initUnsaveEvent();
     }
+
     window.files = files;
     return files;
 }
@@ -54,7 +55,7 @@ export function switchOpenFile (oldId, newId) {
 }
 
 function isValidId (id) {
-    return (typeof id === 'number' && id !== -1);
+    return (typeof id === 'number' && id !== FILE_NONE);
 }
 
 export function saveFile (id) {
@@ -100,7 +101,7 @@ window.createNewDir = createNewDir;
 
 function getCurrentParentId () {
     let cid = globalFileAttr.contentId;
-    if (cid === -1 || typeof cid !== 'number' ) {
+    if (cid === FILE_NONE || typeof cid !== 'number' ) {
         return ROOT;
     }
     let file = idFiles[cid];
@@ -116,7 +117,11 @@ function getParentPath (parentId) {
 }
 
 export function getParentChildren (parentId) {
-    return (parentId === ROOT) ? files : idFiles[parentId].children;
+    if (parentId === ROOT) {return files;}
+    if (idFiles[parentId].type === FILE_TYPE.FILE) {
+        return getParentChildren(idFiles[parentId].parentId);
+    }
+    return idFiles[parentId].children;
 }
 
 export function openAllFolder () {
@@ -141,7 +146,7 @@ export function sortFiles (parentId = ROOT) {
     let children = getParentChildren(parentId);
     children.sort((a, b) => {
         if (a.type === FILE_TYPE.DIR && b.type === FILE_TYPE.FILE) {
-            return -1;
+            return FILE_NONE;
         }
         if (a.type === FILE_TYPE.FILE && b.type === FILE_TYPE.DIR) {
             return 1;
@@ -154,7 +159,7 @@ export function sortFiles (parentId = ROOT) {
         while (d === 0) {
             index ++;
             if (index === a.name.length) {
-                return -1;
+                return FILE_NONE;
             }
             if (index === b.name.length) {
                 return 1;
@@ -166,24 +171,35 @@ export function sortFiles (parentId = ROOT) {
 }
 
 export function copyFile (id = globalFileAttr.menuFileId) {
+    checkLastCutFile();
     globalFileAttr.copyFileId = id;
-    globalFileAttr.cutFileId = -1;
+    globalFileAttr.cutFileId = FILE_NONE;
     event.emit(EVENT.PASTE_FILE_CHANGE, true);
 }
 
 export function cutFile (id = globalFileAttr.menuFileId) {
-    globalFileAttr.copyFileId = -1;
+    console.log('cutFile', id, globalFileAttr.menuFileId);
+    checkLastCutFile();
+    globalFileAttr.copyFileId = FILE_NONE;
     globalFileAttr.cutFileId = id;
     event.emit(EVENT.PASTE_FILE_CHANGE, true);
+
+    idFiles[id].cut();
+}
+
+function checkLastCutFile () {
+    if (globalFileAttr.cutFileId !== FILE_NONE) {
+        idFiles[globalFileAttr.cutFileId].cutEnd();
+    }
 }
 
 export function pasteFile (id = globalFileAttr.menuFileId) {
-    let parentId = id == -1 ? ROOT : id;
-    if (globalFileAttr.copyFileId === -1 && globalFileAttr.cutFileId === -1) {
+    let parentId = id === FILE_NONE ? ROOT : id;
+    if (globalFileAttr.copyFileId === FILE_NONE && globalFileAttr.cutFileId === FILE_NONE) {
         return;
     }
     let isCopy, cid;
-    if (globalFileAttr.copyFileId !== -1) {
+    if (globalFileAttr.copyFileId !== FILE_NONE) {
         cid = globalFileAttr.copyFileId;
         isCopy = true;
     } else {
@@ -196,9 +212,10 @@ export function pasteFile (id = globalFileAttr.menuFileId) {
         file.copyTo(parentId);
     } else {
         file.cutTo(parentId);
+        idFiles[globalFileAttr.cutFileId].cutEnd();
     }
-    globalFileAttr.copyFileId = -1;
-    globalFileAttr.cutFileId = -1;
+    globalFileAttr.copyFileId = FILE_NONE;
+    globalFileAttr.cutFileId = FILE_NONE;
     event.emit(EVENT.PASTE_FILE_CHANGE, false);
 }
 
