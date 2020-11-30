@@ -86,8 +86,9 @@ class JXFileBase {
         this.id = typeof id === 'number' ? id : getID();
         writeIDFiles(this.id, this);
         this.name = name;
-        this.parentPath = path;
-        this.initPath();
+        this.initPath({
+            parentPath: path
+        });
         this.renamed = renamed;
         this.renameError = '';
         this.tempName = ''; // 重命名时的临时名字
@@ -103,7 +104,12 @@ class JXFileBase {
     cutEnd () {
         this.cuted = false;
     }
-    initPath () {
+    initPath ({
+        parentPath
+    }) {
+        if (typeof parentPath === 'string') {
+            this.parentPath = parentPath;
+        }
         this.path = this.parentPath + '/' + this.name;
     }
     parent () {
@@ -208,10 +214,13 @@ class JXFileBase {
             this.name = this.tempName;
             writeFiles();
             sortFiles(this.parentId);
-            this.initPath();
+            this.initPath({});
             this.renameError = '';
             clearTimeout(this._timer);
         }
+    }
+    clone () {
+        
     }
 }
 
@@ -259,15 +268,21 @@ export class JXFile extends JXFileBase {
             return;
         }
         let newcs = getParentChildren(newPid);
-        newcs.push(new JXFile({
+        newcs.push(this.clone({newPid}));
+        sortFiles(newPid);
+        writeFiles();
+    }
+    clone ({newPid, path}) {
+        if (typeof path !== 'string') {
+            path = newPid === ROOT ? '' : idFiles[newPid].path;
+        }
+        return new JXFile({
             name: this.name,
             parentId: newPid,
             renamed: false,
             content: this.content,
-            path: newPid === ROOT ? '' : idFiles[newPid].path
-        }));
-        sortFiles(newPid);
-        writeFiles();
+            path
+        });
     }
     cutTo (newPid) {
         if (!checkPasteTarget(newPid, this.parentId, this.name)) {
@@ -280,7 +295,7 @@ export class JXFile extends JXFileBase {
         this.parentPath = newPid === ROOT ? '' : idFiles[newPid].path;
         newcs.push(this);
         sortFiles(newPid);
-        this.initPath();
+        this.initPath({});
         writeFiles();
     }
 }
@@ -304,6 +319,7 @@ export class JXDir extends JXFileBase {
                 child.parentId = this.id;
         });
         this.children = children;
+        this.initPath({});
     }
     click () {
         super.click();
@@ -334,11 +350,68 @@ export class JXDir extends JXFileBase {
         super.renameFinish(byEnter);
         if (this.newFile) {this.newFile = false;}
     }
-    copyTo () {
-        
+    copyTo (newPid) {
+        // console.log(newPid);
+        if (!checkPasteTarget(newPid, this.parentId, this.name)) {
+            return;
+        }
+        let newcs = getParentChildren(newPid);
+
+        newcs.push(this.clone({newPid}));
+        sortFiles(newPid);
+        writeFiles();
     }
-    cutTo () {
-        
+    clone ({
+        newPid,
+        path,
+    }) {
+        let id = getID();
+        if (typeof path !== 'string') {
+            path = newPid === ROOT ? '' : idFiles[newPid].path;
+        }
+        return new JXDir({
+            id,
+            name: this.name,
+            parentId: newPid,
+            path,
+            children: this.children.map(file => {
+                return file.clone({
+                    newPid: id,
+                    path: `${path}/${this.name}`
+                });
+            }),
+            opened: false,
+        });
+    }
+    cutTo (newPid) {
+        if (!checkPasteTarget(newPid, this.parentId, this.name)) {
+            return;
+        }
+        let newcs = getParentChildren(newPid);
+        let cs = getParentChildren(this.parentId);
+        cs.splice(cs.indexOf(this), 1);
+        this.parentId = newPid;
+        this.parentPath = newPid === ROOT ? '' : idFiles[newPid].path;
+        newcs.push(this);
+        sortFiles(newPid);
+        this.initPath({
+            init: false
+        });
+        writeFiles();
+    }
+    initPath ({
+        parentPath,
+        init = true
+    }) {
+        super.initPath({
+            parentPath,
+            init: false
+        });
+        if (this.children && !init) {
+            this.children.forEach(file => {
+                file.initPath({parentPath: this.path, init: false});
+            });
+        }
     }
 }
 

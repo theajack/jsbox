@@ -78,7 +78,7 @@ export class Editor {
         option = {}
     }) {
         // console.log('Editorlang', lang);
-        console.log('console.log(code, diffCode);', code, diffCode);
+        // console.log('console.log(code, diffCode);', code, diffCode);
         initMonaco();
         this.onchange = onchange;
         this.oncursorchange = oncursorchange;

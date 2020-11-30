@@ -178,7 +178,7 @@ export function copyFile (id = globalFileAttr.menuFileId) {
 }
 
 export function cutFile (id = globalFileAttr.menuFileId) {
-    console.log('cutFile', id, globalFileAttr.menuFileId);
+    // console.log('cutFile', id, globalFileAttr.menuFileId);
     checkLastCutFile();
     globalFileAttr.copyFileId = FILE_NONE;
     globalFileAttr.cutFileId = id;
@@ -213,6 +213,10 @@ export function pasteFile (id = globalFileAttr.menuFileId) {
     } else {
         file.cutTo(parentId);
         idFiles[globalFileAttr.cutFileId].cutEnd();
+    }
+    // 打开目标文件夹
+    if (parentId !== ROOT && idFiles[parentId].type === FILE_TYPE.DIR) {
+        idFiles[parentId].open();
     }
     globalFileAttr.copyFileId = FILE_NONE;
     globalFileAttr.cutFileId = FILE_NONE;

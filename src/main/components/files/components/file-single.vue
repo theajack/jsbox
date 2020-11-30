@@ -71,8 +71,9 @@
             drop () {
                 let dragId = globalFileAttr.dragId;
                 if (
-                    this.file.type === FILE_TYPE.DIR ||
-                    idFiles[dragId].parentId !== this.file.parentId
+                    (this.file.type === FILE_TYPE.DIR ||
+                        idFiles[dragId].parentId !== this.file.parentId)
+                    && dragId !== this.file.id // 拖拽的不能放在自己身上
                 ) {
                     cutFile(dragId);
                     pasteFile(this.file.id);

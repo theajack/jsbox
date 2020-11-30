@@ -7,7 +7,12 @@ import ignores from './igonre';
 
 class Log {
     constructor () {
-        this.console = hackConsole();
+        if (location.host.indexOf('localhost') === -1) {
+            // 开发时去掉hackConsole
+            this.console = hackConsole();
+        } else {
+            this.console = window.console;
+        }
         this.title = 'log';
         this.lastConsoleValue = {};
         this.lastType = '';
