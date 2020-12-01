@@ -5,7 +5,7 @@
          :style="{'padding-left': 5+deep*13 +'px'}"
          @click='clickFile()'
          
-         draggable='true'
+         :draggable='dragable'
          @dragstart='dragStart'
          @drop='drop'
          @dragover='dragOver'
@@ -30,14 +30,16 @@
 </template>
 <script>
     import {globalFileAttr} from '../file';
-    import {THEME, FILE_TYPE, KEY_CODE, RENAME_ERROR_TEXT, FILE_NONE, DROP_TYPE} from '../../../js/constant';
+    import {THEME, FILE_TYPE, KEY_CODE, RENAME_ERROR_TEXT, FILE_NONE, DROP_TYPE, EVENT} from '../../../js/constant';
     import {cutFile, idFiles, pasteFile} from '../file-system';
+    import event from '../../../js/event';
     
     export default {
         name: 'file-block',
         data () {
             return {
                 globalFileAttr,
+                dragable: true
             };
         },
         props: {
@@ -63,6 +65,12 @@
                 return RENAME_ERROR_TEXT[v];
             }
         },
+        mounted () {
+            // 当正在拖动资源管理器大小时 解决与拖拽文件冲突问题x
+            event.regist(EVENT.FILE_DRAG_STATUS, (bool) => {
+                this.dragable = !bool;
+            });
+        },
         methods: {
             dragStart () {
                 globalFileAttr.dragId = this.file.id;
@@ -82,7 +90,7 @@
                 globalFileAttr.dragOverId = FILE_NONE;
                 globalFileAttr.dropType = DROP_TYPE.NONE;
             },
-            dragOver () {
+            dragOver (event) {
                 if (globalFileAttr.dropType === DROP_TYPE.FILE) {
                     globalFileAttr.dragOverId = this.file.id;
                     event.preventDefault();

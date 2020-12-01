@@ -65,12 +65,26 @@
                 if (event.button !== MOUSE_BTN.LEFT) {
                     return;
                 }
-                this.removeFromOpenPath(this.openFiles[index].id);
-                console.log(this.openFiles);
-                onRemoveFileHeader(index);
-                console.log(this.openFiles);
-                console.log(event);
-                event.stopPropagation();
+                let file = this.openFiles[index];
+                // let canClose = true;
+                let closeFn = () => {
+                    this.removeFromOpenPath(file.id);
+                    // console.log(this.openFiles);
+                    onRemoveFileHeader(index);
+                    // console.log(this.openFiles);
+                    // console.log(event);
+                    event.stopPropagation();
+                };
+                if (file.unsave) {
+                    evt.emit(EVENT.OPEN_CONFIRM, {
+                        text: `当前文件 ${file.name} 未保存，是否确认放弃当前更改`,
+                        confirm () {
+                            closeFn();
+                        }
+                    });
+                } else {
+                    closeFn();
+                }
             },
             activeFile (index) {
                 if (event.button !== MOUSE_BTN.LEFT) {

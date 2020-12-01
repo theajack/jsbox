@@ -75,6 +75,6 @@ export function onChangeContentFile (id) {
 
 export function onRemoveFileHeader (index) {
     fileHeaderList.splice(index, 1);
-    console.log(fileHeaderList);
+    // console.log(fileHeaderList);
     writeFilesHeader();
 }

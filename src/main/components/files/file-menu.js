@@ -4,12 +4,12 @@ import {idFiles, copyFile, pasteFile, cutFile} from './file-system';
 import event from '../../js/event';
 import {setDiffCode, diffCode} from '../js/diff-code';
 
-let _v = null;
+// // let _v = null;
 
-export function setFileMenuVue (v) {
-    _v = v;
-    console.log('setFileMenuVue', _v);
-}
+// export function setFileMenuVue () {
+//     // _v = v;
+//     // console.log('setFileMenuVue', _v);
+// }
 
 export let fileMenus = [
     {

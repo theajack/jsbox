@@ -1,6 +1,7 @@
 <template>
     <div class='code-panel' :class='{"code-full":codeFull}' :style='{width: percent+"%"}'>
         <jsbox-files></jsbox-files>
+        <file-path></file-path>
         <div ref='editor' class='code-area' :style='{width: filePercent+"%"}'>
             <drag-bar name='file'></drag-bar>
             <monaco
@@ -30,9 +31,10 @@
     import DragBar from './drag-bar.vue';
     import {initFileHeaders} from './files/file-header';
     import {globalFileAttr} from './files/file';
+    import FilePath from './file-path.vue';
     
     export default {
-        components: {StatusBar, JsboxFiles, DragBar, Monaco},
+        components: {StatusBar, JsboxFiles, DragBar, Monaco, FilePath},
         data () {
             return {
                 globalFileAttr,
@@ -43,7 +45,6 @@
             };
         },
         mounted () {
-            window._v = this;
             event.regist({
                 [EVENT.DRAG_PERCENT]: (percent) => {
                     this.percent = percent;

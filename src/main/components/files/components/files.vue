@@ -25,7 +25,7 @@
     import FileTool from './file-tool.vue';
     import {cutFile, idFiles, initFileSystem, pasteFile} from '../file-system';
     import MenuDropdown from '../../menu-dropdown.vue';
-    import {fileMenus, setFileMenuVue} from '../file-menu';
+    import {fileMenus} from '../file-menu';
     import {hitEventParent} from '../../../js/util';
     import {globalFileAttr} from '../file';
     import {writeContentFileID} from '../storage';
@@ -58,7 +58,7 @@
             document.addEventListener('click', () => {
                 this.menuVisible = false;
             });
-            setFileMenuVue(this);
+            // setFileMenuVue(this);
         },
         methods: {
             dragOver (event) {

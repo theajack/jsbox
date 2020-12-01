@@ -36,7 +36,7 @@ export let globalFileAttr = {
     // 拖拽文件的相关id
     dragId: FILE_NONE,
     dragOverId: FILE_NONE,
-    dropType: DROP_TYPE.NONE
+    dropType: DROP_TYPE.NONE,
 };
 window.globalFileAttr = globalFileAttr;
 
