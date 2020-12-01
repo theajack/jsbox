@@ -70,7 +70,7 @@ export const THEME = {
     DARK: 'dark'
 };
 
-export const LANG = {
+export const LANG = { // 'csharp'
     'JAVASCRIPT': 'javascript', 'HTML': 'html', 'CSS': 'css', 'JSON': 'json', 'TYPESCRIPT': 'typescript',
     'PYTHON': 'python', 'C++': 'cpp', 'C': 'c', 'C#': 'csharp', 'JAVA': 'java', 'GO': 'go', 'MARKDOWN': 'markdown',
     'SQL': 'sql', 'OBJECTIVE-C': 'objective-c', 'SWIFT': 'swift', 'KOTLIN': 'kotlin', 'PHP': 'php',
@@ -92,9 +92,11 @@ export function getFinalLang (lang) {
 export const ALIAS = {
     js: 'javascript',
     ts: 'typescript',
-    cs: 'coffeescript',
+    // cs: 'coffeescript',
+    cs: 'csharp',
     oc: 'objective-c',
-    py: 'python'
+    py: 'python',
+    md: 'markdown',
 };
 
 export const DEFAULT_FONT_SIZE = 14;
