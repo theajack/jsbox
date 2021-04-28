@@ -2,7 +2,7 @@
  * @Author: tackchen
  * @Date: 2021-04-28 18:01:16
  * @LastEditors: theajack
- * @LastEditTime: 2021-04-28 22:44:42
+ * @LastEditTime: 2021-04-28 23:52:57
  * @FilePath: \jsbox\src\main\components\js\file-selected.js
  * @Description: Coding something
  */
@@ -18,6 +18,10 @@ window.selectedIds = selectedIds;
 let isCtrlKeyDown = false;
 let isShiftKeyDown = false;
 let shiftStartId = -1;
+
+export function isSelectShiftOrCtrlDown () {
+    return isCtrlKeyDown || isShiftKeyDown;
+}
 
 export function initSelectKeyEvent () {
     window.addEventListener('keydown', (e) => {
@@ -74,7 +78,7 @@ export function selectFile (id) {
             }
         }
     }
-    console.log(selectedIds);
+    // console.log(selectedIds);
     return false;
 }
 
@@ -97,7 +101,7 @@ const IndexFiles = (() => {
             if (indexFiles.length === 0) {
                 traveseChildren(files);
             }
-            console.log(idIndexes);
+            // console.log(idIndexes);
             return indexFiles;
         },
         getIndexByFileId (id) {
@@ -121,9 +125,9 @@ function shiftSelectFile (startId, endId) {
     clearSelectedFiles(true);
     const startIndex = IndexFiles.getIndexByFileId(startId);
     const endIndex = IndexFiles.getIndexByFileId(endId);
-    console.log(startIndex, endIndex);
+    // console.log(startIndex, endIndex);
     IndexFiles.traverseRange(startIndex, endIndex, (file) => {
-        console.warn('traverseRange', file.id);
+        // console.warn('traverseRange', file.id);
         selectedIds.push(file.id);
     });
 }

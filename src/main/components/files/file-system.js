@@ -41,8 +41,9 @@ export function supportUploadDir () {
     return typeof document.createElement('input').webkitdirectory === 'boolean';
 }
 
+// eslint-disable-next-line no-unused-vars
 export function switchOpenFile (newId, oldId) {
-    console.log(newId, oldId);
+    // console.log(newId, oldId);
     // if (isValidId(oldId)) {
     //     event.emit(EVENT.USE_CODE, (code) => {
     //         idFiles[oldId].unsavedContent = code;

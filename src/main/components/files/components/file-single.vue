@@ -40,7 +40,7 @@
     import event from '../../../js/event';
     import {getEditorByFileId} from '../../js/editor-pool';
     import {checkDoubleClick} from '../../../log/util';
-    import {selectFile, unselectFile} from '../../js/file-selected';
+    import {isSelectShiftOrCtrlDown, selectFile, unselectFile} from '../../js/file-selected';
     // import {checkDoubleClick} from '../../../log/util';
     
     export default {
@@ -150,17 +150,25 @@
                 return false;
             },
             clickFile () {
+                const disableClick = isSelectShiftOrCtrlDown();
+                const isFile = this.file.type === FILE_TYPE.FILE;
                 if (checkDoubleClick(`fc_${this.file.id}`)) {
-                    console.log('doubole click');
-                    this.file.click();
-                    if (this.file.type === FILE_TYPE.FILE) {
-                        getEditorByFileId(this.file.id).focus();
+                    // console.log('doubole click');
+                    if (!disableClick) {
+                        this.file.click();
+                    }
+                    if (isFile) {
+                        if (!disableClick) {
+                            getEditorByFileId(this.file.id).focus();
+                        }
                         unselectFile(this.file);
                     }
                 } else {
-                    console.log('single click');
+                    // console.log('single click');
                     if (selectFile(this.file)) {
-                        this.file.click();
+                        if (!disableClick) {
+                            this.file.click();
+                        }
                     }
                 }
             },
