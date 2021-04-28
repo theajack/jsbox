@@ -16,24 +16,28 @@ const StorageMark = (() => {
         FILE_HEADER: 'sm_fileHeader', // 文件头信息
         FILES: TYPE.FILES_STORAGE_KEY, // 文件系统信息 // 由于需要加密所以放在 TYPE 中
     };
-    let needSave = false;
     const _storage = {};
     window._markStorage = _storage;
+    function getStoregeValue (name) {
+        let value = null;
+        switch (name) {
+            case NAMES.FILE_ID: value = fileId; break;
+            case NAMES.FILE_CONTENT: value = globalFileAttr.contentId; break;
+            case NAMES.FILE_OPEN: value = globalFileAttr.openedId; break;
+            case NAMES.FILE_HEADER: value = fileHeaderList.map(item => item.id); break;
+            case NAMES.FILES: value = mapWriteFiles(files); break;
+            default: throw new Error(`无效的storage_key ${name}`);
+        };
+        return value;
+    }
 
     return {
         setChange (name) {
             if (!_storage[name]) {
-                let value = null;
-                switch (name) {
-                    case NAMES.FILE_ID: value = fileId; break;
-                    case NAMES.FILE_CONTENT: value = globalFileAttr.contentId; break;
-                    case NAMES.FILE_OPEN: value = globalFileAttr.openedId; break;
-                    case NAMES.FILE_HEADER: value = fileHeaderList.map(item => item.id); break;
-                    case NAMES.FILES: value = mapWriteFiles(files); break;
-                }
-                _storage[name] = () => {write(name, value);};
+                _storage[name] = () => {
+                    write(name, getStoregeValue(name));
+                };
             }
-            needSave = true;
         },
         readStorage (name) {
             const value = read(name);
@@ -48,12 +52,13 @@ const StorageMark = (() => {
         },
         triggerSave () {
             for (const k in _storage) {
-                if (_storage[k]) {_storage[k]();}
+                if (_storage[k]) {
+                    _storage[k]();
+                    _storage[k] = null;
+                }
             }
-            needSave = false;
         },
         NAMES,
-        needSave: () => needSave
     };
 })();
 
@@ -157,7 +162,7 @@ function onbeforeunload () {
     
     // ! 为防止频繁修改storage 都是存储改变 在页面刷新或者关闭时写入storege
     StorageMark.triggerSave();
-    return '';
+    // return '';
 }
 
 export function clearAllFiles () {
