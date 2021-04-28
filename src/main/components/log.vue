@@ -24,7 +24,7 @@
     // import {initConsole, focusEnd} from './js/log-console';
     import ConsoleEditor from './console-editor.vue';
     import DragBar from './drag-bar.vue';
-    let lang = language.get();
+    const lang = language.get();
     export default {
         components: {ConsoleEditor, DragBar},
         data () {
@@ -61,7 +61,7 @@
         },
         methods: {
             initLog () {
-                let log = new Log();
+                const log = new Log();
                 log.page = this.$refs.log;
                 log.index = 0;
                 log.mounted();
@@ -71,8 +71,8 @@
                 htmlLog.set(!this.htmlLog);
             },
             onwheel (scroll) {
-                let el = this.$refs.logWrapper;
-                let top = el.scrollTop + scroll;
+                const el = this.$refs.logWrapper;
+                const top = el.scrollTop + scroll;
                 if (top > el.scrollHeight) {
                     el.scrollTop = el.scrollHeight;
                 } else if (top < 0) {
@@ -82,7 +82,7 @@
                 }
             },
             scrollToBottom () {
-                let el = this.$refs.logWrapper;
+                const el = this.$refs.logWrapper;
                 el.scrollTop = el.scrollHeight;
             },
             focuConsole () {

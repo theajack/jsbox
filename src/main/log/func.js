@@ -1,3 +1,5 @@
+import {EVENT} from '../js/constant';
+import event from '../js/event';
 import tool from './tool';
 import TYPE from './type';
 let state = TYPE.all;
@@ -51,8 +53,12 @@ export function generateFunc (log) {
     array.forEach((item, index) => {
         item.title = title[index];
     });
+    const logFuncs = tool.create('div', 'log-funcs');
+    event.regist(EVENT.LOG_PANEL_VIS_CHANGE, visable => {
+        logFuncs.style.display = visable ? 'block' : 'none';
+    });
     return tool.append(
-        tool.create('div', 'log-funcs'),
+        logFuncs,
         array
     );
 }

@@ -4,7 +4,8 @@
 <script>
     import {getDragStatus, dragPercent as logPercent, language} from '../js/status';
     import $ from 'easy-dom-util';
-    import {LANG, DRAG_TYPE} from '../js/constant';
+    import {LANG, DRAG_TYPE, EVENT} from '../js/constant';
+    import event from '../js/event';
     
     export default {
         props: {
@@ -14,16 +15,16 @@
             }
         },
         mounted () {
-            let drag = getDragStatus(this.name);
+            const drag = getDragStatus(this.name);
             this.initDrag(drag.percent, drag.status);
         },
         methods: {
             initDrag (dragPercent, dragStatus) {
-                let drag = this.$refs.drag;
+                const drag = this.$refs.drag;
                 let width = 0;
-                let minWidth = (this.name === DRAG_TYPE.FILE) ? 100 : 200;
+                const minWidth = (this.name === DRAG_TYPE.FILE) ? 100 : 200;
                 dragPercent.init();
-                let setDrag = (bool) => {
+                const setDrag = (bool) => {
                     dragStatus.set(bool);
                     if (bool) {
                         width = $.windowSize().width;
@@ -34,16 +35,31 @@
                         dragPercent.save();
                     }
                 };
-                let setSize = (x) => {
+                let logVisable = true;
+                const setLogVisable = (bool) => {
+                    if (this.name !== DRAG_TYPE.LOG) {return;}
+                    if (bool !== logVisable) {
+                        logVisable = bool;
+                        event.emit(EVENT.LOG_PANEL_VIS_CHANGE, bool);
+                    }
+                };
+                if (this.name === DRAG_TYPE.LOG) {
+                    setTimeout(() => {
+                        setLogVisable(dragPercent.get() < 90);
+                    }, 0);
+                }
+                const setSize = (x) => {
                     if (x < minWidth || x > width - minWidth) {
                         if (x < minWidth / 2 && this.name === DRAG_TYPE.FILE) {
                             dragPercent.stash(0);
                         }
-                        if (x > width - minWidth / 2 && this.name === 'log') {
+                        if (x > width - minWidth / 2 && this.name === DRAG_TYPE.LOG) {
+                            setLogVisable(false);
                             dragPercent.stash((1 - 6 / width) * 100);
                         }
                         return;
                     }
+                    setLogVisable(true);
                     dragPercent.stash((x / width) * 100);
                 };
                 $.query('body').on({
