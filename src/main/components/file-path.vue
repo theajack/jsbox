@@ -7,6 +7,7 @@
     </div>
 </template>
 <script>
+    import {FILE_NONE} from '../js/constant';
     import {globalFileAttr} from './files/file';
     import {idFiles} from './files/file-system';
     
@@ -18,7 +19,7 @@
         },
         computed: {
             path () {
-                if (typeof this.globalFileAttr === 'undefined') {
+                if (this.globalFileAttr.openedId === FILE_NONE) {
                     return [];
                 }
                 let path = idFiles[this.globalFileAttr.openedId].path;

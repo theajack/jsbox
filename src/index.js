@@ -13,6 +13,7 @@ import './main/style/element.less';
 import './main/js/style';
 import {initResize, initKeyEvent} from './main/js/initEvent';
 import {initWindowFunc} from './main/js/util';
+import {initSelectKeyEvent} from './main/components/js/file-selected';
 Vue.use(Dialog);
 Vue.use(Select);
 Vue.use(Option);
@@ -22,6 +23,7 @@ $.query('body').append($.create('div#jsbox-container'));
 initResize();
 initKeyEvent();
 initWindowFunc();
+initSelectKeyEvent();
 
 
 new Vue({

@@ -1,10 +1,11 @@
 import {readFiles, markFilesChange} from './storage';
 import event from '../../js/event';
-import {EVENT, ROOT, FILE_TYPE, FILE_NONE} from '../../js/constant';
+import {EVENT, ROOT, FILE_TYPE, FILE_NONE, SELECT_TYPE} from '../../js/constant';
 import {globalFileAttr, JXFile, JXDir} from './file';
 import {initUnsaveEvent} from './file-save-status';
 import {formatEditorByFileId} from '../js/editor-pool';
 import {autoFormat} from '../../js/status';
+import {getSelectedIds} from '../js/file-selected';
 
 export let files = null;
 
@@ -131,13 +132,14 @@ function getParentPath (parentId) {
     return parentId === ROOT ? '' : idFiles[parentId].path;
 }
 
-export function getParentChildren (parentId) {
+export function getParentChildren (parentId, searchParent = false) {
     if (parentId === ROOT) {return files;}
-    if (idFiles[parentId].type === FILE_TYPE.FILE) {
+    if (idFiles[parentId].type === FILE_TYPE.FILE || searchParent) {
         return getParentChildren(idFiles[parentId].parentId);
     }
     return idFiles[parentId].children;
 }
+window.getParentChildren = getParentChildren;
 
 export function openAllFolder () {
     folderCommon('open');
@@ -185,56 +187,80 @@ export function sortFiles (parentId = ROOT) {
     });
 }
 
-export function copyFile (id = globalFileAttr.menuFileId) {
+export function copyFile (type = SELECT_TYPE.SELECTED) {
     checkLastCutFile();
-    globalFileAttr.copyFileId = id;
-    globalFileAttr.cutFileId = FILE_NONE;
+    const ids = getSelectedFilesId(type);
+    globalFileAttr.copyFileIds = ids;
+    globalFileAttr.cutFileIds = [];
     event.emit(EVENT.PASTE_FILE_CHANGE, true);
 }
 
-export function cutFile (id = globalFileAttr.menuFileId) {
+function getSelectedFilesId (type) {
+    const ids = getSelectedIds();
+    if (ids.length > 0) return ids.map(id => id); // 克隆一份
+    switch (type) {
+        case SELECT_TYPE.MENU: return [globalFileAttr.menuFileId];
+        case SELECT_TYPE.DRAG: return [globalFileAttr.dragId];
+        case SELECT_TYPE.CONTENT: return [globalFileAttr.contentId];
+    }
+    return [];
+}
+
+export function cutFile (type = SELECT_TYPE.SELECTED) {
     // console.log('cutFile', id, globalFileAttr.menuFileId);
     checkLastCutFile();
-    globalFileAttr.copyFileId = FILE_NONE;
-    globalFileAttr.cutFileId = id;
+    const ids = getSelectedFilesId(type);
+    globalFileAttr.copyFileIds = [];
+    globalFileAttr.cutFileIds = ids;
     event.emit(EVENT.PASTE_FILE_CHANGE, true);
-
-    idFiles[id].cut();
+    ids.forEach((id) => {
+        idFiles[id].cut();
+    });
 }
 
 function checkLastCutFile () {
-    if (globalFileAttr.cutFileId !== FILE_NONE) {
-        idFiles[globalFileAttr.cutFileId].cutEnd();
+    if (globalFileAttr.cutFileIds.length !== 0) {
+        globalFileAttr.cutFileIds.forEach(id => {
+            idFiles[id].cutEnd();
+        });
     }
 }
 
-export function pasteFile (id = globalFileAttr.menuFileId) {
-    const parentId = id === FILE_NONE ? ROOT : id;
-    if (globalFileAttr.copyFileId === FILE_NONE && globalFileAttr.cutFileId === FILE_NONE) {
+export function pasteFile (parentId = globalFileAttr.menuFileId) {
+    parentId = parentId === FILE_NONE ? ROOT : parentId;
+    if (parentId !== ROOT && idFiles[parentId].type === FILE_TYPE.FILE) {
+        parentId = idFiles[parentId].parentId;
+    }
+    const isCopyEmpty = globalFileAttr.copyFileIds.length === 0;
+    const isCutEmpty = globalFileAttr.cutFileIds.length === 0;
+    if (isCopyEmpty && isCutEmpty) {
         return;
     }
-    let isCopy, cid;
-    if (globalFileAttr.copyFileId !== FILE_NONE) {
-        cid = globalFileAttr.copyFileId;
+    let isCopy, cids;
+    if (isCutEmpty) {
+        cids = globalFileAttr.copyFileIds;
         isCopy = true;
     } else {
-        cid = globalFileAttr.cutFileId;
+        cids = globalFileAttr.cutFileIds;
         isCopy = false;
     }
-    const file = idFiles[cid];
-    
-    if (isCopy) {
-        file.copyTo(parentId);
-    } else {
-        file.cutTo(parentId);
-        idFiles[globalFileAttr.cutFileId].cutEnd();
-    }
+
+    cids.forEach(id => {
+        const file = idFiles[id];
+        if (isCopy) {
+            file.copyTo(parentId);
+        } else {
+            file.cutTo(parentId);
+            idFiles[id].cutEnd();
+        }
+    });
     // 打开目标文件夹
     if (parentId !== ROOT && idFiles[parentId].type === FILE_TYPE.DIR) {
         idFiles[parentId].open();
     }
-    globalFileAttr.copyFileId = FILE_NONE;
-    globalFileAttr.cutFileId = FILE_NONE;
+
+    globalFileAttr.copyFileIds = [];
+    globalFileAttr.cutFileIds = [];
     event.emit(EVENT.PASTE_FILE_CHANGE, false);
 }
 

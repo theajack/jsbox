@@ -1,7 +1,12 @@
 <template>
-    <div class='file-name'
+    <div class='file-name file-name-comp'
          :file-id='file.id'
-         :class='{active: chooseActive(file), "line-active": lineActive(), "drag-over": globalFileAttr.dragOverId === file.id}'
+         :class='{
+             active: chooseActive(file),
+             "line-active": lineActive(),
+             "drag-over": globalFileAttr.dragOverId === file.id,
+             "selected": isSelected(file),
+         }'
          :style="{'padding-left': 5+deep*13 +'px'}"
          @click='clickFile()'
          
@@ -10,8 +15,8 @@
          @drop='drop'
          @dragover='dragOver'
     >
-        <div class='file-name-w' :title='file.path'>
-            <i :class="'file-icon '+fileIcon()" :style='{color: fileIconColor()}'></i>
+        <div class='file-name-w file-name-comp' :title='file.path'>
+            <i :class="'file-icon file-name-comp '+fileIcon()" :style='{color: fileIconColor()}'></i>
             <input
                 class='file-rename'
                 :class='{"file-name-error": file.renameError!==""}'
@@ -23,17 +28,19 @@
                 @input='renameCheck'
                 v-if='file.renamed'
                 v-model='file.tempName'>
-            <span v-else>{{file.name}} {{file.id}}</span>
+            <span class='file-name-comp' v-else>{{file.name}} {{file.id}}</span>
             <span class='repeat-tip' v-if='file.renameError!==""'>{{file.renameError | renameErrorText}}</span>
         </div>
     </div>
 </template>
 <script>
     import {globalFileAttr} from '../file';
-    import {THEME, FILE_TYPE, KEY_CODE, RENAME_ERROR_TEXT, FILE_NONE, DROP_TYPE, EVENT} from '../../../js/constant';
+    import {THEME, FILE_TYPE, KEY_CODE, RENAME_ERROR_TEXT, FILE_NONE, DROP_TYPE, EVENT, SELECT_TYPE} from '../../../js/constant';
     import {cutFile, idFiles, pasteFile} from '../file-system';
     import event from '../../../js/event';
     import {getEditorByFileId} from '../../js/editor-pool';
+    import {checkDoubleClick} from '../../../log/util';
+    import {selectFile, unselectFile} from '../../js/file-selected';
     // import {checkDoubleClick} from '../../../log/util';
     
     export default {
@@ -86,7 +93,7 @@
                         idFiles[dragId].parentId !== this.file.parentId)
                     && dragId !== this.file.id // 拖拽的不能放在自己身上
                 ) {
-                    cutFile(dragId);
+                    cutFile(SELECT_TYPE.DRAG);
                     pasteFile(this.file.id);
                 }
                 globalFileAttr.dragId = FILE_NONE;
@@ -126,6 +133,9 @@
             chooseActive (file) {
                 return this.contentId === file.id;
             },
+            isSelected (file) {
+                return globalFileAttr.selectedIds.includes(file.id);
+            },
             lineActive () {
                 if (this.file.type === FILE_TYPE.DIR && this.chooseActive(this.file)) {
                     return true;
@@ -140,17 +150,19 @@
                 return false;
             },
             clickFile () {
-                if (this.isOpen()) {
-                    getEditorByFileId(this.file.id).focus();
-                } else {
+                if (checkDoubleClick(`fc_${this.file.id}`)) {
+                    console.log('doubole click');
                     this.file.click();
+                    if (this.file.type === FILE_TYPE.FILE) {
+                        getEditorByFileId(this.file.id).focus();
+                        unselectFile(this.file);
+                    }
+                } else {
+                    console.log('single click');
+                    if (selectFile(this.file)) {
+                        this.file.click();
+                    }
                 }
-                // if (checkDoubleClick(`fc_${this.file.id}`)) {
-                //     console.log('doubole click');
-                // } else {
-                //     console.log('single click');
-                //     this.file.click();
-                // }
             },
             fileIcon () {
                 if (this.file.type === FILE_TYPE.FILE) {

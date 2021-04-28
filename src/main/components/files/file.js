@@ -31,8 +31,8 @@ export const globalFileAttr = {
     theme: theme.get(),
     openedId: readOpenFileID(),
     menuFileId: -1,
-    copyFileId: -1,
-    cutFileId: -1,
+    copyFileIds: [],
+    cutFileIds: [],
     selectedIds: getSelectedIds(), // 选中的id列表 无需保存到storage
 
     // 拖拽文件的相关id
@@ -268,12 +268,13 @@ export class JXFile extends JXFileBase {
     }
     copyTo (newPid) {
         if (!checkPasteTarget(newPid, this.parentId, this.name)) {
-            return;
+            return false;
         }
         const newcs = getParentChildren(newPid);
         newcs.push(this.clone({newPid}));
         sortFiles(newPid);
         markFilesChange();
+        return true;
     }
     clone ({newPid, path}) {
         if (typeof path !== 'string') {

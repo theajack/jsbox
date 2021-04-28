@@ -39,7 +39,7 @@ export function copyText (str) {
 export const checkDoubleClick = (() => {
     const lastClickMap = {};
 
-    return (id, time = 500) => {
+    return (id, time = 300) => {
         if (!lastClickMap[id]) {lastClickMap[id] = 0;}
         const nowTime = new Date().getTime();
         const diff = nowTime - lastClickMap[id];

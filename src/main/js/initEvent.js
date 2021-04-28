@@ -42,7 +42,7 @@ function onKeyDown (e) {
             case c('X'):eventName = EVENT.CUT; value = e; break;
             case c('V'):eventName = EVENT.PASTE; value = e; break;
         }
-        console.log(e.target);
+        // console.log(e.target);
         if (e.altKey) {
             switch (e.keyCode) {
                 case c('S'):eventName = EVENT.SAVE_SINGLE_CODE; pd(); break;

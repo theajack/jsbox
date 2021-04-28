@@ -147,3 +147,10 @@ export const DROP_TYPE = {
     HEADER: 0,
     FILE: 1,
 };
+
+export const SELECT_TYPE = {
+    SELECTED: 0,
+    MENU: 1,
+    DRAG: 2,
+    CONTENT: 3,
+};

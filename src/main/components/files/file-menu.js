@@ -1,4 +1,4 @@
-import {MENU_TYPE, FILE_TYPE, EVENT} from '../../js/constant';
+import {MENU_TYPE, FILE_TYPE, EVENT, SELECT_TYPE} from '../../js/constant';
 import {globalFileAttr} from './file';
 import {idFiles, copyFile, pasteFile, cutFile} from './file-system';
 import event from '../../js/event';
@@ -26,13 +26,13 @@ export const fileMenus = [
         icon: 'copy',
         title: '复制',
         // key: ['ctrl', 's'], // 默认null
-        onclick (id) {
+        onclick (type = SELECT_TYPE.MENU) {
             // console.log(this);
-            copyFile(id);
+            copyFile(type);
         },
         mounted () {
             event.regist(EVENT.COPY, () => {
-                this.onclick(globalFileAttr.contentId);
+                this.onclick(SELECT_TYPE.CONTENT);
             });
         },
         type: MENU_TYPE.FUNC,
@@ -41,8 +41,8 @@ export const fileMenus = [
         icon: 'cut',
         title: '剪切',
         // key: ['alt', 's'], // 默认null
-        onclick (id) {
-            cutFile(id);
+        onclick (type = SELECT_TYPE.MENU) {
+            cutFile(type);
         // event.emit(EVENT.USE_CODE, (value) => {
         //     code.set(value, true, false);
         //     toast('保存代码成功');
@@ -50,7 +50,7 @@ export const fileMenus = [
         },
         mounted () {
             event.regist(EVENT.CUT, () => {
-                this.onclick(globalFileAttr.contentId);
+                this.onclick(SELECT_TYPE.CONTENT);
             });
         },
         type: MENU_TYPE.FUNC,
@@ -60,7 +60,7 @@ export const fileMenus = [
         title: '粘贴',
         visible: false,
         // key: ['alt', 's'], // 默认null
-        onclick (id) {
+        onclick (id = globalFileAttr.menuFileId) {
             pasteFile(id);
         // event.emit(EVENT.USE_CODE, (value) => {
         //     code.set(value, true, false);

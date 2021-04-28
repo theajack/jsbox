@@ -1,6 +1,6 @@
 import {MENU_TYPE, EVENT, LANG, THEME} from '../../js/constant';
 import event from '../../js/event';
-import {autoFormat, code, language, theme} from '../../js/status';
+import {autoFormat, language, theme} from '../../js/status';
 import {copyText} from '../../log/util';
 import {exeHTML, exeJs} from './execute';
 import {toast, openFullscreen, closeFullscreen, isFullScreen, getUrlParam} from '../../js/util';
@@ -77,20 +77,6 @@ export const menus = [
         }, {
             type: MENU_TYPE.SPLIT
         }, {
-            icon: 'copy',
-            title: '复制',
-            key: ['ctrl', 'p'],
-            onclick () {
-                event.emit(EVENT.USE_CODE, (value) => {
-                    copyText(value);
-                    toast('已复制');
-                });
-            },
-            mounted () {
-                event.regist(EVENT.COPY_CODE, this.onclick);
-            },
-            type: MENU_TYPE.FUNC,
-        }, {
             icon: 'trash',
             title: '删除所有文件',
             key: ['ctrl', 'd'],
@@ -105,22 +91,6 @@ export const menus = [
             },
             mounted () {
                 event.regist(EVENT.CLEAR_CODE, this.onclick);
-            },
-            type: MENU_TYPE.FUNC,
-        }, {
-            icon: 'history',
-            title: '重置',
-            key: ['ctrl', 'q'],
-            onclick () {
-                event.emit(EVENT.OPEN_CONFIRM, {
-                    text: '是否确认重置为暂存代码?',
-                    confirm () {
-                        event.emit(EVENT.SET_CODE, code.get());
-                    }
-                });
-            },
-            mounted () {
-                event.regist(EVENT.RESET_CODE, this.onclick);
             },
             type: MENU_TYPE.FUNC,
         }, {

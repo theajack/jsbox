@@ -19,7 +19,7 @@
 </template>
 <script>
     import {fileDragPercent} from '../../../js/status';
-    import {DROP_TYPE, EVENT, FILE_NONE, ROOT} from '../../../js/constant';
+    import {DROP_TYPE, EVENT, FILE_NONE, ROOT, SELECT_TYPE} from '../../../js/constant';
     import event from '../../../js/event';
     import FileBlock from './file-block.vue';
     import FileTool from './file-tool.vue';
@@ -72,7 +72,7 @@
                     return;
                 }
                 if (idFiles[dragId].parentId !== ROOT) {
-                    cutFile(dragId);
+                    cutFile(SELECT_TYPE.DRAG);
                     pasteFile(ROOT);
                 }
                 globalFileAttr.dragId = FILE_NONE;
@@ -177,6 +177,9 @@
             &.line-active + .file-block{
                 border-left: 1px solid #a9a9a9;
             }
+            &.selected{
+                background-color: rgb(9, 71, 113);
+            }
         }
     }
     .files-w:hover{
@@ -221,6 +224,9 @@
                 }
                 &.line-active + .file-block{
                     border-left: 1px solid #585858;
+                }
+                &.selected{
+                    background-color: rgb(9, 71, 113);
                 }
             }
         }
