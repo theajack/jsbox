@@ -13,8 +13,8 @@
     import {write, read} from '../js/notebook';
     // import {debounce} from '../js/util';
     
-    let historyMax = 50;
-    let history = read('history') || [];
+    const historyMax = 50;
+    const history = read('history') || [];
     let historyIndex = history.length;
     let currentValue = '';
     let currentLine = 1;
@@ -90,7 +90,7 @@
             },
             initEvent () {
                 this.editor.editor.onKeyDown((e) => {
-                    let preventDefault = function () {
+                    const preventDefault = function () {
                         e.preventDefault();
                         e.stopPropagation();
                     };
@@ -121,7 +121,7 @@
                 this.showPh = code === '';
             },
             reinitSize (code) {
-                let height = this.editor.getLines(code) * 19;
+                const height = this.editor.getLines(code) * 19;
                 if (height !== this.height) {
                     this.height = height;
                     this.$nextTick(() => {
@@ -151,7 +151,7 @@
                     this.editor.focusEnd(false);
                 }
             }, runConsole () {
-                let code = this.editor.code();
+                const code = this.editor.code();
                 this.pushToHistory(code);
                 event.emit(EVENT.RUN_CODE, code);
             }, pushToHistory (code) {

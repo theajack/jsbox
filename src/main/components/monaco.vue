@@ -39,12 +39,13 @@
                                 this._editor.resize();
                                 this._editor.changeTheme(theme.get());
                                 this._editor.setFontSize(fontSize.get());
-                                console.trace();
                                 this.focus();
                             });
                         }
                     } else {
-                        this.initEditor();
+                        this.initEditor(() => {
+                            this.focus();
+                        });
                     }
                 }
             },
@@ -55,14 +56,21 @@
         },
         mounted () {
             if (this.isActive()) {
-                this.initEditor();
+                // 初始化加载的第一个monaco
+                this.initEditor(() => {
+                    this.file.__focus = true;
+                    this.focus();
+                });
             }
         },
         methods: {
-            focus (end = false) {
-                setTimeout(() => {
-                    this._editor[end ? 'focusEnd' : 'focus']();
-                }, 100);
+            focus () {
+                if (this.file.__focus) {
+                    this.file.__focus = false;
+                    setTimeout(() => {
+                        this._editor.focus();
+                    }, 100);
+                }
             },
             isActive (callback) {
                 const active = this.globalFileAttr.openedId === this.file.id;
@@ -76,8 +84,9 @@
                     });
                 }
             },
-            initEditor () {
+            initEditor (onInited = () => {}) {
                 if (this._editor) {
+                    onInited();
                     return;
                 }
                 loadMonaco().then(() => {
@@ -155,7 +164,8 @@
                     // }
                     });
                     event.emit(EVENT.EDITOR_MOUNTED, this._editor);
-                    this.focus(true);
+                    //
+                    onInited();
                 // this.initCode();
                 });
             },

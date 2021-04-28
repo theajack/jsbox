@@ -33,13 +33,16 @@
     import {THEME, FILE_TYPE, KEY_CODE, RENAME_ERROR_TEXT, FILE_NONE, DROP_TYPE, EVENT} from '../../../js/constant';
     import {cutFile, idFiles, pasteFile} from '../file-system';
     import event from '../../../js/event';
+    import {getEditorByFileId} from '../../js/editor-pool';
+    // import {checkDoubleClick} from '../../../log/util';
     
     export default {
         name: 'file-block',
         data () {
             return {
                 globalFileAttr,
-                dragable: true
+                dragable: true,
+                lastClickTime: 0,
             };
         },
         props: {
@@ -77,7 +80,7 @@
                 globalFileAttr.dropType = DROP_TYPE.FILE;
             },
             drop () {
-                let dragId = globalFileAttr.dragId;
+                const dragId = globalFileAttr.dragId;
                 if (
                     (this.file.type === FILE_TYPE.DIR ||
                         idFiles[dragId].parentId !== this.file.parentId)
@@ -117,6 +120,9 @@
             //         this.$refs.input.focus();
             //     }
             // },
+            isOpen () {
+                return this.file.id === globalFileAttr.openedId;
+            },
             chooseActive (file) {
                 return this.contentId === file.id;
             },
@@ -134,7 +140,17 @@
                 return false;
             },
             clickFile () {
-                this.file.click();
+                if (this.isOpen()) {
+                    getEditorByFileId(this.file.id).focus();
+                } else {
+                    this.file.click();
+                }
+                // if (checkDoubleClick(`fc_${this.file.id}`)) {
+                //     console.log('doubole click');
+                // } else {
+                //     console.log('single click');
+                //     this.file.click();
+                // }
             },
             fileIcon () {
                 if (this.file.type === FILE_TYPE.FILE) {
@@ -144,7 +160,7 @@
                 }
             },
             fileIconColor () {
-                let isDark = globalFileAttr.theme === THEME.DARK;
+                const isDark = globalFileAttr.theme === THEME.DARK;
                 if (this.file.type === FILE_TYPE.FILE) {
                     return isDark ? this.file.style.dark : this.file.style.light;
                 } else {

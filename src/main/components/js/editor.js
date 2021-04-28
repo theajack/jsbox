@@ -101,6 +101,7 @@ export class Editor {
         // } else {
         //     Editor.theme = THEME.LIGHT;
         // }
+        this._setCursorToEnd();
     }
     _initEditor (code) {
         code = typeof code === 'string' ? code : this.code();
@@ -245,13 +246,16 @@ export class Editor {
         return this.code().split('\n').length;
     }
     focusEnd (needFocus = true) {
+        this._setCursorToEnd();
+        if (needFocus)
+            this.focus();
+    }
+    _setCursorToEnd () {
         const arr = this.code().split('\n');
         this.editor.setPosition({
             lineNumber: arr.length,
             column: arr[arr.length - 1].length + 1
         });
-        if (needFocus)
-            this.focus();
     }
     focus () {
         this.editor.focus();

@@ -1,8 +1,8 @@
 import tool from './tool';
 // import TYPE from './type'
 export function generateLogBlock (type) {
-    let block = tool.create('div', 'log-block log-' + type);
-    let hide = tool.create('div', 'log-block-hide', '', () => {
+    const block = tool.create('div', 'log-block log-' + type);
+    const hide = tool.create('div', 'log-block-hide', '', () => {
         block.parentNode.removeChild(block);
     });
     tool.append(hide, tool.create('span', '', '+'));
@@ -35,3 +35,15 @@ export function copyText (str) {
     }
 
 }
+
+export const checkDoubleClick = (() => {
+    const lastClickMap = {};
+
+    return (id, time = 500) => {
+        if (!lastClickMap[id]) {lastClickMap[id] = 0;}
+        const nowTime = new Date().getTime();
+        const diff = nowTime - lastClickMap[id];
+        lastClickMap[id] = nowTime;
+        return (diff <= time);
+    };
+})();

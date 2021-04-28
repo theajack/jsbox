@@ -11,6 +11,7 @@ import {writeIDFiles, idFiles, files, getParentChildren, sortFiles} from './file
 import {onFileClick, onChangeContentFile, clearHeaderByRemoveFile} from './file-header';
 import {readFileID, markFileIDChange, readOpenFileID, markFilesChange, readContents, markContentsChange, markOpenedFileIDChange} from './storage';
 import {toast} from '../../js/util';
+import {getSelectedIds} from '../js/file-selected';
 
 // https://blog.csdn.net/qq_37003559/article/details/103970901?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1&utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1
 export let fileId = readFileID();
@@ -32,6 +33,7 @@ export const globalFileAttr = {
     menuFileId: -1,
     copyFileId: -1,
     cutFileId: -1,
+    selectedIds: getSelectedIds(), // 选中的id列表 无需保存到storage
 
     // 拖拽文件的相关id
     dragId: FILE_NONE,

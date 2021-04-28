@@ -45,7 +45,7 @@ export function onFileClick (file) {
     if (globalFileAttr.openedId === file.id) {
         return;
     }
-    onOpenFile(file.id);
+    onOpenFile(file.id, false);
     if (!fileHeaderList.find(item => {return item.id === file.id;})) {
         fileHeaderList.push(file);
         // 打开新文件
@@ -54,9 +54,10 @@ export function onFileClick (file) {
     event.emit(EVENT.FILE_CLICK, file);
 }
 
-export function onOpenFile (id) {
+export function onOpenFile (id, focus = true) {
     switchOpenFile(id, globalFileAttr.openedId);
     globalFileAttr.openedId = id;
+    idFiles[id].__focus = focus;
     checkParent(id);
     markOpenedFileIDChange();
 }

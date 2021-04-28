@@ -66,7 +66,7 @@
                 event.stopPropagation();
             },
             fileIconColor () {
-                let isDark = this.theme === THEME.DARK;
+                const isDark = this.theme === THEME.DARK;
                 return this.file.style[isDark ? 'dark' : 'light'];
             }
         },

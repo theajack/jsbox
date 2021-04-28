@@ -18,7 +18,7 @@ const SUFFIX = {
 };
 
 function getSuffix (language) {
-    for (let k in LANG) {
+    for (const k in LANG) {
         if (LANG[k] === language) {
             if (SUFFIX[k]) {
                 return '.' + SUFFIX[k];
@@ -35,7 +35,7 @@ export function getLang (fileName) {
         return LANG.PLAINTEXT;
     }
     suffix = fileName.substr(fileName.lastIndexOf('.') + 1);
-    for (let k in SUFFIX) {
+    for (const k in SUFFIX) {
         if (SUFFIX[k] === suffix) {
             return LANG[k];
         }
@@ -43,18 +43,18 @@ export function getLang (fileName) {
     return suffix;
 }
 
-
+ 
 export function download () {
     if (!downloadLink) {
         downloadLink = document.createElement('a');
         downloadLink.setAttribute('style', 'position: fixed;top: -100px');
         document.body.appendChild(downloadLink);
     }
-    let lang = language.get();
+    const lang = language.get();
     downloadLink.setAttribute('download', `jxbox-${lang}${getSuffix(language.get())}`);
     event.emit(EVENT.USE_CODE, code => {
-        let blob = new Blob([code], {type: 'text/plain'});
-        let url = URL.createObjectURL(blob);
+        const blob = new Blob([code], {type: 'text/plain'});
+        const url = URL.createObjectURL(blob);
         downloadLink.href = url;
         downloadLink.click();
     });
@@ -67,11 +67,11 @@ export function openFile () {
         fileInput.setAttribute('style', 'position: fixed;top: -100px');
         document.body.appendChild(fileInput);
         fileInput.onchange = function () {
-            let file = this.files[0];
+            const file = this.files[0];
             if (!file) {
                 return;
             }
-            let lang = getLang(file.name);
+            const lang = getLang(file.name);
             if (lang !== language.get()) {
                 event.emit(EVENT.LANG_CHANGE, lang);
             }
