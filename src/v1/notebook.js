@@ -1,4 +1,4 @@
-let storage = window.localStorage;
+const storage = window.localStorage;
 
 const KEY = '_jsbox_v1';
 
@@ -14,7 +14,7 @@ export function read (key) {
     if (value === null) {
         return null;
     }
-    let type = value.substr(0, value.indexOf(':'));
+    const type = value.substr(0, value.indexOf(':'));
     value = value.substr(value.indexOf(':') + 1);
     if (type === 'number') {
         return parseFloat(value);
@@ -27,7 +27,7 @@ export function read (key) {
 }
 export function write (key, value) {
     key += KEY;
-    let type = typeof value;
+    const type = typeof value;
     if (type === 'object') {
         value = JSON.stringify(value);
     } else if (type !== 'string') {

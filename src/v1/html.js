@@ -38,7 +38,7 @@ export function initHtml (els) {
         }
     };
     exeHtml = (code) => {
-        let res = extractScript(code);
+        const res = extractScript(code);
         els.htmlContent.html(res.html);
         if (res.js) {
             exeJs(res.js);
@@ -68,7 +68,7 @@ export function changeMode (mode, editor, btn, init = false) {
         hideHtml();
     }
     btn.attr('title', `使用${mode}(ctrl + g)`);
-    let code = editor.code();
+    const code = editor.code();
     if (!init) {
         toast(`已切换至${mode}模式`);
     }
@@ -82,8 +82,8 @@ export function isHtmlMode () {
 }
 
 export function extractScript (html) {
-    let reg = /<script(.|\n)*?>(.|\n)*?<\/script>/g;
-    let arr = html.match(reg);
+    const reg = /<script(.|\n)*?>(.|\n)*?<\/script>/g;
+    const arr = html.match(reg);
     if (!arr) {
         return {html, js: ''};
     }

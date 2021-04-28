@@ -13,7 +13,7 @@ $.reportStyle({
 $.initStylePool();
 
 function initStyle () {
-    let size = $.windowSize();
+    const size = $.windowSize();
     // let barWidth = 4;
     
     return /* css */`

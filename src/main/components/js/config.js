@@ -8,9 +8,9 @@ import event from '../../js/event';
 
 // config > env > lib
 
-export let isCustomConfig = (() => {
-    let config = getUrlParam('config');
-    let id = getUrlParam('id');
+export const isCustomConfig = (() => {
+    const config = getUrlParam('config');
+    const id = getUrlParam('id');
     return (config !== null && id !== null);
 })();
 
@@ -19,7 +19,7 @@ function setCode (v) {
 }
 
 function initLib (success) {
-    let libs = getUrlParam('lib');
+    const libs = getUrlParam('lib');
     if (libs) {
         loadResources({
             array: libs.split(','),
@@ -32,8 +32,8 @@ function initLib (success) {
 }
 
 function initEnv (serachCode, success) {
-    let env = getUrlParam('env');
-    let envs = window.jsbox_envs;
+    const env = getUrlParam('env');
+    const envs = window.jsbox_envs;
     if (!env || !envs || !envs[env]) {
         return false;
     }
@@ -69,12 +69,12 @@ function extractLang (obj) {
 }
 
 export function getConfigCodes () {
-    let configs = window.jsbox_config;
+    const configs = window.jsbox_config;
     if (!configs || !configs.codes) {
         return [];
     }
-    let data = [];
-    for (let k in configs.codes) {
+    const data = [];
+    for (const k in configs.codes) {
         let item = configs.codes[k];
         if (typeof item === 'string') {
             item = {
@@ -106,15 +106,16 @@ export function initConfig (serachCode, success = () => {}, none = () => {}) {
         array: [url],
         jsboxLib: false,
         success: () => {
-            let id = getUrlParam('id');
-            let config = window.jsbox_config;
+            const id = getUrlParam('id');
+            const config = window.jsbox_config;
             
             if (config.codes && id && config.codes[id]) {
-                let _code, value = config.codes[id];
+                let _code;
+                const value = config.codes[id];
                 if (typeof value === 'object') {
                     _code = value.code || serachCode;
                     extractLang(value);
-                    let deps = value.dep;
+                    const deps = value.dep;
                     if (!deps || !(deps instanceof Array)) { // 没有dep
                         loadDeps({
                             libs: config.libs,
@@ -171,7 +172,7 @@ function loadDeps ({
         if (!array) {
             array = Object.keys(libs);
         }
-        let res = checkKeys(array, libs);
+        const res = checkKeys(array, libs);
         loadResources({
             libs,
             array: res.keys,
@@ -188,7 +189,7 @@ function checkKeys (keys, libs) {
     let jsboxLib = false;
     if (typeof libs === 'object') {
         keys.forEach((key, i) => {
-            let item = libs[key];
+            const item = libs[key];
             if (item && item.indexOf('jsbox.') === 0) {
                 keys[i] = item;
                 if (!jsboxLib) {

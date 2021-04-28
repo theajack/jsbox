@@ -29,10 +29,10 @@ class ObjectViewer {
 }
 
 function nextEl (el) {
-    let child = Array.prototype.slice.apply(el.parentNode.children);
+    const child = Array.prototype.slice.apply(el.parentNode.children);
     return child[child.indexOf(el) + 1];
 }
-let hugeObjectList = [HTMLElement, HTMLDocument];
+const hugeObjectList = [HTMLElement, HTMLDocument];
 function checkHugeObject (block, key, obj) {
     for (var i = 0; i < hugeObjectList.length; i++) {
         if (obj instanceof hugeObjectList[i]) {
@@ -42,18 +42,18 @@ function checkHugeObject (block, key, obj) {
                 bl = '<';
                 br = '>';
                 str = obj.tagName.toLowerCase();
-                let id = obj.getAttribute('id');
+                const id = obj.getAttribute('id');
                 if (id) {
                     str += `<span class='tc-dom-id'>#${id}</span>`;
                 }
                 if (obj.className !== '') {
                     str += `<span class='tc-dom-cls'>.${(obj.className.split(' ').join('.'))}</span>`;
                 }
-                let attrs = obj.attributes;
+                const attrs = obj.attributes;
                 if (attrs.length > 0) {
                     str += '<span class="tc-dom-attr">';
                     for (let i = 0; i < attrs.length; i++) {
-                        let attr = attrs[i];
+                        const attr = attrs[i];
                         if (attr.name !== 'class' && attr.name !== 'id') {
                             str += `[${attr.name}=${attr.value}]`;
                         }
@@ -63,7 +63,7 @@ function checkHugeObject (block, key, obj) {
                 cls = 'key';
                 // 展开子元素待开发
             }
-            let div = generateUnopenHead();
+            const div = generateUnopenHead();
             div.innerHTML = `<span class="tc-obj-key">${key}</span>: ${bl}<span class="tc-obj-${cls}">${str}</span>${br}`; ;
             tool.append(block, div);
             return true;
@@ -82,9 +82,9 @@ function generateHead (block, key, obj) {
         html = '<span class="tc-obj-key">' + key + '</span>:<span class="tc-obj-def"> null</span>';
         _objHead = generateUnopenHead();
     } else {
-        let isArray = obj instanceof Array;
-        let start = isArray ? '[' : '{';
-        let end = isArray ? ']' : '}';
+        const isArray = obj instanceof Array;
+        const start = isArray ? '[' : '{';
+        const end = isArray ? ']' : '}';
         html = `<span class="tc-obj-key">${key}${isArray ? `(<span class="tc-obj-number">${obj.length}</span>)` : ''}</span>: ${start}`;
         let isEmpty = true;
         for (var k in obj) {
@@ -95,7 +95,7 @@ function generateHead (block, key, obj) {
         if (!isEmpty) {
             html = '<span class="tc-log-angle"></span> ' + html.substr(0, html.length - 1);
             _objHead.onclick = function () {
-                let openClass = (this.children[0].className.indexOf('tc-open') !== -1) ? '' : ' tc-open';
+                const openClass = (this.children[0].className.indexOf('tc-open') !== -1) ? '' : ' tc-open';
                 nextEl(this).className = 'tc-log-obj-view' + openClass;
                 this.children[0].className = 'tc-log-angle' + openClass;
             };
@@ -138,7 +138,7 @@ function generateItem (key, value, isArray, needTail) {
 
 // 生成一个子级不可展开的head
 function generateOpenItem (block, key, value) {
-    let div = generateUnopenHead();
+    const div = generateUnopenHead();
     div.innerHTML = generateItem(key, value);
     block.appendChild(div);
 }
@@ -151,7 +151,7 @@ function generateUnopenHead () {
 
 // 生成一个json详情view
 function generateView (block) {
-    let _objView = tool.create('div', 'log-obj-view');
+    const _objView = tool.create('div', 'log-obj-view');
     block.appendChild(_objView);
     return _objView;
 }
@@ -161,11 +161,11 @@ function traverse (block, key, obj) {
     //     // return;
     // }
     obj = dealDate(obj);
-    let head = generateHead(block, key, obj);
+    const head = generateHead(block, key, obj);
     if (!head) {
         return;
     }
-    let view = generateView(block);
+    const view = generateView(block);
     
     ((vr, v, o) => {
         head.addEventListener('click', () => {
@@ -231,7 +231,7 @@ function traverse (block, key, obj) {
 
 function dealDate (obj) {
     if (obj instanceof Date) {
-        let res = {
+        const res = {
             time: obj.getTime(),
             year: obj.getFullYear(),
             month: obj.getMonth(),

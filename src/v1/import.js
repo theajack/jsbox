@@ -12,14 +12,14 @@ import 'element-ui/lib/theme-chalk/select-dropdown.css';
 import './style/import.css';
 
 let app = null;
-let libs = [];
-let envs = [];
+const libs = [];
+const envs = [];
 
 function getVersion (item) {
     if (item.version) {
         return item.version;
     }
-    let res = item.url.match(/@(\d|\.)*?\//);
+    const res = item.url.match(/@(\d|\.)*?\//);
     if (!res) {
         return 'latest';
     }
@@ -27,9 +27,9 @@ function getVersion (item) {
 }
 
 function initLibs () {
-    let lib = window.jsbox_libs;
-    let env = window.jsbox_envs;
-    for (let key in lib) {
+    const lib = window.jsbox_libs;
+    const env = window.jsbox_envs;
+    for (const key in lib) {
         let item = lib[key];
         if (typeof item === 'string') {
             item = {url: item};
@@ -42,8 +42,8 @@ function initLibs () {
             type: item.type || getTypeByFix(item.url)
         });
     }
-    for (let key in env) {
-        let item = env[key];
+    for (const key in env) {
+        const item = env[key];
         if (!item.type) {
             item.type = 'js';
         }

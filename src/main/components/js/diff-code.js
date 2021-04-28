@@ -7,7 +7,7 @@ import {diffCodes} from './store';
 
 export function setDiffCode () {
     if (globalFileAttr.menuFileId !== -1) {
-        let file = idFiles[globalFileAttr.menuFileId];
+        const file = idFiles[globalFileAttr.menuFileId];
         diffCodes.prev = file.unsavedContent || file.content;
         diffCodes.prevPath = file.path;
         event.emit(EVENT.DIFF_CODE_CHOOSED, file.name);
@@ -15,7 +15,7 @@ export function setDiffCode () {
 }
 export function diffCode () {
     if (globalFileAttr.menuFileId !== -1) {
-        let file = idFiles[globalFileAttr.menuFileId];
+        const file = idFiles[globalFileAttr.menuFileId];
         diffCodes.next = file.unsavedContent || file.content;
         diffCodes.lang = file.lang;
         diffCodes.nextPath = file.path;

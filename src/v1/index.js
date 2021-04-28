@@ -102,8 +102,8 @@ function main () {
                 },
                 changeMode () {
                     if (!editor) {return;}
-                    let language = editor.config.language;
-                    let index = language.indexOf('html');
+                    const language = editor.config.language;
+                    const index = language.indexOf('html');
                     changeMode((index === -1) ? 'html' : 'js', editor, this.self);
                 },
                 theme () {
@@ -149,7 +149,7 @@ function main () {
                 link () {
                     if (!editor) {return;}
                     let url = `${host}jsbox?theme=${editor.config.theme}`;
-                    let code = editor.code().trim();
+                    const code = editor.code().trim();
                     if (code) {
                         url += `&code=${encodeURIComponent(editor.code())}`;
                     }
@@ -160,7 +160,7 @@ function main () {
                 save () {
                     toast('暂存代码成功');
                     if (!editor) {return;}
-                    let code = editor.code();
+                    const code = editor.code();
                     editor.config.code = code;
                     write(TYPE.CODE, code);
                     location.hash = 'saved';
@@ -192,7 +192,7 @@ function initCode (els, success) {
         code = getUrlParam('code');
         if (code) {code = decodeURIComponent(code);}
     }
-    let editor = new TCEditor({
+    const editor = new TCEditor({
         el: els.code.el,
         code: code ? code : '',
         theme: theme === 'dark' ? 'dark' : 'normal',
@@ -207,7 +207,7 @@ function initCode (els, success) {
 }
 
 function initLog (logDiv) {
-    let log = new Log();
+    const log = new Log();
     log.page = logDiv.el;
     log.index = 0;
     log.mounted();
@@ -217,9 +217,9 @@ function initLog (logDiv) {
 function initDrag (el) {
     let isDrag = false;
     let width = 0;
-    let minWidth = 200;
+    const minWidth = 200;
     let percent = 50;
-    let setDrag = (bool) => {
+    const setDrag = (bool) => {
         isDrag = bool;
         el.panel[bool ? 'addClass' : 'rmClass']('no-select');
         if (bool) {
@@ -228,11 +228,11 @@ function initDrag (el) {
             write(TYPE.PERCENT, percent);
         }
     };
-    let setPercent = () => {
+    const setPercent = () => {
         el.codew.style('width', `${percent}%`);
         el.logPanel.style('width', `${100 - percent}%`);
     };
-    let setSize = (x) => {
+    const setSize = (x) => {
         if (x < minWidth || x > width - minWidth) {
             return;
         }
@@ -266,7 +266,7 @@ function initDrag (el) {
 }
 
 function initStyle () {
-    let size = $.windowSize();
+    const size = $.windowSize();
     // let barWidth = 4;
     
     return /* css */`

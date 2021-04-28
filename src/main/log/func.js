@@ -16,7 +16,7 @@ function gc (el, type) {
         state = type;
         laseEl = this;
         this.className += ' tc-active';
-        let childs = el.children;
+        const childs = el.children;
         if (state === TYPE.all) {
             for (var i = 0; i < childs.length; i++) {
                 childs[i].style.display = 'block';
@@ -33,9 +33,9 @@ function gc (el, type) {
     });
 }
 export function generateFunc (log) {
-    let el = log.blockList;
+    const el = log.blockList;
     laseEl = gc(el, TYPE.all);
-    let array = [
+    const array = [
         tool.create('div', 'log-func log-clear', '+', () => {
             log.blockList.innerHTML = '';
             // console.log('Console all clear');
@@ -47,7 +47,7 @@ export function generateFunc (log) {
         // gc(el, TYPE.tc),
         laseEl
     ];
-    let title = ['清空log(ctrl+e)', 'error', 'warning', 'info', 'log', '显示全部'];
+    const title = ['清空log(ctrl+e)', 'error', 'warning', 'info', 'log', '显示全部'];
     array.forEach((item, index) => {
         item.title = title[index];
     });

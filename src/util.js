@@ -4,8 +4,8 @@ import {toast, loading} from 'tacl-ui';
 
 export function readCookie (name, cookie = document.cookie) {
     if (cookie.length > 0 && name) {
-        let reg = new RegExp('(^|; ?)' + name + '=([^&]*?)(;|$)', 'i');
-        let r = cookie.match(reg);
+        const reg = new RegExp('(^|; ?)' + name + '=([^&]*?)(;|$)', 'i');
+        const r = cookie.match(reg);
         if (r != null) {
             return unescape(r[2]);
         }
@@ -27,8 +27,8 @@ export function parseUrlParam (search, name, defVal) {
     }
     if (typeof name !== 'undefined') {
         if (search !== '') {
-            let reg = new RegExp('(^|&)' + name + '=([^&]*?)(&|$)', 'i');
-            let r = search.substr(1).match(reg);
+            const reg = new RegExp('(^|&)' + name + '=([^&]*?)(&|$)', 'i');
+            const r = search.substr(1).match(reg);
             if (r != null) {
                 return unescape(r[2]);
             }
@@ -36,16 +36,16 @@ export function parseUrlParam (search, name, defVal) {
         return (typeof defVal !== 'undefined') ? defVal : null;
     }
     if (search === '') { return {}; }
-    let arr = search.substr(1).split('&');
-    let param = {};
+    const arr = search.substr(1).split('&');
+    const param = {};
     arr.forEach(item => {
-        let pArr = item.split('=');
+        const pArr = item.split('=');
         param[pArr[0]] = pArr[1];
     });
     return param;
 }
 
-export let DEFAULT_CODE = /* javascript */`
+export const DEFAULT_CODE = /* javascript */`
 // JSBOX by theajack
 // 这是一个在线运行调试js的项目, 使用 ctrl+enter 打印一个Hello world吧
 log('Hello World!');
@@ -108,9 +108,9 @@ export function exeJs (code) {
     }
     inExe = true;
     loading();
-    let blob = new Blob([code], {type: 'application/text'});
-    let objectURL = window.URL.createObjectURL(blob);
-    let s = document.createElement('script');
+    const blob = new Blob([code], {type: 'application/text'});
+    const objectURL = window.URL.createObjectURL(blob);
+    const s = document.createElement('script');
     s.onload = () => {
         inExe = false;
         loading.close();

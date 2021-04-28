@@ -1,7 +1,7 @@
 import {PARAM, THEME, LIB, ENV} from './constant';
 import {compressToEncodedURIComponent} from 'lz-string';
 
-let JSBox = {
+const JSBox = {
     PARAM,
     THEME,
     LIB,
@@ -26,7 +26,7 @@ let CONFIG = {
 const BASE_URL = 'https://theajack.gitee.io/jsbox?';
 
 function open (options) {
-    let _config = handleConfig(options || CONFIG);
+    const _config = handleConfig(options || CONFIG);
     let url = BASE_URL;
     if (_config[PARAM.CONFIG]) {
         url = appendParam(url, PARAM.CONFIG, _config);
@@ -84,7 +84,7 @@ function handleConfig ({
     if (code) {
         code = encode(code, needEncode, true);
     }
-    let res = {code, theme,  run, remind, mes};
+    const res = {code, theme,  run, remind, mes};
     if (config) {
         res[PARAM.CONFIG] = encode(config, needEncode);
         if (id) {

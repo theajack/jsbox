@@ -15,7 +15,7 @@ function gc (el, type) {
         state = type;
         laseEl = this;
         this.className += ' tc-active';
-        let childs = el.children;
+        const childs = el.children;
         if (state === TYPE.all) {
             for (var i = 0; i < childs.length; i++) {
                 childs[i].style.display = 'block';
@@ -32,7 +32,7 @@ function gc (el, type) {
     });
 }
 export function generateFunc (log) {
-    let el = log.blockList;
+    const el = log.blockList;
     laseEl = gc(el, TYPE.all);
     return tool.append(
         tool.create('div', 'log-funcs'),

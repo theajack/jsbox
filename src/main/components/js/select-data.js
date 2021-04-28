@@ -1,8 +1,8 @@
 import {LANG} from '../../js/constant';
 
 export const langs = (() => {
-    let arr = [];
-    for (let k in LANG) {
+    const arr = [];
+    for (const k in LANG) {
         arr.push({
             name: k.toLowerCase(),
             value: LANG[k]
@@ -16,7 +16,7 @@ function getVersion (item) {
     if (item.version) {
         return item.version;
     }
-    let res = item.url.match(/@(\d|\.)*?\//);
+    const res = item.url.match(/@(\d|\.)*?\//);
     if (!res) {
         return 'latest';
     }
@@ -28,9 +28,9 @@ export function getTypeByFix (lib) {
 }
 
 export function getLibOption () {
-    let libs = [];
-    let lib = window.jsbox_libs;
-    for (let key in lib) {
+    const libs = [];
+    const lib = window.jsbox_libs;
+    for (const key in lib) {
         let item = lib[key];
         if (typeof item === 'string') {
             item = {url: item};
@@ -47,10 +47,10 @@ export function getLibOption () {
 }
 
 export function getEnvOption () {
-    let envs = [];
-    let env = window.jsbox_envs;
-    for (let key in env) {
-        let item = env[key];
+    const envs = [];
+    const env = window.jsbox_envs;
+    for (const key in env) {
+        const item = env[key];
         if (!item.type) {
             item.type = 'js';
         }

@@ -1,8 +1,8 @@
 import tool from './tool';
 // import TYPE from './type'
 export function generateLogBlock (type) {
-    let block = tool.create('div', 'log-block log-' + type);
-    let hide = tool.create('div', 'log-block-hide', '', () => {
+    const block = tool.create('div', 'log-block log-' + type);
+    const hide = tool.create('div', 'log-block-hide', '', () => {
         block.parentNode.removeChild(block);
     });
     tool.append(hide, tool.create('span', '', '+'));

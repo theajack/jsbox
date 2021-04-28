@@ -4,8 +4,8 @@
  */
 import {isUndf, isObject} from './util';
 
-let events = {};
-let EVENT = {};
+const events = {};
+const EVENT = {};
 
 export function checkEvent (name) {
     if (events[name]) {
@@ -24,7 +24,7 @@ function init (name) {
 
 function regist (name, listener) {
     if (isObject(name)) {
-        for (let key in name) {
+        for (const key in name) {
             regist(key, name[key]);
         }
         return;
@@ -44,7 +44,7 @@ function remove (name, listener) {
         console.error('请传入要移除的listener');
         return false;
     } else {// 移除单个监听
-        let index = events[name].listeners.indexOf(listener);
+        const index = events[name].listeners.indexOf(listener);
         if (index === -1) {
             console.warn('removeEvent:未找到监听函数 ' + name);
             return false;
@@ -78,7 +78,7 @@ class _event {
     }
 }
 
-let event = {
+const event = {
     EVENT, // 事件枚举
     // init, // 初始化一个事件（注册一个发布者） // 初始化与注册和到一起
     emit, // 触发事件
@@ -87,6 +87,6 @@ let event = {
     remove
 };
 
-export let evt = event;
+export const evt = event;
 
 export default event;

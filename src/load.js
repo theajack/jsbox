@@ -11,7 +11,7 @@ export function getTypeByFix (lib) {
     return (lib.substr(lib.lastIndexOf('.')) === '.css') ? 'style' : 'script';
 }
 
-let Libs = [];
+const Libs = [];
 window.libs = Libs;
 function checkIsJsBoxLib (item) {
     if (item.indexOf('jsbox.') === 0) {
@@ -26,18 +26,18 @@ function isUsefullLib (name) {
 }
 
 function checkResource (libs, array) {
-    let res = [];
-    let allDeps = [];
+    const res = [];
+    const allDeps = [];
     for (let i = 0; i < array.length; i++) {
-        let url, type, name;
+        let url, type;
         let item = array[i];
         item = checkIsJsBoxLib(item);
-        name = item;
+        const name = item;
         let deps = [];
         let inLib = false;
         for (let j = 0; j < libs.length; j++) {
-            let singleLib = libs[j];
-            let lib = singleLib[item];
+            const singleLib = libs[j];
+            const lib = singleLib[item];
             if (isUsefullLib(lib)) {
                 if (typeof lib === 'object') {
                     url = lib.url;
@@ -55,8 +55,8 @@ function checkResource (libs, array) {
             }
         }
         if (!inLib) {
-            let index = item.lastIndexOf('.');
-            let fileName = item.substr(index);
+            const index = item.lastIndexOf('.');
+            const fileName = item.substr(index);
             if (index === -1 || (fileName !== '.css' && fileName !== '.js')) {
                 url = `https://unpkg.com/${name}`;
                 type = 'script';
@@ -70,7 +70,7 @@ function checkResource (libs, array) {
         });
     }
     for (let i = 0; i < res.length; i++) {
-        let name = res[i].name;
+        const name = res[i].name;
         if (allDeps.indexOf(name) !== -1 || Libs.indexOf(name) !== -1) {
             res.splice(i, 1);
             i--;
@@ -107,8 +107,8 @@ export function loadResources ({
     let num = 0;
     loading(`${(isDep) ? '依赖: ' : ''}0 / ${array.length}`);
     array.forEach((item) => {
-        let appendOne = (ele) => {
-            let timer = setTimeout(() => {
+        const appendOne = (ele) => {
+            const timer = setTimeout(() => {
                 if (stopLoad) {return;}
                 stopLoad = true;
                 loadError(item);
@@ -142,7 +142,7 @@ export function loadResources ({
 
         let ele;
         if (item.type === 'script') {
-            let addScript = () => {
+            const addScript = () => {
                 ele = $.create('script').attr('src', item.url);
                 $.query('body').append(ele);
                 appendOne(ele);

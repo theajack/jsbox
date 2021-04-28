@@ -6,7 +6,8 @@ function require () {
 console.log(exports, require);
 
 export function getModule (path) {
-    let exports = {};
+    // const exports = {};
+    console.log(path);
 }
 
 'use strict';

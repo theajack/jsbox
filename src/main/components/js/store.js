@@ -1,4 +1,4 @@
-export let diffCodes = {
+export const diffCodes = {
     prev: '',
     next: '',
     lang: '',

@@ -38,7 +38,7 @@ export function initHtml (els) {
         }
     };
     exeHtml = (code) => {
-        let res = extractScript(code);
+        const res = extractScript(code);
         els.htmlContent.html(res.html);
         if (res.js) {
             exeJs(res.js);
@@ -68,7 +68,7 @@ export function changeMode (mode, editor, btn, init = false) {
         hideHtml();
     }
     btn.attr('title', `使用${mode}(ctrl + g)`);
-    let code = editor.code();
+    const code = editor.code();
     if (!init) {
         toast(`已切换至${mode}模式`);
     }
@@ -83,8 +83,8 @@ export function isHtmlMode () {
 
 export function extractScript (html) {
     html = transformLess(html);
-    let reg = /<script(.|\n)*?>(.|\n)*?<\/script>/g;
-    let arr = html.match(reg);
+    const reg = /<script(.|\n)*?>(.|\n)*?<\/script>/g;
+    const arr = html.match(reg);
     if (!arr) {
         return {html, js: ''};
     }
@@ -93,7 +93,7 @@ export function extractScript (html) {
             html = html.replace(item, ''); // 待提取src
             let js = extractContent(item);
             if (/<script(.|\n)*? babel[ \n=]?*>/.test(item) && window.Babel) {
-                let opt = {presets: ['es2015']};
+                const opt = {presets: ['es2015']};
                 if (/<script(.|\n)*? react[ \n=]?*>/.test(item)) {
                     opt.presets.push('react');
                 }
@@ -113,14 +113,14 @@ function transformLess (html) {
     if (!window.less || !window.less.toCss) {
         return html;
     }
-    let reg = /<style(.|\n)*?>(.|\n)*?<\/style>/g;
-    let arr = html.match(reg);
+    const reg = /<style(.|\n)*?>(.|\n)*?<\/style>/g;
+    const arr = html.match(reg);
     if (!arr) {
         return html;
     }
     arr.forEach(item => {
         if ((/<style(.|\n)*? less[ \n=]?*>/.test(item))) {
-            let less = extractContent();
+            const less = extractContent();
             html = html.replace(less, window.less.toCss(less)); // 待提取src
         }
     });

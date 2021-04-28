@@ -128,19 +128,19 @@ const DEFAULT_STYLE = {
 };
 
 export function getLangStyle (filename) {
-    let fileNameItem = FILE_NAME_STYLE[filename];
+    const fileNameItem = FILE_NAME_STYLE[filename];
     if (fileNameItem) {
         if (typeof fileNameItem === 'string') {
             return FILE_NAME_STYLE[fileNameItem];
         }
         return fileNameItem;
     }
-    let lang = getLang(filename);
+    const lang = getLang(filename);
     let style = LANG_STYLE[lang];
     if (!style) {
-        let suffix = getFileSuffix(filename);
+        const suffix = getFileSuffix(filename);
         if (suffix) {
-            let res = getStyleBySuffix(suffix);
+            const res = getStyleBySuffix(suffix);
             if (res) {
                 style = res;
             } else {
@@ -159,7 +159,7 @@ function getFileSuffix (filename) {
     if (typeof filename !== 'string') {
         return '';
     }
-    let index = filename.lastIndexOf('.');
+    const index = filename.lastIndexOf('.');
     if (index === -1) {
         return '';
     }
@@ -168,7 +168,7 @@ function getFileSuffix (filename) {
 
 
 function getStyleBySuffix (suffix) {
-    let res = FILE_Suffix.find(item => {
+    const res = FILE_Suffix.find(item => {
         return item.suffixs.includes(suffix);
     });
     if (res) {

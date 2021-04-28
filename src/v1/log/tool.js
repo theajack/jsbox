@@ -1,6 +1,6 @@
 export default {
     create (tag, cls, text, click) {
-        let el = document.createElement(tag);
+        const el = document.createElement(tag);
         if (cls) {
             el.className = cls.split(' ').map((item) => {
                 return 'tc-' + item;
@@ -34,10 +34,10 @@ export default {
         return el;
     },
     addStyle (css, id) {
-        let style = this.create('style');
+        const style = this.create('style');
         style.innerHTML = css;
         if (id) {
-            let s = document.getElementById(id);
+            const s = document.getElementById(id);
             if (s !== null) {
                 return s;
             }

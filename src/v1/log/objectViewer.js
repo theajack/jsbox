@@ -17,10 +17,10 @@ class ObjectViewer {
 }
 
 function nextEl (el) {
-    let child = Array.prototype.slice.apply(el.parentNode.children);
+    const child = Array.prototype.slice.apply(el.parentNode.children);
     return child[child.indexOf(el) + 1];
 }
-let hugeObjectList = [HTMLElement, HTMLDocument];
+const hugeObjectList = [HTMLElement, HTMLDocument];
 function checkHugeObject (block, key, obj) {
     for (var i = 0; i < hugeObjectList.length; i++) {
         if (obj instanceof hugeObjectList[i]) {
@@ -32,7 +32,7 @@ function checkHugeObject (block, key, obj) {
                 }
                 cls = 'key';
             }
-            let div = generateUnopenHead();
+            const div = generateUnopenHead();
             div.innerHTML = '<span class="tc-obj-key">' + key + '</span>: [<span class="tc-obj-' + cls + '">' + str + '</span>]'; ;
             tool.append(block, div);
             return true;
@@ -51,9 +51,9 @@ function generateHead (block, key, obj) {
         html = '<span class="tc-obj-key">' + key + '</span>:<span class="tc-obj-key"> null</span>';
         _objHead = generateUnopenHead();
     } else {
-        let isArray = obj instanceof Array;
-        let start = isArray ? '[' : '{';
-        let end = isArray ? ']' : '}';
+        const isArray = obj instanceof Array;
+        const start = isArray ? '[' : '{';
+        const end = isArray ? ']' : '}';
         html = `<span class="tc-obj-key">${key}${isArray ? `(<span class="tc-obj-number">${obj.length}</span>)` : ''}</span>: ${start}`;
         let isEmpty = true;
         for (var k in obj) {
@@ -64,7 +64,7 @@ function generateHead (block, key, obj) {
         if (!isEmpty) {
             html = '<span class="tc-log-angle"></span> ' + html.substr(0, html.length - 1);
             _objHead.onclick = function () {
-                let openClass = (this.children[0].className.indexOf('tc-open') !== -1) ? '' : ' tc-open';
+                const openClass = (this.children[0].className.indexOf('tc-open') !== -1) ? '' : ' tc-open';
                 nextEl(this).className = 'tc-log-obj-view' + openClass;
                 this.children[0].className = 'tc-log-angle' + openClass;
             };
@@ -106,7 +106,7 @@ function generateItem (key, value, isArray, needTail) {
 
 // 生成一个子级不可展开的head
 function generateOpenItem (block, key, value) {
-    let div = generateUnopenHead();
+    const div = generateUnopenHead();
     div.innerHTML = generateItem(key, value);
     block.appendChild(div);
 }
@@ -119,7 +119,7 @@ function generateUnopenHead () {
 
 // 生成一个json详情view
 function generateView (block) {
-    let _objView = tool.create('div', 'log-obj-view');
+    const _objView = tool.create('div', 'log-obj-view');
     block.appendChild(_objView);
     return _objView;
 }
@@ -132,7 +132,7 @@ function traverse (block, key, obj) {
     if (!generateHead(block, key, obj)) {
         return;
     }
-    let view = generateView(block);
+    const view = generateView(block);
     for (var k in obj) {
         if (typeof obj[k] === 'object') {
             traverse.call(this, view, k, obj[k]);
@@ -144,7 +144,7 @@ function traverse (block, key, obj) {
 
 function checkMaxDeep (block, key, obj) {
     if (this.deep > MAX_DEEP) {
-        let div = generateUnopenHead();
+        const div = generateUnopenHead();
         let str;
         try {
             str = JSON.stringify(obj);
@@ -165,7 +165,7 @@ function checkMaxDeep (block, key, obj) {
 
 function dealDate (obj) {
     if (obj instanceof Date) {
-        let res = {
+        const res = {
             time: obj.getTime(),
             year: obj.getFullYear(),
             month: obj.getMonth(),

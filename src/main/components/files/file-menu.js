@@ -11,7 +11,7 @@ import {setDiffCode, diffCode} from '../js/diff-code';
 //     // console.log('setFileMenuVue', _v);
 // }
 
-export let fileMenus = [
+export const fileMenus = [
     {
         belongs: [FILE_TYPE.FILE],
         icon: 'file-o',
@@ -96,8 +96,8 @@ export let fileMenus = [
         title: '删除',
         // key: ['alt', 's'], // 默认null
         onclick () {
-            let file = idFiles[globalFileAttr.menuFileId];
-            let text = file.type === FILE_TYPE.DIR ?
+            const file = idFiles[globalFileAttr.menuFileId];
+            const text = file.type === FILE_TYPE.DIR ?
                 `是否确认删除“${file.name}”及其内容 (不可撤销)?` :
                 `是否确认删除当前文件“${file.name}” (不可撤销)?`;
             event.emit(EVENT.OPEN_CONFIRM, {

@@ -11,7 +11,7 @@ class ValuetViewer {
         if (isHtml) {
             this.html = true;
             this._block = generateLogBlock(type);
-            let content = tool.create('div');
+            const content = tool.create('div');
             tool.append(this._block, content);
             content.innerHTML = value.toString();
             tool.append(content, tool.create('span', 'log-copy', 'copy', () => {
@@ -23,9 +23,9 @@ class ValuetViewer {
         }
     }
 }
-
+ 
 function generateDiv (value) {
-    let div = tool.create('div');
+    const div = tool.create('div');
     switch (typeof value) {
         case 'undefined': generateLogSpan(div, 'undefined'); break;
         case 'object': generateLogSpan(div, 'null'); break;// 只可能是null
@@ -52,7 +52,7 @@ function checkMaxLength (str) {
 }
 
 function generateLogSpan (div, str, cls) {
-    let span = tool.create('span', cls || 'obj-key', str);
+    const span = tool.create('span', cls || 'obj-key', str);
     if (div.children.length === 0) {
         div.appendChild(span);
     } else {

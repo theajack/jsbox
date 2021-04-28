@@ -1,5 +1,5 @@
-let list = [];
-let json = {
+const list = [];
+const json = {
     all: 'all',
     error: 'error',
     warn: 'warn',

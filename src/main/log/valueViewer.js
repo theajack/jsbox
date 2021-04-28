@@ -11,7 +11,7 @@ class ValuetViewer {
         if (isHtml) {
             this.html = true;
             this._block = generateLogBlock(type);
-            let content = tool.create('div');
+            const content = tool.create('div');
             tool.append(this._block, content);
             content.innerHTML = value.toString();
             tool.append(content, tool.create('span', 'log-copy', 'copy', () => {
@@ -28,7 +28,7 @@ class ValuetViewer {
 <i class="ei-remove-sign"></i>
 <i class="ei-info-sign"></i> */}
 function generateDiv (value, type) {
-    let div = tool.create('div');
+    const div = tool.create('div');
     switch (typeof value) {
         case 'undefined': generateLogSpan(div, 'undefined'); break;
         case 'object': generateLogSpan(div, 'null'); break;// 只可能是null
@@ -49,7 +49,7 @@ function generateDiv (value, type) {
         default :break;
     }
     if (iconClass) {
-        let icon = tool.create('i');
+        const icon = tool.create('i');
         tool.addClass(icon, iconClass + ' tc-log-icon');
         div.insertBefore(icon, div.children[0]);
     }
@@ -67,7 +67,7 @@ function checkMaxLength (str) {
 }
 
 function generateLogSpan (div, str, cls) {
-    let span = tool.create('span', cls || 'obj-key', str.toString());
+    const span = tool.create('span', cls || 'obj-key', str.toString());
     if (div.children.length === 0) {
         div.appendChild(span);
     } else {

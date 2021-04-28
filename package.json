@@ -9,7 +9,7 @@
     "dev": "webpack-dev-server --open --config webpack-config/dev.js",
     "dev-npm": "webpack-dev-server --open --config webpack-config/dev-npm.js",
     "dev-v1": "webpack-dev-server --open --config webpack-config/dev-v1.js",
-    "lint": "eslint src --ext js",
+    "lint": "eslint src --ext js --fix",
     "update": "node ./package/index.js",
     "build-npm": "webpack --config webpack-config/build-npm.js && npm run copy-cdn",
     "copy-cdn": "node ./helper/copy-cdn.js",

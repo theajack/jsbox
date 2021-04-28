@@ -8,7 +8,7 @@ let CONFIG = {
 };
 
 export default function jsbox (options) {
-    let _config = handleConfig(options);
+    const _config = handleConfig(options);
     let baseUrl = 'https://theajack.gitee.io/jsbox?';
     if (_config.config) {
         baseUrl += `config=${_config.config}&`;
@@ -41,7 +41,7 @@ function handleConfig ({
     env = CONFIG.env,
 }) {
     code = encode(code);
-    let res = {theme, code};
+    const res = {theme, code};
     if (config) {
         res.config = encode(config);
         if (id) {

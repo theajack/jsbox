@@ -7,7 +7,7 @@ import {changeMode} from './html';
 // config > env > lib
 
 function initLib (success) {
-    let libs = getUrlParam('lib');
+    const libs = getUrlParam('lib');
     if (libs) {
         loadResources({
             array: libs.split(','),
@@ -19,14 +19,14 @@ function initLib (success) {
 }
 
 function initEnv (serachCode, editor, success, modeBtn) {
-    let env = getUrlParam('env');
-    let envs = window.jsbox_envs;
+    const env = getUrlParam('env');
+    const envs = window.jsbox_envs;
     if (!env || !envs || !envs[env]) {
         return false;
     }
     let code = envs[env].code || serachCode || '';
     code = code.trim();
-    let type = envs[env].type || 'js';
+    const type = envs[env].type || 'js';
     changeMode(type, editor, modeBtn, true);
     if (envs[env].deps && envs[env].deps.length > 0) {
         loadResources({
@@ -57,14 +57,15 @@ export function initConfig (serachCode, editor, success = () => {}, modeBtn) {
         array: [url],
         jsboxLib: false,
         success: () => {
-            let id = getUrlParam('id');
-            let config = window.jsbox_config;
+            const id = getUrlParam('id');
+            const config = window.jsbox_config;
             
             if (config.codes && id && config.codes[id]) {
-                let code, value = config.codes[id];
+                let code;
+                const value = config.codes[id];
                 if (typeof value === 'object') {
                     code = value.code || serachCode;
-                    let deps = value.dep;
+                    const deps = value.dep;
                     if (!deps || !(deps instanceof Array)) { // 没有dep
                         loadDeps({
                             libs: config.libs,
@@ -124,7 +125,7 @@ function loadDeps ({
         if (!array) {
             array = Object.keys(libs);
         }
-        let res = checkKeys(array, libs);
+        const res = checkKeys(array, libs);
         loadResources({
             libs,
             array: res.keys,
@@ -141,7 +142,7 @@ function checkKeys (keys, libs) {
     let jsboxLib = false;
     if (typeof libs === 'object') {
         keys.forEach((key, i) => {
-            let item = libs[key];
+            const item = libs[key];
             if (item && item.indexOf('jsbox.') === 0) {
                 keys[i] = item;
                 if (!jsboxLib) {
