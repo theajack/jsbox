@@ -1,7 +1,7 @@
 import {globalFileAttr, clearFileAttrById} from './file';
 import event from '../../js/event';
 import {EVENT, ROOT, FILE_TYPE} from '../../js/constant';
-import {readFilesHeader, writeFilesHeader, writeOpenFileID, writeContentFileID} from './storage';
+import {readFilesHeader, markFilesHeaderChange, markOpenedFileIDChange, markContentsChange} from './storage';
 import {idFiles, switchOpenFile} from './file-system';
 
 export let fileHeaderList = null;
@@ -15,11 +15,11 @@ export function clearHeaderByRemoveFile (file) {
     } else {
         removeFromHeaderByFile(file);
     }
-    writeFilesHeader();
+    markFilesHeaderChange();
 }
 
 function removeFromHeaderByFile (file) {
-    let index = fileHeaderList.indexOf(file);
+    const index = fileHeaderList.indexOf(file);
     if (index !== -1) {
         fileHeaderList.splice(index, 1);
     }
@@ -49,20 +49,20 @@ export function onFileClick (file) {
     if (!fileHeaderList.find(item => {return item.id === file.id;})) {
         fileHeaderList.push(file);
         // 打开新文件
-        writeFilesHeader();
+        markFilesHeaderChange();
     }
     event.emit(EVENT.FILE_CLICK, file);
 }
 
 export function onOpenFile (id) {
-    switchOpenFile(globalFileAttr.openedId, id);
+    switchOpenFile(id, globalFileAttr.openedId);
     globalFileAttr.openedId = id;
     checkParent(id);
-    writeOpenFileID();
+    markOpenedFileIDChange();
 }
 
 export function checkParent (id) {
-    let parentId = idFiles[id].parentId;
+    const parentId = idFiles[id].parentId;
     if (parentId !== ROOT) {
         idFiles[parentId].open();
     }
@@ -70,11 +70,11 @@ export function checkParent (id) {
 
 export function onChangeContentFile (id) {
     globalFileAttr.contentId = id;
-    writeContentFileID();
+    markContentsChange();
 }
 
 export function onRemoveFileHeader (index) {
     fileHeaderList.splice(index, 1);
     // console.log(fileHeaderList);
-    writeFilesHeader();
+    markFilesHeaderChange();
 }

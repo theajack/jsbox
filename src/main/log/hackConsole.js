@@ -1,7 +1,7 @@
 import obejectViewer from './objectViewer';
 import valueViewer from './valueViewer';
 import TYPE from './type';
-let hconsole = {
+const hconsole = {
     onConsole: function () {}
 };
 function hackConsole () {
@@ -18,7 +18,7 @@ function hackConsole () {
 }
 
 function hack (name) {
-    let f = window.console[name];
+    const f = window.console[name];
     console['_' + name] = f;
     window.console[name] = function (...arg) {
         triggerLog(name, arg);
@@ -47,9 +47,9 @@ function triggerLog (name, arg) {
 
 function renderMutil (arg, name) {
     let str = '';
-    let objArr = [];
+    const objArr = [];
     for (var i = 0; i < arg.length; i++) {
-        let value = arg[i];
+        const value = arg[i];
         if (obejectViewer.test(value)) {
             objArr.push(value);
             str += '[' + spanStr('key', 'Object' + (objArr.length)) + '] ';

@@ -9,7 +9,7 @@ import event from '../../js/event';
 import {EVENT, ROOT, FILE_TYPE, RENAME_ERROR, FILE_NONE, DROP_TYPE} from '../../js/constant';
 import {writeIDFiles, idFiles, files, getParentChildren, sortFiles} from './file-system';
 import {onFileClick, onChangeContentFile, clearHeaderByRemoveFile} from './file-header';
-import {readFileID, writeFileID, readOpenFileID, writeFiles, readContentFileID, writeContentFileID, writeOpenFileID} from './storage';
+import {readFileID, markFileIDChange, readOpenFileID, markFilesChange, readContents, markContentsChange, markOpenedFileIDChange} from './storage';
 import {toast} from '../../js/util';
 
 // https://blog.csdn.net/qq_37003559/article/details/103970901?depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1&utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromBaidu-1
@@ -20,13 +20,13 @@ const FILE_NAME_REG_ALL = /[\\/:\*\?"'<>\|]/g;
 
 function getID () {
     const id = fileId++;
-    writeFileID();
+    markFileIDChange();
     return id;
 }
 
 
 export const globalFileAttr = {
-    contentId: readContentFileID(),
+    contentId: readContents(),
     theme: theme.get(),
     openedId: readOpenFileID(),
     menuFileId: -1,
@@ -43,11 +43,11 @@ window.globalFileAttr = globalFileAttr;
 export function clearFileAttrById (id) {
     if (globalFileAttr.contentId === id) {
         globalFileAttr.contentId = -1;
-        writeContentFileID();
+        markContentsChange();
     }
     if (globalFileAttr.openedId === id) {
         globalFileAttr.openedId = -1;
-        writeOpenFileID();
+        markOpenedFileIDChange();
     }
     if (globalFileAttr.menuFileId === id) {
         globalFileAttr.menuFileId = -1;
@@ -129,11 +129,11 @@ class JXFileBase {
         const index = cs.indexOf(this);
         cs.splice(index, 1);
         clearHeaderByRemoveFile(this);
-        writeFiles();
+        markFilesChange();
     }
     click () {
         onChangeContentFile(this.id);
-        writeContentFileID();
+        markContentsChange();
     }
     rename () {
         this.renamed = true;
@@ -213,7 +213,7 @@ class JXFileBase {
             }
         } else {
             this.name = this.tempName;
-            writeFiles();
+            markFilesChange();
             sortFiles(this.parentId);
             this.initPath({});
             this.renameError = '';
@@ -271,7 +271,7 @@ export class JXFile extends JXFileBase {
         const newcs = getParentChildren(newPid);
         newcs.push(this.clone({newPid}));
         sortFiles(newPid);
-        writeFiles();
+        markFilesChange();
     }
     clone ({newPid, path}) {
         if (typeof path !== 'string') {
@@ -297,7 +297,7 @@ export class JXFile extends JXFileBase {
         newcs.push(this);
         sortFiles(newPid);
         this.initPath({});
-        writeFiles();
+        markFilesChange();
     }
 }
 
@@ -324,19 +324,19 @@ export class JXDir extends JXFileBase {
     }
     click () {
         super.click();
-        writeFiles();
+        markFilesChange();
         this.opened = !this.opened;
     }
     open () {
         if (!this.opened) {
             this.opened = true;
-            writeFiles();
+            markFilesChange();
         }
     }
     close () {
         if (this.opened) {
             this.opened = false;
-            writeFiles();
+            markFilesChange();
         }
     }
     append (file) {
@@ -360,7 +360,7 @@ export class JXDir extends JXFileBase {
 
         newcs.push(this.clone({newPid}));
         sortFiles(newPid);
-        writeFiles();
+        markFilesChange();
     }
     clone ({
         newPid,
@@ -398,7 +398,7 @@ export class JXDir extends JXFileBase {
         this.initPath({
             init: false
         });
-        writeFiles();
+        markFilesChange();
     }
     initPath ({
         parentPath,

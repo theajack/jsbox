@@ -1,4 +1,4 @@
-import {readFiles, writeFiles} from './storage';
+import {readFiles, markFilesChange} from './storage';
 import event from '../../js/event';
 import {EVENT, ROOT, FILE_TYPE, FILE_NONE} from '../../js/constant';
 import {globalFileAttr, JXFile, JXDir} from './file';
@@ -9,6 +9,9 @@ import {autoFormat} from '../../js/status';
 export let files = null;
 
 export let idFiles = {};
+export function getCurrentFile () {
+    return idFiles[globalFileAttr.openedId];
+}
 window.idFiles = idFiles;
 export function clearFiles () {
     files.splice(0, files.length);
@@ -25,9 +28,7 @@ export const FILE_HEIGHT = 30;
 export function initFileSystem () {
     if (!files) {
         files = readFiles();
-        event.regist(EVENT.MIAN_EDITOR_INITED, () => {
-            switchOpenFile(FILE_NONE, globalFileAttr.openedId);
-        });
+        switchOpenFile(globalFileAttr.openedId, FILE_NONE);
         initUnsaveEvent();
     }
 
@@ -39,19 +40,20 @@ export function supportUploadDir () {
     return typeof document.createElement('input').webkitdirectory === 'boolean';
 }
 
-export function switchOpenFile (oldId, newId) {
-    if (isValidId(oldId)) {
-        event.emit(EVENT.USE_CODE, (code) => {
-            idFiles[oldId].unsavedContent = code;
-            // console.log('oldId', code);
-            writeFiles();
-        });
-    }
+export function switchOpenFile (newId, oldId) {
+    console.log(newId, oldId);
+    // if (isValidId(oldId)) {
+    //     event.emit(EVENT.USE_CODE, (code) => {
+    //         idFiles[oldId].unsavedContent = code;
+    //         // console.log('oldId', code);
+    //         markFilesChange();
+    //     });
+    // }
     
     if (isValidId(newId)) {
-        const file = idFiles[newId];
-        event.emit(EVENT.SET_CODE, file.unsave ? file.unsavedContent : file.content);
-        event.emit(EVENT.COUNT_FILE_SIZE);
+        // const file = idFiles[newId];
+        // event.emit(EVENT.SET_CODE, file.unsave ? file.unsavedContent : file.content);
+        event.emit(EVENT.ON_FILE_OPEN, idFiles[newId]);
         // console.log('newId', file.content);
     }
 }
@@ -68,6 +70,7 @@ export function saveFile (id) {
         console.log('file.content', file.content, file.unsavedContent);
         file.content = file.unsavedContent;
         file.unsavedContent = '';
+        markFilesChange();
     };
     if (autoFormat.get()) {
         formatEditorByFileId(id, () => {
@@ -151,7 +154,7 @@ function folderCommon (func) {
             file[func]();
         }
     }
-    writeFiles();
+    markFilesChange();
 }
 
 export function sortFiles (parentId = ROOT) {

@@ -26,14 +26,14 @@
     import $ from 'easy-dom-util';
     import {globalFileAttr} from '../file';
     import {initFileHeaders, onRemoveFileHeader, onOpenFile, onChangeContentFile, checkParent} from '../file-header';
-    import {writeFilesHeader, writeOpenFileID} from '../storage';
+    import {markFilesHeaderChange, markOpenedFileIDChange} from '../storage';
     import FileHeaderSingle from './file-header-single.vue';
     export default {
         components: {FileHeaderSingle},
         methods: {
             drop (dropIndex) {
                 if (dropIndex !== this.dragIndex) {
-                    let dragItem = this.openFiles[this.dragIndex];
+                    const dragItem = this.openFiles[this.dragIndex];
                     if (dropIndex >  this.dragIndex) {
                         for (let i = this.dragIndex; i < dropIndex; i++) {
                             this.openFiles[i] = this.openFiles[i + 1];
@@ -44,7 +44,7 @@
                         }
                     }
                     this.openFiles.splice(dropIndex, 1, dragItem);
-                    writeFilesHeader();
+                    markFilesHeaderChange();
                 }
                 this.dragOverIndex = -1;
                 globalFileAttr.dropType = DROP_TYPE.NONE;
@@ -65,9 +65,9 @@
                 if (event.button !== MOUSE_BTN.LEFT) {
                     return;
                 }
-                let file = this.openFiles[index];
+                const file = this.openFiles[index];
                 // let canClose = true;
-                let closeFn = () => {
+                const closeFn = () => {
                     this.removeFromOpenPath(file.id);
                     // console.log(this.openFiles);
                     onRemoveFileHeader(index);
@@ -90,7 +90,7 @@
                 if (event.button !== MOUSE_BTN.LEFT) {
                     return;
                 }
-                let id = this.openFiles[index].id;
+                const id = this.openFiles[index].id;
                 if (id !== this.globalFileAttr.contentId) {
                     onChangeContentFile(id);
                 }
@@ -105,7 +105,7 @@
                 for (let i = this.openPath.length - 1; i >= 0; i--) {
                     if (this.openPath[i] === id) {
                         this.openPath.splice(i, 1);
-                        writeFilesHeader();
+                        markFilesHeaderChange();
                         break;
                     }
                 }
@@ -117,19 +117,19 @@
             activeFileByClose () {
                 if (this.openPath.length > 0) {
                     onOpenFile(this.openPath[this.openPath.length - 1]);
-                    writeOpenFileID();
+                    markOpenedFileIDChange();
                 }
             },
             initOpenPath () {
                 this.openPath = this.openFiles.map(item => {return item.id;});
-                let index = this.openPath.indexOf(this.globalFileAttr.openedId);
+                const index = this.openPath.indexOf(this.globalFileAttr.openedId);
                 if (index !== -1) {
                     this.openPath.splice(index, 1);
                     this.openPath.push(this.globalFileAttr.openedId);
                 }
             },
             countWidth () {
-                let w = $.windowSize().width;
+                const w = $.windowSize().width;
                 if (w > 600) {
                     this.fileWidth = w * dragPercent.get() * fileDragPercent.get() * 0.0001;
                 } else {
@@ -146,13 +146,13 @@
             },
             reinitPosition (id) {
                 this.$nextTick(() => {
-                    let index = this.findFileIndex(id);
+                    const index = this.findFileIndex(id);
                     if (index === -1) {
                         return;
                     }
-                    let el = this.$refs.header.children[index + 1];
-                    let w = $.windowSize().width;
-                    let left = el.offsetLeft - this.$refs.header.scrollLeft;
+                    const el = this.$refs.header.children[index + 1];
+                    const w = $.windowSize().width;
+                    const left = el.offsetLeft - this.$refs.header.scrollLeft;
                     if (left < 0 || left > w - el.offsetWidth) {
                         this.$refs.header.scrollLeft = el.offsetLeft - this.fileWidth;
                     }

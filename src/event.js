@@ -4,7 +4,7 @@ export const TOOL_HEIGHT = 35;
 
 export function initResize (el) {
     window.onresize = () => {
-        let size = $.windowSize();
+        const size = $.windowSize();
         el.panel.style('height', size.height - TOOL_HEIGHT + 'px');
     };
 }
@@ -12,8 +12,8 @@ export function initResize (el) {
 export function initKeyEvent (el, method) {
     window.onkeydown = (event) => {
         if (event.ctrlKey) {
-            let c = (s) => {return s.charCodeAt(0);};
-            let pd = () => {event.preventDefault();};
+            const c = (s) => {return s.charCodeAt(0);};
+            const pd = () => {event.preventDefault();};
             switch (event.keyCode) {
                 case c('M'):method.theme(); pd(); break;
                 case c('D'):method.clear(); pd(); break;
@@ -33,7 +33,7 @@ export function initKeyEvent (el, method) {
     };
     el.code.query('.code_editor')[0].el.onkey = (event) => {
         if (event.ctrlKey) {
-            let pd = () => {event.preventDefault();};
+            const pd = () => {event.preventDefault();};
             switch (event.keyCode) {
                 case 13:pd(); break;
             }

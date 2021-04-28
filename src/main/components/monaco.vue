@@ -39,6 +39,7 @@
                                 this._editor.resize();
                                 this._editor.changeTheme(theme.get());
                                 this._editor.setFontSize(fontSize.get());
+                                console.trace();
                                 this.focus();
                             });
                         }

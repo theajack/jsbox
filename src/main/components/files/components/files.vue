@@ -28,7 +28,7 @@
     import {fileMenus} from '../file-menu';
     import {hitEventParent} from '../../../js/util';
     import {globalFileAttr} from '../file';
-    import {writeContentFileID} from '../storage';
+    import {markContentsChange} from '../storage';
     export default {
         name: 'files',
         components: {FileBlock, FileTool, MenuDropdown},
@@ -67,7 +67,7 @@
                 }
             },
             drop () {
-                let dragId = globalFileAttr.dragId;
+                const dragId = globalFileAttr.dragId;
                 if (dragId === FILE_NONE) { // 已经被文件接受了
                     return;
                 }
@@ -88,7 +88,7 @@
                     this.menuVisible = false;
                     return;
                 }
-                let el = hitEventParent(e, 'file-name', 'files-w');
+                const el = hitEventParent(e, 'file-name', 'files-w');
                 let menuFileId = -1;
                 if (el) {
                     menuFileId = parseInt(el.attr('file-id'));
@@ -107,7 +107,7 @@
                     return;
                 }
                 this.globalFileAttr.contentId = -1;
-                writeContentFileID();
+                markContentsChange();
             }
         }
     };

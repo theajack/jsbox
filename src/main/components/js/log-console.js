@@ -2,8 +2,8 @@ import event from '../../js/event';
 import {EVENT} from '../../js/constant';
 import {write, read, TYPE} from '../../js/notebook';
 
-let historyMax = 50;
-let history = read(TYPE.HISTORY) || [];
+const historyMax = 50;
+const history = read(TYPE.HISTORY) || [];
 let historyIndex = history.length;
 let element = null;
 let currentValue = '';
@@ -13,7 +13,7 @@ export function initConsole (el) {
     window.element = el;
     element.addEventListener('keydown', function (e) {
         if (e.keyCode === 38 || e.keyCode === 40) { // up || down
-            let line = getCursorLine(this);
+            const line = getCursorLine(this);
             if (e.keyCode === 38 && line === 1) {
                 prev();
                 e.preventDefault();
@@ -34,12 +34,12 @@ export function initConsole (el) {
     });
 }
 function getCursorLine () {
-    let range = window.getSelection().getRangeAt(0);// 找到焦点位置
-    let span = document.createElement('span');
+    const range = window.getSelection().getRangeAt(0);// 找到焦点位置
+    const span = document.createElement('span');
     span.innerHTML = '__CT_LINE__';
     range.insertNode(span);// 在焦点插入节点
-    let val = element.innerText;
-    let line = val.substring(0, val.indexOf('__CT_LINE__')).split('\n').length;
+    const val = element.innerText;
+    const line = val.substring(0, val.indexOf('__CT_LINE__')).split('\n').length;
     span.parentNode.removeChild(span);
     return line;
 }
@@ -59,7 +59,7 @@ function getLines () {
 }
 
 function runConsole () {
-    let code = element.innerText;
+    const code = element.innerText;
     pushToHistory(code);
     event.emit(EVENT.RUN_CODE, code);
 }

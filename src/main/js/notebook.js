@@ -15,18 +15,14 @@ export const TYPE = {
     FILE_DRAG_PERCENT: 'file_drag_percent',
     FILE_DRAG_STATUS: 'file_drag_status',
     AUTO_FORMAT: 'auto_format',
-    // 存储
-    FILE_ID: 'fid',
-    FILES_HEADER: 'fh',
-    FILES: 'files',
-    FILE_OPEN_ID: 'foid',
-    FILE_CONENT_ID: 'fcid',
+
+    FILES_STORAGE_KEY: 'sm_files',
 };
 
 const encodeList = [
     TYPE.CODE,
     TYPE.HISTORY,
-    TYPE.FILES,
+    TYPE.FILES_STORAGE_KEY,
 ];
 
 function checkEncode (key, value, encode = true) {

@@ -5,7 +5,7 @@ import {dragPercent, dragStatus} from './status';
 
 export function initResize () {
     window.addEventListener('resize', () => {
-        let size = $.windowSize();
+        const size = $.windowSize();
         event.emit(EVENT.RESIZE, size);
     }, false);
 }
@@ -13,8 +13,8 @@ export function initResize () {
 let timer = null;
 
 function onKeyDown (e) {
-    let c = (s) => {return s.charCodeAt(0);};
-    let pd = () => {e.preventDefault();};
+    const c = (s) => {return s.charCodeAt(0);};
+    const pd = () => {e.preventDefault();};
     if (e.keyCode === 122) {
         event.emit(EVENT.TOGGLE_FULLSCREEN);
         pd();
@@ -42,7 +42,7 @@ function onKeyDown (e) {
             case c('X'):eventName = EVENT.CUT; value = e; break;
             case c('V'):eventName = EVENT.PASTE; value = e; break;
         }
-        
+        console.log(e.target);
         if (e.altKey) {
             switch (e.keyCode) {
                 case c('S'):eventName = EVENT.SAVE_SINGLE_CODE; pd(); break;
@@ -66,7 +66,7 @@ export function initKeyEvent () {
     window.addEventListener('keydown', onKeyDown, false);
     event.regist(EVENT.EDITOR_MOUNTED, (editor) => {
         setTimeout(() => {
-            let els = editor.el.querySelectorAll('.inputarea');
+            const els = editor.el.querySelectorAll('.inputarea');
             for (let i = 0; i < els.length; i++) {
                 els[i].addEventListener('keydown', (e) => {
                     if (onKeyDown(e)) {
@@ -80,9 +80,9 @@ export function initKeyEvent () {
 
 export function initDrag (drag) {
     let width = 0;
-    let minWidth = 200;
+    const minWidth = 200;
     dragPercent.init();
-    let setDrag = (bool) => {
+    const setDrag = (bool) => {
         dragStatus.set(bool);
         if (bool) {
             width = $.windowSize().width;
@@ -90,7 +90,7 @@ export function initDrag (drag) {
             dragPercent.save();
         }
     };
-    let setSize = (x) => {
+    const setSize = (x) => {
         if (x < minWidth || x > width - minWidth) {
             return;
         }

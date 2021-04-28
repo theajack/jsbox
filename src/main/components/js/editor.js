@@ -123,9 +123,11 @@ export class Editor {
             this._fileId = globalFileAttr.openedId;
             this.editor.onDidChangeModelContent(() => {
                 const code = this.code();
-                if (this._keyDownChange && this._fileId === globalFileAttr.openedId) {
+                // 代码有改变且为打开的文件 或 被格式化的代码
+                if ((this._keyDownChange && this._fileId === globalFileAttr.openedId) || this._isformating) {
                     if (this._isformating) {
                         // ! 当格式化过代码之后标记代码为未保存状态
+                        console.log('unsaveFile', this._fileId, code);
                         unsaveFile(this._fileId, code);
                         this._formatDone(true);
                     } else {
