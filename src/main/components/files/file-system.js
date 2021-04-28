@@ -66,10 +66,10 @@ function isValidId (id) {
 
 export function saveFile (id) {
     const save = () => {
-        console.log(id);
+        // console.log(id);
         const file = idFiles[id];
         file.unsave = false;
-        console.log('file.content', file.content, file.unsavedContent);
+        // console.log('file.content', file.content, file.unsavedContent);
         file.content = file.unsavedContent;
         file.unsavedContent = '';
         markFilesChange();
