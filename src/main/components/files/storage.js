@@ -8,7 +8,7 @@ import {ROOT, FILE_TYPE} from '../../js/constant';
 
 // 存储文件系统相关数据
 
-let storageMark = {
+const storageMark = {
     fileId: null,
     fileCtId: null,
     fileOpenId: null,
@@ -18,7 +18,7 @@ let storageMark = {
 
 // 保存最新生成的文件id
 export function readFileID () {
-    let _f = read(TYPE.FILE_ID);
+    const _f = read(TYPE.FILE_ID);
     return _f || 0;
 }
 
@@ -34,7 +34,7 @@ function _writeFileID () {
 
 // 保存目录选中的文件ID
 export function readContentFileID () {
-    let _f = read(TYPE.FILE_CONENT_ID);
+    const _f = read(TYPE.FILE_CONENT_ID);
     return typeof _f === 'number' ? _f : -1;
 }
 
@@ -49,7 +49,7 @@ function _writeContentFileID () {
 
 // 保存打开的文件ID
 export function readOpenFileID () {
-    let _f = read(TYPE.FILE_OPEN_ID);
+    const _f = read(TYPE.FILE_OPEN_ID);
     return typeof _f === 'number' ? _f : -1;
 }
 
@@ -65,7 +65,7 @@ function _writeOpenFileID () {
 // 保存打开的所有文件，只保存文件id数组
 
 export function readFilesHeader () {
-    let _f = read(TYPE.FILES_HEADER);
+    const _f = read(TYPE.FILES_HEADER);
     if (!_f) {
         return [];
     }
@@ -89,7 +89,7 @@ function _writeFilesHeader () {
 // 保存所有的文件
 // {i,c,ct,n,o} {id,children,content,name,opened}
 export function readFiles () {
-    let _f = read(TYPE.FILES);
+    const _f = read(TYPE.FILES);
     if (!_f) {
         return [];
     }
@@ -98,7 +98,7 @@ export function readFiles () {
 
 // {i,c,ct,n,o} {id,children,content,name,opened}
 function mapReadFiles (arr, parentId, path) {
-    let files = [];
+    const files = [];
     arr.forEach(item => {
         let file = null;
         if (item.c) {
@@ -137,9 +137,9 @@ function _writeFiles () {
 }
 // {i,c,ct,n,o} {id,children,content,name,opened}
 function mapWriteFiles (arr) {
-    let _files = [];
+    const _files = [];
     arr.forEach(item => {
-        let file = {
+        const file = {
             n: item.name,
             i: item.id,
         };
@@ -154,14 +154,17 @@ function mapWriteFiles (arr) {
     return _files;
 }
 
-window.addEventListener('beforeunload', function () {
+window.addEventListener('beforeunload', onbeforeunload, false);
+
+function onbeforeunload () {
     switchOpenFile(globalFileAttr.openedId);
+    // ! 为防止频繁修改storage 都是存储改变 在页面刷新或者关闭时写入storege
     saveFileStorage();
     return '';
-});
+}
 
 function saveFileStorage () {
-    for (let k in storageMark) {
+    for (const k in storageMark) {
         if (storageMark[k]) {
             storageMark[k]();
         }
@@ -178,6 +181,6 @@ export function clearAllFiles () {
     clearFileHeader();
     clearFileAttr();
 }
-
+window.onbeforeunload = onbeforeunload;
 window.saveFileStorage = saveFileStorage;
 window.clearAllFiles = clearAllFiles;

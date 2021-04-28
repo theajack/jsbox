@@ -12,6 +12,7 @@
     import {fontSize, theme} from '../js/status';
     import {globalFileAttr} from './files/file';
     import {toast} from '../js/util';
+    import {addIntoEditorPool} from './js/editor-pool';
     // import {getUrlParam, DEFAULT_CODE, toast} from '../js/util';
     // import {initConfig} from './js/config';
     // import {decompressUrl} from '../js/compress';
@@ -63,7 +64,7 @@
                 }, 100);
             },
             isActive (callback) {
-                let active = this.globalFileAttr.openedId === this.file.id;
+                const active = this.globalFileAttr.openedId === this.file.id;
                 if (active && typeof callback === 'function') {callback();}
                 return active;
             },
@@ -92,6 +93,7 @@
                             event.emit(EVENT.CURSOR_CHANGE, position);
                         }
                     });
+                    addIntoEditorPool(this.file.id, this._editor);
                     event.regist({
                         [EVENT.RESIZE]: () => {
                             console.log('resize');

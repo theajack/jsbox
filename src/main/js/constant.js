@@ -61,6 +61,8 @@ export const EVENT = {
     CUT: 'CUT',
     PASTE: 'PASTE',
 
+    AUTO_FORMAT_CHANGE: 'AUTO_FORMAT_CHANGE',
+
 };
 
 export const TOOL_HEIGHT = 30;

@@ -1,6 +1,6 @@
 import {MENU_TYPE, EVENT, LANG, THEME} from '../../js/constant';
 import event from '../../js/event';
-import {code, language, theme} from '../../js/status';
+import {autoFormat, code, language, theme} from '../../js/status';
 import {copyText} from '../../log/util';
 import {exeHTML, exeJs} from './execute';
 import {toast, openFullscreen, closeFullscreen, isFullScreen, getUrlParam} from '../../js/util';
@@ -10,7 +10,8 @@ import {Libs} from './lib';
 import {compressUrl} from '../../js/compress';
 import {clearAllFiles} from '../files/storage';
 
-export let menus = [
+// onclick 返回false就不会自动关闭当前打开菜单
+export const menus = [
     {
         title: '编辑',
         active: false,
@@ -133,7 +134,7 @@ export let menus = [
             type: MENU_TYPE.OPEN,
         }]
     }, {
-        title: '外观',
+        title: '设置',
         active: false,
         items: [{
             title: '放大字体',
@@ -154,12 +155,30 @@ export let menus = [
         }, {
             type: MENU_TYPE.SPLIT
         }, {
+            title: '打开自动格式化代码',
+            icon: 'code',
+            methods: {
+                setInfo (item) {
+                    item.title = `${autoFormat.get() ? '关闭' : '打开'}自动格式化代码`;
+                },
+            },
+            onclick () {
+                autoFormat.set(!autoFormat.get());
+                this.methods.setInfo(this);
+                toast(`已${autoFormat.get() ? '开启' : '关闭'}自动格式化代码`);
+            },
+            mounted () {
+                this.methods.setInfo(this);
+            }
+        }, {
+            type: MENU_TYPE.SPLIT
+        }, {
             title: '切换深色主题',
             icon: 'moon',
             key: ['ctrl', 'm'],
             methods: {
                 setInfo (item) {
-                    let isDark = theme.get() === THEME.DARK;
+                    const isDark = theme.get() === THEME.DARK;
                     item.title = `切换${isDark ? '浅色' : '深色'}主题`;
                     item.icon = isDark ? 'sun' : 'moon';
                 },
@@ -181,14 +200,14 @@ export let menus = [
             key: ['f11'],
             methods: {
                 fullScreenChange () {
-                    let isfull = !isFullScreen();
+                    const isfull = !isFullScreen();
                     this.icon = isfull ? 'expand-full' : 'collapse-full';
                     this.title = isfull ? '全屏' : '退出全屏';
                     return isfull;
                 }
             },
             onclick () {
-                let isFullScreen = this.methods.fullScreenChange.call(this);
+                const isFullScreen = this.methods.fullScreenChange.call(this);
                 if (isFullScreen) {
                     openFullscreen();
                 } else {
@@ -257,7 +276,7 @@ export let menus = [
                     const host = `${location.protocol}//${location.host}/`;
                     let url = `${host}jsbox?theme=${theme.get()}&lang=${language.get()}&lib=${Libs.join(',')}`;
                     ['mes', 'remind', 'run'].forEach((item) => {
-                        let value = getUrlParam(item);
+                        const value = getUrlParam(item);
                         if (value) {
                             url += `&${item}=${value}`;
                         }
@@ -303,7 +322,7 @@ export let menus = [
         icon: 'play',
         active: false,
         onclick (c) {
-            let lang = language.get();
+            const lang = language.get();
             if (lang === LANG.JAVASCRIPT || lang === LANG.HTML) {
                 if (typeof c === 'string') {
                     if (c.trim() === '') {

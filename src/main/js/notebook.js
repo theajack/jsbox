@@ -1,5 +1,5 @@
 import {compress, decompress} from './compress';
-let storage = window.localStorage;
+const storage = window.localStorage;
 
 export const TYPE = {
     CODE: 'code',
@@ -14,12 +14,13 @@ export const TYPE = {
     CODE_DRAG_STATUS: 'code_drag_status',
     FILE_DRAG_PERCENT: 'file_drag_percent',
     FILE_DRAG_STATUS: 'file_drag_status',
+    AUTO_FORMAT: 'auto_format',
     // 存储
     FILE_ID: 'fid',
     FILES_HEADER: 'fh',
     FILES: 'files',
     FILE_OPEN_ID: 'foid',
-    FILE_CONENT_ID: 'fcid'
+    FILE_CONENT_ID: 'fcid',
 };
 
 const encodeList = [
@@ -43,7 +44,7 @@ export function read (key) {
     if (value === null) {
         return null;
     }
-    let type = value.substr(0, value.indexOf(':'));
+    const type = value.substr(0, value.indexOf(':'));
     value = value.substr(value.indexOf(':') + 1);
     // if (key === TYPE.FILES)
     //     console.log(value, value.length);
@@ -61,7 +62,7 @@ export function read (key) {
 }
 
 export function write (key, value) {
-    let type = typeof value;
+    const type = typeof value;
     if (type === 'object') {
         value = JSON.stringify(value);
     } else if (type !== 'string') {

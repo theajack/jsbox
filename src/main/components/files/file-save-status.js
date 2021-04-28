@@ -26,7 +26,7 @@ export function initUnsaveEvent () {
         if (globalFileAttr.openedId === -1) {
             return;
         }
-        let index = unsaveFiles.indexOf(globalFileAttr.openedId);
+        const index = unsaveFiles.indexOf(globalFileAttr.openedId);
         if (index === -1) {
             return;
         }

@@ -2,6 +2,7 @@
 
 import {globalFileAttr} from '../files/file';
 import {LANG, THEME, DEFAULT_FONT_SIZE, getFinalLang} from '../../js/constant';
+import {unsaveFile} from '../files/file-system';
 
 // import html from './html';
 // import javascript from './javascript';
@@ -85,6 +86,7 @@ export class Editor {
         this.fontSize = fontSize;
         this.lang = lang;
         this.option = option;
+        this._isformating = false;
         this.el = (typeof el === 'string') ? document.querySelector(el) : el;
         if (typeof diffCode === 'string') {
             this.type = 'diff-editor';
@@ -120,10 +122,16 @@ export class Editor {
             this._preCode = code;
             this._fileId = globalFileAttr.openedId;
             this.editor.onDidChangeModelContent(() => {
-                let code = this.code();
+                const code = this.code();
                 if (this._keyDownChange && this._fileId === globalFileAttr.openedId) {
-                    this.onchange(code);
-                    this._keyDownChange = false;
+                    if (this._isformating) {
+                        // ! 当格式化过代码之后标记代码为未保存状态
+                        unsaveFile(this._fileId, code);
+                        this._formatDone(true);
+                    } else {
+                        this.onchange(code);
+                        this._keyDownChange = false;
+                    }
                 } else {
                     this._fileId = globalFileAttr.openedId;
                 }
@@ -158,18 +166,18 @@ export class Editor {
         //     return;
         // }
         code = typeof code === 'string' ? code : this.code();
-        let oldModel = this.editor.getModel();
+        const oldModel = this.editor.getModel();
         this.lang = lang;
         lang = getFinalLang(lang);
         if (this.type === 'editor') {
-            let newModel = Monaco.editor.createModel(code, lang);
+            const newModel = Monaco.editor.createModel(code, lang);
             this.editor.setModel(newModel);
             if (oldModel) {
                 oldModel.dispose();
             }
         } else {
-            let original = Monaco.editor.createModel(this.diffCode, lang);
-            let modified = Monaco.editor.createModel(code, lang);
+            const original = Monaco.editor.createModel(this.diffCode, lang);
+            const modified = Monaco.editor.createModel(code, lang);
             this.editor.setModel({
                 original,
                 modified
@@ -192,7 +200,7 @@ export class Editor {
         return this.changeTheme((Editor.theme === THEME.DARK ? THEME.LIGHT : THEME.DARK ));
     }
     destroy () {
-        let model = this.editor.getModel();
+        const model = this.editor.getModel();
         if (model) {
             if (this.type === 'editor') {
                 model.dispose();
@@ -235,7 +243,7 @@ export class Editor {
         return this.code().split('\n').length;
     }
     focusEnd (needFocus = true) {
-        let arr = this.code().split('\n');
+        const arr = this.code().split('\n');
         this.editor.setPosition({
             lineNumber: arr.length,
             column: arr[arr.length - 1].length + 1
@@ -245,5 +253,26 @@ export class Editor {
     }
     focus () {
         this.editor.focus();
+    }
+    format (success) {
+        // editor.editor.getAction('editor.action.format').run()
+        this._isformating = true;
+        this._formatSuccess = success;
+        this._fomatTimer = setTimeout(() => {
+            this._formatDone();
+        }, 50);
+
+        this.editor.trigger('format code', 'editor.action.formatDocument');
+    }
+    _formatDone (force = false) {
+        if (force) {
+            clearTimeout(this._fomatTimer);
+        }
+        this._isformating = false;
+        this._fomatTimer = null;
+        if (typeof this._formatSuccess === 'function') {
+            this._formatSuccess();
+            this._formatSuccess = null;
+        }
     }
 }

@@ -3,6 +3,8 @@ import event from '../../js/event';
 import {EVENT, ROOT, FILE_TYPE, FILE_NONE} from '../../js/constant';
 import {globalFileAttr, JXFile, JXDir} from './file';
 import {initUnsaveEvent} from './file-save-status';
+import {formatEditorByFileId} from '../js/editor-pool';
+import {autoFormat} from '../../js/status';
 
 export let files = null;
 
@@ -40,15 +42,15 @@ export function supportUploadDir () {
 export function switchOpenFile (oldId, newId) {
     if (isValidId(oldId)) {
         event.emit(EVENT.USE_CODE, (code) => {
-            idFiles[oldId].usContent = code;
+            idFiles[oldId].unsavedContent = code;
             // console.log('oldId', code);
             writeFiles();
         });
     }
     
     if (isValidId(newId)) {
-        let file = idFiles[newId];
-        event.emit(EVENT.SET_CODE, file.unsave ? file.usContent : file.content);
+        const file = idFiles[newId];
+        event.emit(EVENT.SET_CODE, file.unsave ? file.unsavedContent : file.content);
         event.emit(EVENT.COUNT_FILE_SIZE);
         // console.log('newId', file.content);
     }
@@ -59,17 +61,27 @@ function isValidId (id) {
 }
 
 export function saveFile (id) {
-    let file = idFiles[id];
-    file.unsave = false;
-    console.log('file.content', file.content, file.usContent);
-    file.content = file.usContent;
-    file.usContent = '';
+    const save = () => {
+        console.log(id);
+        const file = idFiles[id];
+        file.unsave = false;
+        console.log('file.content', file.content, file.unsavedContent);
+        file.content = file.unsavedContent;
+        file.unsavedContent = '';
+    };
+    if (autoFormat.get()) {
+        formatEditorByFileId(id, () => {
+            save();
+        });
+    } else {
+        save();
+    }
 }
 export function unsaveFile (id, code) {
-    let file = idFiles[id];
+    const file = idFiles[id];
     file.unsave = true;
-    // console.log('file.usContent', code);
-    file.usContent = code;
+    // console.log('file.unsavedContent', code);
+    file.unsavedContent = code;
 }
 export function createNewFile (name = '', parentId = getCurrentParentId()) {
     createBase(JXFile, name, parentId);
@@ -78,8 +90,8 @@ export function createNewDir (name = '', parentId = getCurrentParentId()) {
     createBase(JXDir, name, parentId);
 }
 function createBase (JXClass, name, parentId) {
-    let children = getParentChildren(parentId);
-    let file = new JXClass({
+    const children = getParentChildren(parentId);
+    const file = new JXClass({
         parentId,
         name,
         path: getParentPath(parentId)
@@ -100,11 +112,11 @@ window.createNewFile = createNewFile;
 window.createNewDir = createNewDir;
 
 function getCurrentParentId () {
-    let cid = globalFileAttr.contentId;
+    const cid = globalFileAttr.contentId;
     if (cid === FILE_NONE || typeof cid !== 'number' ) {
         return ROOT;
     }
-    let file = idFiles[cid];
+    const file = idFiles[cid];
     if (file.type === FILE_TYPE.DIR) {
         file.open();
         return file.id;
@@ -133,8 +145,8 @@ export function closeAllFolder () {
 }
 
 function folderCommon (func) {
-    for (let k in idFiles) {
-        let file = idFiles[k];
+    for (const k in idFiles) {
+        const file = idFiles[k];
         if (file.type === FILE_TYPE.DIR) {
             file[func]();
         }
@@ -143,7 +155,7 @@ function folderCommon (func) {
 }
 
 export function sortFiles (parentId = ROOT) {
-    let children = getParentChildren(parentId);
+    const children = getParentChildren(parentId);
     children.sort((a, b) => {
         if (a.type === FILE_TYPE.DIR && b.type === FILE_TYPE.FILE) {
             return FILE_NONE;
@@ -152,7 +164,7 @@ export function sortFiles (parentId = ROOT) {
             return 1;
         }
         let index = 0;
-        let num = () => {
+        const num = () => {
             return a.name.charCodeAt(index) - b.name.charCodeAt(index);
         };
         let d = num();
@@ -194,7 +206,7 @@ function checkLastCutFile () {
 }
 
 export function pasteFile (id = globalFileAttr.menuFileId) {
-    let parentId = id === FILE_NONE ? ROOT : id;
+    const parentId = id === FILE_NONE ? ROOT : id;
     if (globalFileAttr.copyFileId === FILE_NONE && globalFileAttr.cutFileId === FILE_NONE) {
         return;
     }
@@ -206,7 +218,7 @@ export function pasteFile (id = globalFileAttr.menuFileId) {
         cid = globalFileAttr.cutFileId;
         isCopy = false;
     }
-    let file = idFiles[cid];
+    const file = idFiles[cid];
     
     if (isCopy) {
         file.copyTo(parentId);

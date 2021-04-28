@@ -28,6 +28,7 @@ module.exports = {
     "window": true,
   },
   "rules": {
+    "prefer-const": "error",
     "no-extend-native": 0,
     "no-new": 0,
     "no-useless-escape": 0,

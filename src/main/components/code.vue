@@ -120,7 +120,7 @@
         },
         methods: {
             initCode () {
-                let autoRun = getUrlParam('run') !== 'false';
+                const autoRun = getUrlParam('run') !== 'false';
                 theme.init(getUrlParam('theme'));
                 initConfig(code, () => {
                     if (autoRun) {

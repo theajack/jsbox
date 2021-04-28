@@ -10,11 +10,11 @@ export function exeHTML (code) {
         toast('正在执行中，请勿重复操作');
         return;
     }
-    let libs = [];
+    const libs = [];
     code = extractLink(code, libs);
-    let res = extractScript(code, libs);
+    const res = extractScript(code, libs);
     code = res.html.trim();
-    let exe = () => {
+    const exe = () => {
         event.emit(EVENT.HTML_CONTENT_CHANGE, code);
         if (res.js) {
             setTimeout(() => {
@@ -38,8 +38,8 @@ export function exeHTML (code) {
 
 function extractLink (html, libs) {
     html = transformLess(html);
-    let reg = /<link(.|\n)*?href( ?)*=(.|\n)*?>/g;
-    let res = html.match(reg);
+    const reg = /<link(.|\n)*?href( ?)*=(.|\n)*?>/g;
+    const res = html.match(reg);
     if (!res) {
         return html;
     }
@@ -58,8 +58,8 @@ function extractLink (html, libs) {
 
 export function extractScript (html, libs) {
     html = transformLess(html);
-    let reg = /<script(.|\n)*?>(.|\n)*?<\/script>/g;
-    let arr = html.match(reg);
+    const reg = /<script(.|\n)*?>(.|\n)*?<\/script>/g;
+    const arr = html.match(reg);
     if (!arr) {
         return {html, js: ''};
     }
@@ -68,7 +68,7 @@ export function extractScript (html, libs) {
         if (!(/<script(.|\n)*?src( ?)*=(.|\n)*?>/.test(item))) {
             let _js = extractContent(item);
             if (/<script(.|\n)*? babel(>|([ \n=]+.*?>))/.test(item) && window.Babel) {
-                let opt = {presets: ['es2015']};
+                const opt = {presets: ['es2015']};
                 if (/<script(.|\n)*? react(>|([ \n=]+.*?>))/.test(item)) {
                     opt.presets.push('react');
                 }
@@ -96,15 +96,15 @@ function transformLess (html) {
     if (!window.less || !window.less.toCss) {
         return html;
     }
-    let reg = /<style(.|\n)*?>(.|\n)*?<\/style>/g;
-    let arr = html.match(reg);
+    const reg = /<style(.|\n)*?>(.|\n)*?<\/style>/g;
+    const arr = html.match(reg);
     if (!arr) {
         return html;
     }
     arr.forEach(item => {
         if ((/<style(.|\n)*? less(>|([ \n=]+.*?>))/.test(item))) {
-            let less = extractContent(item, 'style');
-            let css = window.less.toCss(less);
+            const less = extractContent(item, 'style');
+            const css = window.less.toCss(less);
             html = html.replace(less, css); // 待提取src
         }
     });
@@ -133,8 +133,8 @@ export function exeJs (code) {
     }
     inExe = true;
     loading();
-    let blob = new Blob([code], {type: 'application/text'});
-    let objectURL = window.URL.createObjectURL(blob);
+    const blob = new Blob([code], {type: 'application/text'});
+    const objectURL = window.URL.createObjectURL(blob);
     script = document.createElement('script');
     script.onload = () => {
         inExe = false;

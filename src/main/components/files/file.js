@@ -19,13 +19,13 @@ const FILE_NAME_REG = /[\\/:\*\?"'<>\|]/;
 const FILE_NAME_REG_ALL = /[\\/:\*\?"'<>\|]/g;
 
 function getID () {
-    let id = fileId++;
+    const id = fileId++;
     writeFileID();
     return id;
 }
 
 
-export let globalFileAttr = {
+export const globalFileAttr = {
     contentId: readContentFileID(),
     theme: theme.get(),
     openedId: readOpenFileID(),
@@ -119,14 +119,14 @@ class JXFileBase {
         return idFiles[this.parentId];
     }
     remove () {
-        let parent = this.parent();
+        const parent = this.parent();
         let cs;
         if (parent === ROOT) {
             cs = files;
         } else {
             cs = parent.children;
         }
-        let index = cs.indexOf(this);
+        const index = cs.indexOf(this);
         cs.splice(index, 1);
         clearHeaderByRemoveFile(this);
         writeFiles();
@@ -139,14 +139,15 @@ class JXFileBase {
         this.renamed = true;
         this.tempName = this.name;
         setTimeout(() => {
-            let input = document.getElementById('rename-input-' + this.id);
+            const input = document.getElementById('rename-input-' + this.id);
             if (!input) {
                 console.warn('rename input = null');
                 return;
             }
             if (this.tempName !== '') {
-                let start = 0, end = this.tempName.length;
-                let index = this.tempName.lastIndexOf('.');
+                const start = 0;
+                let end = this.tempName.length;
+                const index = this.tempName.lastIndexOf('.');
                 if (index !== -1) {
                     end = index;
                 }
@@ -156,7 +157,7 @@ class JXFileBase {
                         input.setSelectionRange(start, end);
                     }, 0);
                 } else if (input.createTextRange) {
-                    let range = input.createTextRange();
+                    const range = input.createTextRange();
                     range.collapse(true);
                     range.moveEnd('character', end);
                     range.moveStart('character', start);
@@ -173,7 +174,7 @@ class JXFileBase {
         // }
     }
     renameCheck () {
-        let bros = getParentChildren(this.parentId);
+        const bros = getParentChildren(this.parentId);
         if (bros.find(item => {
             return item.name === this.tempName && item.id !== this.id;
         })) {
@@ -267,7 +268,7 @@ export class JXFile extends JXFileBase {
         if (!checkPasteTarget(newPid, this.parentId, this.name)) {
             return;
         }
-        let newcs = getParentChildren(newPid);
+        const newcs = getParentChildren(newPid);
         newcs.push(this.clone({newPid}));
         sortFiles(newPid);
         writeFiles();
@@ -288,8 +289,8 @@ export class JXFile extends JXFileBase {
         if (!checkPasteTarget(newPid, this.parentId, this.name)) {
             return;
         }
-        let newcs = getParentChildren(newPid);
-        let cs = getParentChildren(this.parentId);
+        const newcs = getParentChildren(newPid);
+        const cs = getParentChildren(this.parentId);
         cs.splice(cs.indexOf(this), 1);
         this.parentId = newPid;
         this.parentPath = newPid === ROOT ? '' : idFiles[newPid].path;
@@ -355,7 +356,7 @@ export class JXDir extends JXFileBase {
         if (!checkPasteTarget(newPid, this.parentId, this.name)) {
             return;
         }
-        let newcs = getParentChildren(newPid);
+        const newcs = getParentChildren(newPid);
 
         newcs.push(this.clone({newPid}));
         sortFiles(newPid);
@@ -365,7 +366,7 @@ export class JXDir extends JXFileBase {
         newPid,
         path,
     }) {
-        let id = getID();
+        const id = getID();
         if (typeof path !== 'string') {
             path = newPid === ROOT ? '' : idFiles[newPid].path;
         }
@@ -387,8 +388,8 @@ export class JXDir extends JXFileBase {
         if (!checkPasteTarget(newPid, this.parentId, this.name)) {
             return;
         }
-        let newcs = getParentChildren(newPid);
-        let cs = getParentChildren(this.parentId);
+        const newcs = getParentChildren(newPid);
+        const cs = getParentChildren(this.parentId);
         cs.splice(cs.indexOf(this), 1);
         this.parentId = newPid;
         this.parentPath = newPid === ROOT ? '' : idFiles[newPid].path;
@@ -417,7 +418,7 @@ export class JXDir extends JXFileBase {
 
 function checkPasteTarget (newPid, oldPid, name) {
     if (newPid === oldPid) {return false;}
-    let newcs = getParentChildren(newPid);
+    const newcs = getParentChildren(newPid);
     if (newcs.find(item => {
         return item.name === name;
     })) {

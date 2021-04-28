@@ -58,7 +58,7 @@
         methods: {
             active (index) {
                 this.ignoreClick = true;
-                let item = this.menus.find((item) => {
+                const item = this.menus.find((item) => {
                     return item.active === true;
                 });
                 if (item) {

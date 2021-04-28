@@ -15,7 +15,7 @@ function generateStatus ({
                 return read(name);
             }
             if (this._value === null) {
-                let v = read(name);
+                const v = read(name);
                 this._value = v === null ? def : v;
             }
             return this._value;
@@ -52,7 +52,7 @@ function generateStatus ({
     };
 }
 
-export let status = {};
+export const status = {};
 
 export function buildStatus (name, options) {
     if (!status[name]) {
@@ -159,3 +159,10 @@ export function getDragStatus (name) {
         };
     }
 }
+
+
+export const autoFormat = generateStatus({
+    def: false,
+    name: TYPE.AUTO_FORMAT,
+    emit: EVENT.AUTO_FORMAT_CHANGE,
+});
