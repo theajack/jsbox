@@ -42,6 +42,7 @@ export function getLang (fileName) {
     }
     return suffix;
 }
+window.getLang = getLang;
 
  
 export function download () {

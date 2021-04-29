@@ -3,10 +3,10 @@
 // http://gildas-lormeau.github.io/zip.js/
 // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/webkitdirectory 上传文件夹
 
-import {getLangStyle} from './file-type';
+import {getLangStyle, getResourcesType} from './file-type';
 import {theme} from '../../js/status';
 import event from '../../js/event';
-import {EVENT, ROOT, FILE_TYPE, RENAME_ERROR, FILE_NONE, DROP_TYPE} from '../../js/constant';
+import {EVENT, ROOT, FILE_TYPE, RENAME_ERROR, FILE_NONE, DROP_TYPE, RES_TYPE} from '../../js/constant';
 import {writeIDFiles, idFiles, files, getParentChildren, sortFiles} from './file-system';
 import {onFileClick, onChangeContentFile, clearHeaderByRemoveFile} from './file-header';
 import {readFileID, markFileIDChange, readOpenFileID, markFilesChange, readContents, markContentsChange, markOpenedFileIDChange} from './storage';
@@ -242,6 +242,7 @@ export class JXFile extends JXFileBase {
         this.unsave = false;
         this.initStyle();
         this.lang = this.style.lang;
+        this.resType = getResourcesType(this.lang);
     }
     initStyle (name) {
         this.style = getLangStyle(name || this.name);
@@ -316,6 +317,7 @@ export class JXDir extends JXFileBase {
     }) {
         super({id, name, parentId, renamed, path});
         this.type = FILE_TYPE.DIR;
+        this.resType = RES_TYPE.DIR;
         this.opened = opened;
         this.unnameIndex = 0;
         children.forEach(child => {

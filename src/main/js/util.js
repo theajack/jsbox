@@ -3,15 +3,10 @@ import {loading} from 'tacl-ui';
 import $ from 'easy-dom-util';
 import {Message} from 'element-ui';
 import 'element-ui/lib/theme-chalk/message.css';
+import {TOAST_TYPE} from './constant';
 
-const TYPE = {
-    SUCCESS: 'success',
-    WARN: 'warning',
-    INFO: 'info',
-    ERROR: 'error'
-};
 
-export function toast (text, time = 1500, type = TYPE.INFO) {
+export function toast (text, time = 1500, type = TOAST_TYPE.INFO) {
     Message[type]({
         message: text,
         duration: time === false ? 0 : time,
@@ -19,10 +14,10 @@ export function toast (text, time = 1500, type = TYPE.INFO) {
         customClass: 'jx-message'
     });
 }
-toast.success = (text, time) => {toast(text, time, TYPE.SUCCESS);};
-toast.warn = (text, time) => {toast(text, time, TYPE.WARN);};
-toast.info = (text, time) => {toast(text, time, TYPE.INFO);};
-toast.error = (text, time) => {toast(text, time, TYPE.ERROR);};
+toast.success = (text, time) => {toast(text, time, TOAST_TYPE.SUCCESS);};
+toast.warn = (text, time) => {toast(text, time, TOAST_TYPE.WARN);};
+toast.info = (text, time) => {toast(text, time, TOAST_TYPE.INFO);};
+toast.error = (text, time) => {toast(text, time, TOAST_TYPE.ERROR);};
 
 window.toast = toast;
 export function readCookie (name, cookie = document.cookie) {

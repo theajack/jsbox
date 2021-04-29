@@ -1,14 +1,14 @@
-import {MENU_TYPE, EVENT, LANG, THEME} from '../../js/constant';
+import {MENU_TYPE, EVENT, THEME} from '../../js/constant';
 import event from '../../js/event';
 import {autoFormat, language, theme} from '../../js/status';
 import {copyText} from '../../log/util';
-import {exeHTML, exeJs} from './execute';
 import {toast, openFullscreen, closeFullscreen, isFullScreen, getUrlParam} from '../../js/util';
 import {download, openFile} from './file';
 import {isCustomConfig} from './config';
 import {Libs} from './lib';
 import {compressUrl} from '../../js/compress';
 import {clearAllFiles} from '../files/storage';
+import {startCompileModules} from '../files/module';
 
 // onclick 返回false就不会自动关闭当前打开菜单
 export const menus = [
@@ -291,35 +291,36 @@ export const menus = [
         title: '运行(ctrl+y)',
         icon: 'play',
         active: false,
-        onclick (c) {
-            const lang = language.get();
-            if (lang === LANG.JAVASCRIPT || lang === LANG.HTML) {
-                if (typeof c === 'string') {
-                    if (c.trim() === '') {
-                        toast('请输入一些代码');
-                        return;
-                    }
-                    exeJs(c);
-                } else {
-                    event.emit(EVENT.USE_CODE, (code) => {
-                        if (code.trim() === '') {
-                            toast('请输入一些代码');
-                            return;
-                        }
-                        if (lang === LANG.HTML) {
-                            exeHTML(code);
-                        } else {
-                            exeJs(code);
-                        }
-                    });
-                }
-            } else {
-                toast('只支持运行js和html代码');
-            }
+        onclick () {
+            startCompileModules();
+            // const lang = language.get();
+            // if (lang === LANG.JAVASCRIPT || lang === LANG.HTML) {
+            //     if (typeof c === 'string') {
+            //         if (c.trim() === '') {
+            //             toast('请输入一些代码');
+            //             return;
+            //         }
+            //         exeJs(c);
+            //     } else {
+            //         event.emit(EVENT.USE_CODE, (code) => {
+            //             if (code.trim() === '') {
+            //                 toast('请输入一些代码');
+            //                 return;
+            //             }
+            //             if (lang === LANG.HTML) {
+            //                 exeHTML(code);
+            //             } else {
+            //                 exeJs(code);
+            //             }
+            //         });
+            //     }
+            // } else {
+            //     toast('只支持运行js和html代码');
+            // }
         },
         mounted () {
-            event.regist(EVENT.RUN_CODE, (code) => {
-                this.onclick(code);
+            event.regist(EVENT.RUN_CODE, () => {
+                this.onclick();
             });
         }
     }

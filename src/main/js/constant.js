@@ -85,6 +85,8 @@ export const LANG = { // 'csharp'
     'PLAINTEXT': 'plaintext', 'PUG': 'pug', 'VUE': 'vue', 'JSX': 'jsx'
 };
 
+export const LANG_VALUES = Object.values(LANG);
+
 export function getFinalLang (lang) {
     switch (lang) {
         case LANG.VUE:return LANG.HTML;
@@ -154,4 +156,58 @@ export const SELECT_TYPE = {
     MENU: 1,
     DRAG: 2,
     CONTENT: 3,
+};
+
+// 资源类型
+export const RES_TYPE = {
+    IMAGE: 'image',
+    VIDEO: 'video',
+    AUDIO: 'audio',
+    ZIP: 'zip',
+    CONFIG: 'config',
+    EXE: 'exe',
+    APK: 'apk',
+    PPT: 'ppt',
+    WORD: 'word',
+    EXCEL: 'excel',
+    PS: 'ps',
+    FONT: 'font',
+    LANG: 'lang',
+    DIR: 'dir', // 文件夹
+
+    DEFAULT: 'default',
+};
+
+export const FILE_SUFFIXS = {
+    [RES_TYPE.IMAGE]: ['png', 'jpg', 'jpeg', 'gif', 'bmp'],
+    [RES_TYPE.VIDEO]: ['mp4', 'flv', 'mov', 'avi', 'wmv', 'rmvb ', 'ogg', 'avi'],
+    [RES_TYPE.AUDIO]: ['mp3', 'wma', 'wav'],
+    [RES_TYPE.ZIP]: ['zip', 'rar'],
+    [RES_TYPE.CONFIG]: ['config', 'conf'],
+    [RES_TYPE.EXE]: ['exe', 'msi', 'dmg', 'iso'],
+    [RES_TYPE.APK]: ['apk'],
+    [RES_TYPE.PPT]: ['ppt', 'pptx', ],
+    [RES_TYPE.WORD]: ['doc', 'docx'],
+    [RES_TYPE.EXCEL]: ['xls', 'xlsx', 'csv'],
+    [RES_TYPE.WORD]: ['doc', 'docx'],
+    [RES_TYPE.PS]: ['psd'],
+    [RES_TYPE.FONT]: ['ttf', 'fon', 'eot', 'otf', 'font', 'ttc', 'woff'],
+};
+
+export const SUFFIX_TO_RES_TYPE = (() => {
+    const MAP = {};
+    for (const resType in FILE_SUFFIXS) {
+        FILE_SUFFIXS[resType].forEach(suffix => {
+            MAP[suffix] = resType;
+        });
+    }
+    return MAP;
+})();
+
+
+export const TOAST_TYPE = {
+    SUCCESS: 'success',
+    WARN: 'warning',
+    INFO: 'info',
+    ERROR: 'error'
 };
