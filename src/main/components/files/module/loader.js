@@ -1,8 +1,8 @@
 /*
  * @Author: tackchen
  * @Date: 2021-04-29 14:16:36
- * @LastEditors: tackchen
- * @LastEditTime: 2021-04-29 17:00:45
+ * @LastEditors: theajack
+ * @LastEditTime: 2021-04-29 22:32:22
  * @FilePath: \jsbox\src\main\components\files\module\loader.js
  * @Description: Coding something
  */
@@ -41,6 +41,10 @@ export function getLoaderByFile (file) {
 
 export function getLoaderByFileName (fileName) {
     return getLoaderBase(getLang(fileName));
+}
+export function getLoaderByFilePath (filePath) {
+    const fileName = filePath.substr(filePath.lastIndexOf('x') + 1);
+    return getLoaderByFileName(fileName);
 }
 
 function getLoaderBase (lang) {

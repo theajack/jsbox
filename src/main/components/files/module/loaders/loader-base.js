@@ -1,28 +1,30 @@
 /*
  * @Author: tackchen
  * @Date: 2021-04-29 11:19:33
- * @LastEditors: tackchen
- * @LastEditTime: 2021-04-29 11:27:53
+ * @LastEditors: theajack
+ * @LastEditTime: 2021-04-29 23:14:37
  * @FilePath: \jsbox\src\main\components\files\module\loaders\loader-base.js
  * @Description: Coding something
  */
 
-function readContentFromPath (path) {
-    return path;
-}
+import {searchFileByAbsolutePath} from '../file-searcher';
+
 
 export class Loader {
-    compiler = null;
+    compiler = (content) => content;
     name = '';
     constructor ({compiler, name} = {}) {
         if (name) this.name = name;
         if (compiler) this.compiler = compiler;
     }
 
-    loadFile (path) {
+    compileByAbsolutePath (path) {
         if (!this.compiler) return null;
-        const content = readContentFromPath(path);
+        const file = searchFileByAbsolutePath(path);
+        return this.compileContent(file.editorContent());
+    }
 
+    compileContent (content) {
         return this.compiler(content);
     }
 

@@ -1,27 +1,46 @@
-import {toast} from '../../../js/util';
-import {files} from '../file-system';
-import {getLoaderByFileName} from './loader';
+
+import {getLoaderByFilePath} from './loader';
+import {handleRelativePath, pathArrayToAbsolutePath} from './file-searcher';
 
 const entry = '/index.html';
 
-function getEntryFile () {
-    return files.find(file => file.name === entry);
-}
+export const CompilePathStack = (() => {
+    const stack = [entry];
+
+    return {
+        current () {
+            return stack[stack.length - 1];
+        },
+        push (path) {
+            const current =  pathArrayToAbsolutePath(
+                handleRelativePath(this.current, path)
+            );
+            stack.push(current);
+            return current;
+        },
+        pop () {
+            return stack.pop();
+        }
+    };
+})();
 
 export function startCompileModules () {
-    const entryFile = getEntryFile();
-
-    if (!entryFile) {
-        toast.error(`入口文件 ${entry} 未找到, 运行失败`);
-        return;
-    }
 
     // console.log(entryFile);
     console.log(`编译开始，入口文件=${entry}`);
-    compileSingleFile(entry);
+    const sandBoxResult = compileSingleFile(entry);
+
+    console.log(sandBoxResult);
+
 }
 
+// 应返回 {style:[], dom:[], script: []}
+// 当filePath 可传入绝对或相对路径
+export function compileSingleFile (filePath) {
+    const current = CompilePathStack.push(filePath);
+    const loader = getLoaderByFilePath(current);
+    const compileResult = loader.compileByAbsolutePath(current);
 
-function compileSingleFile (file) {
-    const loader = getLoaderByFileName();
+    console.log(filePath, loader, compileResult);
+    CompilePathStack.pop();
 }

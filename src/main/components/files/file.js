@@ -244,6 +244,10 @@ export class JXFile extends JXFileBase {
         this.lang = this.style.lang;
         this.resType = getResourcesType(this.lang);
     }
+
+    editorContent () {
+        return this.unsavedContent || this.content;
+    }
     initStyle (name) {
         this.style = getLangStyle(name || this.name);
     }

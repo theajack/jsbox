@@ -1,22 +1,47 @@
 /*
  * @Author: tackchen
  * @Date: 2021-04-29 17:01:39
- * @LastEditors: tackchen
- * @LastEditTime: 2021-04-29 17:59:27
+ * @LastEditors: theajack
+ * @LastEditTime: 2021-04-29 23:04:10
  * @FilePath: \jsbox\src\main\components\files\module\file-searcher.js
  * @Description: 搜索文件
  */
 
 import {toast} from '../../../js/util';
+import {files} from '../file-system';
+
+function getFileByAbsolutePathArr (pathArray) {
+    if (pathArray[0] === '@') {
+        console.log('加载系统文件', pathArray);
+    } else {
+        return traverseFiles(files, pathArray);
+    }
+}
+
+function traverseFiles (children, pathArray) {
+    const result = children.find(item => item.name === pathArray[0]);
+    if (result) {
+        pathArray.shift();
+        if (pathArray.length === 0) {
+            return result;
+        }
+        return traverseFiles(result.children, pathArray);
+    } else {
+        return null;
+    }
+}
 
 export function searchFileByAbsolutePath (targetFileAbsolutePath) {
     const pathArray = handleAbsolutePath(targetFileAbsolutePath);
-
-
+    return getFileByAbsolutePathArr(pathArray);
 }
+window.searchFileByAbsolutePath = searchFileByAbsolutePath;
+
 export function searchFileByRelativePath (currentFileAbsolutePath, targetFileRelativePath) {
     const pathArray = handleRelativePath(currentFileAbsolutePath, targetFileRelativePath);
+    return getFileByAbsolutePathArr(pathArray);
 }
+window.searchFileByRelativePath = searchFileByRelativePath;
 
 function handleAbsolutePath (absolutePath) {
     if (absolutePath[0] === '@') {
@@ -33,7 +58,7 @@ function handleAbsolutePath (absolutePath) {
 }
 
 // ['@', 'aa'] 首字母为@表示官方库
-function handleRelativePath (currentFileAbsolutePath, targetFileRelativePath) {
+export function handleRelativePath (currentFileAbsolutePath, targetFileRelativePath) {
     if (targetFileRelativePath[0] === '/') {
         // 绝对路径直接返回
         return handleAbsolutePath(targetFileRelativePath);
@@ -74,4 +99,12 @@ function handleRelativePath (currentFileAbsolutePath, targetFileRelativePath) {
 
     const finalAbsolutePath = '/' + aPathArr.concat(rPathArr).join('/');
     return handleAbsolutePath(finalAbsolutePath);
+}
+
+export function pathArrayToAbsolutePath (pathArray) {
+    const path = pathArray.join('/');
+    if (path[0] === '@') {
+        return path;
+    }
+    return `/${path}`;
 }
