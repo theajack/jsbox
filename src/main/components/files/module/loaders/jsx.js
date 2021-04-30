@@ -8,8 +8,14 @@
  */
 import {Loader} from './loader-base';
 
-class JsLoader extends Loader {
-    name = 'js';
+class JsxLoader extends Loader {
+    compiler = jsxCompiler;
+    name = 'jsx';
 }
 
-export const jsLoader = new JsLoader();
+function jsxCompiler (content) {
+    const opt = {presets: ['es2015', 'react']};
+    return window.Babel.transform(content, opt);
+}
+
+export const jsxLoader = new JsxLoader();

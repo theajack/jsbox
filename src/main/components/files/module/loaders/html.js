@@ -1,15 +1,16 @@
 /*
  * @Author: tackchen
  * @Date: 2021-04-29 14:20:59
- * @LastEditors: theajack
- * @LastEditTime: 2021-04-29 23:17:49
+ * @LastEditors: tackchen
+ * @LastEditTime: 2021-04-30 09:56:08
  * @FilePath: \jsbox\src\main\components\files\module\loaders\html.js
  * @Description: Coding something
  */
 import {compileSingleFile} from '..';
 import {babelLoader} from './babel';
 import {cssLoader} from './css';
-import {jsLoader, jsxLoader} from './jsx';
+import {jsxLoader} from './jsx';
+import {jsLoader} from './js';
 import {lessLoader} from './less';
 import {Loader} from './loader-base';
 
