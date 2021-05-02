@@ -2,6 +2,7 @@
 import {getLoaderByFilePath} from './loader';
 import {handleRelativePath, pathArrayToAbsolutePath} from './file-searcher';
 
+
 const entry = '/index.html';
 
 export function getEntryPath () {

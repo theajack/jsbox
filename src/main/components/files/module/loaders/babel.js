@@ -9,6 +9,16 @@
 
 import {Loader} from './loader-base';
 
+
+import * as babel from '@babel/core';
+import * as babelParser from '@babel/parser';
+import less from 'less';
+
+window.babel = babel;
+window.babelParser = babelParser;
+window.less = less;
+console.log(1111111111111111, babel, babelParser, less);
+
 class BabelLoader extends Loader {
     compiler = babelCompiler;
     name = 'babel';
@@ -16,7 +26,7 @@ class BabelLoader extends Loader {
 
 function babelCompiler (content) {
     const opt = {presets: ['es2015']};
-    return window.Babel.transform(content, opt);
+    return babel.transform(content, opt);
 }
 
 export const babelLoader = new BabelLoader();
