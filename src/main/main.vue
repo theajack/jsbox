@@ -8,6 +8,7 @@
     </div>
 </template>
 <script>
+    import './style/jx-ui.less';
     import './style/index.less';
     import './style/import.less';
     import JsboxMenu from './components/menu.vue';
