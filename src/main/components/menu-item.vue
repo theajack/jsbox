@@ -69,6 +69,7 @@
         padding: 0 10px;
         font-size: 14px;
         user-select: none;
+        top: -1px;
     }
     .menu-item:hover{
         background-color: #ddd;

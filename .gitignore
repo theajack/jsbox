@@ -2,3 +2,4 @@
 /template
 package-lock.json
 /public/vs_back
+.DS_Store

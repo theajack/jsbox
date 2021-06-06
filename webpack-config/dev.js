@@ -15,7 +15,7 @@ module.exports = {
         inline: true,
         hot: false,
         // inline: false,
-        host: 'localhost',
+        host: '0.0.0.0', // 'localhost',
         disableHostCheck: true,
         proxy: {
         },

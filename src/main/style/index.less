@@ -101,9 +101,13 @@ html *{
     // background-color: #ddd; /* 浏览器不支持时显示 */
     // background-image: linear-gradient(#ddd, #0299ff, #ddd);
     background-color: transparent;
+    transition: background-color .3s ease;
     cursor: ew-resize;
     // box-shadow: 0 0 5px 0 #444;
     z-index: 1;
+    &.jx-active{
+        background-color: #007acc;
+    }
 }
 .j-code{
     border: none!important;

@@ -1,5 +1,10 @@
 <template>
-    <div :class='"drag-bar drag-bar-"+name' ref='drag'></div>
+    <div
+        :class='"drag-bar drag-bar-"+name + (active?" jx-active":"")'
+        ref='drag'
+        @mouseenter='mouseEnter'
+        @mouseleave='mouseLeave'
+    ></div>
 </template>
 <script>
     import {getDragStatus, dragPercent as logPercent, language} from '../js/status';
@@ -14,11 +19,40 @@
                 required: true,
             }
         },
+        data () {
+            return {
+                isHover: false,
+                isMouseDown: false,
+                active: false,
+                timer: null,
+            };
+        },
         mounted () {
             const drag = getDragStatus(this.name);
             this.initDrag(drag.percent, drag.status);
         },
         methods: {
+            activeDrag (imme = false) {
+                if (this.isMouseDown) return;
+                if (imme) {
+                    this.active = true;
+                } else {
+                    this.timer = setTimeout(() => {this.active = true;}, 600);
+                }
+            },
+            cancelActiveDrag () {
+                if (this.isMouseDown) return;
+                clearTimeout(this.timer);
+                this.active = false;
+            },
+            mouseEnter () {
+                this.activeDrag();
+                this.isHover = true;
+            },
+            mouseLeave () {
+                this.cancelActiveDrag();
+                this.isHover = false;
+            },
             initDrag (dragPercent, dragStatus) {
                 const drag = this.$refs.drag;
                 let width = 0;
@@ -63,23 +97,31 @@
                     dragPercent.stash((x / width) * 100);
                 };
                 $.query('body').on({
-                    mousemove (e) {
+                    mousemove: (e) => {
                         if (dragStatus.get()) {
                             setSize(e.clientX);
                         }
                     },
-                    mouseup () {
+                    mouseup: () => {
+                        this.isMouseDown = false;
+                        setTimeout(() => {
+                            if (!this.isHover)
+                                this.cancelActiveDrag();
+                        }, 50);
                         if (dragStatus.get()) {
                             setDrag(false);
                         }
                     },
-                    mouseenter () {
+                    mouseenter: () => {
+                        this.isMouseDown = false;
                         setDrag(false);
                     }
                 });
                 $.query(drag).on({
-                    mousedown () {
+                    mousedown: () => {
                         setDrag(true);
+                        this.isMouseDown = true;
+                        this.activeDrag(true);
                     }
                 });
             }
