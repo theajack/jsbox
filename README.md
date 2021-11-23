@@ -23,6 +23,41 @@ JSBOX-UTIL by [theajack](https://www.github.com/theajack)
 
 </details>
 
+## 0. 快速插入您的在线演示
+
+### 0. 打开jsbox
+
+进入 jsbox [工作台](https://theajack.gitee.io/jsbox)
+
+### 1. 选择环境，输入演示代码
+
+#### 1. 纯js演示代码实例
+
+输入演示代码
+
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use1.png)
+
+#### 2. 依赖第三方库以及dom交互
+
+选择html语言
+
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use2.png)
+
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use3.png)
+
+输入演示代码
+
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use4.png)
+
+### 3. 生成演示链接
+
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use5.png)
+
+
+至此，一条含有演示代码的链接复制到了剪切板，你可以在其他地方引用。
+
+除此之外你还可以通过菜单栏配置主题色，第三方包，字体大小等设置，这些设置也会在生成链接的时候被保存到连接中
+
 ## 1. API 接入
 
 ### 0. 如何使用
