@@ -2,7 +2,7 @@
 
 JSBOX-UTIL by [theajack](https://www.github.com/theajack)
 
-[Experience Now](https://theajack.gitee.io/jsbox) | [vue Development Environment](https://theajack.gitee.io/jsbox?env=vue) | [react Development Environment](https:/ /theajack.gitee.io/jsbox?env=react) <!-- | [Operation Manual]() -->
+[中文](https://github.com/theajack/jsbox/blob/master/README.cn.md#-jsbox-util-js%E5%9C%A8%E7%BA%BF%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83) | [Experience Now](https://theajack.gitee.io/jsbox) | [vue Development Environment](https://theajack.gitee.io/jsbox?env=vue) | [react Development Environment](https://theajack.gitee.io/jsbox?env=react) <!-- | [Operation Manual]() -->
 
 This is an online debugging js project, of course, it also supports a variety of programming highlights
 
