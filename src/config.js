@@ -3,6 +3,7 @@
 import {getUrlParam} from './util';
 import {loadResources} from './load';
 import {changeMode} from './html';
+import {parseGithubParam} from './import';
 
 // config > env > lib
 
@@ -45,7 +46,7 @@ function initEnv (serachCode, editor, success, modeBtn) {
 }
 
 export function initConfig (serachCode, editor, success = () => {}, modeBtn) {
-    let url = getUrlParam('config');
+    let url = getUrlParam('config') || parseGithubParam('githubConfig', 'jsbox.config.js');
     if (!url) {
         if (!initEnv(serachCode, editor, success, modeBtn)) {
             initLib(success);

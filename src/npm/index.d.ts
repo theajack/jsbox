@@ -16,6 +16,10 @@ declare interface PARAM {
     RUN: 'run';
     REMIND: 'remind';
     MES: 'mes';
+
+    CODESRC: 'codeSrc';
+    GITHUB: 'github';
+    GITHUB_CONFIG: 'githubConfig';
 }
 
 declare interface THEME {
@@ -85,6 +89,10 @@ declare interface config {
     run?: boolean;
     mes?: boolean;
     remind?: boolean;
+
+    codeSrc?: string,
+    github?: string,
+    githubConfig?: string,
 }
 
 declare interface JSBoxStatic {

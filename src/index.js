@@ -13,19 +13,23 @@ import './main/js/style';
 import {initResize, initKeyEvent} from './main/js/initEvent';
 import {initWindowFunc} from './main/js/util';
 import {initFileSystem} from './main/components/files/file-system';
+import {initCodeSrc} from './import';
 Vue.use(Dialog);
 Vue.use(Select);
 Vue.use(Option);
 Vue.use(Button);
-$.query('body').append($.create('div#jsbox-container'));
-initFileSystem();
 
-initResize();
-initKeyEvent();
-initWindowFunc();
+async function main () {
+    $.query('body').append($.create('div#jsbox-container'));
+    initFileSystem();
+    initResize();
+    initKeyEvent();
+    initWindowFunc();
+    await initCodeSrc();
+    new Vue({
+        render: h => h(Main)
+    }).$mount('#jsbox-container');
+}
 
-
-new Vue({
-    render: h => h(Main)
-}).$mount('#jsbox-container');
+main();
   

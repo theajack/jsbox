@@ -10,6 +10,9 @@ import 'element-ui/lib/theme-chalk/select.css';
 import 'element-ui/lib/theme-chalk/button.css';
 import 'element-ui/lib/theme-chalk/select-dropdown.css';
 import './style/import.css';
+import {getUrlParam, importScript} from './util';
+import {loading} from 'tacl-ui';
+import {LANG, THEME} from './main/components/js/editor';
 
 let app = null;
 let libs = [];
@@ -173,4 +176,51 @@ export function open () {
 
 export function openEnv () {
     app.openEnv();
+}
+
+export async function initCodeSrc () {
+    let src = '';
+    const codeSrc = getUrlParam('codeSrc'); // window.jsboxCode
+    if (codeSrc) {
+        src = decodeURIComponent(codeSrc);
+    } else {
+        src = parseGithubParam('github', 'jsbox.code.js');
+    }
+    if (src) {
+        loading('正在加载实例代码...');
+        await importScript(src);
+        loading.close();
+    }
+}
+
+export function parseGithubParam (name, defaultFile) {
+    let githubRep = getUrlParam(name);
+    if (githubRep) {
+        githubRep = decodeURIComponent(githubRep);
+        let user = '', rep = '', file = defaultFile;
+        const arr = githubRep.split('.');
+        user = arr[0];
+        rep = arr[1];
+        if (arr.length > 2) {
+            file = arr.splice(2).join('.');
+        }
+        return `https://cdn.jsdelivr.net/gh/${user}/${rep}/${file}`;
+    }
+    return '';
+}
+
+export function getCodeFromCodeSrc () {
+    if (!window.jsboxCode) return '';
+    if (typeof window.jsboxCode === 'string') return window.jsboxCode;
+    return window.jsboxCode.code || '';
+}
+export function getLangFromCodeSrc () {
+    if (!window.jsboxCode) return '';
+    if (typeof window.jsboxCode === 'string') return LANG.JAVASCRIPT;
+    return window.jsboxCode.lang || LANG.JAVASCRIPT;
+}
+export function getThemeFromCodeSrc () {
+    if (!window.jsboxCode) return '';
+    if (typeof window.jsboxCode === 'string') return THEME.DARK;
+    return window.jsboxCode.theme || THEME.DARK;
 }

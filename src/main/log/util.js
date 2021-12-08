@@ -10,7 +10,7 @@ export function generateLogBlock (type) {
     return block;
 }
 export function copyText (str) {
-    var input = document.getElementById('_copy_input_');
+    let input = document.getElementById('_copy_input_');
     if (!input) {
         input = document.createElement('input');
         input.setAttribute('type', 'text');

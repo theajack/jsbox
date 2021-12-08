@@ -21,6 +21,10 @@ let CONFIG = {
     remind: null,
     mes: null,
     lang: null,
+
+    codeSrc: '',
+    github: '',
+    githubConfig: '',
 };
 
 const BASE_URL = 'https://theajack.gitee.io/jsbox?';

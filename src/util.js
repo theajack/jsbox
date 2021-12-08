@@ -1,4 +1,4 @@
-import {copyText} from './log/util';
+import {copyText} from './main/log/util';
 import {toast, loading} from 'tacl-ui';
 
 
@@ -117,4 +117,18 @@ export function exeJs (code) {
     };
     s.src = objectURL;
     document.body.appendChild(s);
+}
+
+export function importScript (src) {
+    return new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.onload = () => {
+            resolve(true);
+        };
+        script.onerror = () => {
+            resolve(false);
+        };
+        document.body.appendChild(script);
+        script.src = src;
+    });
 }
