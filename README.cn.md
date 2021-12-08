@@ -25,19 +25,63 @@ JSBOX-UTIL by [theajack](https://www.github.com/theajack)
 
 ## 0. 快速插入您的在线演示
 
-### 0. 打开jsbox
+### 0.1 使用单文件
+
+jsbox支持通过参数配置一个cdn文件，支持配合github仓库使用
+
+其中单文件是一个js文件，其内容格式如下
+
+```js
+window.jsboxCode = ``; // 此处放您的代码 语言默认为javascript
+```
+
+或使用json配置
+
+```js
+window.jsboxCode = {
+    code: ``,
+    lang: 'javascript', // 默认为 javascript 可选值为 javascript, html, ... 详见jsbox lang type
+    theme: 'dark', // 默认为 dark， 可选值为 dark，light
+}
+```
+
+#### 0.1.1 配合github仓库使用（推荐）
+
+将您的单文件放在您的github仓库中，默认为 jsbox.code.js 文件
+
+则生成的url为 https://theajack.gitee.io/jsbox?github=user.rep.file
+
+其中file参数可选，默认为 jsbox.code.js
+
+则以下是您可以使用的在线演示地址
+
+https://theajack.gitee.io/jsbox?github=theajack.pure-v
+
+或 https://theajack.gitee.io/jsbox?github=theajack.pure-v.helper/custom.code.js
+   
+#### 0.1.2 使用cdn地址
+
+将您的js code 配置文件放在部署在某个服务器上，拿到他的http地址，如 http://xxx.com/config.js
+
+则以下是您可以使用的在线演示地址
+
+https://theajack.gitee.io/jsbox?codeSrc=${decodeURIComponent('http://xxx.com/config.js')}
+
+### 0.2 使用硬编码的单链接
+
+#### 0.2.1. 打开jsbox
 
 进入 jsbox [工作台](https://theajack.gitee.io/jsbox)
 
-### 1. 选择环境，输入演示代码
+#### 0.2.2. 选择环境，输入演示代码
 
-#### 1. 纯js演示代码实例
+##### 0.2.2.1. 纯js演示代码实例
 
 输入演示代码
 
 ![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use1.png)
 
-#### 2. 依赖第三方库以及dom交互
+##### 0.2.2.2. 依赖第三方库以及dom交互
 
 选择html语言
 
@@ -49,7 +93,7 @@ JSBOX-UTIL by [theajack](https://www.github.com/theajack)
 
 ![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use4.png)
 
-### 3. 生成演示链接
+#### 0.2.3. 生成演示链接
 
 ![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use5.png)
 
@@ -57,6 +101,50 @@ JSBOX-UTIL by [theajack](https://www.github.com/theajack)
 至此，一条含有演示代码的链接复制到了剪切板，你可以在其他地方引用。
 
 除此之外你还可以通过菜单栏配置主题色，第三方包，字体大小等设置，这些设置也会在生成链接的时候被保存到连接中
+
+### 0.3 接入工作区
+
+当您有大量实例代码需要接入是可以使用这个配置文件
+
+config参数应该指向一个在线的js文件，该文件需要在window对象上定义以下json数据
+
+```js
+window.jsbox_config = {
+    libs: {
+        'loadsh': 'xxx', // 字符串方式
+        'jquery': {
+            url: 'xxx', // 必须
+            type: 'script', // 非必须 声明是js还是css，如果未声明会从url中解析
+            version: 'xxx', // 非必须 声明版本
+        },
+        'cnchar': 'jsbox.cnchar', // 如果要使用jsbox预定的库，请使用jsbox.xxx
+    },
+    codes: { // 
+        'helloWorld': 'console.log("Hello world")', // 字符串方式 默认使用上面定义的所有依赖
+        'testLoadsh': {
+            code: '_.cloneDeep({a:1})', // 必须 代码
+            dep: ['loadsh', 'jsbox.cnchar'], // 非必需 定义依赖，从当前文件中查找，如果不填会加载当前文件中的所有libs, 如果要使用jsbox预定义的库，请使用jsbox.xxx
+        },
+    }
+}
+```
+
+则以下是您可以使用的在线演示地址
+
+https://theajack.gitee.io/jsbox?config={url}&id=helloWorld}
+
+您也可以使用 搭配github仓库使用 config配置文件，默认为 jsbox.config.js 文件，其他规则可以参考 0.1.1
+
+以下为两个例子
+
+https://theajack.gitee.io/jsbox?githubConfig={user}.{rep}
+
+或 https://theajack.gitee.io/jsbox?githubConfig={user}.{rep}.{file}
+
+##### 说明
+
+1. libs: 依赖的cdn地址，非必需
+2. codes: codes用于存储一些代码，codes中的键值既对应search参数中的id值，jsbox会加载对应的代码，如果id值为空，jsbox会加载第一个键值对应的代码，若codes为string类型，jsbox会忽略id值
 
 ## 1. API 接入
 
@@ -90,12 +178,15 @@ JSBox.config({
     code?: string;
     lib?: Array<string>;
     config?: string;
+    githubConfig?: string;
     id?: string;
     env?: string;
     lang?: string;
     run?: boolean;
     mes?: boolean;
     remind?: boolean;
+    codeSrc?: string;
+    github?: string;
 })
 
 JSBox.open(); // 使用公共配置或默认配置打开jsbox
@@ -165,35 +256,7 @@ config > env > lib
 
 ### 2.4. config参数
 
-您可以使用config参数定义属于您自己的示例代码
-
-config参数应该指向一个js文件，该文件需要在window对象上定义以下json数据
-
-```js
-window.jsbox_config = {
-    libs: {
-        'loadsh': 'xxx', // 字符串方式
-        'jquery': {
-            url: 'xxx', // 必须
-            type: 'script', // 非必须 声明是js还是css，如果未声明会从url中解析
-            version: 'xxx', // 非必须 声明版本
-        },
-        'cnchar': 'jsbox.cnchar', // 如果要使用jsbox预定的库，请使用jsbox.xxx
-    },
-    codes: { // 
-        'helloWorld': 'console.log("Hello world")', // 字符串方式 默认使用上面定义的所有依赖
-        'testLoadsh': {
-            code: '_.cloneDeep({a:1})', // 必须 代码
-            dep: ['loadsh', 'jsbox.cnchar'], // 非必需 定义依赖，从当前文件中查找，如果不填会加载当前文件中的所有libs, 如果要使用jsbox预定义的库，请使用jsbox.xxx
-        },
-    }
-}
-```
-
-##### 说明
-
-1. libs: 依赖的cdn地址，非必需
-2. codes: codes用于存储一些代码，codes中的键值既对应search参数中的id值，jsbox会加载对应的代码，如果id值为空，jsbox会加载第一个键值对应的代码，若codes为string类型，jsbox会忽略id值
+详情见 0.3
 
 
 ### 2.5. hash参数

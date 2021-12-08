@@ -13,6 +13,7 @@
     import {initConfig} from './js/config';
     import StatusBar from './status.vue';
     import {decompressUrl} from '../js/compress';
+    import {getCodeFromCodeSrc, getLangFromCodeSrc, getThemeFromCodeSrc} from '../../import';
     export default {
         components: {StatusBar},
         data () {
@@ -79,19 +80,22 @@
         methods: {
             initCode () {
                 let autoRun = getUrlParam('run') !== 'false';
-                theme.init(getUrlParam('theme'));
+                theme.init(getUrlParam('theme') || getThemeFromCodeSrc());
                 initConfig(code, () => {
                     if (autoRun) {
                         event.emit(EVENT.RUN_CODE);
                     }
                 }, () => {
-                    let _code = getUrlParam('code');
-                    if (_code === null) {
-                        _code = '';
-                    } else {
-                        _code = decompressUrl(_code);
+                    let _code = getCodeFromCodeSrc();
+                    if(!_code){
+                        _code = getUrlParam('code');
+                        if (_code === null) {
+                            _code = '';
+                        } else {
+                            _code = decompressUrl(_code);
+                        }
                     }
-                    let _lang = getUrlParam('lang');
+                    let _lang = getUrlParam('lang') || getLangFromCodeSrc();
                     if (ALIAS[_lang]) {
                         _lang = ALIAS[_lang];
                     }

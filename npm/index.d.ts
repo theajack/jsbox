@@ -16,12 +16,16 @@ declare interface PARAM {
     RUN: 'run';
     REMIND: 'remind';
     MES: 'mes';
-};
+
+    CODESRC: 'codeSrc';
+    GITHUB: 'github';
+    GITHUB_CONFIG: 'githubConfig';
+}
 
 declare interface THEME {
     DARK: 'dark';
     LIGHT: 'light';
-};
+}
 
 declare interface LIB {
     'jquery': 'jquery';
@@ -53,7 +57,7 @@ declare interface LIB {
     'easyicon': 'easy-icon';
     'elementui': 'element-ui';
     'elementuistyle': 'element-ui-style'
-};
+}
 
 declare interface ENV {
     'elementui': 'element-ui';
@@ -61,7 +65,7 @@ declare interface ENV {
     'vue': 'vue';
     'react': 'react';
     'angularjs': 'angularjs'
-};
+}
 
 declare interface LANG {
     'JAVASCRIPT': 'javascript'; 'HTML': 'html'; 'CSS': 'css'; 'JSON': 'json'; 'TYPESCRIPT': 'typescript';
@@ -72,7 +76,7 @@ declare interface LANG {
     'RUST': 'rust'; 'SHELL': 'shell'; 'POWERSHELL': 'powershell'; 'YAML': 'yaml'; 'DOCKERFILE': 'dockerfile';
     'GRAPHQL': 'graphql'; 'HANDLEBARS': 'handlebars'; 'BAT': 'bat'; 'CLOJURE': 'clojure';
     'PLAINTEXT': 'plaintext'; 'PUG': 'pug'
-};
+}
 
 declare interface config {
     theme?: theme;
@@ -85,7 +89,11 @@ declare interface config {
     run?: boolean;
     mes?: boolean;
     remind?: boolean;
-};
+
+    codeSrc?: string,
+    github?: string,
+    githubConfig?: string,
+}
 
 declare interface JSBoxStatic {
     open(options?: config): void;
@@ -95,7 +103,7 @@ declare interface JSBoxStatic {
     ENV: ENV;
     LIB: LIB;
     LANG: LANG;
-};
+}
 
 declare const JSBox:JSBoxStatic;
 

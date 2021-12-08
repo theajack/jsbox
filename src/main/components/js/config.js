@@ -6,11 +6,12 @@ import {LANG} from './editor';
 import {language, code} from '../../js/status';
 import {EVENT} from '../../js/constant';
 import event from '../../js/event';
+import {parseGithubParam} from '../../../import';
 
 // config > env > lib
 
 export let isCustomConfig = (() => {
-    let config = getUrlParam('config');
+    let config = getUrlParam('config') || getUrlParam('githubConfig');
     let id = getUrlParam('id');
     return (config !== null && id !== null);
 })();
@@ -95,7 +96,7 @@ export function getConfigCodes () {
 }
 
 export function initConfig (serachCode, success = () => {}, none = () => {}) {
-    let url = getUrlParam('config');
+    let url = getUrlParam('config') || parseGithubParam('githubConfig', 'jsbox.config.js'); ;
     if (!url) {
         if (!initEnv(serachCode, success)) {
             initLib(none);
