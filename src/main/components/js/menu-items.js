@@ -9,6 +9,7 @@ import {download, openFile} from './file';
 import {isCustomConfig} from './config';
 import {Libs} from './lib';
 import {compressUrl} from '../../js/compress';
+import {getGithubInfo} from '../../../import';
 
 export let menus = [
     {
@@ -249,18 +250,35 @@ export let menus = [
         }, {
             type: MENU_TYPE.SPLIT
         }, {
+            title: 'Github主页',
+            icon: 'github',
+            onclick () {
+                window.open('https://www.github.com/theajack/jsbox');
+            },
+            type: MENU_TYPE.LINK,
+        }, {
+            title: '--/--',
+            visible: false,
+            icon: 'github',
+            onclick () {
+                window.open(`https://www.github.com/${this.title}`);
+            },
+            mounted () {
+                const info = getGithubInfo();
+                if (info) {
+                    this.title = `${info.user}/${info.rep}`;
+                    this.visible = true;
+                }
+            },
+            type: MENU_TYPE.LINK,
+        }, {
+            type: MENU_TYPE.SPLIT
+        }, {
             title: '使用说明',
             icon: 'info',
             onclick () {
                 const host = `${location.protocol}//${location.host}/`;
                 window.open(`${host}jsbox#hello`);
-            },
-            type: MENU_TYPE.LINK,
-        }, {
-            title: 'Github主页',
-            icon: 'github',
-            onclick () {
-                window.open('https://www.github.com/theajack/jsbox');
             },
             type: MENU_TYPE.LINK,
         }, {

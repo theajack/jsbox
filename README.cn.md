@@ -39,10 +39,17 @@ window.jsboxCode = ``; // 此处放您的代码 语言默认为javascript
 
 ```js
 window.jsboxCode = {
+    lib: '', // 需要引入的第三方库的cdn 文件单个库使用字符串，多个使用数组 也可以使用jsbox内置库, 内置库使用name即可
     code: ``,
     lang: 'javascript', // 默认为 javascript 可选值为 javascript, html, ... 详见jsbox lang type
     theme: 'dark', // 默认为 dark， 可选值为 dark，light
 }
+```
+
+JsBox 内置库list
+
+```js
+['jquery', 'vue', 'react', 'react-dom', 'angularjs', 'vuex', 'redux', 'loadsh', 'virtual-dom', 'node-html-parser', 'jest', 'mocha', 'moment', 'dayjs', 'underscore', 'axios', 'qrcode', 'backbone', 'js-xlsx', 'recast', 'cnchar', 'cnchar-poly', 'cnchar-order', 'cnchar-trad', 'cnchar-draw', 'cnchar-idiom', 'cnchar-xhy', 'cnchar-radical', 'cnchar-all', 'easy-icon', 'element-ui', 'element-ui-style']
 ```
 
 #### 0.1.1 配合github仓库使用（推荐）

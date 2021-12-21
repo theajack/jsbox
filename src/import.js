@@ -193,6 +193,12 @@ export async function initCodeSrc () {
     }
 }
 
+let githubInfo = null;
+
+export function getGithubInfo () {
+    return githubInfo;
+}
+
 export function parseGithubParam (name, defaultFile) {
     let githubRep = getUrlParam(name);
     if (githubRep) {
@@ -204,6 +210,7 @@ export function parseGithubParam (name, defaultFile) {
         if (arr.length > 2) {
             file = arr.splice(2).join('.');
         }
+        githubInfo = {user, rep, file};
         return `https://cdn.jsdelivr.net/gh/${user}/${rep}/${file}`;
     }
     return '';

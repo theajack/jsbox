@@ -39,10 +39,17 @@ Or use json configuration
 
 ```js
 window.jsboxCode = {
-    code: ``,
-    lang:'javascript', // The default is javascript, the optional values ​​are javascript, html, ... see jsbox lang type for details
-    theme:'dark', // default is dark, optional value is dark, light
+     lib: '', // The cdn file of the third-party library that needs to be imported. A single library uses a string, and multiple uses an array. You can also use the jsbox built-in library, and the built-in library can use name
+     code: ``,
+     lang:'javascript', // The default is javascript, the optional values are javascript, html, ... see jsbox lang type for details
+     theme:'dark', // default is dark, optional value is dark, light
 }
+```
+
+JsBox built-in library list
+
+```js
+['jquery','vue','react','react-dom','angularjs','vuex','redux','loadsh','virtual-dom','node-html-parser', ' jest','mocha','moment','dayjs','underscore','axios','qrcode','backbone','js-xlsx','recast','cnchar','cnchar-poly' ,'cnchar-order','cnchar-trad','cnchar-draw','cnchar-idiom','cnchar-xhy','cnchar-radical','cnchar-all','easy-icon', ' element-ui','element-ui-style']
 ```
 
 #### 0.1.1 Use with github warehouse (recommended)

@@ -109,7 +109,7 @@ export function loadResources ({
         _success();
         window.useDefine();
     };
-    array =  checkResource(libs, array);
+    array = checkResource(libs, array);
     if (array.length === 0) {
         success();
         return;

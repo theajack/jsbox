@@ -23,8 +23,18 @@ function setCode (v) {
 function initLib (success) {
     let libs = getUrlParam('lib');
     if (libs) {
+        libs = libs.split(',');
+    } else {
+        if (typeof window.jsboxCode === 'object') {
+            libs = window.jsboxCode.lib;
+            if (!(libs instanceof Array)) {
+                libs = [libs];
+            }
+        }
+    }
+    if (libs) {
         loadResources({
-            array: libs.split(','),
+            array: libs,
             success
         });
         return true;
