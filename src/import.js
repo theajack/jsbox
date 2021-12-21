@@ -207,7 +207,7 @@ export function parseGithubParam (name, defaultFile) {
         const arr = githubRep.split('.');
         user = arr[0];
         gitPath = arr[1];
-        if (rep.indexOf('@') !== -1) {
+        if (gitPath.indexOf('@') !== -1) {
             rep = gitPath.split('@')[0];
         } else {
             rep = gitPath;
