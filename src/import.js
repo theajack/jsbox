@@ -203,15 +203,21 @@ export function parseGithubParam (name, defaultFile) {
     let githubRep = getUrlParam(name);
     if (githubRep) {
         githubRep = decodeURIComponent(githubRep);
-        let user = '', rep = '', file = defaultFile;
+        let user = '', rep = '', gitPath = '', file = defaultFile;
         const arr = githubRep.split('.');
         user = arr[0];
-        rep = arr[1];
+        gitPath = arr[1];
+        if (rep.indexOf('@') !== -1) {
+            rep = gitPath.split('@')[0];
+        } else {
+            rep = gitPath;
+        }
         if (arr.length > 2) {
             file = arr.splice(2).join('.');
         }
         githubInfo = {user, rep, file};
-        return `https://cdn.jsdelivr.net/gh/${user}/${rep}/${file}`;
+        document.title = `${user}/${rep} Online - Powered by JsBox`;
+        return `https://cdn.jsdelivr.net/gh/${user}/${gitPath}/${file}`;
     }
     return '';
 }

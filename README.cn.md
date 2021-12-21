@@ -58,11 +58,17 @@ JsBox 内置库list
 
 则生成的url为 https://theajack.gitee.io/jsbox?github=user.rep.file
 
-其中file参数可选，默认为 jsbox.code.js
+user 参数为您的github账号
+
+rep 参数为您的项目名称，后面可以带 @xxx 来执行 release、branch或commit，默认使用最新的 release号，如果没有则使用master分支
+
+file 参数可选，表示配置文件在项目中的相对地址，默认为 jsbox.code.js
 
 则以下是您可以使用的在线演示地址
 
 https://theajack.gitee.io/jsbox?github=theajack.pure-v
+
+或 https://theajack.gitee.io/jsbox?github=theajack.pure-v@master
 
 或 https://theajack.gitee.io/jsbox?github=theajack.pure-v.helper/custom.code.js
    

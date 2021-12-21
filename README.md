@@ -58,11 +58,17 @@ Put your single file in your github repository, the default is jsbox.code.js fil
 
 The generated url is https://theajack.gitee.io/jsbox?github=user.rep.file
 
-The file parameter is optional, and the default is jsbox.code.js
+The user parameter is your github account
+
+The rep parameter is your project name. You can carry @xxx after it to execute release, branch or commit. By default, the latest release number will be used. If not, the master branch will be used.
+
+The file parameter is optional, indicating the relative address of the configuration file in the project, the default is jsbox.code.js
 
 Then the following is the online demo address you can use
 
 https://theajack.gitee.io/jsbox?github=theajack.pure-v
+
+Or https://theajack.gitee.io/jsbox?github=theajack.pure-v@master
 
 Or https://theajack.gitee.io/jsbox?github=theajack.pure-v.helper/custom.code.js
    
