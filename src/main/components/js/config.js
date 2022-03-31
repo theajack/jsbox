@@ -27,7 +27,7 @@ function initLib (success) {
     } else {
         if (typeof window.jsboxCode === 'object') {
             libs = window.jsboxCode.lib;
-            if (!(libs instanceof Array)) {
+            if (libs && !(libs instanceof Array)) {
                 libs = [libs];
             }
         }

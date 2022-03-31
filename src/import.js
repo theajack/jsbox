@@ -188,6 +188,8 @@ export async function initCodeSrc () {
     }
     if (src) {
         loading('正在加载实例代码...');
+        // // debug
+        // await importScript('http://localhost:8080/a.js');
         await importScript(src);
         loading.close();
     }
