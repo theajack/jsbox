@@ -284,3 +284,8 @@ In jsbox, you can use the following methods
 
 1. log(arg1,arg2,...); print content
 2. copy(string); Copy the content to the clipboard
+
+### 2.7 Notes
+
+1. When using the github parameter, you can use github=user.repo@xxx, where xxx can represent the branch or release version number. Note that the default is to use the latest release version.
+2. After modifying jsbox, jsdelivr will have a cache, you need to visit https://purge.jsdelivr.net/gh/{user}/{repo}/jsbox.code.js to refresh the cache

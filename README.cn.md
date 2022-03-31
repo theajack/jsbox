@@ -284,3 +284,8 @@ config > env > lib
 
 1. log(arg1,arg2,...); 打印内容
 2. copy(string); 复制内容到剪切板
+
+### 2.7 注意事项
+
+1. 使用 github 参数时，可以使用 github=user.repo@xxx，xxx可以表示分支或者release版本号，注意默认是使用最新的release版本好
+2. 修改jsbox之后，jsdelivr会有缓存，需要访问 https://purge.jsdelivr.net/gh/{user}/{repo}/jsbox.code.js 刷新一下缓存
