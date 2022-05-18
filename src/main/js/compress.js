@@ -10,7 +10,8 @@ export function compressUrl (str) {
 }
 
 export function decompressUrl (str) {
-    return decompressFromEncodedURIComponent(str);
+    const result = decompressFromEncodedURIComponent(str);
+    return result || decodeURIComponent(str);
 }
 
 export function compress (str) {

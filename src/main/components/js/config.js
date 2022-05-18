@@ -2,8 +2,8 @@
 
 import {getUrlParam} from '../../js/util';
 import {loadResources} from './lib';
-import {LANG} from './editor';
-import {language, code} from '../../js/status';
+import {LANG, THEME} from './editor';
+import {language, code, theme} from '../../js/status';
 import {EVENT} from '../../js/constant';
 import event from '../../js/event';
 import {parseGithubParam} from '../../../import';
@@ -66,6 +66,7 @@ function initEnv (serachCode, success) {
         success();
         event.emit(EVENT.SET_ENV, env);
     }
+    theme.init(THEME.DARK); // 默认使用黑色主题
     return true;
 }
 

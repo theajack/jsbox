@@ -82,12 +82,16 @@
                 let autoRun = getUrlParam('run') !== 'false';
                 theme.init(getUrlParam('theme') || getThemeFromCodeSrc());
                 initConfig(code, () => {
+                    let _lang = getUrlParam('lang');
+                    if (_lang) language.init(_lang);
+                    const _code = getUrlParam('code');
+                    if (_code) { code.init(decompressUrl(_code)); }
                     if (autoRun) {
                         event.emit(EVENT.RUN_CODE);
                     }
                 }, () => {
                     let _code = getCodeFromCodeSrc();
-                    if(!_code){
+                    if (!_code) {
                         _code = getUrlParam('code');
                         if (_code === null) {
                             _code = '';

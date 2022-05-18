@@ -5,7 +5,7 @@
             <i :class='"ei-chevron-"+(htmlLog?"right":"left")'
                @click='toggleLogShow'
                :title='(htmlLog?"隐藏":"显示")+"log(ctrl + k)"'></i>
-            <div class='log-content' v-html='html'></div>
+            <div class='log-content' ref='logContent'></div>
         </div>
         <div class='log-log' ref='logWrapper' :class='{"hide-log": !htmlLog}'>
             <div class='console-mask' @click='focuConsole'></div>
@@ -54,6 +54,7 @@
                 },
                 [EVENT.HTML_CONTENT_CHANGE]: (html) => {
                     this.html = html;
+                    this.$refs.logContent.innerHTML = html;
                 }
             });
             initDrag(this.$refs.drag);
