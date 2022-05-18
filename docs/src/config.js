@@ -7,6 +7,12 @@ var jsbox_config = {
         'order': 'jsbox.cnchar-order',
         'trad': 'jsbox.cnchar-trad',
         'draw': 'jsbox.cnchar-draw',
+        'idiom': 'jsbox.cnchar-idiom',
+        'xhy': 'jsbox.cnchar-xhy',
+        'radical': 'jsbox.cnchar-radical',
+        'words': 'jsbox.cnchar-words',
+        'explain': 'jsbox.cnchar-explain',
+        'voice': 'jsbox.cnchar-voice',
     },
     codes: { //
         'easy-use': {
