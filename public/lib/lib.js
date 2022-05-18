@@ -111,6 +111,18 @@ window.jsbox_libs = {
         url: 'https://cdn.jsdelivr.net/npm/cnchar-radical/cnchar.radical.min.js',
         deps: ['cnchar']
     },
+    'cnchar-words': {
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-words/cnchar.words.min.js',
+        deps: ['cnchar']
+    },
+    'cnchar-explain': {
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-explain/cnchar.explain.min.js',
+        deps: ['cnchar']
+    },
+    'cnchar-voice': {
+        url: 'https://cdn.jsdelivr.net/npm/cnchar-voice/cnchar.voice.min.js',
+        deps: ['cnchar']
+    },
     'cnchar-all': {
         url: 'https://cdn.jsdelivr.net/npm/cnchar-all/cnchar.all.min.js'
     },
