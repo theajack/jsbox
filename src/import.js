@@ -219,7 +219,7 @@ export function parseGithubParam (name, defaultFile) {
         }
         githubInfo = {user, rep, file};
         document.title = `${user}/${rep} Online - Powered by JsBox`;
-        return `https://cdn.jsdelivr.net/gh/${user}/${gitPath}/${file}`;
+        return `https://fastly.jsdelivr.net/gh/${user}/${gitPath}/${file}`;
     }
     return '';
 }

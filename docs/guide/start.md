@@ -64,12 +64,12 @@ commonjs 模块
 
 <div>
   <highlight-code lang='html'>
-      &lt;script src="https://cdn.jsdelivr.net/npm/cnchar/cnchar.min.js">&lt;/script>
+      &lt;script src="https://fastly.jsdelivr.net/npm/cnchar/cnchar.min.js">&lt;/script>
       &lt;!--以下功能库请按需使用-->
-      &lt;script src="https://cdn.jsdelivr.net/npm/cnchar-poly/cnchar.poly.min.js">&lt;/script>
-      &lt;script src="https://cdn.jsdelivr.net/npm/cnchar-order/cnchar.order.min.js">&lt;/script>
-      &lt;script src="https://cdn.jsdelivr.net/npm/cnchar-trad/cnchar.trad.min.js">&lt;/script>
-      &lt;script src="https://cdn.jsdelivr.net/npm/cnchar-draw/cnchar.draw.min.js">&lt;/script>
+      &lt;script src="https://fastly.jsdelivr.net/npm/cnchar-poly/cnchar.poly.min.js">&lt;/script>
+      &lt;script src="https://fastly.jsdelivr.net/npm/cnchar-order/cnchar.order.min.js">&lt;/script>
+      &lt;script src="https://fastly.jsdelivr.net/npm/cnchar-trad/cnchar.trad.min.js">&lt;/script>
+      &lt;script src="https://fastly.jsdelivr.net/npm/cnchar-draw/cnchar.draw.min.js">&lt;/script>
   </highlight-code>
 </div>
 
@@ -95,7 +95,7 @@ cdn方式
 
 <div>
   <highlight-code lang='html'>
-    &lt;script src="https://cdn.jsdelivr.net/npm/cnchar-all/cnchar.all.min.js">&lt;/script>
+    &lt;script src="https://fastly.jsdelivr.net/npm/cnchar-all/cnchar.all.min.js">&lt;/script>
   </highlight-code>
 </div>
 
