@@ -78,27 +78,49 @@ var app = new Vue({
     'cnchar': {
         code:
         /* javascript*/`
+log(cnchar.version);
 log('中华人民共和国'.spell());
 log('中华人民共和国'.stroke('array'));
 `,
         deps: ['cnchar-all']
     },
     'vue': {
-        code: /* html*/`
-<div id="app">
-  {{ message }}
+        code: /* html*/`<div id="app">
+    <div>{{ message }}</div>
+    <button @click='add'>btn</button>
 </div>
 <script>
     var app = new Vue({
         el: '#app',
-        data: {
-            message: 'Hello Vue!'
+        data () {
+            return {
+                message: 'Hello Vue!'
+            }
+        },
+        methods: {
+            add(){
+                this.message += '!';
+            }
         }
     })
-</script>
-        `,
+</script>`,
         lang: 'html',
         deps: ['vue']
+    },
+    'vue3': {
+        code: /* html*/`<div id="app">{{ message }}</div>
+<script>
+    const { createApp } = Vue;
+    createApp({
+    data() {
+        return {
+        message: 'Hello Vue!'
+        }
+    }
+    }).mount('#app')
+</script>`,
+        lang: 'html',
+        deps: ['vue@3']
     },
     'react': {
         code: /* html*/`<div id="example"></div>

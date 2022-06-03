@@ -60,7 +60,7 @@ function checkResource (libs, array) {
         if (!inLib) {
             let index = item.lastIndexOf('.');
             let fileName = item.substr(index);
-            if (index === -1 || (fileName !== '.css' && fileName !== '.js')) {
+            if (index === -1 || (fileName !== '.css' && fileName !== '.js' && item.indexOf('https://') !== 0 && item.indexOf('http://' !== 0))) {
                 url = `https://unpkg.com/${name}`;
                 type = 'script';
             } else {

@@ -48,7 +48,7 @@ function generateStatus ({
 }
 
 export const theme = generateStatus({
-    def: THEME.LIGHT,
+    def: THEME.DARK,
     name: TYPE.THEME,
     emit: EVENT.THEME_CHANGE
 });
