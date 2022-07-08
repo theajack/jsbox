@@ -12,7 +12,8 @@
     "update": "node ./package/index.js",
     "build:npm": "webpack --config webpack-config/build-npm.js",
     "publish": "npm publish npm",
-    "build:config": "node ./helper/build-config.js"
+    "build:config": "node ./helper/build-config.js",
+    "release": "node ./helper/scripts/push-release.js"
   },
   "author": "theajack",
   "repository": {

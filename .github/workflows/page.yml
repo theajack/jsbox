@@ -38,5 +38,11 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Pages # github pages
+        uses: JamesIves/github-pages-deploy-action@v4.3.0
+        with:
+          branch: gh-pages
+          folder: docs
+
       - name: Purge # purge cdn
         run: node ./helper/purge-cdn.js
