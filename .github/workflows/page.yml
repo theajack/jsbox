@@ -1,8 +1,8 @@
-name: Docs
+name: Release
 on:
   push:
     tags:
-      - v*.*.*
+      - d*.*.*
 
 jobs:
   build:
@@ -31,18 +31,12 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-
-      - name: Hexo cli
-        run: npm install -g hexo-cli@4.3.0
       
       - name: Npm Install
         run: npm install
 
-      - name: Build # build npm
-        run: npm run build
+      - name: Build
+        run: npm run build:docs
 
-      - name: Pages # github pages
-        uses: JamesIves/github-pages-deploy-action@v4.3.0
-        with:
-          branch: gh-pages
-          folder: docs
+      - name: Purge # purge cdn
+        run: node ./helper/purge-cdn.js

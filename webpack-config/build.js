@@ -8,18 +8,14 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 分离css
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 function initRes () {
-
     gulp.src('public/css/*.css')
         .pipe(gulp.dest('cdn/assets/css/editor'));
     gulp.src('public/js/*.js')
         .pipe(gulp.dest('cdn/assets/js/editor'));
-    gulp.src('public/lib/*.js')
-        .pipe(gulp.dest('cdn/assets/js/lib'));
     gulp.src('public/lib/*.js')
         .pipe(gulp.dest('cdn/assets/js/lib'));
     gulp.src('public/lib/env.js')
@@ -27,6 +23,8 @@ function initRes () {
         .pipe(gulp.dest('cdn/assets/js/lib'));
     gulp.src('public/vs/**/*')
         .pipe(gulp.dest('cdn/assets/js/vs'));
+    gulp.src('cdn/index.html')
+        .pipe(gulp.dest('docs'));
 }
 initRes();
 
@@ -36,7 +34,7 @@ module.exports = () => {
         entry: path.resolve('./', 'src'),
         output: {
             path: path.resolve('./', 'docs'),
-            filename: 'assets/js/index.min.js',
+            filename: 'main.min.js',
         },
         module: {
             rules: [
@@ -79,11 +77,7 @@ module.exports = () => {
         plugins: [
             new VueLoaderPlugin(),
             new MiniCssExtractPlugin({
-                filename: 'assets/css/[name].min.css',
-            }),
-            new HtmlWebpackPlugin({
-                template: './helper/index.tpl.html',
-                filename: 'index.html',
+                filename: '[name].min.css',
             }),
             new OptimizeCssAssetsPlugin()
         ]

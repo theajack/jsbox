@@ -2,7 +2,7 @@
     "name": "jsbox-util",
     "version": "1.0.4",
     "description": "在线运行代码的环境，可供第三方接入",
-    "main": "index.js",
+    "main": "jsbox.min.js",
     "unpkg": "jsbox.min.js",
     "jsdelivr": "jsbox.min.js",
     "scripts": {
