@@ -1,11 +1,11 @@
 window.jsbox_config = {
     libs: {
-        // 'cnchar': 'https://fastly.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.latest.min.js',
-        // 'jQuery': 'https://fastly.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js',
+        // 'cnchar': 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.latest.min.js',
+        // 'jQuery': 'https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js',
         // 'easy-icon': {
         //     type: 'style',
         //     versio: '1.0.1',
-        //     url: 'https://fastly.jsdelivr.net/gh/theajack/easy-icon/dist/easy-icon.min.css'
+        //     url: 'https://cdn.jsdelivr.net/gh/theajack/easy-icon/dist/easy-icon.min.css'
         // },
         'jsbox.cnchar': '',
         'cnchar-order': 'jsbox.cnchar-order',
@@ -25,4 +25,4 @@ window.jsbox_config = {
     }
 };
 
-// https://fastly.jsdelivr.net/npm/virtual-dom@2.1.1/dist/virtual-dom.js
+// https://cdn.jsdelivr.net/npm/virtual-dom@2.1.1/dist/virtual-dom.js

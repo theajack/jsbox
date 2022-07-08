@@ -6,20 +6,20 @@ JSBOX-UTIL by [theajack](https://www.github.com/theajack)
 
 This is a project to run and debug js online, of course, it also supports a variety of programming highlights
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox.png)
 
 <details>
     <summary>View more sample images</summary>
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox1.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox1.png)
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox2.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox2.png)
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox3.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox3.png)
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox4.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox4.png)
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox5.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox5.png)
 
 </details>
 
@@ -92,23 +92,23 @@ Enter jsbox [workbench](https://shiyix.cn/jsbox)
 
 Enter demo code
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/use1.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use1.png)
 
 ##### 0.2.2.2. Rely on third-party libraries and dom interaction
 
 Choose html language
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/use2.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use2.png)
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/use3.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use3.png)
 
 Enter demo code
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/use4.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use4.png)
 
 #### 0.2.3. Generate demo link
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/use5.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use5.png)
 
 
 So far, a link containing the demo code has been copied to the clipboard, and you can refer to it elsewhere.
@@ -178,7 +178,7 @@ import JSBox from'jsbox-util';
 #### 2. cdn introduction
 
 ```html
-<script src="https://fastly.jsdelivr.net/npm/jsbox-util/jsbox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsbox-util/jsbox.min.js"></script>
 ```
 
 #### 3. Use

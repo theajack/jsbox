@@ -1,7 +1,7 @@
 const request = require('request');
 const fs = require('fs');
 const packages = require('./package');
-const path = 'https://fastly.jsdelivr.net/npm/';
+const path = 'https://cdn.jsdelivr.net/npm/';
 const httpBase = 'https://data.jsdelivr.com/v1/package/npm/';
 
 function main () {

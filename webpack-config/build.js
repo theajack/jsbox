@@ -1,3 +1,8 @@
+/*
+ * @Author: tackchen
+ * @Date: 2022-05-18 11:41:30
+ * @Description: Coding something
+ */
 const path = require('path');
 const gulp = require('gulp');
 const babel = require('gulp-babel');
@@ -30,7 +35,7 @@ module.exports = () => {
         mode: 'production',
         entry: path.resolve('./', 'src'),
         output: {
-            path: path.resolve('./', 'cdn'),
+            path: path.resolve('./', 'docs'),
             filename: 'assets/js/index.min.js',
         },
         module: {
@@ -77,7 +82,7 @@ module.exports = () => {
                 filename: 'assets/css/[name].min.css',
             }),
             new HtmlWebpackPlugin({
-                template: './cdn/index.tpl.html',
+                template: './helper/index.tpl.html',
                 filename: 'index.html',
             }),
             new OptimizeCssAssetsPlugin()

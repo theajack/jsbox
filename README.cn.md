@@ -6,20 +6,20 @@ JSBOX-UTIL by [theajack](https://www.github.com/theajack)
 
 这是一个在线运行调试js的项目, 当然也支持多种编程高亮
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox.png)
 
 <details>
     <summary>查看更多示例图</summary>
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox1.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox1.png)
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox2.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox2.png)
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox3.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox3.png)
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox4.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox4.png)
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox5.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox5.png)
 
 </details>
 
@@ -92,23 +92,23 @@ https://shiyix.cn/jsbox?codeSrc=${decodeURIComponent('http://xxx.com/config.js')
 
 输入演示代码
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/use1.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use1.png)
 
 ##### 0.2.2.2. 依赖第三方库以及dom交互
 
 选择html语言
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/use2.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use2.png)
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/use3.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use3.png)
 
 输入演示代码
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/use4.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use4.png)
 
 #### 0.2.3. 生成演示链接
 
-![jsbox](https://fastly.jsdelivr.net/gh/theajack/jsbox/cdn/images/use5.png)
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/use5.png)
 
 
 至此，一条含有演示代码的链接复制到了剪切板，你可以在其他地方引用。
@@ -178,7 +178,7 @@ import JSBox from 'jsbox-util';
 #### 2. cdn引入
 
 ```html
-<script src="https://fastly.jsdelivr.net/npm/jsbox-util/jsbox.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsbox-util/jsbox.min.js"></script>
 ```
 
 #### 3. 使用
