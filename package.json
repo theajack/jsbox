@@ -13,7 +13,7 @@
     "build:npm": "webpack --config webpack-config/build-npm.js",
     "publish": "npm publish npm",
     "build:config": "node ./helper/build-config.js",
-    "release": "node ./helper/scripts/push-release.js"
+    "release": "node ./helper/push-release.js"
   },
   "author": "theajack",
   "repository": {
