@@ -1,4 +1,4 @@
-.jx-input, .jx-select{
+.jx-input, .jx-select, .jx-textarea{
     color: #222;
     width: 200px;
     height: 30px;
@@ -7,11 +7,13 @@
     padding: 0 8px;
     outline: none;
     font-size: 14px;
-    &:focus{
-    }
-    &.jx-full{
-        width: 100%;
-    }
+}
+.jx-textarea{
+    min-height: 150px;
+    padding: 8px;   
+}
+.jx-input.jx-full, .jx-textarea {
+    width: 100%;
 }
 .jx-block{
     margin: 10px 0;
@@ -26,7 +28,7 @@
     outline: none;
     border: 1px solid #666;
     cursor: pointer;
-    &:active{
-        transform: scale(0.9);
-    }
+}
+.jx-button:active{
+    transform: scale(0.9);
 }
