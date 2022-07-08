@@ -43,7 +43,8 @@ jobs:
           echo "::set-output name=version::${version}"
 
       - name: Build
-        run: npm run build:npm -- ${{ steps.version.outputs.version }}
+        # run: npm run build:npm -- ${{ steps.version.outputs.version }}
+        run: npm run build:npm
 
       - name: Release # release
         uses: release-drafter/release-drafter@v5
