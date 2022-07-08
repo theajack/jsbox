@@ -2,7 +2,7 @@
 
 JSBOX-UTIL by [theajack](https://www.github.com/theajack)
 
-[English](https://github.com/theajack/jsbox#readme) | [立即体验](https://theajack.gitee.io/jsbox) | [vue开发环境](https://theajack.gitee.io/jsbox?env=vue) | [react开发环境](https://theajack.gitee.io/jsbox?env=react) <!-- | [操作手册]() -->
+[English](https://github.com/theajack/jsbox#readme) | [立即体验](https://shiyix.cn/jsbox) | [vue开发环境](https://shiyix.cn/jsbox?env=vue) | [react开发环境](https://shiyix.cn/jsbox?env=react) <!-- | [操作手册]() -->
 
 这是一个在线运行调试js的项目, 当然也支持多种编程高亮
 
@@ -56,7 +56,7 @@ JsBox 内置库list
 
 将您的单文件放在您的github仓库中，默认为 jsbox.code.js 文件
 
-则生成的url为 https://theajack.gitee.io/jsbox?github=user.rep.file
+则生成的url为 https://shiyix.cn/jsbox?github=user.rep.file
 
 user 参数为您的github账号
 
@@ -66,11 +66,11 @@ file 参数可选，表示配置文件在项目中的相对地址，默认为 js
 
 则以下是您可以使用的在线演示地址
 
-https://theajack.gitee.io/jsbox?github=theajack.pure-v
+https://shiyix.cn/jsbox?github=theajack.pure-v
 
-或 https://theajack.gitee.io/jsbox?github=theajack.pure-v@master
+或 https://shiyix.cn/jsbox?github=theajack.pure-v@master
 
-或 https://theajack.gitee.io/jsbox?github=theajack.pure-v.helper/custom.code.js
+或 https://shiyix.cn/jsbox?github=theajack.pure-v.helper/custom.code.js
    
 #### 0.1.2 使用cdn地址
 
@@ -78,13 +78,13 @@ https://theajack.gitee.io/jsbox?github=theajack.pure-v
 
 则以下是您可以使用的在线演示地址
 
-https://theajack.gitee.io/jsbox?codeSrc=${decodeURIComponent('http://xxx.com/config.js')}
+https://shiyix.cn/jsbox?codeSrc=${decodeURIComponent('http://xxx.com/config.js')}
 
 ### 0.2 使用硬编码的单链接
 
 #### 0.2.1. 打开jsbox
 
-进入 jsbox [工作台](https://theajack.gitee.io/jsbox)
+进入 jsbox [工作台](https://shiyix.cn/jsbox)
 
 #### 0.2.2. 选择环境，输入演示代码
 
@@ -144,15 +144,15 @@ window.jsbox_config = {
 
 则以下是您可以使用的在线演示地址
 
-https://theajack.gitee.io/jsbox?config={url}&id=helloWorld}
+https://shiyix.cn/jsbox?config={url}&id=helloWorld}
 
 您也可以使用 搭配github仓库使用 config配置文件，默认为 jsbox.config.js 文件，其他规则可以参考 0.1.1
 
 以下为两个例子
 
-https://theajack.gitee.io/jsbox?githubConfig={user}.{rep}
+https://shiyix.cn/jsbox?githubConfig={user}.{rep}
 
-或 https://theajack.gitee.io/jsbox?githubConfig={user}.{rep}.{file}
+或 https://shiyix.cn/jsbox?githubConfig={user}.{rep}.{file}
 
 ##### 说明
 

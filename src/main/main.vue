@@ -76,7 +76,7 @@
 
 // $.initStylePool();
 
-// const host = 'https://theajack.gitee.io/';
+// const host = 'https://shiyix.cn/';
 
 // function main () {
 //     let editor = null;

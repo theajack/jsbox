@@ -2,7 +2,7 @@
 
 JSBOX-UTIL by [theajack](https://www.github.com/theajack)
 
-[中文](https://github.com/theajack/jsbox/blob/master/README.cn.md#-jsbox-util-js%E5%9C%A8%E7%BA%BF%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83) | [Experience Now](https://theajack.gitee.io/jsbox) | [vue Development Environment](https://theajack.gitee.io/jsbox?env=vue) | [react development environment](https://theajack.gitee.io/jsbox?env=react) <!-- | [Operation Manual]() -->
+[中文](https://github.com/theajack/jsbox/blob/master/README.cn.md#-jsbox-util-js%E5%9C%A8%E7%BA%BF%E8%BF%90%E8%A1%8C%E7%8E%AF%E5%A2%83) | [Experience Now](https://shiyix.cn/jsbox) | [vue Development Environment](https://shiyix.cn/jsbox?env=vue) | [react development environment](https://shiyix.cn/jsbox?env=react) <!-- | [Operation Manual]() -->
 
 This is a project to run and debug js online, of course, it also supports a variety of programming highlights
 
@@ -56,7 +56,7 @@ JsBox built-in library list
 
 Put your single file in your github repository, the default is jsbox.code.js file
 
-The generated url is https://theajack.gitee.io/jsbox?github=user.rep.file
+The generated url is https://shiyix.cn/jsbox?github=user.rep.file
 
 The user parameter is your github account
 
@@ -66,11 +66,11 @@ The file parameter is optional, indicating the relative address of the configura
 
 Then the following is the online demo address you can use
 
-https://theajack.gitee.io/jsbox?github=theajack.pure-v
+https://shiyix.cn/jsbox?github=theajack.pure-v
 
-Or https://theajack.gitee.io/jsbox?github=theajack.pure-v@master
+Or https://shiyix.cn/jsbox?github=theajack.pure-v@master
 
-Or https://theajack.gitee.io/jsbox?github=theajack.pure-v.helper/custom.code.js
+Or https://shiyix.cn/jsbox?github=theajack.pure-v.helper/custom.code.js
    
 #### 0.1.2 Use cdn address
 
@@ -78,13 +78,13 @@ Place your js code configuration file on a server and get its http address, such
 
 Then the following is the online demo address you can use
 
-https://theajack.gitee.io/jsbox?codeSrc=${decodeURIComponent('http://xxx.com/config.js')}
+https://shiyix.cn/jsbox?codeSrc=${decodeURIComponent('http://xxx.com/config.js')}
 
 ### 0.2 Use hardcoded single link
 
 #### 0.2.1. Open jsbox
 
-Enter jsbox [workbench](https://theajack.gitee.io/jsbox)
+Enter jsbox [workbench](https://shiyix.cn/jsbox)
 
 #### 0.2.2. Select the environment and enter the demo code
 
@@ -144,15 +144,15 @@ window.jsbox_config = {
 
 Then the following is the online demo address you can use
 
-https://theajack.gitee.io/jsbox?config={url}&id=helloWorld}
+https://shiyix.cn/jsbox?config={url}&id=helloWorld}
 
 You can also use the config configuration file with the github repository, the default is the jsbox.config.js file, other rules can refer to 0.1.1
 
 The following are two examples
 
-https://theajack.gitee.io/jsbox?githubConfig={user}.{rep}
+https://shiyix.cn/jsbox?githubConfig={user}.{rep}
 
-Or https://theajack.gitee.io/jsbox?githubConfig={user}.{rep}.{file}
+Or https://shiyix.cn/jsbox?githubConfig={user}.{rep}.{file}
 
 ##### illustrate
 

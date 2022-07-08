@@ -5,7 +5,7 @@ let jsbox = null;
 function getUrl () {
     let url = '';
     if (window.location.host.indexOf('localhost') !== -1) {
-        url = 'https://theajack.gitee.io';
+        url = 'https://shiyix.cn';
     } else {
         url = `${window.location.protocol}//${window.location.host}`;
     }
