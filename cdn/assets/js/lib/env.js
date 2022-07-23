@@ -24,7 +24,7 @@ window.jsbox_envs = {
   'vue3': {
     code:
     /* html*/
-    "<div id=\"app\">{{ message }}</div>\n<script babel>\n    const { createApp } = Vue;\n    createApp({\n    data() {\n        return {\n        message: 'Hello Vue!'\n        }\n    }\n    }).mount('#app')\n</script>",
+    "<div id=\"app\">{{ message }}</div>\n<script babel>\n    const { createApp } = Vue;\n    createApp({\n        data() {\n            return {\n                message: 'Hello Vue!'\n            }\n        }\n    }).mount('#app')\n</script>",
     lang: 'html',
     deps: ['vue@3']
   },

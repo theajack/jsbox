@@ -112,11 +112,11 @@ log('中华人民共和国'.stroke('array'));
 <script babel>
     const { createApp } = Vue;
     createApp({
-    data() {
-        return {
-        message: 'Hello Vue!'
+        data() {
+            return {
+                message: 'Hello Vue!'
+            }
         }
-    }
     }).mount('#app')
 </script>`,
         lang: 'html',
