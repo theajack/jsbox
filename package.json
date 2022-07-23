@@ -12,7 +12,7 @@
     "update": "node ./package/index.js",
     "build:npm": "webpack --config webpack-config/build-npm.js",
     "publish": "npm publish npm",
-    "build:config": "node ./helper/build-config.js",
+    "build:env":  "node ./helper/transform-env-lib.js",
     "release": "node ./helper/push-release.js"
   },
   "author": "theajack",

@@ -24,3 +24,19 @@ npm run release -- vx.x.x
 ```
 npm run release -- dx.x.x
 ```
+
+### env & lib
+
+如需修改 env 或者 lib 文件
+
+请修改 public/lib 下的文件
+
+然后执行 npm run build:env
+
+然后提交到master即可
+
+如需立即生效 需要清一下缓存
+
+https://purge.jsdelivr.net/gh/theajack/jsbox/cdn/assets/js/lib/env.js
+
+https://purge.jsdelivr.net/gh/theajack/jsbox/cdn/assets/js/lib/lib.js

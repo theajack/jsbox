@@ -1,3 +1,9 @@
+/*
+ * @Author: tackchen
+ * @Date: 2022-07-08 08:57:44
+ * @Description: config dev debug
+ */
+
 window.jsbox_config = {
     libs: {
         // 'cnchar': 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.latest.min.js',
