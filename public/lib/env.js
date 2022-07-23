@@ -109,7 +109,7 @@ log('中华人民共和国'.stroke('array'));
     },
     'vue3': {
         code: /* html*/`<div id="app">{{ message }}</div>
-<script>
+<script babel>
     const { createApp } = Vue;
     createApp({
     data() {
