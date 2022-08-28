@@ -145,6 +145,7 @@ export function exeJs (code) {
     }
     inExe = true;
     loading();
+    code = `(function(){${code}})()`;
     let blob = new Blob([code], {type: 'application/text'});
     let objectURL = window.URL.createObjectURL(blob);
     script = document.createElement('script');
