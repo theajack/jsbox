@@ -145,7 +145,7 @@ export function exeJs (code) {
     }
     inExe = true;
     loading();
-    code = `(function(){${code}})()`;
+    // code = `(function(){${code}})()`; // ! 本来是为了解决let不能重复定义的问题 但是会导致function 不会全局暴露，html onclick事件 访问不到，暂且去掉
     let blob = new Blob([code], {type: 'application/text'});
     let objectURL = window.URL.createObjectURL(blob);
     script = document.createElement('script');
