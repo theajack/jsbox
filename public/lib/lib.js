@@ -7,6 +7,14 @@ window.jsbox_libs = {
         'version': '2.6.11',
         'url': 'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js'
     },
+    'vue3': {
+        'version': 'latest',
+        'url': 'https://cdn.jsdelivr.net/npm/vue'
+    },
+    'echarts': {
+        'version': 'latest',
+        'url': 'https://cdn.jsdelivr.net/npm/echarts'
+    },
     'react': {
         'version': '16.13.1',
         'url': 'https://cdn.jsdelivr.net/npm/react@16.13.1/umd/react.production.min.js'
