@@ -2,6 +2,7 @@ import {toast, loading} from 'tacl-ui';
 import event from '../../js/event';
 import {EVENT} from '../../js/constant';
 import {loadResources} from './lib';
+import {getAttrFromCodeSrc} from '../../../import';
 let inExe = false;
 let script = null;
 
@@ -145,7 +146,9 @@ export function exeJs (code) {
     }
     inExe = true;
     loading();
-    code = `(function(){${code}})()`;
+    if (getAttrFromCodeSrc('wrapCode', false)) {
+        code = `(function(){${code}})()`;
+    }
     let blob = new Blob([code], {type: 'application/text'});
     let objectURL = window.URL.createObjectURL(blob);
     script = document.createElement('script');

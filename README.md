@@ -39,10 +39,14 @@ Or use json configuration
 
 ```js
 window.jsboxCode = {
-     lib: '', // The cdn file of the third-party library that needs to be imported. A single library uses a string, and multiple uses an array. You can also use the jsbox built-in library, and the built-in library can use name
-     code: ``,
-     lang:'javascript', // The default is javascript, the optional values are javascript, html, ... see jsbox lang type for details
-     theme:'dark', // default is dark, optional value is dark, light
+    lib: '', // The cdn file of the third-party library that needs to be imported. A single library uses a string, and multiple uses an array. You can also use the jsbox built-in library, and the built-in library can use name
+    code: ``,
+    lang:'javascript', // The default is javascript, the optional values are javascript, html, ... see jsbox lang type for details
+    theme:'dark', // default is dark, optional value is dark, light
+    wrapCode: true,//Whether to wrap the js code with a function to generate a closure. The default value is false
+    needUI: true,//whether to use the UI to display the area. The default value is false
+    useDefaultUI: true,//Whether to use the default UI. The default is false
+    hideLog: false,//Whether to hide the log is false by default
 }
 ```
 

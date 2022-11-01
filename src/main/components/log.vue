@@ -5,7 +5,7 @@
             <i :class='"ei-chevron-"+(htmlLog?"right":"left")'
                @click='toggleLogShow'
                :title='(htmlLog?"隐藏":"显示")+"log(ctrl + k)"'></i>
-            <div class='log-content' ref='logContent'></div>
+            <div class='log-content' :class="{'jx-ui': jxUI}" id='jx-app' ref='logContent'></div>
         </div>
         <div class='log-log' ref='logWrapper' :class='{"hide-log": !htmlLog}'>
             <div class='console-mask' @click='focuConsole'></div>
@@ -24,21 +24,47 @@
     // import {initConsole, focusEnd} from './js/log-console';
     // import {initConsole, focusEnd} from './js/log-console';
     import ConsoleEditor from './console-editor.vue';
+    import {getAttrFromCodeSrc} from '../../import';
     let lang = language.get();
+
+
+    //     // Your code here...
+    //     window.jsboxCode = {
+    //         lib: 'https://cdn.jsdelivr.net/npm/alins',
+    //         lang: 'js',
+    //         wrapCode: true,
+    //         needUI: true,
+    //         hideLog: true,
+    //         useDefaultUI: true,
+    //         code: /* javascript */`
+    // const { button, comp, click, $, mount } = Alins;
+
+    // function Count () {
+    //     const count = $(0);
+    //     return button(
+    //         click(() => {count.value++;}),
+    //         $\`Count is \${count}\`
+    //     );
+    // }
+
+    // comp(Count).mount('#jx-app');`
+    //     };
     export default {
         components: {ConsoleEditor},
         data () {
             return {
+                jxUI: getAttrFromCodeSrc('useDefaultUI', false),
                 percent: 100 - dragPercent.get(),
                 codeFull: (lang !== LANG.JAVASCRIPT && lang !== LANG.HTML),
-                isHtml: (lang === LANG.HTML),
-                htmlLog: true,
+                isHtml: this.needShowUI(lang),
+                htmlLog: !getAttrFromCodeSrc('hideLog', false),
                 html: '',
                 showPh: true
             };
         },
         mounted () {
-            this.isHtml = language.get() === LANG.HTML;
+            // console.log(this.htmlLog);
+            this.isHtml = this.needShowUI(language.get());
             event.regist({
                 [EVENT.DRAG_PERCENT]: (percent) => {
                     this.percent = 100 - percent;
@@ -46,10 +72,11 @@
                 [EVENT.LANG_CHANGE]: (lang) => {
                     this.codeFull = (lang !== LANG.JAVASCRIPT && lang !== LANG.HTML);
                     if (!this.codeFull) {
-                        this.isHtml = (lang === LANG.HTML);
+                        this.isHtml = this.needShowUI(lang);
                     }
                 },
                 [EVENT.HTML_PANEL_CHANGE]: (bool) => {
+                    debugger;
                     this.htmlLog = bool;
                 },
                 [EVENT.HTML_CONTENT_CHANGE]: (html) => {
@@ -59,9 +86,12 @@
             });
             initDrag(this.$refs.drag);
             this.initLog();
-            htmlLog.init();
+            htmlLog.init(this.htmlLog);
         },
         methods: {
+            needShowUI (lang) {
+                return lang === LANG.HTML || getAttrFromCodeSrc('needUI', false);
+            },
             initLog () {
                 let log = new Log();
                 log.page = this.$refs.log;

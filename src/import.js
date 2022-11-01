@@ -226,17 +226,18 @@ export function parseGithubParam (name, defaultFile) {
 }
 
 export function getCodeFromCodeSrc () {
-    if (!window.jsboxCode) return '';
-    if (typeof window.jsboxCode === 'string') return window.jsboxCode;
-    return window.jsboxCode.code || '';
+    return getAttrFromCodeSrc('code', '');
 }
 export function getLangFromCodeSrc () {
-    if (!window.jsboxCode) return '';
-    if (typeof window.jsboxCode === 'string') return LANG.JAVASCRIPT;
-    return window.jsboxCode.lang || LANG.JAVASCRIPT;
+    return getAttrFromCodeSrc('lang', LANG.JAVASCRIPT);
 }
 export function getThemeFromCodeSrc () {
-    if (!window.jsboxCode) return '';
-    if (typeof window.jsboxCode === 'string') return THEME.DARK;
-    return window.jsboxCode.theme || THEME.DARK;
+    return getAttrFromCodeSrc('theme', THEME.DARK);
+}
+
+export function getAttrFromCodeSrc (attr, def) {
+    if (!window.jsboxCode) return def;
+    if (typeof window.jsboxCode === 'string')
+        return attr === 'code' ? window.jsboxCode : def;
+    return window.jsboxCode[attr] || def;
 }

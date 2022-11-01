@@ -43,6 +43,10 @@ window.jsboxCode = {
     code: ``,
     lang: 'javascript', // 默认为 javascript 可选值为 javascript, html, ... 详见jsbox lang type
     theme: 'dark', // 默认为 dark， 可选值为 dark，light
+    wrapCode: true, // 是否使用函数包裹js代码，产生闭包，默认为false
+    needUI: true, // 是否使用ui显示区域 默认值为false
+    useDefaultUI: true, // 是否使用默认ui 默认为false
+    hideLog: false, // 是否隐藏log 默认为false
 }
 ```
 
