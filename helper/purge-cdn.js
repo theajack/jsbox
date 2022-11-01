@@ -8,7 +8,8 @@ const https = require('https');
 console.log('Purge docs CDN...');
 
 [
-    '@gh-pages/index.min.js',
+    '@gh-pages/main.min.js',
+    '@gh-pages/main.min.css',
     '/cdn/assets/js/lib/lib.js',
     '/cdn/assets/js/lib/env.js'
 ].forEach(path => {
