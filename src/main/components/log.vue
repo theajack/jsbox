@@ -25,30 +25,10 @@
     // import {initConsole, focusEnd} from './js/log-console';
     import ConsoleEditor from './console-editor.vue';
     import {getAttrFromCodeSrc} from '../../import';
+    import './jx-demo';
     let lang = language.get();
 
 
-    //     // Your code here...
-    //     window.jsboxCode = {
-    //         lib: 'https://cdn.jsdelivr.net/npm/alins',
-    //         lang: 'js',
-    //         wrapCode: true,
-    //         needUI: true,
-    //         hideLog: true,
-    //         useDefaultUI: true,
-    //         code: /* javascript */`
-    // const { button, comp, click, $, mount } = Alins;
-
-    // function Count () {
-    //     const count = $(0);
-    //     return button(
-    //         click(() => {count.value++;}),
-    //         $\`Count is \${count}\`
-    //     );
-    // }
-
-    // comp(Count).mount('#jx-app');`
-    //     };
     export default {
         components: {ConsoleEditor},
         data () {
@@ -76,7 +56,6 @@
                     }
                 },
                 [EVENT.HTML_PANEL_CHANGE]: (bool) => {
-                    debugger;
                     this.htmlLog = bool;
                 },
                 [EVENT.HTML_CONTENT_CHANGE]: (html) => {
