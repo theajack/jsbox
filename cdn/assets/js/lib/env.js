@@ -1,3 +1,8 @@
+/*
+ * @Author: tackchen
+ * @Date: 2022-09-02 14:39:51
+ * @Description: Coding something
+ */
 "use strict";
 
 window.jsbox_envs = {
@@ -34,6 +39,11 @@ window.jsbox_envs = {
     "<div id=\"example\"></div>\n<script babel react>\n    ReactDOM.render(\n        <h1>Hello, world!</h1>,\n        document.getElementById('example')\n    );\n</script>",
     lang: 'html',
     deps: ['react-dom']
+  },
+  'echarts': {
+      code: "<div id='echartsMain' style='height:300px'></div>\n<script>\nvar chartDom = document.getElementById('echartsMain');\nvar myChart = echarts.init(chartDom);\nvar option = {\nxAxis: {\n  type: 'category',\n  data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']\n},\nyAxis: {\n  type: 'value'\n},\nseries: [\n  {\n    data: [150, 230, 224, 218, 135, 147, 260],\n    type: 'line'\n  }\n]\n};\nmyChart.setOption(option);\n</script>",
+      lang: 'html',
+      deps: ['echarts']
   },
   'angularjs': {
     code: "<div ng-app=\"myApp\" ng-controller=\"myCtrl\">\n    \u540D\u5B57: <input ng-model=\"name\">\n    <h1>\u4F60\u8F93\u5165\u4E86: {{name}}</h1>\n</div>\n\n<script>\nvar app = angular.module('myApp', []);\napp.controller('myCtrl', function($scope) {\n    $scope.name = \"John Doe\";\n});\n</script>",

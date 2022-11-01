@@ -74,7 +74,6 @@ var app = new Vue({
 </script>`,
         deps: ['element-ui']
     },
-
     'cnchar': {
         code:
         /* javascript*/`
@@ -132,6 +131,32 @@ log('中华人民共和国'.stroke('array'));
 </script>`,
         lang: 'html',
         deps: ['react-dom']
+    },
+    'echarts': {
+        code:
+        /* html*/`<div id='echartsMain' style='height:300px'></div>
+<script>
+var chartDom = document.getElementById('echartsMain');
+var myChart = echarts.init(chartDom);
+var option = {
+  xAxis: {
+    type: 'category',
+    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [
+    {
+      data: [150, 230, 224, 218, 135, 147, 260],
+      type: 'line'
+    }
+  ]
+};
+myChart.setOption(option);
+</script>`,
+        lang: 'html',
+        deps: ['echarts']
     },
     'angularjs': {
         code: `<div ng-app="myApp" ng-controller="myCtrl">
