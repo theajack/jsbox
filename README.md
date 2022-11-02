@@ -47,6 +47,7 @@ window.jsboxCode = {
     needUI: true,//whether to use the UI to display the area. The default value is false
     useDefaultUI: true,//Whether to use the default UI. The default is false
     hideLog: false,//Whether to hide the log is false by default
+    clearWhenReRun: false, // When you click Run, the html display area will be cleared by default when lang=html is false
 }
 ```
 

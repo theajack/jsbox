@@ -9,7 +9,7 @@ import {download, openFile} from './file';
 import {isCustomConfig} from './config';
 import {Libs} from './lib';
 import {compressUrl} from '../../js/compress';
-import {getGithubInfo} from '../../../import';
+import {getAttrFromCodeSrc, getGithubInfo} from '../../../import';
 
 export let menus = [
     {
@@ -315,6 +315,10 @@ export let menus = [
                             exeJs(code);
                         }
                     });
+                }
+                if (getAttrFromCodeSrc('clearWhenReRun', false)) {
+                    const content = document.querySelector('.log-content');
+                    content.innerHTML = '';
                 }
             } else {
                 toast('只支持运行js和html代码');

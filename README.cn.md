@@ -47,6 +47,7 @@ window.jsboxCode = {
     needUI: true, // 是否使用ui显示区域 默认值为false
     useDefaultUI: true, // 是否使用默认ui 默认为false
     hideLog: false, // 是否隐藏log 默认为false
+    clearWhenReRun: false, // 点击运行时，是否强制清空html显示区域 默认为false 当lang=html 默认会清空
 }
 ```
 
