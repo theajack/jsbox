@@ -9,6 +9,7 @@ const babel = require('gulp-babel');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin'); // 分离css
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const {transEs6ByBabel} = require('../helper/transform-env-lib');
 // const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 function initRes () {
@@ -27,6 +28,8 @@ function initRes () {
         .pipe(gulp.dest('docs'));
 }
 initRes();
+
+transEs6ByBabel();
 
 module.exports = () => {
     return {

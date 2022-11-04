@@ -7,9 +7,13 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 
 function transEs6ByBabel () {
-    gulp.src(['public/lib/env.js', 'public/lib/lib.js'])
+    gulp.src([
+        'public/lib/env.js',
+        'public/lib/lib.js',
+        'public/lib/config.js'
+    ])
         .pipe(babel({presets: ['@babel/env']}))
-        .pipe(gulp.dest('cdn/assets/js/lib'));
+        .pipe(gulp.dest('docs/envs'));
 }
 
-transEs6ByBabel();
+module.exports = {transEs6ByBabel};
