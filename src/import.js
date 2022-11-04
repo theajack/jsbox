@@ -235,6 +235,25 @@ export function getThemeFromCodeSrc () {
     return getAttrFromCodeSrc('theme', THEME.DARK);
 }
 
+export function initCodeSrcFromEnv (env) {
+    ['theme', 'wrapCode', 'needUI', 'useDefaultUI', 'hideLog', 'clearWhenReRun'].forEach(
+        name => {
+            if (typeof env[name] !== 'undefined') {
+                setAttrCodeSrc(name, env[name]);
+            }
+        }
+    );
+}
+
+export function setAttrCodeSrc (name, value) {
+    let config = window.jsboxCode;
+    if (!config) {
+        config = {};
+        window.jsboxCode = config;
+    }
+    config[name] = value;
+}
+
 export function getAttrFromCodeSrc (attr, def) {
     if (!window.jsboxCode) return def;
     if (typeof window.jsboxCode === 'string')

@@ -6,7 +6,7 @@ import {LANG, THEME} from './editor';
 import {language, code, theme} from '../../js/status';
 import {EVENT} from '../../js/constant';
 import event from '../../js/event';
-import {parseGithubParam} from '../../../import';
+import {initCodeSrcFromEnv, parseGithubParam} from '../../../import';
 
 // config > env > lib
 
@@ -49,12 +49,14 @@ function initEnv (serachCode, success) {
     if (!env || !envs || !envs[env]) {
         return false;
     }
-    let _code = envs[env].code || serachCode || '';
+    const envItem = envs[env];
+    initCodeSrcFromEnv(envItem);
+    let _code = envItem.code || serachCode || '';
     _code = _code.trim();
-    extractLang(envs[env]);
-    if (envs[env].deps && envs[env].deps.length > 0) {
+    extractLang(envItem);
+    if (envItem.deps && envItem.deps.length > 0) {
         loadResources({
-            array: envs[env].deps,
+            array: envItem.deps,
             success () {
                 setCode(_code);
                 success();

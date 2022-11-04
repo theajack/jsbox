@@ -3,6 +3,14 @@ window.jsbox_libs = {
         'version': '3.4.1',
         'url': 'https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js'
     },
+    'alins': {
+        'version': '0.0.7',
+        'url': 'https://cdn.jsdelivr.net/npm/alins',
+    },
+    'alins-style': {
+        'version': '0.0.7',
+        'url': 'https://cdn.jsdelivr.net/npm/alins-style',
+    },
     'vue': {
         'version': '2.6.11',
         'url': 'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js'
@@ -148,5 +156,5 @@ window.jsbox_libs = {
     'element-ui-style': {
         'url': 'https://cdn.jsdelivr.net/npm/element-ui@2.13.0/lib/theme-chalk/index.css',
         'type': 'style'
-    }
+    },
 };
