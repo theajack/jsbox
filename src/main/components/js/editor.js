@@ -245,4 +245,7 @@ export class Editor {
     focus () {
         this.editor.focus();
     }
+    layout () {
+        this.editor.layout();
+    }
 }

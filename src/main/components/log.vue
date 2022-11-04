@@ -10,7 +10,9 @@
         <div class='log-log' ref='logWrapper' :class='{"hide-log": !htmlLog}'>
             <div class='console-mask' @click='focuConsole'></div>
             <div ref='log'></div>
-            <console-editor ref='editor' @onwheel='onwheel' @scrollToBottom='scrollToBottom'></console-editor>
+            <console-editor ref='editor'
+                            @onwheel='onwheel'
+                            @scrollToBottom='scrollToBottom'></console-editor>
         </div>
     </div>
 </template>
@@ -33,18 +35,22 @@
         components: {ConsoleEditor},
         data () {
             return {
-                jxUI: getAttrFromCodeSrc('useDefaultUI', false),
+                jxUI: false,
                 percent: 100 - dragPercent.get(),
                 codeFull: (lang !== LANG.JAVASCRIPT && lang !== LANG.HTML),
                 isHtml: this.needShowUI(lang),
-                htmlLog: !getAttrFromCodeSrc('hideLog', false),
+                htmlLog: true,
                 html: '',
-                showPh: true
+                showPh: true,
+
+                initedLogEdit: false,
             };
         },
         mounted () {
             // console.log(this.htmlLog);
             this.isHtml = this.needShowUI(language.get());
+            this.jxUI = getAttrFromCodeSrc('useDefaultUI', false);
+            this.htmlLog = !getAttrFromCodeSrc('hideLog', false);
             event.regist({
                 [EVENT.DRAG_PERCENT]: (percent) => {
                     this.percent = 100 - percent;
@@ -61,7 +67,7 @@
                 [EVENT.HTML_CONTENT_CHANGE]: (html) => {
                     this.html = html;
                     this.$refs.logContent.innerHTML = html;
-                }
+                },
             });
             initDrag(this.$refs.drag);
             this.initLog();
@@ -79,6 +85,12 @@
                 // initConsole(this.$refs.console);
             },
             toggleLogShow () {
+                if (!this.initedLogEdit) {
+                    if (!this.htmlLog) {
+                        setTimeout(() => {this.$refs.editor.editor.layout();}, 0);
+                    }
+                    this.initedLogEdit = true;
+                }
                 htmlLog.set(!this.htmlLog);
             },
             onwheel (scroll) {
