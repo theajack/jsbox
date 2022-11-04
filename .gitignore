@@ -4,3 +4,4 @@ package-lock.json
 /public/vs_back
 npm
 docs
+.DS_Store
