@@ -1,3 +1,10 @@
+/*
+ * @Author: chenzhongsheng
+ * @Date: 2022-11-05 00:06:41
+ * @Description: Coding something
+ * @LastEditors: chenzhongsheng
+ * @LastEditTime: 2022-11-05 00:21:27
+ */
 export const MENU_TYPE = {
     OPEN: 'open',
     LINK: 'link',
@@ -42,6 +49,9 @@ export const EVENT = {
     // drag相关
     DRAG_PERCENT: 'DRAG_PERCENT',
     DRAG_STATUS: 'DRAG_STATUS',
+
+    // 配置有变化时
+    JSBOX_CODE_CHANGE: 'JSBOX_CODE_CHANGE',
 };
 
 export const TOOL_HEIGHT = 30;

@@ -13,6 +13,8 @@ import './style/import.css';
 import {getUrlParam, importScript} from './util';
 import {loading} from 'tacl-ui';
 import {LANG, THEME} from './main/components/js/editor';
+import event from './main/js/event';
+import {EVENT} from './main/js/constant';
 
 let app = null;
 let libs = [];
@@ -236,13 +238,18 @@ export function getThemeFromCodeSrc () {
 }
 
 export function initCodeSrcFromEnv (env) {
+    let changed = false;
     ['theme', 'wrapCode', 'needUI', 'useDefaultUI', 'hideLog', 'clearWhenReRun'].forEach(
         name => {
             if (typeof env[name] !== 'undefined') {
-                setAttrCodeSrc(name, env[name]);
+                if (setAttrCodeSrc(name, env[name]))
+                    changed = true;
             }
         }
     );
+    if (changed) {
+        event.emit(EVENT.JSBOX_CODE_CHANGE, window.jsboxCode);
+    }
 }
 
 export function setAttrCodeSrc (name, value) {
@@ -251,7 +258,11 @@ export function setAttrCodeSrc (name, value) {
         config = {};
         window.jsboxCode = config;
     }
-    config[name] = value;
+    if (config[name] !== value) {
+        config[name] = value;
+        return true;
+    }
+    return false;
 }
 
 export function getAttrFromCodeSrc (attr, def) {

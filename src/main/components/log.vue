@@ -48,10 +48,11 @@
         },
         mounted () {
             // console.log(this.htmlLog);
-            this.isHtml = this.needShowUI(language.get());
-            this.jxUI = getAttrFromCodeSrc('useDefaultUI', false);
-            this.htmlLog = !getAttrFromCodeSrc('hideLog', false);
+            this.initCodeConfig();
             event.regist({
+                [EVENT.JSBOX_CODE_CHANGE]: () => {
+                    this.initCodeConfig();
+                },
                 [EVENT.DRAG_PERCENT]: (percent) => {
                     this.percent = 100 - percent;
                 },
@@ -74,6 +75,11 @@
             htmlLog.init(this.htmlLog);
         },
         methods: {
+            initCodeConfig () {
+                this.isHtml = this.needShowUI(language.get());
+                this.jxUI = getAttrFromCodeSrc('useDefaultUI', false);
+                this.htmlLog = !getAttrFromCodeSrc('hideLog', false);
+            },
             needShowUI (lang) {
                 return lang === LANG.HTML || getAttrFromCodeSrc('needUI', false);
             },
