@@ -1,0 +1,457 @@
+{
+    "root": {
+        "data": {
+            "id": "crqmtbr2p6g0",
+            "created": 1680881645422,
+            "text": "产品"
+        },
+        "children": [
+            {
+                "data": {
+                    "id": "crqmtbr2p6g0",
+                    "created": 1680881645422,
+                    "text": "设计",
+                    "layout_mind_offset": {
+                        "x": -90.24999998137366,
+                        "y": 7.249996777623892
+                    }
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "crqmtbr2p6g0",
+                            "created": 1680881645422,
+                            "text": "功能设计",
+                            "layout_mind_offset": {
+                                "x": -52,
+                                "y": -100
+                            },
+                            "layout_right_offset": {
+                                "x": 1,
+                                "y": 0
+                            }
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "crqmwxg55wo0",
+                                    "created": 1680881927743,
+                                    "text": "工具GPT化[翻译、写作、作图等]",
+                                    "layout_right_offset": {
+                                        "x": 7.499999888241291,
+                                        "y": -2.499999962747154
+                                    }
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "crqmxlke4n40",
+                                    "created": 1680881980243,
+                                    "text": "基金社区[主打ai预测]"
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "crqmxxysndc0",
+                                    "created": 1680882007235,
+                                    "text": "会员制聊天"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "crqmubby4r40",
+                            "created": 1680881722872,
+                            "text": "UI设计",
+                            "layout_right_offset": {
+                                "x": 7,
+                                "y": 0
+                            }
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "crqmxerjqs00",
+                                    "created": 1680881965438,
+                                    "text": "美观"
+                                },
+                                "children": []
+                            }
+                        ]
+                    },
+                    {
+                        "data": {
+                            "id": "crqmvfuuqjc0",
+                            "created": 1680881811086,
+                            "text": "商业模式设计",
+                            "layout_right_offset": {
+                                "x": -1.2499999813735485,
+                                "y": 21.24999968335038
+                            }
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "crqmuez14lc0",
+                    "created": 1680881730798,
+                    "text": "开发",
+                    "layout_mind_offset": {
+                        "x": 58.50000525265932,
+                        "y": -39.49999921768898
+                    }
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "crqmuez14lc0",
+                            "created": 1680881730798,
+                            "text": "后端",
+                            "layout_mind_offset": {
+                                "x": 327,
+                                "y": 4
+                            },
+                            "layout_right_offset": {
+                                "x": 8,
+                                "y": 10
+                            }
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "crqmus61w2o0",
+                            "created": 1680881759521,
+                            "text": "web前端"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "crqmuvn22yw0",
+                            "created": 1680881767079,
+                            "text": "公众号",
+                            "layout_right_offset": {
+                                "x": 22.49999966472376,
+                                "y": 136.24999796971684
+                            }
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "crqmuxgerao0",
+                            "created": 1680881771031,
+                            "text": "app",
+                            "layout_right_offset": {
+                                "x": 14.999999776482582,
+                                "y": -57.49999914318323
+                            }
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "crqmuzt0ua80",
+                            "created": 1680881776147,
+                            "text": "桌面端",
+                            "layout_right_offset": {
+                                "x": 17.49999973922968,
+                                "y": -64.99999903142458
+                            }
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "crqmv8kdrd40",
+                            "created": 1680881795216,
+                            "text": "小程序",
+                            "layout_right_offset": {
+                                "x": 20.49999973922968,
+                                "y": -70.74999927356839
+                            }
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "crqmvy1vwog0",
+                    "created": 1680881850693,
+                    "text": "增长",
+                    "layout_mind_offset": {
+                        "x": -449.9999932944773,
+                        "y": -407.49999392777687
+                    }
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "crqmwqxqcig0",
+                            "created": 1680881913569,
+                            "text": "用户裂变"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "crqmwjsr5kw0",
+                            "created": 1680881898031,
+                            "text": "基于现有流量推广"
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "crqmx10iofc0",
+                            "created": 1680881935505,
+                            "text": "商业推广"
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "crqmwhexp0o0",
+                    "created": 1680881892841,
+                    "text": "资质",
+                    "layout_mind_offset": {
+                        "x": -469.9999929964541,
+                        "y": -176.24999737367006
+                    }
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "crqmy77idc80",
+                            "created": 1680882027354,
+                            "text": "企业注册",
+                            "layout_left_offset": {
+                                "x": -16.249999757856074,
+                                "y": -27.499999590218067
+                            }
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "crqmyd1fse00",
+                            "created": 1680882040046,
+                            "text": "支付平台商户",
+                            "layout_left_offset": {
+                                "x": -3.7499999441207024,
+                                "y": -28.749999571591786
+                            }
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "crqn7316hk00",
+                            "created": 1680882723541,
+                            "text": "openai",
+                            "layout_left_offset": {
+                                "x": -12.499999813735542,
+                                "y": -23.74999964609742
+                            }
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "crqmyk6bbnk0",
+                    "created": 1680882055579,
+                    "text": "投入",
+                    "layout_mind_offset": {
+                        "x": 47.49999929219496,
+                        "y": 141.24999789521098
+                    }
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "crqmzcv5xnk0",
+                            "created": 1680882118031,
+                            "text": "启动资金",
+                            "layout_left_offset": {
+                                "x": -9.999999850988388,
+                                "y": -49.999999254942054
+                            }
+                        },
+                        "children": [
+                            {
+                                "data": {
+                                    "id": "crqmzhdy0cw0",
+                                    "created": 1680882127874,
+                                    "text": "服务器成本",
+                                    "layout_left_offset": {
+                                        "x": -8.74999986961484,
+                                        "y": 7.499999888241405
+                                    }
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "crqmzls6f7k0",
+                                    "created": 1680882137442,
+                                    "text": "企业注册成本",
+                                    "layout_left_offset": {
+                                        "x": -19.99999970197672,
+                                        "y": 26.24999960884452
+                                    }
+                                },
+                                "children": []
+                            },
+                            {
+                                "data": {
+                                    "id": "crqmzqybtw00",
+                                    "created": 1680882148698,
+                                    "text": "第三方接口成本"
+                                },
+                                "children": [
+                                    {
+                                        "data": {
+                                            "id": "crqn02vb5xk0",
+                                            "created": 1680882174636,
+                                            "text": "openai"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "crqn08gitm80",
+                                            "created": 1680882186803,
+                                            "text": "音频功能"
+                                        },
+                                        "children": []
+                                    },
+                                    {
+                                        "data": {
+                                            "id": "crqn0eitgl40",
+                                            "created": 1680882200002,
+                                            "text": "短信验证码"
+                                        },
+                                        "children": []
+                                    }
+                                ]
+                            },
+                            {
+                                "data": {
+                                    "id": "crqmzz4gd800",
+                                    "created": 1680882166482,
+                                    "text": "商业推广成本",
+                                    "layout_left_offset": {
+                                        "x": -7.499999888241291,
+                                        "y": -7.499999888241291
+                                    }
+                                },
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "crqn0q7ydds0",
+                    "created": 1680882225467,
+                    "text": "流程",
+                    "layout_mind_offset": {
+                        "x": 589.9999912083149,
+                        "y": 26.249999608844746
+                    }
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "crqn0yhn1000",
+                            "created": 1680882243467,
+                            "text": "项目管理",
+                            "layout_right_offset": {
+                                "x": 19.999999701977003,
+                                "y": -32.499999515712034
+                            }
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "crqn14wfjrs0",
+                            "created": 1680882257422,
+                            "text": "高效快速试错",
+                            "layout_right_offset": {
+                                "x": 26.24999960884452,
+                                "y": -13.749999795109147
+                            }
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "crqn1hfb4pc0",
+                            "created": 1680882284685,
+                            "text": "MVP模型[Minimum Viable Product]",
+                            "layout_right_offset": {
+                                "x": 33.74999949708592,
+                                "y": 0
+                            }
+                        },
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "data": {
+                    "id": "crqn7ibefs00",
+                    "created": 1680882756810,
+                    "text": "愿景",
+                    "layout_mind_offset": {
+                        "x": 546.2499918602409,
+                        "y": 25.750018602360512
+                    }
+                },
+                "children": [
+                    {
+                        "data": {
+                            "id": "crqn7ysfbm80",
+                            "created": 1680882792668,
+                            "text": "科技让生活更简单/轻松/智能",
+                            "layout_left_offset": {
+                                "x": -12.499999813735485,
+                                "y": 1.2499999813735485
+                            }
+                        },
+                        "children": []
+                    },
+                    {
+                        "data": {
+                            "id": "crqn89h744g0",
+                            "created": 1680882815934,
+                            "text": "为自己更自由",
+                            "layout_left_offset": {
+                                "x": -34.99999947845936,
+                                "y": 3.7499999441207024
+                            }
+                        },
+                        "children": []
+                    }
+                ]
+            }
+        ]
+    },
+    "template": "default",
+    "theme": "fresh-blue",
+    "version": "1.4.43"
+}

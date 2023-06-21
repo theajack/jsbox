@@ -1,0 +1,51 @@
+<!--
+ * @Author: theajack
+ * @Date: 2023-05-09 21:48:11
+ * @Description: Coding something
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #eee;
+            --offset: 10px;
+            --n-offset: -10px;
+            --width: 20px;
+            --white: rgba(255,255,255,1);
+            --black: rgba(0,0,0,.2);
+            --black2: rgba(0,0,0,.1);
+        }
+        .block{
+            position: fixed;
+            left: 100px;
+            top: 100px;
+            display: flex;
+            width: 100px;
+            height: 100px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            box-shadow: var(--offset) var(--offset) var(--width) var(--black),
+                        var(--n-offset) var(--n-offset) var(--width) var(--white);
+            transform: scale(1);
+            transition: all .2s ease-out;
+        }
+        .block:hover{
+            transform: scale(0.9);
+            box-shadow: 0 0 0 var(--black2),
+                0 0 0 var(--black2),
+                inset var(--offset) var(--offset) var(--width) var(--black2),
+                inset var(--n-offset) var(--n-offset) var(--width) var(--white);
+        }
+    </style>
+</head>
+<body>
+    <div class="block">1</div>
+    <div class="block" style="left: 230px">2</div>
+</body>
+</html>
