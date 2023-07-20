@@ -1,0 +1,78 @@
+@import './class.less';
+#app, #container {
+    width: 100%;
+    height: 100%;
+}
+#container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+}
+#menu-container {
+    height: var(--bar-height);
+    border-bottom: var(--border);
+    padding-left: 5px;
+    .align-center;
+}
+#main-container {
+    flex: 1;
+    display: flex;
+    .main-sidebar{
+        width: 50px;
+        border-right: var(--border);
+    }
+    .main-funcbar{
+        width: 150px;
+        border-right: var(--border);
+    }
+    .code-container{
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        .editor-container{
+            flex: 1;
+            display: flex;
+            .editor-item{
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                .editor-dir{
+                    height: var(--bar-height);
+                    .align-center;
+                }
+                .editor-tab{
+                    height: var(--bar-height);
+                    .align-center;
+                }
+                .editor-box{
+                    flex: 1;
+                }
+            }
+        }
+        .terminal-container{
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            .terminal-bar{
+                height: var(--bar-height);
+                .align-center;
+            }
+            .terminal-list{
+                flex: 1;
+                display: flex;
+                overflow: hidden;
+                .terminal-box{
+                    flex: 1;
+                }
+                .log-box{
+
+                }
+            }
+        }
+    }
+}
+#status-container {
+    height: var(--bar-height);
+    background-color: var(--theme-color);
+    .align-center;
+}

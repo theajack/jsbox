@@ -1,3 +1,28 @@
+@import './layout.less';
 
-body {
+:root{
+    --bg-main: #1e1e1e;
+    --bg-2: #181818;
+    --text-color: #ccc;
+    --text-hl-color: white;
+    --bar-height: 25px;
+    --border-color: #444;
+    --light-bg: #444;
+    --border: 1px solid var(--border-color);
+    --theme-color: #2f78cd;
+}
+
+body, body * {
+    font-family: Menlo, Monaco, "Courier New", monospace;
+    box-sizing: border-box;
+}
+body, html {
+    padding: 0;
+    margin: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--bg-2);
+    color: var(--text-color);
 }

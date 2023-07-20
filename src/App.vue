@@ -5,24 +5,22 @@
 -->
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { initMonaco } from './scripts/manaco/manaco';
+// import { initMonaco } from './scripts/manaco/manaco';
+import MenuContainer from './components/menu-container.vue';
+import MainContainer from './components/main-container.vue';
+import StatusContainer from './components/status-container.vue';
 
 onMounted(() => {
-    console.log(initMonaco());
+    // console.log(initMonaco());
 });
 </script>
 
 <template>
-  <div>
-    <router-link to="/">home</router-link>
-    |
-    <router-link to="/about">about</router-link>
+  <div id="container">
+    <MenuContainer />
+    <MainContainer />
+    <StatusContainer />
   </div>
-  <router-view />
-  <div id="container" />
-  <!-- <router-view v-slot="{ Component }">
-      <component :is="Component" />
-  </router-view> -->
 </template>
 <style lang="less">
 #container {

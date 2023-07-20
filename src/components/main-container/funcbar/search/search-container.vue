@@ -7,7 +7,9 @@
 </script>
 
 <template>
-    <div>Home</div>
+  <div class="search-container">
+    search-container
+  </div>
 </template>
 
 <style scoped>

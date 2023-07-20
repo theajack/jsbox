@@ -7,7 +7,9 @@
 </script>
 
 <template>
-    <div>About</div>
+  <div class="log-box">
+    log-box
+  </div>
 </template>
 
 <style scoped>
