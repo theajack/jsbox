@@ -1,6 +1,7 @@
 import {write, read} from './main/js/notebook';
-import {getUrlParam, exeJs} from './util';
+import {getUrlParam} from './util';
 import {toast} from 'tacl-ui';
+import {exeJs} from './main/components/js/execute';
 let _editor = null;
 export let showHtml = () => {};
 export let hideHtml = () => {};
@@ -92,13 +93,13 @@ export function extractScript (html) {
         if (!(/<script(.|\n)*?src( ?)*=(.|\n)*?>/.test(item))) {
             html = html.replace(item, ''); // 待提取src
             let js = extractContent(item);
-            if (/<script(.|\n)*? babel[ \n=]?*>/.test(item) && window.Babel) {
-                let opt = {presets: ['es2015']};
-                if (/<script(.|\n)*? react[ \n=]?*>/.test(item)) {
-                    opt.presets.push('react');
-                }
-                js = window.Babel.transform(js, opt);
-            }
+            // if (/<script(.|\n)*? babel[ \n=]?*>/.test(item) && window.Babel) {
+            //     let opt = {presets: ['es2015']};
+            //     if (/<script(.|\n)*? react[ \n=]?*>/.test(item)) {
+            //         opt.presets.push('react');
+            //     }
+            //     js = window.Babel.transform(js, opt);
+            // }
             return js;
         }
         return '';

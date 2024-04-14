@@ -12,7 +12,7 @@
     "update": "node ./package/index.js",
     "build:npm": "webpack --config webpack-config/build-npm.js",
     "publish": "npm publish npm",
-    "build:env":  "node ./helper/transform-env-lib.js",
+    "build:env": "node ./helper/transform-env-lib.js",
     "release": "node ./helper/push-release.js"
   },
   "author": "theajack",
@@ -80,7 +80,8 @@
     "webpack-dev-server": "^3.8.2"
   },
   "dependencies": {
-    "request": "^2.81.0"
+    "request": "^2.81.0",
+    "webos-module": "^0.0.10"
   },
   "husky": {
     "hooks": {

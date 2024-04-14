@@ -1,3 +1,8 @@
+<!--
+ * @Author: chenzhongsheng
+ * @Date: 2023-01-13 07:49:20
+ * @Description: Coding something
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,8 +29,9 @@
     var require = { paths: { 'vs': 'http://'+location.host+'/vs' } };
     </script>
     <script src="./js/loader.js"></script>
-    <script src="./js/editor.main.nls.js"></script>
-    <script src="./js/editor.main.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/editor/editor.main.nls.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.20.0/min/vs/editor/editor.main.js"></script>
     <script>
         window.DEFINE = window.define;
         window.useDefine = function(){

@@ -1,6 +1,4 @@
 import {copyText} from './main/log/util';
-import {toast, loading} from 'tacl-ui';
-
 
 export function readCookie (name, cookie = document.cookie) {
     if (cookie.length > 0 && name) {
@@ -99,24 +97,6 @@ export function IsPC () {
 
 export function toggleCls (el, a, b) {
     el.cls(el.cls() === a ? b : a);
-}
-let inExe = false;
-export function exeJs (code) {
-    if (inExe) {
-        toast('正在执行中，请勿重复操作');
-        return;
-    }
-    inExe = true;
-    loading();
-    let blob = new Blob([code], {type: 'application/text'});
-    let objectURL = window.URL.createObjectURL(blob);
-    let s = document.createElement('script');
-    s.onload = () => {
-        inExe = false;
-        loading.close();
-    };
-    s.src = objectURL;
-    document.body.appendChild(s);
 }
 
 export function importScript (src) {

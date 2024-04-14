@@ -3,8 +3,15 @@ import event from '../../js/event';
 import {EVENT} from '../../js/constant';
 import {loadResources} from './lib';
 import {getAttrFromCodeSrc} from '../../../import';
+// import {Application} from 'webos-module';
+import {Application} from 'webos-module';
 let inExe = false;
-let script = null;
+// console.log(Application);
+
+// console.log(1111111);
+const app = new Application();
+
+// console.log('111', app);
 
 export function exeHTML (code) {
     if (inExe) {
@@ -74,15 +81,15 @@ export function extractScript (html, libs) {
         if (!(new RegExp(`<script(.|${syb.reg})*?src( ?)*=(.|${syb.reg})*?>`, 'i').test(item))) {
         // if (!(/<script(.|\r\n)*?src( ?)*=(.|\r\n)*?>/.test(item))) {
             let _js = extractContent(item);
-            if (new RegExp(`<script(.|${syb.reg})*? babel(>|([ ${syb.reg}=]+.*?>))`, 'i').test(item) && window.Babel) {
-            // if (/<script(.|\r\n)*? babel(>|([ \r\n=]+.*?>))/.test(item) && window.Babel) {
-                let opt = {presets: ['es2015']};
-                if (new RegExp(`<script(.|${syb.reg})*? react(>|([ ${syb.reg}=]+.*?>))`, 'i').test(item)) {
-                // if (/<script(.|\r\n)*? react(>|([ \r\n=]+.*?>))/.test(item)) {
-                    opt.presets.push('react');
-                }
-                _js = window.Babel.transform(_js, opt).code;
-            }
+            // if (new RegExp(`<script(.|${syb.reg})*? babel(>|([ ${syb.reg}=]+.*?>))`, 'i').test(item) && window.Babel) {
+            // // if (/<script(.|\r\n)*? babel(>|([ \r\n=]+.*?>))/.test(item) && window.Babel) {
+            //     let opt = {presets: ['es2015']};
+            //     if (new RegExp(`<script(.|${syb.reg})*? react(>|([ ${syb.reg}=]+.*?>))`, 'i').test(item)) {
+            //     // if (/<script(.|\r\n)*? react(>|([ \r\n=]+.*?>))/.test(item)) {
+            //         opt.presets.push('react');
+            //     }
+            //     _js = window.Babel.transform(_js, opt).code;
+            // }
             return _js;
         } else {
             let arr = item.match(/src *?= *?["'].*["']/);
@@ -127,37 +134,48 @@ export function extractContent (html, tag = 'script') {
     return html.substring(html.indexOf('>') + 1, html.lastIndexOf('</' + tag + '>')).trim();
 }
 
+// function executeWithModule () {
+
+// }
+
+// window.createApp = () => new Application({
+//     // onLoaded?: TModuleLoaded,
+//     // iifeNameMap?: Record<string, string>;
+//     // mainMap?: Record<string, string>;
+//     // onDependenciesParsed?(graph: Record<string, object>): void;
+//     // onProgress?: TModuleProgress;
+//     // env?: Record<string, any>;
+//     // code?: string;
+//     code: 'console.log(111)',
+//     onDependenciesParsed (d) {
+//         console.log('onDependenciesParsed', d);
+//     },
+//     onProgress (d) {
+//         console.log('onProgress', d);
+//     },
+//     onLoaded (d) {
+//         console.log('onLoaded', d);
+//     },
+// });
+
 export function exeJs (code) {
     if (inExe) {
         toast('正在执行中，请勿重复操作');
         return;
     }
-    if (script) {
-        document.body.removeChild(script);
-    }
-    let syb = symbol(code);
-    if (code.indexOf(syb.str) === -1) {
-        code = `log(${code})`;
-    } else {
-        if (/\/\/(.)*?babel(.)*?/.test(code.substring(0, code.indexOf(syb.str))) && window.Babel) {
-            code = window.Babel.transform(code,  {presets: ['es2015']}).code;
-            console.log(code);
-        }
-    }
+
     inExe = true;
     loading();
     if (getAttrFromCodeSrc('wrapCode', false)) {
         code = `(function(){${code}})()`;
     }
-    let blob = new Blob([code], {type: 'application/text'});
-    let objectURL = window.URL.createObjectURL(blob);
-    script = document.createElement('script');
-    script.onload = () => {
+
+    inExe = true;
+    loading();
+    app.exec(code).finally(() => {
         inExe = false;
         loading.close();
-    };
-    script.src = objectURL;
-    document.body.appendChild(script);
+    });
 }
 
 function symbol (code) {
