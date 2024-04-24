@@ -32,7 +32,7 @@ defineProps<{
   </div>
 </template>
 <style scoped lang="less">
-    @import 'src/styles/class.less';
+    @import '../../styles/class.less';
     .menu-item{
         cursor: pointer;
         padding: 0 10px;

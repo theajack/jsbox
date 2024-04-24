@@ -1,0 +1,17 @@
+{
+  "name": "jx-utils",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "module": "src/index.ts",
+  "types": "src/index.ts",
+  "sideEffects": ["*.css", "*.less", "*.scss", "*.sass"],
+  "files": [
+    "es",
+    "dist"
+  ],
+  "dependencies": {
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
+}

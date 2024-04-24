@@ -1,21 +1,33 @@
 {
   "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "strict": true,
-    "jsx": "preserve",
+    "baseUrl": ".",
+    "outDir": "dist",
+    "sourceMap": false,
+    "target": "es2016",
+    "module": "esnext",
+    "moduleResolution": "node",
     "allowJs": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    // "noImplicitAny": true,
+    "noImplicitThis": true,
+    "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "isolatedModules": true,
     "esModuleInterop": true,
-    "lib": ["ESNext", "DOM"],
-    "skipLibCheck": true,
-    "noEmit": true,
-    "types": ["vite/client"]
-
+    "removeComments": false,
+    "jsx": "preserve",
+    "lib": ["esnext", "dom"],
+    "types": ["./build/env.d.ts"],
+    "rootDir": ".",
+    "noEmit": false,
+    "paths": {
+    },
+    "noImplicitAny": false,
+    "declaration": true, // 需要设置为 true 来支持类型
+    "declarationDir": "dist", // 类型文件的导出目录
+    "emitDeclarationOnly": true, // 只生成类型文件
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": [
+    "packages"
+  ]
 }

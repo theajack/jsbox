@@ -24,7 +24,7 @@ const menu = useMenuStore();
 </template>
 
 <style scoped lang="less">
-@import 'src/styles/class.less';
+@import '../../styles/class.less';
 .main-sidebar{
   .align-center;
   flex-direction: column;
