@@ -47,11 +47,11 @@ module.exports = () => {
                         loader: 'babel-loader',
                     }]
                 }, {
-                    enforce: 'pre',
-                    test: /\.vue$/,
-                    loader: 'eslint-loader',
-                    exclude: /node_modules/
-                }, {
+                //     enforce: 'pre',
+                //     test: /\.vue$/,
+                //     loader: 'eslint-loader',
+                //     exclude: /node_modules/
+                // }, {
                     test: /\.css$/,
                     use: [ MiniCssExtractPlugin.loader, 'css-loader'],
                 }, {
