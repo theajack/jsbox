@@ -58,7 +58,7 @@ export function initConfig (serachCode, editor, success = () => {}, modeBtn) {
         jsboxLib: false,
         success: () => {
             let id = getUrlParam('id');
-            let config = window.jsbox_config;
+            let config = window.jsboxCodeMap;
             
             if (config.codes && id && config.codes[id]) {
                 let code, value = config.codes[id];

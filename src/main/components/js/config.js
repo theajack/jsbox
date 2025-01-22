@@ -83,29 +83,67 @@ function extractLang (obj) {
     return lang;
 }
 
+let _map = null;
+
 export function getConfigCodes () {
-    let configs = window.jsbox_config;
+    if (_map) return _map;
+    let configs = window.jsboxCodeMap;
     if (!configs || !configs.codes) {
+        _map = [];
         return [];
     }
     let data = [];
     for (let k in configs.codes) {
-        let item = configs.codes[k];
-        if (typeof item === 'string') {
-            item = {
-                code: item,
-                id: k
-            };
-        }
-        data.push({
-            code: item.code,
-            lang: item.lang || 'javascript',
-            dep: item.dep || [],
-            desc: item.desc || '',
+        data.push(valueToCodeItem(k, configs.codes[k]));
+    }
+    _map = data;
+    return data;
+}
+
+function valueToCodeItem (k, value) {
+    let item = value;
+    if (typeof item === 'string') {
+        item = {
+            code: item,
             id: k
+        };
+    }
+    return {
+        code: item.code,
+        lang: item.lang || 'javascript',
+        dep: item.dep || [],
+        desc: item.desc || '',
+        needUI: item.needUI || (item.lang === 'html'),
+        hideLog: item.hideLog || false,
+        id: k
+    };
+}
+
+export function loadIdInConfigMap (id, success = () => {}, serachCode = '') {
+    let config = window.jsboxCodeMap;
+    if (config.codes && id && config.codes[id]) {
+        const value = valueToCodeItem(id, config.codes[id]);
+        const _code = value.code || serachCode;
+        extractLang(value);
+        let deps = value.dep;
+        console.log('loadIdInConfigMap', value);
+        loadDeps({
+            array: deps,
+            libs: config.libs,
+            success: () => {
+                setCode(_code);
+                success();
+            }
+        });
+    } else { // 如果没有codes，则加载所有依赖
+        if (config.codes && id && !config.codes[id]) {
+            console.warn('不存在的codeid：' + id);
+        }
+        loadDeps({
+            libs: config.libs,
+            success
         });
     }
-    return data;
 }
 
 export function initConfig (serachCode, success = () => {}, none = () => {}) {
@@ -122,56 +160,8 @@ export function initConfig (serachCode, success = () => {}, none = () => {}) {
         jsboxLib: false,
         success: () => {
             let id = getUrlParam('id');
-            let config = window.jsbox_config;
-            
-            if (config.codes && id && config.codes[id]) {
-                let _code, value = config.codes[id];
-                if (typeof value === 'object') {
-                    _code = value.code || serachCode;
-                    extractLang(value);
-                    let deps = value.dep;
-                    if (!deps || !(deps instanceof Array)) { // 没有dep
-                        loadDeps({
-                            libs: config.libs,
-                            success: () => {
-                                setCode(_code);
-                                success();
-                            }
-                        });
-                    } else { // 如果有codes且id有dep属性，则加载id需要的所有依赖
-                        loadDeps({
-                            array: deps,
-                            libs: config.libs || [],
-                            success: () => {
-                                setCode(_code);
-                                success();
-                            }
-                        });
-                    }
-                } else if (typeof value === 'string') {
-                    _code = value;
-                    loadDeps({
-                        libs: config.libs,
-                        success: () => {
-                            setCode(_code);
-                            success();
-                        }
-                    });
-                } else {
-                    loadDeps({
-                        libs: config.libs,
-                        success
-                    });
-                }
-            } else { // 如果没有codes，则加载所有依赖
-                if (config.codes && id && !config.codes[id]) {
-                    console.warn('不存在的codeid：' + id);
-                }
-                loadDeps({
-                    libs: config.libs,
-                    success
-                });
-            }
+            event.emit(EVENT.CODE_MAP_INIT, window.jsboxCodeMap);
+            loadIdInConfigMap(id, success, serachCode);
         },
         showToast: false
     });
@@ -182,7 +172,7 @@ function loadDeps ({
     success,
     array
 }) {
-    if (libs) {
+    if (libs && Object.keys(libs).length > 0) {
         if (!array) {
             array = Object.keys(libs);
         }

@@ -52,6 +52,8 @@ export const EVENT = {
 
     // 配置有变化时
     JSBOX_CODE_CHANGE: 'JSBOX_CODE_CHANGE',
+
+    CODE_MAP_INIT: 'CODE_MAP_INIT',
 };
 
 export const TOOL_HEIGHT = 30;

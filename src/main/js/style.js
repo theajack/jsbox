@@ -1,3 +1,8 @@
+/*
+ * @Author: chenzhongsheng
+ * @Date: 2025-01-22 11:16:21
+ * @Description: Coding something
+ */
 
 import 'easy-icon';
 import $ from 'easy-dom-util';
@@ -19,6 +24,7 @@ function initStyle () {
     return /* css */`
         .jsbox-main-panel{
             height: ${size.height - TOOL_HEIGHT}px;
+            display: flex;
         }
         .jsbox-tool-w {
             height: ${TOOL_HEIGHT}px;

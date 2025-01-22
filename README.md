@@ -127,7 +127,7 @@ This configuration file can be used when you have a large number of sample codes
 The config parameter should point to an online js file, which needs to define the following json data on the window object
 
 ```js
-window.jsbox_config = {
+window.jsboxCodeMap = {
     libs: {
         'loadsh':'xxx', // string method
         'jquery': {

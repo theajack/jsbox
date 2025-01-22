@@ -2,6 +2,7 @@
     <div>
         <jsbox-menu></jsbox-menu>
         <div class='jsbox-main-panel' :class='{"no-select":inDrag}' :style="{height: height+'px'}">
+            <code-set></code-set>
             <jsbox-code></jsbox-code>
             <jsbox-log></jsbox-log>
         </div>
@@ -12,6 +13,7 @@
     import './style/index.less';
     import './style/import.less';
     import JsboxMenu from './components/menu.vue';
+    import CodeSet from './components/code-set.vue';
     import JsboxCode from './components/code.vue';
     import JsboxLog from './components/log.vue';
     import event from './js/event';
@@ -22,7 +24,8 @@
         components: {
             JsboxMenu,
             JsboxCode,
-            JsboxLog
+            JsboxLog,
+            CodeSet,
         },
         data () {
             return {

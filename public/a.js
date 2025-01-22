@@ -1,3 +1,8 @@
+/*
+ * @Author: chenzhongsheng
+ * @Date: 2025-01-22 11:16:21
+ * @Description: Coding something
+ */
 window.jsboxCode = {
     lib: 'https://cdn.jsdelivr.net/npm/cnchar-all/cnchar.all.min.js',
     lang: 'html',

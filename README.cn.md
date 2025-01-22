@@ -127,7 +127,7 @@ https://shiyix.cn/jsbox?codeSrc=${decodeURIComponent('http://xxx.com/config.js')
 config参数应该指向一个在线的js文件，该文件需要在window对象上定义以下json数据
 
 ```js
-window.jsbox_config = {
+window.jsboxCodeMap = {
     libs: {
         'loadsh': 'xxx', // 字符串方式
         'jquery': {
