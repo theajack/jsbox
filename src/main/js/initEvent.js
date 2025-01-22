@@ -2,6 +2,7 @@ import $ from 'easy-dom-util';
 import event from './event';
 import {EVENT} from './constant';
 import {dragPercent, dragStatus} from './status';
+import {isCtrlPressed} from '../../util';
 
 export function initResize () {
     window.addEventListener('resize', () => {
@@ -21,7 +22,7 @@ function onKeyDown (e) {
         return;
     }
 
-    if (e.ctrlKey) {
+    if (isCtrlPressed(e)) {
         let eventName = '', value = null;
         switch (e.keyCode) {
             case c('M'):eventName = EVENT.THEME_TOGGLE; pd(); break;
@@ -77,8 +78,10 @@ export function initDrag (drag) {
         dragStatus.set(bool);
         if (bool) {
             width = $.windowSize().width;
+            drag.classList.add('active');
         } else {
             dragPercent.save();
+            drag.classList.remove('active');
         }
     };
     let setSize = (x) => {

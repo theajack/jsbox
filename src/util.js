@@ -132,3 +132,11 @@ export function importScript (src) {
         script.src = src;
     });
 }
+
+export function isMac () {
+    return /macintosh/i.test(navigator.userAgent);
+}
+
+export function isCtrlPressed (e) {
+    return (isMac() && e.metaKey) || (!isMac() && e.ctrlKey);
+}

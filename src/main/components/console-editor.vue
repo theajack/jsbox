@@ -11,6 +11,7 @@
     import {EVENT} from '../js/constant';
     import {fontSize, theme} from '../js/status';
     import {write, read} from '../js/notebook';
+import {isCtrlPressed} from '../../util';
     // import {debounce} from '../js/util';
     
     let historyMax = 50;
@@ -103,7 +104,7 @@
                             preventDefault();
                         }
                     }
-                    if (e.ctrlKey && e.keyCode === 3) {
+                    if (isCtrlPressed(e) && e.keyCode === 3) {
                         this.runConsole();
                         preventDefault();
                     }

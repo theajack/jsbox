@@ -7,9 +7,9 @@
                :title='(htmlLog?"隐藏":"显示")+"log(ctrl + k)"'></i>
             <div class='log-content' :class="{'jx-ui': jxUI}" id='jx-app' ref='logContent'></div>
         </div>
-        <div class='log-log' ref='logWrapper' :class='{"hide-log": !htmlLog}'>
-            <div class='console-mask' @click='focuConsole'></div>
-            <div ref='log'></div>
+        <div class='log-log' @click="focusEditor" ref='logWrapper' :class='{"hide-log": !htmlLog}'>
+            <!-- <div class='console-mask' @click='focuConsole'></div> -->
+            <div ref='log' @click.stop></div>
             <console-editor ref='editor'
                             @onwheel='onwheel'
                             @scrollToBottom='scrollToBottom'></console-editor>
@@ -20,14 +20,15 @@
     import {EVENT} from '../js/constant';
     import {initDrag} from '../js/initEvent';
     import event from '../js/event';
-    import Log from '../log';
+    // import Log from '../log';
     import {LANG} from './js/editor';
-    import {htmlLog, language, dragPercent} from '../js/status';
+    import {htmlLog, language, dragPercent, theme} from '../js/status';
     // import {initConsole, focusEnd} from './js/log-console';
     // import {initConsole, focusEnd} from './js/log-console';
     import ConsoleEditor from './console-editor.vue';
     import {getAttrFromCodeSrc} from '../../import';
     import './jx-demo';
+    import {Console} from 'console-container';
     let lang = language.get();
 
 
@@ -75,6 +76,9 @@
             htmlLog.init(this.htmlLog);
         },
         methods: {
+            focusEditor(){
+                this.$refs.editor.editor.focus();
+            },
             initCodeConfig () {
                 this.isHtml = this.needShowUI(language.get());
                 this.jxUI = getAttrFromCodeSrc('useDefaultUI', false);
@@ -84,10 +88,17 @@
                 return lang === LANG.HTML || getAttrFromCodeSrc('needUI', false);
             },
             initLog () {
-                let log = new Log();
-                log.page = this.$refs.log;
-                log.index = 0;
-                log.mounted();
+                let log = new Console({
+                    container: this.$refs.log,
+                    mode: 'light',
+                });
+                event.regist(EVENT.THEME_CHANGE, ()=>{
+                    log.setMode(theme.get())
+                });
+                // let log = new Log();
+                // log.page = this.$refs.log;
+                // log.index = 0;
+                // log.mounted();
                 // initConsole(this.$refs.console);
             },
             toggleLogShow () {

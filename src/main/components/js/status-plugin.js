@@ -54,6 +54,7 @@ export let fileStatus = (() => {
     });
     if (getUrlParam('remind') !== 'false') {
         window.addEventListener('beforeunload', function (e) {
+            if (location.host.startsWith('localhost:')) return;
             if (fileStatus.data.modified) {
                 var confirmationMessage = '\o/';
                 (e || window.event).returnValue = confirmationMessage;

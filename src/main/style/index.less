@@ -31,6 +31,8 @@ html *{
     &.log-hide{
         display: none;
     }
+
+    padding-left: 6px;
 }
 .code-panel{
     .panel-half();
@@ -46,6 +48,8 @@ html *{
 }
 .log-log{
     overflow:auto;
+    cursor: text;
+    overflow-x: hidden;
 }
 .log-log.log-half{
     width: 50%;
@@ -95,15 +99,18 @@ html *{
 }
 .drag-bar{
     position: absolute;
-    left: 0;
+    left: 2px;
     height: 100%;
-    width: 6px;
+    width: 4px;
     // background-color: #ddd; /* 浏览器不支持时显示 */
     // background-image: linear-gradient(#ddd, #0299ff, #ddd);
     background-color: transparent;
     cursor: ew-resize;
     // box-shadow: 0 0 5px 0 #444;
     z-index: 1;
+}
+.drag-bar.active, .drag-bar:hover{
+    background-color: #007acc;
 }
 .j-code{
     border: none!important;

@@ -12,7 +12,7 @@
     "update": "node ./package/index.js",
     "build:npm": "webpack --config webpack-config/build-npm.js",
     "publish": "npm publish npm",
-    "build:env":  "node ./helper/transform-env-lib.js",
+    "build:env": "node ./helper/transform-env-lib.js",
     "release": "node ./helper/push-release.js"
   },
   "author": "theajack",
@@ -35,6 +35,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "chalk": "^3.0.0",
+    "console-container": "^0.0.2",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "easy-icon": "^1.1.0",

@@ -1,6 +1,7 @@
 import event from '../../js/event';
 import {EVENT} from '../../js/constant';
 import {write, read, TYPE} from '../../js/notebook';
+import {isCtrlPressed} from '../../../util';
 
 let historyMax = 50;
 let history = read(TYPE.HISTORY) || [];
@@ -24,7 +25,7 @@ export function initConsole (el) {
         }
     });
     element.addEventListener('keyup', function (e) {
-        if (e.ctrlKey && e.keyCode === 13) {
+        if (isCtrlPressed(e) && e.keyCode === 13) {
             runConsole();
         }
     });
