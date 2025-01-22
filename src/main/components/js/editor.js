@@ -118,6 +118,9 @@ export class Editor {
         } else {
             Editor.theme = THEME.LIGHT;
         }
+        setTimeout(()=>{
+            this.resize();
+        }, 100);
     }
     _initEditor (code) {
         code = typeof code === 'string' ? code : this.code();

@@ -13,8 +13,7 @@ import {store} from './store';
 
 export let isCustomConfig = (() => {
     let config = getUrlParam('config') || getUrlParam('githubConfig');
-    let id = getUrlParam('id');
-    return (config !== null && id !== null);
+    return (config !== null);
 })();
 
 function setCode (v) {
@@ -170,6 +169,9 @@ export function initConfig (serachCode, success = () => {}, none = () => {}) {
                 id = hash.substring(1);
             }else{
                 id = getUrlParam('id');
+                if(!id){
+                    id = Object.keys(window.jsboxCodeMap.codes)[0];
+                }
             }
             event.emit(EVENT.CODE_MAP_INIT, id);
             loadIdInConfigMap(id, success, serachCode);
