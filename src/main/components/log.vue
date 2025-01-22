@@ -19,6 +19,7 @@
 <script>
     import {EVENT} from '../js/constant';
     import {initDrag} from '../js/initEvent';
+    import {store} from './js/store';
     import event from '../js/event';
     // import Log from '../log';
     import {LANG} from './js/editor';
@@ -48,7 +49,7 @@
             };
         },
         mounted () {
-            // console.log(this.htmlLog);
+            console.log('mounted log');
             this.initCodeConfig();
             event.regist({
                 [EVENT.JSBOX_CODE_CHANGE]: () => {
@@ -70,6 +71,10 @@
                     this.html = html;
                     this.$refs.logContent.innerHTML = html;
                 },
+                [EVENT.STORE_CHANGE]: () => {
+                    this.isHtml = this.needShowUI(language.get());
+                    this.htmlLog = !store.hideLog;
+                },
             });
             initDrag(this.$refs.drag);
             this.initLog();
@@ -83,9 +88,10 @@
                 this.isHtml = this.needShowUI(language.get());
                 this.jxUI = getAttrFromCodeSrc('useDefaultUI', false);
                 this.htmlLog = !getAttrFromCodeSrc('hideLog', false);
+                store.hideLog = !this.htmlLog;
             },
             needShowUI (lang) {
-                return lang === LANG.HTML || getAttrFromCodeSrc('needUI', false);
+                return lang === LANG.HTML || getAttrFromCodeSrc('needUI', false) || store.needUI;
             },
             initLog () {
                 let log = new Console({

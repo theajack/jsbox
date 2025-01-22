@@ -6,6 +6,7 @@
 <script>
     import '../style/editor.less';
     import {Editor, LANG, THEME, loadMonaco, ALIAS} from './js/editor';
+    import {store} from './js/store';
     import event from '../js/event';
     import {EVENT} from '../js/constant';
     import {code, language, theme, fontSize, dragPercent} from '../js/status';
@@ -18,11 +19,12 @@
         components: {StatusBar},
         data () {
             return {
-                percent: dragPercent.get(),
+                percent: 0,
                 codeFull: false,
             };
         },
         mounted () {
+            this.setPercent(dragPercent.get());
             loadMonaco().then(() => {
                 let editor = new Editor({
                     el: this.$refs.editor,
@@ -41,7 +43,8 @@
                         }, 10);
                     },
                     [EVENT.DRAG_PERCENT]: (percent) => {
-                        this.percent = percent;
+                        this.setPercent(percent);
+
                         this.$nextTick(() => {
                             editor.resize();
                         });
@@ -78,6 +81,10 @@
             });
         },
         methods: {
+            setPercent(percent){
+                let extra = store.showCodeMap ? 180: 0;
+                this.percent = percent - (extra / window.innerWidth) * 100;
+            },
             initCode () {
                 let autoRun = getUrlParam('run') !== 'false';
                 theme.init(getUrlParam('theme') || getThemeFromCodeSrc());

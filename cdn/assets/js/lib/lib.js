@@ -4,11 +4,11 @@ window.jsbox_libs = {
         'url': 'https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js'
     },
     'alins': {
-        'version': '0.0.7',
+        'version': 'latest',
         'url': 'https://cdn.jsdelivr.net/npm/alins',
     },
     'alins-style': {
-        'version': '0.0.7',
+        'version': 'latest',
         'url': 'https://cdn.jsdelivr.net/npm/alins-style',
     },
     'vue': {

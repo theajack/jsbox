@@ -1,3 +1,8 @@
+/*
+ * @Author: chenzhongsheng
+ * @Date: 2025-01-22 11:16:21
+ * @Description: Coding something
+ */
 import {THEME, LANG, DEFAULT_FONT_SIZE} from '../components/js/editor';
 import {read, write, TYPE} from './notebook';
 import event from './event';

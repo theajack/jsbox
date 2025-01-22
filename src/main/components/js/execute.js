@@ -136,13 +136,9 @@ export function exeJs (code) {
         document.body.removeChild(script);
     }
     let syb = symbol(code);
-    if (code.indexOf(syb.str) === -1) {
-        code = `log((()=>{return ${code}})())`;
-    } else {
-        if (/\/\/(.)*?babel(.)*?/.test(code.substring(0, code.indexOf(syb.str))) && window.Babel) {
-            code = window.Babel.transform(code,  {presets: ['es2015']}).code;
-            console.log(code);
-        }
+    if (/\/\/(.)*?babel(.)*?/.test(code.substring(0, code.indexOf(syb.str))) && window.Babel) {
+        code = window.Babel.transform(code,  {presets: ['es2015']}).code;
+        console.log(code);
     }
     inExe = true;
     loading();

@@ -3,10 +3,11 @@
 import {getUrlParam} from '../../js/util';
 import {loadResources} from './lib';
 import {LANG, THEME} from './editor';
-import {language, code, theme} from '../../js/status';
+import {language, code, theme, dragPercent} from '../../js/status';
 import {EVENT} from '../../js/constant';
 import event from '../../js/event';
 import {initCodeSrcFromEnv, parseGithubParam} from '../../../import';
+import {store} from './store';
 
 // config > env > lib
 
@@ -126,11 +127,13 @@ export function loadIdInConfigMap (id, success = () => {}, serachCode = '') {
         const _code = value.code || serachCode;
         extractLang(value);
         let deps = value.dep;
-        console.log('loadIdInConfigMap', value);
         loadDeps({
             array: deps,
             libs: config.libs,
             success: () => {
+                store.needUI = value.needUI;
+                store.hideLog = value.hideLog;
+                event.emit(EVENT.STORE_CHANGE, '');
                 setCode(_code);
                 success();
             }
@@ -155,12 +158,20 @@ export function initConfig (serachCode, success = () => {}, none = () => {}) {
         return;
     }
     url = decodeURIComponent(url);
+    store.showCodeMap = (true);
+    dragPercent.emit();
     loadResources({
         array: [url],
         jsboxLib: false,
         success: () => {
-            let id = getUrlParam('id');
-            event.emit(EVENT.CODE_MAP_INIT, window.jsboxCodeMap);
+            let hash = location.hash;
+            let id = ''
+            if(hash){
+                id = hash.substring(1);
+            }else{
+                id = getUrlParam('id');
+            }
+            event.emit(EVENT.CODE_MAP_INIT, id);
             loadIdInConfigMap(id, success, serachCode);
         },
         showToast: false

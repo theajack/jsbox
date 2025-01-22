@@ -88,7 +88,7 @@ export function initDrag (drag) {
         if (x < minWidth || x > width - minWidth) {
             return;
         }
-        dragPercent.stash((x / width) * 100);
+        dragPercent.stash(((x) / width) * 100);
     };
     $.query('body').on({
         mousemove (e) {

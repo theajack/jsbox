@@ -75,9 +75,9 @@ html *{
     right: 5px;
     top: 5px;
     background-color: rgba(255,255,255,.5);
-    font-size: 20px;
-    padding: 0 3px;
     border-radius: 2px;
+    font-size: 12px;
+    padding: 4px 3px;
     cursor: pointer;
 }
 .html-mode{
@@ -409,5 +409,20 @@ body.dark{
     .jx-message{
         background-color: #444444ee !important;
         border: 1px solid #222;
+    }
+
+    .jsbox-list-panel{
+        background-color: #111;
+        .jsbox-list-item{
+            &.active{
+                background-color: #222;
+            }
+            .jsbox-list-title{
+                color: #fff;
+            }
+            .jsbox-list-desc{
+                color: #aaa;
+            }
+        }
     }
 }

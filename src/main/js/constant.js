@@ -2,8 +2,8 @@
  * @Author: chenzhongsheng
  * @Date: 2022-11-05 00:06:41
  * @Description: Coding something
- * @LastEditors: chenzhongsheng
- * @LastEditTime: 2022-11-05 00:21:27
+ * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2025-01-23 00:31:48
  */
 export const MENU_TYPE = {
     OPEN: 'open',
@@ -54,6 +54,7 @@ export const EVENT = {
     JSBOX_CODE_CHANGE: 'JSBOX_CODE_CHANGE',
 
     CODE_MAP_INIT: 'CODE_MAP_INIT',
+    STORE_CHANGE: 'STORE_CHANGE',
 };
 
 export const TOOL_HEIGHT = 30;

@@ -94,6 +94,7 @@ export function loadResources ({
     isDep = false
 }) {
     if (array.length === 0) {
+        success();
         return;
     }
     if (!(libs instanceof Array)) {
