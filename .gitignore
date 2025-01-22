@@ -5,3 +5,7 @@ package-lock.json
 npm
 docs
 .DS_Store
+packages
+old
+.DS_Store
+assets
