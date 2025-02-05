@@ -4,7 +4,7 @@
         class='jx-select-dialog jx-diff-dialog'
         :visible.sync='visible'
         :before-close='beforeClose'>
-        <i class='ei-times close-diff' @click='close'></i>
+        <span class='close-diff' @click='close'>×</span>
         <div class='diff-editor' ref='editor'></div>
     </el-dialog>
 </template>
@@ -87,15 +87,15 @@
         display: flex;
         align-items: center;
         .close-diff{
-            color: #eee;
+            color: #ffa6a6;
             position: absolute;
-            top: -24px;
+            top: -30px;
             z-index: 10;
-            font-size: 22px;
+            font-size: 25px;
             right: 0;
             cursor: pointer;
             &:hover{
-                color: #ffa6a6;
+                color: #f44;
             }
         }
         .el-dialog{

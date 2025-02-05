@@ -14,7 +14,7 @@
                  v-show='item.visible!==false'>
                 <span v-if='item.type!==MENU_TYPE.SPLIT'>
                     <i v-if='item.icon' :class='"ei-"+item.icon+" ddi-icon"'></i>
-                    <span class='dd-link ddi-name'>{{item.title}}{{item.type===MENU_TYPE.OPEN?'…':''}}</span>
+                    <span class='dd-link ddi-name'>{{item.title}}{{item.type === MENU_TYPE.OPEN?'…':''}}</span>
                     <span v-if='item.key' class='dd-link ddi-key'>{{item.key.join('+')}}</span>
                     <i v-if='item.type===MENU_TYPE.LINK' class='ei-angle-right ddi-link'></i>
                 </span>

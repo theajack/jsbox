@@ -39,6 +39,7 @@ function onKeyDown (e) {
             case 187:eventName = EVENT.FONT_SIZE_CHANGE; value = 'up'; pd(); break;
             case 189:eventName = EVENT.FONT_SIZE_CHANGE; value = 'down'; pd(); break;
             case c('Y'):eventName = EVENT.RUN_CODE; pd(); break;
+            case c('H'):eventName = EVENT.WORD_WRAP_TOGGLE; pd(); break;
         }
         if (eventName) {
             if (timer !== null) {
@@ -55,7 +56,7 @@ function onKeyDown (e) {
 }
 
 export function initKeyEvent () {
-    window.addEventListener('keydown', onKeyDown, false);
+    window.addEventListener('keydown', (e) => {return onKeyDown(e);}, false);
     event.regist(EVENT.EDITOR_MOUNTED, (editor) => {
         setTimeout(() => {
             let els = editor.el.querySelectorAll('.inputarea');

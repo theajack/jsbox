@@ -164,12 +164,12 @@ export function initConfig (serachCode, success = () => {}, none = () => {}) {
         jsboxLib: false,
         success: () => {
             let hash = location.hash;
-            let id = ''
-            if(hash){
+            let id = '';
+            if (hash) {
                 id = hash.substring(1);
-            }else{
+            } else {
                 id = getUrlParam('id');
-                if(!id){
+                if (!id) {
                     id = Object.keys(window.jsboxCodeMap.codes)[0];
                 }
             }

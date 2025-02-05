@@ -57,6 +57,11 @@ export const theme = generateStatus({
     name: TYPE.THEME,
     emit: EVENT.THEME_CHANGE
 });
+export const wordWrap = generateStatus({
+    def: false,
+    name: TYPE.WORD_WRAP,
+    emit: EVENT.WORD_WRAP_CHANGE
+});
 
 export const dragPercent = generateStatus({
     def: 50,

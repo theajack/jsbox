@@ -16,6 +16,7 @@ export const TYPE = {
     FONT_SIZE: 'font_size',
     HISTORY: 'history',
     SHOW_CODE_MAP: 'show_code_map',
+    WORD_WRAP: 'word_wrap',
 };
 
 const encodeList = [

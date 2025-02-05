@@ -100,6 +100,7 @@ export class Editor {
         option = {}
     }) {
         initMonaco();
+        this.wordWrap = option.wordWrap || 'off';
         this.onchange = onchange;
         this.oncursorchange = oncursorchange;
         this.fontSize = fontSize;
@@ -118,7 +119,7 @@ export class Editor {
         } else {
             Editor.theme = THEME.LIGHT;
         }
-        setTimeout(()=>{
+        setTimeout(() => {
             this.resize();
         }, 100);
     }
@@ -250,5 +251,11 @@ export class Editor {
     }
     layout () {
         this.editor.layout();
+    }
+    toggleWordWrap () {
+        this.wordWrap = this.wordWrap === 'on' ? 'off' : 'on';
+        this.editor.updateOptions({
+            wordWrap: this.wordWrap
+        });
     }
 }

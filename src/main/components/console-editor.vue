@@ -1,7 +1,7 @@
 <template>
     <div class='console-w' :style='{height: height+"px"}'>
         <i class='ei-angle-right console-i'></i>
-        <div v-show='showPh' class='console-placeholder'>运行代码…</div>
+        <div v-show='showPh' class='console-placeholder'>运行代码{{key}}…</div>
         <div class='console-editor' ref='editor'></div>
     </div>
 </template>
@@ -11,7 +11,7 @@
     import {EVENT} from '../js/constant';
     import {fontSize, theme} from '../js/status';
     import {write, read} from '../js/notebook';
-import {isCtrlPressed} from '../../util';
+    import {isCtrlPressed, isMac} from '../../util';
     // import {debounce} from '../js/util';
     
     let historyMax = 50;
@@ -27,6 +27,7 @@ import {isCtrlPressed} from '../../util';
                 editor: null,
                 showPh: true,
                 height: 19,
+                key: ` (${isMac() ? 'cmd':'ctrl'} + enter)`
             };
         },
         mounted () {

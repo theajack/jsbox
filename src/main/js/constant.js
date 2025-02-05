@@ -3,7 +3,7 @@
  * @Date: 2022-11-05 00:06:41
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2025-01-23 00:31:48
+ * @LastEditTime: 2025-02-05 18:49:38
  */
 export const MENU_TYPE = {
     OPEN: 'open',
@@ -15,6 +15,8 @@ export const MENU_TYPE = {
 export const EVENT = {
     THEME_CHANGE: 'THEME_CHANGE',
     THEME_TOGGLE: 'THEME_TOGGLE',
+    WORD_WRAP_CHANGE: 'WORD_WRAP_CHANGE',
+    WORD_WRAP_TOGGLE: 'WORD_WRAP_TOGGLE',
     OPEN_LIB_CHOOSE: 'OPEN_LIB_CHOOSE',
     CLOSE_LIB_CHOOSE: 'CLOSE_LIB_CHOOSE',
     OPEN_ENV_CHOOSE: 'OPEN_ENV_CHOOSE',

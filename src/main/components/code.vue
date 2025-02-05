@@ -9,7 +9,7 @@
     import {store} from './js/store';
     import event from '../js/event';
     import {EVENT} from '../js/constant';
-    import {code, language, theme, fontSize, dragPercent} from '../js/status';
+    import {code, language, theme, fontSize, dragPercent, wordWrap} from '../js/status';
     import {getUrlParam, DEFAULT_CODE, toast} from '../js/util';
     import {initConfig} from './js/config';
     import StatusBar from './status.vue';
@@ -34,8 +34,12 @@
                     },
                     oncursorchange (position) {
                         event.emit(EVENT.CURSOR_CHANGE, position);
+                    },
+                    option: {
+                        wordWrap: wordWrap.get() ? 'on': 'off',
                     }
                 });
+                window.ee = editor;
                 event.regist({
                     [EVENT.RESIZE]: () => {
                         setTimeout(() => {
@@ -74,6 +78,9 @@
                             fontSize.set(editor.fontSize, true, false);
                             event.emit(EVENT.EDITOR_MOUNTED, editor);
                         }
+                    },
+                    [EVENT.WORD_WRAP_CHANGE]: ()=>{
+                        editor.toggleWordWrap();
                     }
                 });
                 event.emit(EVENT.EDITOR_MOUNTED, editor);
