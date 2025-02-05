@@ -52,6 +52,9 @@ export let fileStatus = (() => {
     event.regist(EVENT.SAVE_CODE, () => {
         data.modified = false;
     });
+    event.regist(EVENT.RECOUNT_FILE_SIZE, () => {
+        setSize();
+    });
     if (getUrlParam('remind') !== 'false') {
         window.addEventListener('beforeunload', function (e) {
             if (location.host.startsWith('localhost:')) return;

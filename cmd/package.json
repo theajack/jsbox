@@ -1,0 +1,30 @@
+{
+  "name": "jsbox-cmd",
+  "version": "0.0.1",
+  "description": "JsBox Command Util",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theajack/jsbox/tree/master/cmd"
+  },
+  "bin": {
+    "jsbox-help": "bin/help.js",
+    "jsbox-gen": "bin/gen.js",
+    "jsbox-open": "bin/open.js"
+  },
+  "keywords": [
+    "JsBox"
+  ],
+  "author": "theajack",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/theajack/jsbox/issues"
+  },
+  "homepage": "https://github.com/theajack/jsbox/tree/master/cmd",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "tag": "latest"
+  },
+  "dependencies": {},
+  "main": "index.js",
+  "typings": "index.d.ts"
+}

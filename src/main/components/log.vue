@@ -101,6 +101,10 @@
                 event.regist(EVENT.THEME_CHANGE, ()=>{
                     log.setMode(theme.get())
                 });
+                event.regist(EVENT.CLEAR_LOG, ()=>{
+                    let el = document.querySelector('.cc-log-list');
+                    if(el) el.innerHTML = '';
+                });
                 // let log = new Log();
                 // log.page = this.$refs.log;
                 // log.index = 0;

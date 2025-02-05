@@ -3,14 +3,26 @@ import event from '../../js/event';
 import {EVENT} from '../../js/constant';
 import {loadResources} from './lib';
 import {getAttrFromCodeSrc} from '../../../import';
+import {enableRequire} from './require';
+import {initWindowApp} from '../../../main/js/util';
 let inExe = false;
 let script = null;
 
+function clearAppContainer () {
+    const el = document.getElementById('jx-app');
+    if (el) {
+        el.innerHTML = '';
+    }
+}
+
 export function exeHTML (code) {
+
     if (inExe) {
         toast('正在执行中，请勿重复操作');
         return;
     }
+
+    clearAppContainer();
     let libs = [];
     code = extractLink(code, libs);
     let res = extractScript(code, libs);
@@ -19,7 +31,7 @@ export function exeHTML (code) {
         event.emit(EVENT.HTML_CONTENT_CHANGE, code);
         if (res.js) {
             setTimeout(() => {
-                exeJs(res.js);
+                exeJs(res.js, false);
             }, 50);
         }
     };
@@ -127,20 +139,30 @@ export function extractContent (html, tag = 'script') {
     return html.substring(html.indexOf('>') + 1, html.lastIndexOf('</' + tag + '>')).trim();
 }
 
-export function exeJs (code) {
+export function exeJs (code, clear = true) {
     if (inExe) {
         toast('正在执行中，请勿重复操作');
         return;
     }
+    if (clear) clearAppContainer();
+    initWindowApp();
     if (script) {
         document.body.removeChild(script);
     }
     let syb = symbol(code);
     if (/\/\/(.)*?babel(.)*?/.test(code.substring(0, code.indexOf(syb.str))) && window.Babel) {
         code = window.Babel.transform(code,  {presets: ['es2015']}).code;
-        console.log(code);
+        // console.log(code);
+    } else {
+        code = code.replaceAll(
+            /import +(.*?) +from +['"](.*?)['"]/g, (_, b, c) => {
+                return `var ${b}=require("${c}")`;
+            }
+        );
     }
+    enableRequire();
     inExe = true;
+
     loading();
     if (getAttrFromCodeSrc('wrapCode', true)) {
         code = `(function(){${code}})()`;

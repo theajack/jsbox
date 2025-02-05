@@ -1,5 +1,3 @@
-'use strict';
-
 /*
  * @Author: tackchen
  * @Date: 2022-07-08 08:57:44
@@ -16,10 +14,20 @@ window.jsboxCodeMap = {
     //     url: 'https://cdn.jsdelivr.net/gh/theajack/easy-icon/dist/easy-icon.min.css'
     // },
         'jsbox.cnchar': '',
-        'cnchar-order': 'jsbox.cnchar-order'
+        'cnchar-order': 'jsbox.cnchar-order',
+        'tc-store': 'https://cdn.jsdelivr.net/npm/tc-store',
     },
+    iifeMap: {
+        'cnchar': 'cnchar',
+        'tc-store': 'TCStore',
+    },
+    theme: 'light',
     codes: {
     //
+        'testIifeMap': {
+            code: 'import {version} from "cnchar";\nconsole.log(version);',
+            dep: ['jsbox.cnchar'],
+        },
         'helloWorld': {
             code: 'console.log("Hello world")',
             needUI: true,
@@ -46,7 +54,60 @@ window.jsboxCodeMap = {
             lang: 'html',
             code: '<div>111</div><script>cnchar.spell("你好")</script>',
             dep: ['cnchar-order'] // 定义依赖，优先从当前文件中查找，如果没有会尝试在jsbox预定义库中查找
-        }
+        },
+        testStore: {
+            code: `import { createStore, bind, watchImme} from 'tc-store';
+const store = createStore({
+    content: 'test',
+});
+
+const div = document.createElement('div');
+watchImme(store.content, (v) => {
+    div.innerText = v;
+});
+
+const input = document.createElement('input'); // this is A Input Element(input, textarea, select, etc.)
+bind(input, store.content); // This results in a two-way binding
+
+const button = document.createElement('button');
+button.innerText = 'Add ! to content'
+button.onclick = () => {
+  store.content += '!';
+}
+
+$app.append(div);
+$app.append(input);
+$app.append(button);
+`,
+            needUI: true,
+            hideLog: true,
+            dep: ['tc-store'],
+        },
+        testStore2: {
+            lang: 'html',
+            needUI: true,
+            hideLog: true,
+            dep: ['tc-store'],
+            code: `<div>
+  <div id='content'></div>
+  <input class='jx-input' id='input'/>
+  <button class='jx-button' id='button'>Add ! to content</button>
+</div>
+<script>
+import { createStore, bind, watchImme} from 'tc-store';
+const store = createStore({
+    content: 'test',
+});
+watchImme(store.content, (v) => {
+  $('#content').innerText = v;
+});
+$('#button').onclick = () => {
+  store.content += '!';
+}
+bind($('#input'), store.content);
+</script>
+`,
+        },
     }
 };
 

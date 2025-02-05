@@ -3,7 +3,7 @@
  * @Date: 2022-11-05 00:06:41
  * @Description: Coding something
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2025-02-05 18:49:38
+ * @LastEditTime: 2025-02-05 21:41:59
  */
 export const MENU_TYPE = {
     OPEN: 'open',
@@ -57,6 +57,10 @@ export const EVENT = {
 
     CODE_MAP_INIT: 'CODE_MAP_INIT',
     STORE_CHANGE: 'STORE_CHANGE',
+
+    CLEAR_LOG: 'CLEAR_LOG',
+
+    RECOUNT_FILE_SIZE: 'RECOUNT_FILE_SIZE',
 };
 
 export const TOOL_HEIGHT = 30;

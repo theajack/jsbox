@@ -1,6 +1,4 @@
-import {copyText} from './main/log/util';
 import {toast, loading} from 'tacl-ui';
-
 
 export function readCookie (name, cookie = document.cookie) {
     if (cookie.length > 0 && name) {
@@ -80,12 +78,6 @@ log(arg1,arg2,...); 打印内容
 copy(string); 复制内容到剪切板
 */
 `.trim();
-
-export function initWindowFunc () {
-    window.log = console.log;
-    window.copy = copyText;
-}
-
 
 export function IsPC () {
     var userAgentInfo = navigator.userAgent;

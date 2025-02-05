@@ -1,3 +1,8 @@
+/*
+ * @Author: chenzhongsheng
+ * @Date: 2025-01-22 11:16:21
+ * @Description: Coding something
+ */
 import 'easy-icon';
 import $ from 'easy-dom-util';
 import Vue from 'vue/dist/vue.esm';
@@ -25,6 +30,7 @@ async function main () {
     initResize();
     initKeyEvent();
     initWindowFunc();
+    debugger;
     await initCodeSrc();
     new Vue({
         render: h => h(Main)

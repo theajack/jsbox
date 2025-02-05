@@ -3,6 +3,8 @@ import {loading} from 'tacl-ui';
 import $ from 'easy-dom-util';
 import {Message} from 'element-ui';
 import 'element-ui/lib/theme-chalk/message.css';
+import event from './event';
+import {EVENT} from './constant';
 
 const TYPE = {
     SUCCESS: 'success',
@@ -107,12 +109,23 @@ copy(string); 复制内容到剪切板
 `.trim();
 
 export function initWindowFunc () {
-    window.log = function (...args) {
-        console.log(...args);
-    };
+    window.log = console.log;
     window.copy = copyText;
+    window.$run = () => event.emit(EVENT.RUN_CODE);
+    window.$dom = window.LinkDom.dom;
+    if (!window.$) {
+        window.$ = (v) => {
+            return document.querySelector(v);
+        };
+    }
+    initWindowApp();
 }
 
+export function initWindowApp () {
+    if (!window.$app) {
+        window.$app = document.getElementById('jx-app');
+    }
+}
 
 export function IsPC () {
     var userAgentInfo = navigator.userAgent;
@@ -218,3 +231,17 @@ export function debounce (fn, time) {
         }, time);
     };
 };
+
+export function importScript (src) {
+    return new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.onload = () => {
+            resolve(true);
+        };
+        script.onerror = () => {
+            resolve(false);
+        };
+        document.body.appendChild(script);
+        script.src = src;
+    });
+}

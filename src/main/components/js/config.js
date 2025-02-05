@@ -12,7 +12,7 @@ import {store} from './store';
 // config > env > lib
 
 export let isCustomConfig = (() => {
-    let config = getUrlParam('config') || getUrlParam('githubConfig');
+    let config = getUrlParam('config');
     return (config !== null);
 })();
 
@@ -149,7 +149,12 @@ export function loadIdInConfigMap (id, success = () => {}, serachCode = '') {
 }
 
 export function initConfig (serachCode, success = () => {}, none = () => {}) {
-    let url = getUrlParam('config') || parseGithubParam('githubConfig', 'jsbox.config.js'); ;
+    let url = getUrlParam('config');
+    
+    if (!/^https?:\/\//.test(url)) {
+        url = parseGithubParam('config', 'jsbox.config.js'); ;
+    }
+    
     if (!url) {
         if (!initEnv(serachCode, success)) {
             initLib(none);
@@ -173,6 +178,7 @@ export function initConfig (serachCode, success = () => {}, none = () => {}) {
                     id = Object.keys(window.jsboxCodeMap.codes)[0];
                 }
             }
+            id = decodeURIComponent(id);
             event.emit(EVENT.CODE_MAP_INIT, id);
             loadIdInConfigMap(id, success, serachCode);
         },
