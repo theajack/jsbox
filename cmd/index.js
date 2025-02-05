@@ -62,7 +62,7 @@ function initCodeMap ({
         base = require(configFile);
     }
     const data = generateCodeMap(base, input);
-    fs.writeFileSync(output, `window.jsboxCodeMap = ${format ? JSON.stringify(data, null, 4) : JSON.stringify(data)}`, 'utf-8');
+    fs.writeFileSync(output, `window.jsboxConfig = ${format ? JSON.stringify(data, null, 4) : JSON.stringify(data)}`, 'utf-8');
 };
 
 

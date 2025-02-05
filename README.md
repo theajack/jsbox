@@ -14,7 +14,7 @@ This is a project for running and debugging js online, and it also supports mult
 jsbox supports configuring a cdn file as the demo content through parameters, where the file content format is as follows
 
 ```js
-window.jsboxCode = {
+window.jsboxConfig = {
     libs: {
         // The cdn file of the third-party library to be introduced. A single library uses a string, and multiple libraries use an array
     },

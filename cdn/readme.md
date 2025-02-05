@@ -8,7 +8,7 @@
 
 npm run build 之后
 
-将 docs/envs,docs/main.min.css,docs/main.min.js 移入 assets中
+将 docs/envs, docs/main.min.css, docs/main.min.js 移入 assets中
 
 执行 qiniu-upload中的脚本即可
 

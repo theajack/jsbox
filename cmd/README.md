@@ -17,7 +17,7 @@ npm install jsbox-cmd -g
 
 ### 1. gen
 
-生成 jsboxCodeMap 的配置文件
+生成 jsboxConfig 的配置文件
 
 ```
 jsbox gen ./your/dir <format>

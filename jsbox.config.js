@@ -9,7 +9,7 @@
 此为测试文件
  */
 
-window.jsboxCodeMap = {
+window.jsboxConfig = {
     libs: {
     // 'cnchar': 'https://cdn.jsdelivr.net/gh/theajack/cnchar/dist/cnchar.latest.min.js',
     // 'jQuery': 'https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js',

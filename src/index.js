@@ -30,7 +30,6 @@ async function main () {
     initResize();
     initKeyEvent();
     initWindowFunc();
-    debugger;
     await initCodeSrc();
     new Vue({
         render: h => h(Main)

@@ -8,7 +8,7 @@ let requireEnabled = false;
 export function enableRequire () {
     if (requireEnabled) return;
 
-    let map = window.jsboxCode?.iifeMap || window.jsboxCodeMap?.iifeMap;
+    let map = window.jsboxCode?.iifeMap || window.jsboxConfig?.iifeMap;
 
     if (!map) return;
 

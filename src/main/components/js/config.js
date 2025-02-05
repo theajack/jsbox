@@ -87,7 +87,7 @@ let _map = null;
 
 export function getConfigCodes () {
     if (_map) return _map;
-    let configs = window.jsboxCodeMap;
+    let configs = window.jsboxConfig;
     if (!configs || !configs.codes) {
         _map = [];
         return [];
@@ -120,7 +120,7 @@ function valueToCodeItem (k, value) {
 }
 
 export function loadIdInConfigMap (id, success = () => {}, serachCode = '') {
-    let config = window.jsboxCodeMap;
+    let config = window.jsboxConfig;
     if (config.codes && id && config.codes[id]) {
         const value = valueToCodeItem(id, config.codes[id]);
         const _code = value.code || serachCode;
@@ -168,6 +168,12 @@ export function initConfig (serachCode, success = () => {}, none = () => {}) {
         array: [url],
         jsboxLib: false,
         success: () => {
+            const config = window.jsboxConfig;
+
+            if (config.theme) {
+                theme.set(config.theme);
+            }
+
             let hash = location.hash;
             let id = '';
             if (hash) {
@@ -175,7 +181,7 @@ export function initConfig (serachCode, success = () => {}, none = () => {}) {
             } else {
                 id = getUrlParam('id');
                 if (!id) {
-                    id = Object.keys(window.jsboxCodeMap.codes)[0];
+                    id = Object.keys(config.codes)[0];
                 }
             }
             id = decodeURIComponent(id);

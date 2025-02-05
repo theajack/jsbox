@@ -28,7 +28,7 @@
 jsbox支持通过参数配置一个cdn文件作为演示内容，其中文件内容形式如下
 
 ```js
-window.jsboxCode = {
+window.jsboxConfig = {
     libs: {
         // 需要引入的第三方库的cdn 文件单个库使用字符串，多个使用数组
     },
