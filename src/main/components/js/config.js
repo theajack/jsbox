@@ -8,6 +8,7 @@ import {EVENT} from '../../js/constant';
 import event from '../../js/event';
 import {initCodeSrcFromEnv, parseGithubParam} from '../../../import';
 import {store} from './store';
+import {getCodeConfig} from './require';
 
 // config > env > lib
 
@@ -87,7 +88,7 @@ let _map = null;
 
 export function getConfigCodes () {
     if (_map) return _map;
-    let configs = window.jsboxConfig;
+    let configs = getCodeConfig();
     if (!configs || !configs.codes) {
         _map = [];
         return [];
@@ -120,7 +121,7 @@ function valueToCodeItem (k, value) {
 }
 
 export function loadIdInConfigMap (id, success = () => {}, serachCode = '') {
-    let config = window.jsboxConfig;
+    let config = getCodeConfig();
     if (config.codes && id && config.codes[id]) {
         const value = valueToCodeItem(id, config.codes[id]);
         const _code = value.code || serachCode;
@@ -168,7 +169,7 @@ export function initConfig (serachCode, success = () => {}, none = () => {}) {
         array: [url],
         jsboxLib: false,
         success: () => {
-            const config = window.jsboxConfig;
+            const config = getCodeConfig() || {};
 
             if (config.theme) {
                 theme.set(config.theme);

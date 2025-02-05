@@ -8,7 +8,7 @@ let requireEnabled = false;
 export function enableRequire () {
     if (requireEnabled) return;
 
-    let map = window.jsboxCode?.iifeMap || window.jsboxConfig?.iifeMap;
+    let map = getCodeConfig()?.iifeMap;
 
     if (!map) return;
 
@@ -17,4 +17,9 @@ export function enableRequire () {
         if (!key) throw new Error('请先定义 iifeMap');
         return window[key];
     };
+}
+
+export function getCodeConfig () {
+    // 兼容旧版本
+    return window.jsboxCode || window.jsboxCodeMap;
 }
