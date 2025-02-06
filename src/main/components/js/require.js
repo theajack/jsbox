@@ -21,5 +21,5 @@ export function enableRequire () {
 
 export function getCodeConfig () {
     // 兼容旧版本
-    return window.jsboxCode || window.jsboxCodeMap;
+    return window.jsboxConfig || window.jsboxCodeMap;
 }

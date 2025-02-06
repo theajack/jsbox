@@ -1,6 +1,11 @@
+<!--
+ * @Author: chenzhongsheng
+ * @Date: 2025-02-05 23:57:11
+ * @Description: Coding something
+-->
 <template>
     <div class='jsbox-tool-w'>
-        <i class='ei-code' @click='goGithub'></i>
+        <i class='ei-code' style="cursor: pointer;" @click='goGithub'></i>
         <jsbox-menu-item
             v-for='(item, index) in menus'
             :key='index'
@@ -83,6 +88,6 @@
         /* background-color: #e5e5e5; */
         color: #444;
         border-bottom: 1px solid #ddd;
-        padding-left: 5px;
+        padding-left: 8px;
     }
 </style>

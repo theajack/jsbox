@@ -82,6 +82,8 @@ codes is a Json type, multiple demos can be configured, when there are multiple 
         desc?: string, // current demo's description
         hideLog?: boolean, // whether to hide the debugging tool, default is false
         needUI?: boolean, // whether to display the UI, default is true when lang=html, otherwise default is false
+        title?: string, // Start new chapter and set a title
+        doc?: string, // Current demo document
     },
     // other demos
 }

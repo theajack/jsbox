@@ -12,8 +12,8 @@ function generateCodeMap (base, input) {
 
     let codes = {};
 
-    const htmlReg = /<!-- *@(needUI|hideLog|dep|desc) *=? *(.*?) *-->/g;
-    const jsReg = /\/\/ *@(needUI|hideLog|dep|desc) *=? *(.*?)(\n|$)/g;
+    const htmlReg = /<!-- *@(needUI|hideLog|dep|desc|title) *=? *(.*?) *-->/g;
+    const jsReg = /\/\/ *@(needUI|hideLog|dep|desc|title) *=? *(.*?)(\n|$)/g;
 
     list.forEach(v => {
         let lastIndex = v.lastIndexOf('.');
@@ -21,7 +21,8 @@ function generateCodeMap (base, input) {
         let tail = v.substring(lastIndex + 1);
         if (tail !== 'js' && tail !== 'html') return;
 
-        let content = fs.readFileSync(path.resolve(input, v), 'utf-8');
+        const filePath = path.resolve(input, v);
+        let content = fs.readFileSync(filePath, 'utf-8');
 
         let data = {};
 
@@ -41,7 +42,14 @@ function generateCodeMap (base, input) {
         });
         data.code = content.trim();
         if (isHtml) { data.lang = 'html'; }
-        const name = v.substring(0, lastIndex).replace(/^[0-9]+-/, '');
+
+        const fileName = v.substring(0, lastIndex);
+        const name = fileName.replace(/^[0-9]+-/, '');
+
+        const mdFile = path.resolve(filePath, `../${fileName}.md`);
+        if (fs.existsSync(mdFile)) {
+            data.doc = fs.readFileSync(mdFile, 'utf-8');
+        }
         codes[name] = data;
     });
     return {

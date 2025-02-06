@@ -13,14 +13,18 @@
         <div
             v-for='(item, index) in list'
             :key='index'
-            class='jsbox-list-item'
-            :class='{active: activeIndex === index}'
-            :title='title(item)'
-            @click='switchCode(index)'
         >
             <div style='width:100%'>
-                <div class='jsbox-list-title'>{{ item.id }}</div>
-                <div class='jsbox-list-desc' v-if='item.desc'>{{ item.desc }}</div>
+                <div v-if='item.title' class='jsbox-list-title'>{{ item.title }}</div>
+                <div
+                    class='jsbox-list-item'
+                    :class='{active: activeIndex === index}'
+                    :title='title(item)'
+                    @click='switchCode(index)'
+                >
+                    <div class='jsbox-list-id'>{{ item.id }}</div>
+                    <div class='jsbox-list-desc' v-if='item.desc'>{{ item.desc }}</div>
+                </div>
             </div>
         </div>
     </div>
@@ -43,6 +47,10 @@
             event.regist(EVENT.CODE_MAP_INIT, (id) => {
                 this.initList(id);
             });
+            event.regist(EVENT.SWITCH_CODE, (id) => {
+                this.activeIndex = this.list.findIndex(item => item.id === id);
+                this.switchById(id);
+            });
         },
         methods: {
             title (item) {
@@ -52,8 +60,11 @@
                 if (index === this.activeIndex) return;
                 event.emit(EVENT.CLEAR_LOG);
                 this.activeIndex = index;
-                location.hash = this.list[index].id;
-                loadIdInConfigMap(this.list[index].id, () => {
+                this.switchById(this.list[index].id);
+            },
+            switchById (id) {
+                location.hash = id;
+                loadIdInConfigMap(id, () => {
                     event.emit(EVENT.RUN_CODE);
                     event.emit(EVENT.RECOUNT_FILE_SIZE);
                 });
@@ -77,19 +88,28 @@
     height: 100%;
     overflow: auto;
     padding-bottom: 25px;
+    .jsbox-list-title{
+        font-size: 14px;
+        color: #007acc;
+        padding: 5px 0;
+        padding-left: 15px;
+        border-left: 4px solid #777;
+    }
     .jsbox-list-item{
         padding: 0px 15px;
         width: 180px;
         height: 50px;
         border-left: 4px solid transparent;
         display: flex;
+        flex-direction: column;
         align-items: center;
+        justify-content: center;
         cursor: pointer;
         &.active{
             background-color: #fff;
             border-color: #007acc;
         }
-        .jsbox-list-title{
+        .jsbox-list-id{
             color: #000;
         }
         .jsbox-list-desc{
@@ -97,7 +117,7 @@
             font-size: 12px;
             margin-top: 3px;
         }
-        .jsbox-list-title, .jsbox-list-desc {
+        .jsbox-list-id, .jsbox-list-desc {
             width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;

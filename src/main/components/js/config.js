@@ -116,6 +116,8 @@ function valueToCodeItem (k, value) {
         desc: item.desc || '',
         needUI: item.needUI || (item.lang === 'html'),
         hideLog: item.hideLog || false,
+        doc: item.doc || '',
+        title: item.title || '',
         id: k
     };
 }
@@ -133,6 +135,8 @@ export function loadIdInConfigMap (id, success = () => {}, serachCode = '') {
             success: () => {
                 store.needUI = value.needUI;
                 store.hideLog = value.hideLog;
+                store.doc = value.doc;
+                store.id = value.id;
                 event.emit(EVENT.STORE_CHANGE, '');
                 setCode(_code);
                 success();

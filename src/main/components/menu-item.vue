@@ -15,7 +15,9 @@
                 <span v-if='item.type!==MENU_TYPE.SPLIT'>
                     <i v-if='item.icon' :class='"ei-"+item.icon+" ddi-icon"'></i>
                     <span class='dd-link ddi-name'>{{item.title}}{{item.type === MENU_TYPE.OPEN?'…':''}}</span>
-                    <span v-if='item.key' class='dd-link ddi-key'>{{item.key.join('+')}}</span>
+                    <span v-if='item.key' class='dd-link ddi-key'>
+                        <span v-for="(item,i) in item.key" :key="i"><span v-if="i>0" class="ddi-key-add">+</span>{{ item }}</span>
+                    </span>
                     <i v-if='item.type===MENU_TYPE.LINK' class='ei-angle-right ddi-link'></i>
                 </span>
             </div>
@@ -152,10 +154,16 @@
     }
     .ddi-key{
         float: right;
+        font-family: Menlo, Monaco, "Courier New", monospace;
+        font-size: 12px;
     }
     .ddi-link{
         position: absolute;
         right: 5px;
         top: 8px;
+    }
+    .ddi-key-add{
+        margin: 0 3px;
+        color: #777;
     }
 </style>

@@ -5,7 +5,13 @@
             <i :class='"ei-chevron-"+(htmlLog?"right":"left")'
                @click='toggleLogShow'
                :title='(htmlLog?"隐藏":"显示")+"log(ctrl + k)"'></i>
-            <div class='log-content' :class="{'jx-ui': jxUI}" id='jx-app' ref='logContent'></div>
+            <div class='log-content'>
+                <div :class="{'jx-ui': jxUI}" v-show="!hideHTMLResult" id='jx-app' ref='logContent'></div>
+                <div v-if="doc" class="jx-doc">
+                    <div class="jx-doc-title">{{id}} Docs</div>
+                    <div v-html="doc"></div>
+                </div>
+            </div>
         </div>
         <div class='log-log' @click="focusEditor" ref='logWrapper' :class='{"hide-log": !htmlLog}'>
             <!-- <div class='console-mask' @click='focuConsole'></div> -->
@@ -30,6 +36,7 @@
     import {getAttrFromCodeSrc} from '../../import';
     import './jx-demo';
     import {Console} from 'console-container';
+    import {parseMD, parseCode} from '../js/util';
     let lang = language.get();
 
 
@@ -44,8 +51,11 @@
                 htmlLog: true,
                 html: '',
                 showPh: true,
-
+                doc: '',
+                id: '',
                 initedLogEdit: false,
+
+                hideHTMLResult: false,
             };
         },
         mounted () {
@@ -73,7 +83,31 @@
                 },
                 [EVENT.STORE_CHANGE]: () => {
                     this.isHtml = this.needShowUI(language.get());
+                    this.hideHTMLResult = !this.isHtml;
                     this.htmlLog = !store.hideLog;
+                    this.id = store.id;
+
+                    if(store.doc) {
+                        const doc = parseMD(store.doc);
+                        const div = document.createElement('div');
+                        div.innerHTML = doc;
+                        const codes = div.querySelectorAll('code');
+                        if(codes.length > 0){
+                            for(let i=0;i<codes.length;i++){
+                                const el = codes[i];
+                                el.innerHTML = parseCode(el.innerText);
+                            }
+                            this.doc = div.innerHTML;
+                        }else{
+                            this.doc = doc;
+                        }
+                        if(!store.needUI){
+                            this.isHtml = true;
+                            this.hideHTMLResult = true;
+                        }
+                    }else{
+                        this.doc = '';
+                    }
                 },
             });
             initDrag(this.$refs.drag);

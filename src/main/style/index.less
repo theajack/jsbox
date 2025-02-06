@@ -66,8 +66,28 @@ html *{
 .log-content{
     width: 100%;
     height: 100%;
-    overflow-y: auto;
-    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    #jx-app{
+        overflow-y: auto;
+        padding: 10px;
+        flex: 1;
+    }
+    .jx-doc{
+        overflow-y: auto;
+        padding: 10px;
+        flex: 1;
+        border-top: 1px solid #ddd;
+
+        a {
+            color: #007acc;
+        }
+        .jx-doc-title{
+            color: #007acc;
+            border-bottom: 1px solid;
+            padding-bottom: 5px;
+        }
+    }
 }
 .log-html > i{
     z-index: 10;
@@ -288,7 +308,7 @@ body.dark{
         color: #fff;
     }
     .log-html > i{
-        background-color: #444a;
+        background-color: #333a;
     }
     .log-panel{
         background-color: #1e1e1e;
@@ -417,12 +437,15 @@ body.dark{
             &.active{
                 background-color: #222;
             }
-            .jsbox-list-title{
+            .jsbox-list-id{
                 color: #fff;
             }
             .jsbox-list-desc{
                 color: #aaa;
             }
         }
+    }
+    .jx-doc{
+        border-top: 1px solid #444!important;
     }
 }

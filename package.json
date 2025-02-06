@@ -81,6 +81,9 @@
     "webpack-dev-server": "^3.8.2"
   },
   "dependencies": {
+    "light-hl": "^0.0.3",
+    "link-dom": "^0.0.10",
+    "marked": "^15.0.6",
     "request": "^2.81.0"
   },
   "husky": {

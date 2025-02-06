@@ -40,3 +40,22 @@ npm run release -- dx.x.x
 https://purge.jsdelivr.net/gh/theajack/jsbox/cdn/assets/js/lib/env.js
 
 https://purge.jsdelivr.net/gh/theajack/jsbox/cdn/assets/js/lib/lib.js
+
+
+## 发布
+
+新建 assets/cdn, 将 cdn/assets, cdn/xxx.ttf 放入其中
+
+npm run build 之后
+
+将 docs/envs, docs/main.min.css, docs/main.min.js 移入 assets中
+
+执行 qiniu-upload中的脚本即可
+
+----
+
+重要：
+
+该项目架构太老太旧，不好扩展，新功能比较难以添加
+
+有待重构

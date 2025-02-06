@@ -5,6 +5,15 @@ import {Message} from 'element-ui';
 import 'element-ui/lib/theme-chalk/message.css';
 import event from './event';
 import {EVENT} from './constant';
+import {highlight} from 'light-hl';
+
+export function parseMD (v) {
+    return window.marked.marked(v);
+}
+
+export function parseCode (v) {
+    return highlight(v);
+}
 
 const TYPE = {
     SUCCESS: 'success',
@@ -111,8 +120,12 @@ copy(string); 复制内容到剪切板
 export function initWindowFunc () {
     window.log = console.log;
     window.copy = copyText;
+    // 以上为兼容旧版本
+    window.$log = console.log;
+    window.$copy = copyText;
     window.$run = () => event.emit(EVENT.RUN_CODE);
     window.$dom = window.LinkDom.dom;
+    window.$toast = toast;
     if (!window.$) {
         window.$ = (v) => {
             return document.querySelector(v);

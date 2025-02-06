@@ -1,0 +1,33 @@
+<!--
+ * @Author: chenzhongsheng
+ * @Date: 2025-02-06 01:16:52
+ * @Description: Coding something
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown to HTML</title>
+    <!-- 引入 marked 库 -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+
+<body>
+    <div id="output"></div>
+    <script>
+        // 假设这是你的 Markdown 文本
+        const markdownText = `# 标题
+这是一段**加粗**的文本。`;
+
+        // 将 Markdown 文本解析为 HTML
+        const html = marked.marked(markdownText);
+
+        // 将 HTML 插入到页面中
+        const outputDiv = document.getElementById('output');
+        outputDiv.innerHTML = html;
+    </script>
+</body>
+
+</html>

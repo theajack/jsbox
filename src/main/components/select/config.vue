@@ -1,3 +1,8 @@
+<!--
+ * @Author: chenzhongsheng
+ * @Date: 2025-02-05 23:57:11
+ * @Description: Coding something
+-->
 <template>
     <el-dialog
         ref='dialog'
@@ -68,16 +73,19 @@
                 this.value = '';
             },
             load () {
-                let url = location.href;
-                window.location.href =  url.replace(/[\?\&]id=.*?([\&#]|$)/, (str) => {
-                    let res = str.substr(0, 4);
-                    let tail = str[str.length - 1];
-                    res += this.value;
-                    if (tail === '#' || tail === '&') {
-                        res += tail;
-                    }
-                    return res;
-                });
+                // let url = location.href;
+                // window.location.href = url.replace(/[\?\&]id=.*?([\&#]|$)/, (str) => {
+                //     let res = str.substr(0, 4);
+                //     let tail = str[str.length - 1];
+                //     res += this.value;
+                //     if (tail === '#' || tail === '&') {
+                //         res += tail;
+                //     }
+                //     return res;
+                // });
+                event.emit(EVENT.SWITCH_CODE, this.value);
+                this.visible = false;
+                // console.log()
             },
         }
     };

@@ -37,7 +37,6 @@ window.jsboxConfig = {
         // 您的演示代码
     },
     // 其他配置
-    
     theme: 'dark', // 默认为 dark， 可选值为 dark，light
 }
 ```
@@ -97,6 +96,8 @@ codes 为一个Json类型，可以配置多个demo，当有多个key-value时，
         desc?: string, // 当前demo的描述信息
         hideLog?: boolean, // 是否需要隐藏调试工具，默认为false
         needUI?: boolean, // 是否需要展示UI，当lang=html时默认为true，否则默认为false
+        title?: string, // 开启新的章节并作为章节标题
+        doc?: string, // 当前示例的文档
     },
     // 其他demo
 }

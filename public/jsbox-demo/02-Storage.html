@@ -1,0 +1,24 @@
+<!-- @dep = history-stack --> 
+<div>
+    <button id="back">Back</button>
+    <button id="forward">Forward</button>
+</div>
+<input id="input"/><button id="add">Add</button>
+<script>
+    import {HistoryStack} from 'history-stack';
+    const history = new HistoryStack({
+        useStorage: true,
+    });
+    $('#back').onclick = ()=>{
+        if(!history.canBack()) return $toast('No history to back');
+        $('#input').value = history.back();
+    }
+    $('#forward').onclick = ()=>{
+        if(!history.canForward()) return $toast('Already latest');
+        $('#input').value = history.forward();
+    }
+    $('#add').onclick = ()=>{
+        history.push($('#input').value);
+        $('#input').value = '';
+    }
+</script>

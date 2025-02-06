@@ -8,6 +8,15 @@ importers:
 
   .:
     dependencies:
+      light-hl:
+        specifier: ^0.0.3
+        version: registry.npmmirror.com/light-hl@0.0.3
+      link-dom:
+        specifier: ^0.0.10
+        version: registry.npmmirror.com/link-dom@0.0.10
+      marked:
+        specifier: ^15.0.6
+        version: registry.npmmirror.com/marked@15.0.6
       request:
         specifier: ^2.81.0
         version: registry.npmmirror.com/request@2.88.2
@@ -8803,11 +8812,31 @@ packages:
       - supports-color
     dev: true
 
+  registry.npmmirror.com/light-hl@0.0.3:
+    resolution: {integrity: sha512-8xldo25EK/mfc0tlUnVVqIdw8P98xDUR0Lbe/ZHOoH6NIYAhFqoMVc05LaUofAL2px76Wy+x5fWsyCnbib9ZKA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/light-hl/-/light-hl-0.0.3.tgz}
+    name: light-hl
+    version: 0.0.3
+    dependencies:
+      link-dom: registry.npmmirror.com/link-dom@0.0.7
+    dev: false
+
   registry.npmmirror.com/lines-and-columns@1.2.4:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz}
     name: lines-and-columns
     version: 1.2.4
     dev: true
+
+  registry.npmmirror.com/link-dom@0.0.10:
+    resolution: {integrity: sha512-gUjHICrl00yncqjI0rZdVCulDo0mAH737/svfO7fYHpPmL+xldqohYKvt+cYD0Iai5KSEa3o+gTUvxsqDXVuhQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/link-dom/-/link-dom-0.0.10.tgz}
+    name: link-dom
+    version: 0.0.10
+    dev: false
+
+  registry.npmmirror.com/link-dom@0.0.7:
+    resolution: {integrity: sha512-scOdBI52XgEoGFr3U5pB4Ygp/f0G86tEgHGygtDLTTQoUBUb4wB0JWKuelprn32R9+voecUMUfZTRrli7w1beg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/link-dom/-/link-dom-0.0.7.tgz}
+    name: link-dom
+    version: 0.0.7
+    dev: false
 
   registry.npmmirror.com/lint-staged@9.5.0:
     resolution: {integrity: sha512-nawMob9cb/G1J98nb8v3VC/E8rcX1rryUYXVZ69aT9kde6YWX+uvNOEHY5yf2gcWcTJGiD0kqXmCnS3oD75GIA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/lint-staged/-/lint-staged-9.5.0.tgz}
@@ -9225,6 +9254,14 @@ packages:
       repeat-string: registry.npmmirror.com/repeat-string@1.6.1
       strip-color: registry.npmmirror.com/strip-color@0.1.0
     dev: true
+
+  registry.npmmirror.com/marked@15.0.6:
+    resolution: {integrity: sha512-Y07CUOE+HQXbVDCGl3LXggqJDbXDP2pArc2C1N1RRMN0ONiShoSsIInMd5Gsxupe7fKLpgimTV+HOJ9r7bA+pg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/marked/-/marked-15.0.6.tgz}
+    name: marked
+    version: 15.0.6
+    engines: {node: '>= 18'}
+    hasBin: true
+    dev: false
 
   registry.npmmirror.com/matchdep@2.0.0:
     resolution: {integrity: sha512-LFgVbaHIHMqCRuCZyfCtUOq9/Lnzhi7Z0KFUE2fhD54+JN2jLh3hC02RLkqauJ3U4soU6H1J3tfj/Byk7GoEjA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/matchdep/-/matchdep-2.0.0.tgz}

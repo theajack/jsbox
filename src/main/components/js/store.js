@@ -7,4 +7,6 @@ export const store = {
     needUI: false,
     hideLog: false,
     showCodeMap: false,
+    doc: '',
+    id: '',
 };

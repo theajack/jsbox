@@ -25,6 +25,33 @@ jsbox gen ./your/dir <format>
 
 format 为可选参数，默认为 false，true表示对生成的配置文件格式化
 
+该功能会将目标目录下面的js、html文件作为内容生成配置文件
+
+#### js demo
+
+```js
+// @needUI=false
+// @hideLog=false
+// @dep=xxx,xxx
+// @desc=副标题
+// @title=章节标题
+
+console.log('Hello')
+```
+
+#### html demo
+
+```html
+<!-- @hideLog=false -->
+<!-- 注释内容与js一致 -->
+
+<div>Hello</div>
+```
+
+### markdown 文件
+
+与js和html文件前缀名称相同即可
+
 #### 代码使用
 
 ```js

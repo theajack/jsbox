@@ -21,17 +21,21 @@ window.jsboxConfig = {
         'cnchar': 'cnchar',
         'tc-store': 'TCStore',
     },
-    theme: 'light',
+    // theme: 'light',
     codes: {
     //
         'testIifeMap': {
+            title: 'Base',
+            hideLog: true,
             code: 'import {version} from "cnchar";\nconsole.log(version);',
             dep: ['jsbox.cnchar'],
+            doc: '# 11\n ## 22 \n- aa\n- bb\n ```\nvar a = 1; \n```'
         },
         'helloWorld': {
             code: 'console.log("Hello world")',
             needUI: true,
             hideLog: true,
+            doc: '# 11\n ## 22 \n- aa\n- bb\n ```html\n<div>11</div> \n```'
         },
         //
         'helloWorld2': {
@@ -45,6 +49,7 @@ window.jsboxConfig = {
         },
         // 默认使用上面定义的所有依赖
         'testCnchar': {
+            title: 'Second',
             desc: '测试',
             code: 'cnchar.spell("你好")',
             dep: ['cnchar-order'] // 定义依赖，优先从当前文件中查找，如果没有会尝试在jsbox预定义库中查找
