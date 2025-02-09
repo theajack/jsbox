@@ -1,6 +1,6 @@
 {
   "name": "jsbox-cmd",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "JsBox Command Util",
   "repository": {
     "type": "git",
@@ -24,7 +24,9 @@
     "registry": "https://registry.npmjs.org/",
     "tag": "latest"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@tcbox/command-parser": "^0.0.1"
+  },
   "main": "index.js",
   "typings": "index.d.ts"
 }

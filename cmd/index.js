@@ -64,14 +64,28 @@ function initCodeMap ({
     output = path.resolve(input, '../jsbox.config.js'),
     configFile = path.resolve(input, '../jsbox.base.js'),
     format = false,
+    watch = false,
 }) {
     let base = {};
     if (fs.existsSync(configFile)) {
         base = require(configFile);
     }
+
+    initBase({base, input, output, format});
+
+    if (watch) {
+        fs.watch(input, () => {
+            initBase({base, input, output, format});
+        });
+    }
+};
+
+function initBase ({
+    base, input, output, format
+}) {
     const data = generateCodeMap(base, input);
     fs.writeFileSync(output, `window.jsboxConfig = ${format ? JSON.stringify(data, null, 4) : JSON.stringify(data)}`, 'utf-8');
-};
+}
 
 
 module.exports = {

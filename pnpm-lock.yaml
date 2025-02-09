@@ -39,6 +39,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^8.2.0
         version: registry.npmmirror.com/@commitlint/config-conventional@8.3.6
+      '@tcbox/command-parser':
+        specifier: ^0.0.1
+        version: registry.npmmirror.com/@tcbox/command-parser@0.0.1
       babel-eslint:
         specifier: ^10.0.3
         version: registry.npmmirror.com/babel-eslint@10.1.0(eslint@6.8.0)
@@ -1948,6 +1951,12 @@ packages:
       rxjs: registry.npmmirror.com/rxjs@6.6.7
     transitivePeerDependencies:
       - zenObservable
+    dev: true
+
+  registry.npmmirror.com/@tcbox/command-parser@0.0.1:
+    resolution: {integrity: sha512-LdmPs1cu/UCorY9BKsc0urzhwBGNOdKcF33c5EvhtmKyhQpsjxJ67UmcZ548hNuLiaqDWctf0kXsMfn0EXnDwA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tcbox/command-parser/-/command-parser-0.0.1.tgz}
+    name: '@tcbox/command-parser'
+    version: 0.0.1
     dev: true
 
   registry.npmmirror.com/@types/glob@7.2.0:

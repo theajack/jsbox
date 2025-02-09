@@ -20,10 +20,15 @@ npm install jsbox-cmd -g
 生成 jsboxConfig 的配置文件
 
 ```
-jsbox gen ./your/dir <format>
+jsbox gen ./your/dir --format --watch --output {outputPath} --config {configFilePath}
 ```
 
-format 为可选参数，默认为 false，true表示对生成的配置文件格式化
+后面的参数都为可选参数
+
+1. format: 是否对生成的配置文件格式化 
+2. watch: 是否开启监听同步
+3. output: 输出的文件路径
+4. config: 基础配置文件路径
 
 该功能会将目标目录下面的js、html文件作为内容生成配置文件
 
@@ -61,6 +66,7 @@ initCodeMap({
     output?: string,
     configFile?: string,
     format?: boolean,
+    watch?: boolean,
 });
 ```
 
