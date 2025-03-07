@@ -1,13 +1,27 @@
 # 🚀 [JsBox](https://www.github.com/theajack/jsbox) JS online running environment
 
-[English](https://github.com/theajack/jsbox#readme) | [Experience now](https://theajack.github.io/jsbox) | [Configuration experience address](https://theajack.github.io/jsbox?config=theajack.store)
+[中文](https://github.com/theajack/jsbox/blob/master/README.cn.md) | [Experience now](https://theajack.github.io/jsbox) | [Configuration experience address](https://theajack.github.io/jsbox?config=theajack.store)
 
 This is a project for running and debugging js online, and it also supports multiple programming highlights
 
 ![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox.png)
 
 <details>
-<summary>View more sample images</summary> ![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox1.png) ![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox2.png) ![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox3.png) ![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox4.png) ![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox5.png) </details> ## 0. Quickly insert your online demo
+<summary>View more sample images</summary> 
+
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox1.png)
+
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox2.png)
+
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox3.png)
+
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox4.png)
+
+![jsbox](https://cdn.jsdelivr.net/gh/theajack/jsbox/cdn/images/jsbox5.png)
+
+</details> 
+
+## 0. Quickly insert your online demo
 
 ### 0.1 Configuration file
 
