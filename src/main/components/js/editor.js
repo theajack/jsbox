@@ -10,6 +10,10 @@
 // import 'monaco-editor/esm/vs/basic-languages/javascript/javascript';
 // import 'monaco-editor/esm/vs/basic-languages/typescript/typescript';
 
+// import * as monaco from 'monaco-editor';
+
+// import './code-block/code-editor';
+
 export const THEME = {
     LIGHT: 'light',
     DARK: 'dark'
@@ -42,12 +46,12 @@ let Monaco = null;
 export function loadMonaco () {
     let timer = null;
     return new Promise((resolve) => {
-        if (window.monaco) {
-            resolve(window.monaco);
+        if (window.MonacoWrap) {
+            resolve(window.MonacoWrap);
         } else {
             timer = setInterval(() => {
-                if (window.monaco) {
-                    resolve(window.monaco);
+                if (window.MonacoWrap) {
+                    resolve(window.MonacoWrap);
                     clearInterval(timer);
                 }
             }, 200);
@@ -57,34 +61,34 @@ export function loadMonaco () {
 
 function initMonaco () {
     if (Monaco === null) {
-        Monaco = window.monaco;
+        Monaco = window.MonacoWrap;
         // liftOff(Monaco);
         // Monaco.languages.register({id: 'jx-js'});
         // Monaco.languages.setMonarchTokensProvider('jx-js', javascript);
         // Monaco.languages.register({id: 'jx-html'});
         // Monaco.languages.setMonarchTokensProvider('jx-html', html);
-        window.monaco.editor.defineTheme('vsc-dark', {
-            base: 'vs-dark',
-            inherit: true,
-            rules: [
-                {token: 'keyword1', foreground: '569cd6'},
-                {token: 'keyword2', foreground: 'c586c0'},
-                {token: 'keyword3', foreground: '3ac9b0'},
-                {token: 'identifier', foreground: '9cdcfe'},
-                {token: 'function', foreground: 'dcdcaa'}
-            ]
-        });
-        window.monaco.editor.defineTheme('vsc-light', {
-            base: 'vs',
-            inherit: true,
-            rules: [
-                {token: 'keyword1', foreground: '0000ff'},
-                {token: 'keyword2', foreground: 'af00db'},
-                {token: 'keyword3', foreground: '267f99'},
-                {token: 'identifier', foreground: '001090'},
-                {token: 'function', foreground: 'b27878'}
-            ]
-        });
+        // Monaco.editor.defineTheme('vsc-dark', {
+        //     base: 'vs-dark',
+        //     inherit: true,
+        //     rules: [
+        //         {token: 'keyword1', foreground: '569cd6'},
+        //         {token: 'keyword2', foreground: 'c586c0'},
+        //         {token: 'keyword3', foreground: '3ac9b0'},
+        //         {token: 'identifier', foreground: '9cdcfe'},
+        //         {token: 'function', foreground: 'dcdcaa'}
+        //     ]
+        // });
+        // Monaco.editor.defineTheme('vsc-light', {
+        //     base: 'vs',
+        //     inherit: true,
+        //     rules: [
+        //         {token: 'keyword1', foreground: '0000ff'},
+        //         {token: 'keyword2', foreground: 'af00db'},
+        //         {token: 'keyword3', foreground: '267f99'},
+        //         {token: 'identifier', foreground: '001090'},
+        //         {token: 'function', foreground: 'b27878'}
+        //     ]
+        // });
     }
 }
 export class Editor {
@@ -188,7 +192,8 @@ export class Editor {
     }
     changeTheme (theme) {
         Editor.theme = theme;
-        Monaco.editor.setTheme((theme === THEME.DARK ? 'vsc-dark' : 'vsc-light' ));
+        // Monaco.editor.setTheme((theme === THEME.DARK ? 'vsc-dark' : 'vsc-light' ));
+        Monaco.editor.setTheme((theme === THEME.DARK ? 'vs-dark-plus' : 'vs-light-plus' ));
         return theme;
     }
     toggleTheme () {

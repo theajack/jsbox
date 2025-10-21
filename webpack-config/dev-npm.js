@@ -1,5 +1,4 @@
 const path = require('path');
-// const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 module.exports = {
     mode: 'development',
     entry: path.resolve('./', 'public/dev-npm.js'),
