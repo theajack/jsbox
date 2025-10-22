@@ -239,7 +239,7 @@ export function getThemeFromCodeSrc () {
 
 export function initCodeSrcFromEnv (env) {
     let changed = false;
-    ['theme', 'wrapCode', 'needUI', 'useDefaultUI', 'hideLog', 'clearWhenReRun'].forEach(
+    ['theme', 'needUI', 'useDefaultUI', 'hideLog'].forEach(
         name => {
             if (typeof env[name] !== 'undefined') {
                 if (setAttrCodeSrc(name, env[name]))

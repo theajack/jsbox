@@ -2,6 +2,7 @@ import {tool as $, loading} from 'tacl-ui';
 import {toast, getUrlParam} from '../../js/util';
 import {EVENT} from '../../js/constant';
 import event from '../../js/event';
+import {GlobalInfo} from './iframe-runner';
 
 let showToastConfig = getUrlParam('mes') !== 'false';
 
@@ -157,6 +158,7 @@ export function loadResources ({
         let ele;
         if (item.type === 'script') {
             let addScript = () => {
+                GlobalInfo.scripts.push(`<script src="${item.url}"></script>`);
                 ele = $.create('script').attr('src', item.url);
                 $.query('body').append(ele);
                 appendOne(ele);
@@ -173,6 +175,14 @@ export function loadResources ({
                 addScript();
             }
         } else {
+            // GlobalInfo.styles.push(`<link ref="stylesheet" href="${item.url}">`);
+
+            fetch(item.url).then(res => res.text()).then(cssText => {
+                GlobalInfo.styles.push(`<style>${cssText}</style>`);
+            }).catch(() => {
+                GlobalInfo.styles.push(`<link ref="stylesheet" href="${item.url}">`);
+            });
+
             ele = $.create('link').attr({
                 rel: 'stylesheet',
                 href: item.url

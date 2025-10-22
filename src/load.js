@@ -98,7 +98,7 @@ export function loadResources ({
     if (jsboxLib) {
         libs.push(window.jsbox_libs);
     }
-    array =  checkResource(libs, array);
+    array = checkResource(libs, array);
     if (array.length === 0) {
         success();
         return;

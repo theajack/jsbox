@@ -9,7 +9,7 @@ import {download, openFile} from './file';
 import {isCustomConfig} from './config';
 import {Libs} from './lib';
 import {compressUrl} from '../../js/compress';
-import {getAttrFromCodeSrc, getGithubInfo} from '../../../import';
+import {getGithubInfo} from '../../../import';
 import {isMac} from '../../../util';
 
 const ctrlKey = isMac() ? 'cmd' : 'ctrl';
@@ -339,10 +339,6 @@ export let menus = [
                             exeJs(code);
                         }
                     });
-                }
-                if (getAttrFromCodeSrc('clearWhenReRun', false)) {
-                    const content = document.querySelector('.log-content');
-                    content.innerHTML = '';
                 }
             } else {
                 toast('只支持运行js和html代码');

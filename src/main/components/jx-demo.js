@@ -9,11 +9,9 @@
 //     window.jsboxCode = {
 //         lib: 'https://cdn.jsdelivr.net/npm/alins',
 //         lang: 'js',
-//         wrapCode: true,
 //         needUI: true,
 //         hideLog: true,
 //         useDefaultUI: true,
-//         clearWhenReRun: true,
 //         code: /* javascript */`const { button, comp, click, $, mount } = Alins;
     
 //     function Count () {
