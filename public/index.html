@@ -15,7 +15,7 @@
     <title>JSBox js在线运行环境</title>
     <script src="./lib/lib.js"></script>
     <script src="./lib/env.js"></script>
-    <link rel="stylesheet" type="text/css" href="./monaco-dist/style.css">
+    <link rel="stylesheet" type="text/css" href="./new-cdn/style.css">
 </head>
 <body>
     <div id="app"></div>
@@ -35,7 +35,8 @@
             window.define = null;
         }
     </script>
-    <script type="module" src="/monaco-dist/test.mjs"></script>
+    <script type="module" src="./new-cdn/test.mjs"></script>
     <script type="module" src="./bundle.js"></script>
+    <!-- dev过程中有 Error: Unexpected usage 的报错没关系，发布之后部署到一个目录下就没有问题了-->
 </body>
 </html>
