@@ -25,7 +25,8 @@
 	<script src="https://cdn.jsdelivr.net/npm/link-dom"></script>
     <script src="./lib/babel.standalone.js"></script>
     <script src="./lib/less.standalone.js" ></script>
-    <script >
+    <script type="module">
+        window._JX_BASE = '/jsbox'
         window.DEFINE = window.define;
         window.useDefine = function(){
             window.define = window.__define;
