@@ -65,3 +65,8 @@ npm run build 之后
 
 1. 开发完成后 npm run build
 2. docs/envs 下所有文件 和 docs/main.min.css 和 docs/main.min.js 复制到 gh-pages分支下的lib 替换所有重名push即可
+
+发布到CDN
+
+1. 开发完成后 npm run build
+2. docs/envs 下所有文件 和 docs/main.min.css 和 docs/main.min.js 复制到 public/new-cdn/lib 替换所有重名，然后将new-cdn部署到cdn即可

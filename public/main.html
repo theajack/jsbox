@@ -1,0 +1,93 @@
+<!--
+ * @Author: chenzhongsheng
+ * @Date: 2025-01-22 11:16:21
+ * @Description: Coding something
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, max-scale=1.0">
+    <meta name="keywords" content="JSBox,js沙盒环境,在线运行代码,在线演示">
+    <meta name="description" content="js在线运行环境,支持引入npm包">
+    <link rel="shortcut icon" href="./new-cdn/icon.ico" type="image/x-icon">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JSBox js在线运行环境</title>
+    <script src="./new-cdn/lib/lib.js"></script>
+    <script src="./new-cdn/lib/env.js"></script>
+    <link rel="stylesheet" type="text/css" href="./new-cdn/style.css">
+    <link rel="stylesheet" href="./new-cdn/lib/main.min.css">
+</head>
+<body>
+    
+    <div id="app"></div>
+    <!-- 支持markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/link-dom"></script>
+    <script src="./new-cdn/lib/babel.standalone.js"></script>
+    <script src="./new-cdn/lib/less.standalone.js" ></script>
+    <script >
+        window.DEFINE = window.define;
+        window.useDefine = function(){
+            window.define = window.__define;
+        }
+        window.resetDefine = function(){
+            window.__define = window.define;
+            window.define = null;
+        }
+    </script>
+    <script type="module" src="./new-cdn/test.mjs"></script>
+    <!-- <script type="module">
+      const hashType = 'jsx';
+      class Editor {
+        constructor ({ dom, onchange, code = '' }) {
+            this.dom = dom;
+            this.editor = window.MonacoWrap.editor.create(dom, {
+                automaticLayout: true,
+                value: code,
+                padding: { top: 5 },
+                language: 'typescript', // hashType === 'html' ? 'html' : 'typescript',
+                // theme: hashType === 'html' ? 'vs-dark' : 'vs-dark-plus',
+                // theme: 'vs-light-plus',
+                theme: 'vs-dark-plus',
+                fontSize: 14,
+                lineDecorationsWidth: 5,
+                lineNumbersMinChars: 3,
+                minimap: {
+                    enabled: false,
+                }
+            });
+
+            // this.editor.setModel(codeModel);
+
+            if (onchange) {
+                this.editor.onDidChangeModelContent(() => {
+                    onchange(this.code());
+                });
+            }
+
+        }
+        code (v) {
+            if (typeof v === 'string') {
+                this.editor.setValue(v);
+                return this;
+            } else {
+                return this.editor.getValue();
+            }
+        }
+    }
+    window.MonacoWrap.initEditorConfig(hashType);
+    document.body.style.height = '100px'
+    const _editor = new Editor({
+        // @ts-ignore
+        dom: document.body,
+        code: 'console.log("111")',
+        onchange: ()=>{},
+    });
+
+    window._editor = _editor;
+  </script> -->
+    <script type="module" src="./new-cdn/lib/main.min.js"></script>
+    <!-- 报错Could not create web worker(s)解决方案 https://github.com/TypeFox/monaco-languageclient/issues/853 -->
+</body>
+</html>
