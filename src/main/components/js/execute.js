@@ -2,17 +2,18 @@ import {toast, loading} from 'tacl-ui';
 import event from '../../js/event';
 import {EVENT} from '../../js/constant';
 import {loadResources} from './lib';
-import {getAttrFromCodeSrc} from '../../../import';
+// import {getAttrFromCodeSrc} from '../../../import';
 import {enableRequire} from './require';
 import {initWindowApp} from '../../../main/js/util';
+import {createIFrameSrc, GlobalInfo} from './iframe-runner';
 let inExe = false;
 let script = null;
 
 function clearAppContainer () {
-    const el = document.getElementById('jx-app');
-    if (el) {
-        el.innerHTML = '';
-    }
+    // const el = document.getElementById('jx-app');
+    // if (el) {
+    //     el.innerHTML = '';
+    // }
 }
 
 export function exeHTML (code) {
@@ -27,6 +28,7 @@ export function exeHTML (code) {
     code = extractLink(code, libs);
     let res = extractScript(code, libs);
     code = res.html.trim();
+    GlobalInfo.html = code || '';
     let exe = () => {
         event.emit(EVENT.HTML_CONTENT_CHANGE, code);
         if (res.js) {
@@ -164,18 +166,22 @@ export function exeJs (code, clear = true) {
     inExe = true;
 
     loading();
-    if (getAttrFromCodeSrc('wrapCode', true)) {
-        code = `(function(){${code}})()`;
-    }
-    let blob = new Blob([code], {type: 'application/text'});
-    let objectURL = window.URL.createObjectURL(blob);
-    script = document.createElement('script');
-    script.onload = () => {
-        inExe = false;
-        loading.close();
-    };
-    script.src = objectURL;
-    document.body.appendChild(script);
+
+    const src = createIFrameSrc(code);
+    event.emit(EVENT.IFRAME_SRC, src);
+
+    inExe = false;
+    loading.close();
+
+    // let blob = new Blob([code], {type: 'application/text'});
+    // let objectURL = window.URL.createObjectURL(blob);
+    // script = document.createElement('script');
+    // script.onload = () => {
+    //     inExe = false;
+    //     loading.close();
+    // };
+    // script.src = objectURL;
+    // document.body.appendChild(script);
 }
 
 function symbol (code) {

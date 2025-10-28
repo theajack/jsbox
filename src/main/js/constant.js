@@ -63,6 +63,8 @@ export const EVENT = {
     RECOUNT_FILE_SIZE: 'RECOUNT_FILE_SIZE',
 
     SWITCH_CODE: 'SWITCH_CODE',
+
+    IFRAME_SRC: 'IFRAME_SRC',
 };
 
 export const TOOL_HEIGHT = 30;

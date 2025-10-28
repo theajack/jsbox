@@ -6,7 +6,9 @@
                @click='toggleLogShow'
                :title='(htmlLog?"隐藏":"显示")+"log(ctrl + k)"'></i>
             <div class='log-content'>
-                <div :class="{'jx-ui': jxUI}" v-show="!hideHTMLResult" id='jx-app' ref='logContent'></div>
+                <div :class="{'jx-ui': jxUI}" v-show="!hideHTMLResult" id='jx-app'>
+                    <iframe  sandbox="allow-same-origin allow-scripts" :src="iframeSrc" style="height: 100%;border: none;"/>
+                </div>
                 <div v-if="doc" class="jx-doc">
                     <div class="jx-doc-title">{{id}} Docs</div>
                     <div v-html="doc"></div>
@@ -55,11 +57,26 @@
                 initedLogEdit: false,
 
                 hideHTMLResult: false,
+                iframeSrc: '',
+
+                iframeLoading: true,
             };
         },
         mounted () {
             console.log('mounted log');
             this.initCodeConfig();
+            window.addEventListener('message', (e)=>{
+                const data = e.data;
+                if(data.type === 'iframe_log'){
+                    console.log(...data.data);
+                }else if(data.type === 'iframe_clear_log'){
+                    console.clear();
+                }else if(data.type === 'iframe_loaded'){
+                    this.iframeLoading = false;
+                }else if(data.type === 'run_code'){
+                    event.emit(EVENT.RUN_CODE);
+                }
+            });
             event.regist({
                 [EVENT.JSBOX_CODE_CHANGE]: () => {
                     this.initCodeConfig();
@@ -78,7 +95,11 @@
                 },
                 [EVENT.HTML_CONTENT_CHANGE]: (html) => {
                     this.html = html;
-                    this.$refs.logContent.innerHTML = html;
+                    // this.$refs.logContent.innerHTML = html;
+                },
+                [EVENT.IFRAME_SRC]: (src) => {
+                    this.iframeSrc = src;
+                    // this.$refs.logContent.innerHTML = html;
                 },
                 [EVENT.STORE_CHANGE]: () => {
                     this.isHtml = this.needShowUI(language.get());

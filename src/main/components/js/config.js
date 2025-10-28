@@ -9,6 +9,7 @@ import event from '../../js/event';
 import {initCodeSrcFromEnv, parseGithubParam} from '../../../import';
 import {store} from './store';
 import {getCodeConfig} from './require';
+// import {GlobalInfo} from './iframe-runner';
 
 // config > env > lib
 
@@ -155,6 +156,7 @@ export function loadIdInConfigMap (id, success = () => {}, serachCode = '') {
 
 export function initConfig (serachCode, success = () => {}, none = () => {}) {
     let url = getUrlParam('config');
+
     
     if (!/^https?:\/\//.test(url)) {
         url = parseGithubParam('config', 'jsbox.config.js'); ;

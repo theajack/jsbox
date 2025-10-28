@@ -22,6 +22,7 @@
     <!-- 支持markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/link-dom"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tacl-ui"></script>
     <script src="./lib/babel.standalone.js"></script>
     <script src="./lib/less.standalone.js" ></script>
     <script >
@@ -35,56 +36,6 @@
         }
     </script>
     <script type="module" src="/monaco-dist/test.mjs"></script>
-    <!-- <script type="module">
-      const hashType = 'jsx';
-      class Editor {
-        constructor ({ dom, onchange, code = '' }) {
-            this.dom = dom;
-            this.editor = window.MonacoWrap.editor.create(dom, {
-                automaticLayout: true,
-                value: code,
-                padding: { top: 5 },
-                language: 'typescript', // hashType === 'html' ? 'html' : 'typescript',
-                // theme: hashType === 'html' ? 'vs-dark' : 'vs-dark-plus',
-                // theme: 'vs-light-plus',
-                theme: 'vs-dark-plus',
-                fontSize: 14,
-                lineDecorationsWidth: 5,
-                lineNumbersMinChars: 3,
-                minimap: {
-                    enabled: false,
-                }
-            });
-
-            // this.editor.setModel(codeModel);
-
-            if (onchange) {
-                this.editor.onDidChangeModelContent(() => {
-                    onchange(this.code());
-                });
-            }
-
-        }
-        code (v) {
-            if (typeof v === 'string') {
-                this.editor.setValue(v);
-                return this;
-            } else {
-                return this.editor.getValue();
-            }
-        }
-    }
-    window.MonacoWrap.initEditorConfig(hashType);
-    document.body.style.height = '100px'
-    const _editor = new Editor({
-        // @ts-ignore
-        dom: document.body,
-        code: 'console.log("111")',
-        onchange: ()=>{},
-    });
-
-    window._editor = _editor;
-  </script> -->
-  <script type="module" src="./bundle.js"></script>
+    <script type="module" src="./bundle.js"></script>
 </body>
 </html>
