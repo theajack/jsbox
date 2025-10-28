@@ -91,7 +91,8 @@ function initMonaco () {
         // });
     }
 }
-export class Editor {
+window.MonacoWrap.initEditorConfig('jsx');
+export class JsboxEditor {
     constructor ({
         el,
         code = '',
@@ -104,6 +105,9 @@ export class Editor {
         option = {}
     }) {
         initMonaco();
+        Object.assign(option, {
+            theme: 'vs-dark-plus'
+        });
         this.wordWrap = option.wordWrap || 'off';
         this.onchange = onchange;
         this.oncursorchange = oncursorchange;
@@ -121,11 +125,12 @@ export class Editor {
         if (theme !== THEME.LIGHT) {
             this.changeTheme(theme);
         } else {
-            Editor.theme = THEME.LIGHT;
+            JsboxEditor.theme = THEME.LIGHT;
         }
         setTimeout(() => {
             this.resize();
         }, 100);
+
     }
     _initEditor (code) {
         code = typeof code === 'string' ? code : this.code();
@@ -139,7 +144,10 @@ export class Editor {
         } else {
             this.option.model = null;
             this.option.fontSize = this.fontSize;
-            this.editor = Monaco.editor.create(this.el, this.option);
+            this.editor = Monaco.editor.create(this.el, {
+                ...this.option,
+                theme: 'vs-dark-plus',
+            });
             this.changeLang(this.lang, code);
         }
         if (this.onchange) {
@@ -170,6 +178,7 @@ export class Editor {
     changeLang (lang, code) {
         code = code || this.code();
         let oldModel = this.editor.getModel();
+        if (lang === 'javascript' || lang === 'js') lang = 'typescript';
         this.lang = lang;
         if (this.type === 'editor') {
             let newModel = Monaco.editor.createModel(code, lang);
@@ -189,15 +198,16 @@ export class Editor {
                 if (oldModel.modified) {oldModel.modified.dispose();}
             }
         }
+        window.__ed = this.editor;
     }
     changeTheme (theme) {
-        Editor.theme = theme;
+        JsboxEditor.theme = theme;
         // Monaco.editor.setTheme((theme === THEME.DARK ? 'vsc-dark' : 'vsc-light' ));
-        Monaco.editor.setTheme((theme === THEME.DARK ? 'vs-dark-plus' : 'vs-light-plus' ));
+        Monaco.editor.setTheme((theme === THEME.DARK ? 'vs-dark-plus' : 'vs-light' ));
         return theme;
     }
     toggleTheme () {
-        return this.changeTheme((Editor.theme === THEME.DARK ? THEME.LIGHT : THEME.DARK ));
+        return this.changeTheme((JsboxEditor.theme === THEME.DARK ? THEME.LIGHT : THEME.DARK ));
     }
     destroy () {
         let model = this.editor.getModel();

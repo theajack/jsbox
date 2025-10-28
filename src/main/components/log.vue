@@ -39,7 +39,6 @@
     import {parseMD, parseCode} from '../js/util';
     let lang = language.get();
 
-
     export default {
         components: {ConsoleEditor},
         data () {

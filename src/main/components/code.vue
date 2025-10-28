@@ -5,7 +5,7 @@
 </template>
 <script>
     import '../style/editor.less';
-    import {Editor, LANG, THEME, loadMonaco, ALIAS} from './js/editor';
+    import {JsboxEditor, LANG, THEME, loadMonaco, ALIAS} from './js/editor';
     import {store} from './js/store';
     import event from '../js/event';
     import {EVENT} from '../js/constant';
@@ -26,7 +26,7 @@
         mounted () {
             this.setPercent(dragPercent.get());
             loadMonaco().then(() => {
-                let editor = new Editor({
+                let editor = new JsboxEditor({
                     el: this.$refs.editor,
                     fontSize: fontSize.get(),
                     onchange () {

@@ -1,0 +1,116 @@
+<!--
+ * @Author: chenzhongsheng
+ * @Date: 2025-01-22 11:16:21
+ * @Description: Coding something
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, max-scale=1.0">
+    <meta name="keywords" content="JSBox,js沙盒环境,在线运行代码,在线演示">
+    <meta name="description" content="js在线运行环境,支持引入npm包">
+    <!-- <link rel="shortcut icon" href="./icon.ico" type="image/x-icon"> -->
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JSBox js在线运行环境</title>
+	<!-- <link rel="stylesheet" href="./css/editor.css"> -->
+    <!-- <link rel="stylesheet" href="./css/editor.main.css"> -->
+    <!-- <link rel="stylesheet" href="https://gitee.com/theajack/tc-editor/raw/master/assets/css/index.css"> -->
+	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.41.0/min/vs/editor/editor.main.css"> -->
+    <!-- <script src="./lib/lib.js"></script>
+    <script src="./lib/env.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.shiyix.cn/new-monaco/dist/index-b5982fe0.css">
+</head>
+<body>
+    <div id="app"></div>
+    <!-- 支持markdown -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/link-dom"></script>
+    <!-- <script src="./lib/babel.standalone.js"></script>
+    <script src="./lib/less.standalone.js" ></script> -->
+    <script>
+        window.__monaco_assets = 'https://cdn.shiyix.cn/new-monaco/dist'
+    </script>
+    <!-- <script type="application/javascript" src="https://cdn.shiyix.cn/new-monaco/dist/index-6a8455a8.js"></script> -->
+    <!-- <script>
+    
+    var require = { paths: { 'vs': 'http://'+location.host+'/vs' } };
+    </script>
+    <script src="./js/loader.js"></script>
+    <script src="./js/editor.main.nls.js"></script>
+    <script src="./js/editor.main.js"></script> -->
+    <script>
+        window.DEFINE = window.define;
+        window.useDefine = function(){
+            window.define = window.__define;
+        }
+        window.resetDefine = function(){
+            window.__define = window.define;
+            window.define = null;
+        }
+    </script>
+    <!-- <script src="./bundle.js"></script> -->
+
+    <!-- <script>
+        window.__monaco_assets = '/new-monaco/dist'
+    </script>
+    <script type="application/javascript" src="/new-monaco/dist/index-6a8455a8 copy.js"></script> -->
+
+
+    <script>
+        window.__monaco_assets = 'https://cdn.shiyix.cn/new-monaco/dist'
+    </script>
+    <script type="application/javascript" src="https://cdn.shiyix.cn/new-monaco/dist/index-6a8455a8.js"></script>
+    <script>
+      const hashType = 'jsx';
+      class Editor {
+        constructor ({ dom, onchange, code = '' }) {
+            this.dom = dom;
+            this.editor = window.MonacoWrap.editor.create(dom, {
+                automaticLayout: true,
+                value: code,
+                padding: { top: 5 },
+                language: 'typescript', // hashType === 'html' ? 'html' : 'typescript',
+                // theme: hashType === 'html' ? 'vs-dark' : 'vs-dark-plus',
+                // theme: 'vs-light-plus',
+                theme: 'vs-dark-plus',
+                fontSize: 14,
+                lineDecorationsWidth: 5,
+                lineNumbersMinChars: 3,
+                minimap: {
+                    enabled: false,
+                }
+            });
+
+            // this.editor.setModel(codeModel);
+
+            if (onchange) {
+                this.editor.onDidChangeModelContent(() => {
+                    onchange(this.code());
+                });
+            }
+
+        }
+        code (v) {
+            if (typeof v === 'string') {
+                this.editor.setValue(v);
+                return this;
+            } else {
+                return this.editor.getValue();
+            }
+        }
+    }
+    window.MonacoWrap.initEditorConfig(hashType);
+    document.body.style.height = '100px'
+    const _editor = new Editor({
+        // @ts-ignore
+        dom: document.body,
+        code: 'console.log("111")',
+        onchange: ()=>{},
+    });
+
+    window._editor = _editor;
+
+    </script>
+</body>
+</html>

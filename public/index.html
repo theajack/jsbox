@@ -13,13 +13,9 @@
     <link rel="shortcut icon" href="./icon.ico" type="image/x-icon">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>JSBox js在线运行环境</title>
-	<!-- <link rel="stylesheet" href="./css/editor.css"> -->
-    <!-- <link rel="stylesheet" href="./css/editor.main.css"> -->
-    <!-- <link rel="stylesheet" href="https://gitee.com/theajack/tc-editor/raw/master/assets/css/index.css"> -->
-	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.41.0/min/vs/editor/editor.main.css"> -->
     <script src="./lib/lib.js"></script>
     <script src="./lib/env.js"></script>
-    <link rel="stylesheet" href="/new-monaco/index-b5982fe0.css">
+    <link rel="stylesheet" type="text/css" href="./monaco-dist/style.css">
 </head>
 <body>
     <div id="app"></div>
@@ -28,18 +24,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/link-dom"></script>
     <script src="./lib/babel.standalone.js"></script>
     <script src="./lib/less.standalone.js" ></script>
-    <script>
-        window.__monaco_assets = '/new-monaco'
-    </script>
-    <script src="/new-monaco/index-6a8455a8.js"></script>
-    <!-- <script>
-    
-    var require = { paths: { 'vs': 'http://'+location.host+'/vs' } };
-    </script>
-    <script src="./js/loader.js"></script>
-    <script src="./js/editor.main.nls.js"></script>
-    <script src="./js/editor.main.js"></script> -->
-    <script>
+    <script >
         window.DEFINE = window.define;
         window.useDefine = function(){
             window.define = window.__define;
@@ -49,10 +34,8 @@
             window.define = null;
         }
     </script>
-    <script src="./bundle.js"></script>
-
-    <script>
-        window.__monaco_assets = '/new-monaco'
+    <script type="module" src="/monaco-dist/test.mjs"></script>
+    <!-- <script type="module">
       const hashType = 'jsx';
       class Editor {
         constructor ({ dom, onchange, code = '' }) {
@@ -101,7 +84,7 @@
     });
 
     window._editor = _editor;
-
-    </script>
+  </script> -->
+  <script type="module" src="./bundle.js"></script>
 </body>
 </html>

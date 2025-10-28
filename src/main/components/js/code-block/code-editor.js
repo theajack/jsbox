@@ -4,8 +4,8 @@
  * @Description: Coding something
  */
 // import { debounce } from 'src/utils';
-import {Editor} from './monaco';
-const _editor = new Editor({
+import {JsboxEditor} from './monaco';
+const _editor = new JsboxEditor({
     // @ts-ignore
     dom: document.getElementById('app'),
     code: 'console.log(\'Hello\')',

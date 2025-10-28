@@ -6,7 +6,7 @@
     </div>
 </template>
 <script>
-    import {Editor, loadMonaco, LANG} from './js/editor';
+    import {JsboxEditor, loadMonaco, LANG} from './js/editor';
     import event from '../js/event';
     import {EVENT} from '../js/constant';
     import {fontSize, theme} from '../js/status';
@@ -59,7 +59,7 @@
         methods: {
             initEditor () {
                 loadMonaco().then(() => {
-                    this.editor = new Editor({
+                    this.editor = new JsboxEditor({
                         el: this.$refs.editor,
                         code: '',
                         lang: LANG.JAVASCRIPT,

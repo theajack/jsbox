@@ -121,7 +121,7 @@ function getHashType () {
 
 initEditorConfig(hashType);
 
-export class Editor {
+export class JsboxEditor {
     dom = null;
 
     editor = null;

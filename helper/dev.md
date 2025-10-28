@@ -59,3 +59,9 @@ npm run build 之后
 该项目架构太老太旧，不好扩展，新功能比较难以添加
 
 有待重构
+
+
+## 接入新版本monaco后流程
+
+1. 开发完成后 npm run build
+2. docs/envs 下所有文件 和 docs/main.min.css 和 docs/main.min.js 复制到 gh-pages分支下的lib 替换所有重名push即可

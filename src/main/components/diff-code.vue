@@ -9,7 +9,7 @@
     </el-dialog>
 </template>
 <script>
-    import {Editor} from './js/editor';
+    import {JsboxEditor} from './js/editor';
     import event from '../js/event';
     import {EVENT} from '../js/constant';
     import {code, fontSize, theme, language} from '../js/status';
@@ -53,7 +53,7 @@
                 this.visible = true;
                 this.$nextTick(() => {
                     event.emit(EVENT.USE_CODE, c => {
-                        this.editor = new Editor({
+                        this.editor = new JsboxEditor({
                             el: this.$refs.editor,
                             code: c,
                             lang: language.get(),

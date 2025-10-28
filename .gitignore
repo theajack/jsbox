@@ -9,3 +9,7 @@ packages
 old
 .DS_Store
 assets
+dist
+new-pub
+public/monaco-dist
+new-cdn
