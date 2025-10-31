@@ -1,6 +1,6 @@
 import {MENU_TYPE, EVENT} from '../../js/constant';
 import event from '../../js/event';
-import {code, language, theme, wordWrap} from '../../js/status';
+import {chinese, code, language, theme, wordWrap} from '../../js/status';
 import {copyText} from '../../log/util';
 import {LANG, THEME} from './editor';
 import {exeHTML, exeJs} from './execute';
@@ -12,15 +12,19 @@ import {compressUrl} from '../../js/compress';
 import {getGithubInfo} from '../../../import';
 import {isMac} from '../../../util';
 
-const ctrlKey = isMac() ? 'cmd' : 'ctrl';
+const ctrlKey = isMac() ? '⌘' : 'ctrl';
 
 export let menus = [
     {
-        title: '编辑',
+        text: '',
+        chinese: '编辑',
+        english: 'Edit',
         active: false,
         items: [{
             icon: 'file-o',
-            title: '打开文件',
+            text: '',
+            chinese: '打开文件',
+            english: 'Open File',
             key: [ctrlKey, 'o'],
             onclick () {
                 setTimeout(openFile);
@@ -31,12 +35,14 @@ export let menus = [
             type: MENU_TYPE.OPEN,
         }, {
             icon: 'save',
-            title: '暂存',
+            text: '',
+            chinese: '暂存',
+            english: 'Save',
             key: [ctrlKey, 's'], // 默认null
             onclick () {
                 event.emit(EVENT.USE_CODE, (value) => {
                     code.set(value, true, false);
-                    toast('暂存代码成功');
+                    toast(chinese.get() ? '暂存代码成功' : 'Code saved');
                 });
             },
             mounted () {
@@ -45,7 +51,9 @@ export let menus = [
             type: MENU_TYPE.FUNC,
         }, {
             icon: 'download-alt',
-            title: '保存到本地',
+            text: '',
+            chinese: '保存到本地',
+            english: 'Save to Local',
             onclick () {
                 setTimeout(() => {
                     download();
@@ -56,7 +64,9 @@ export let menus = [
             type: MENU_TYPE.SPLIT
         }, {
             icon: 'copy',
-            title: '复制',
+            text: '',
+            chinese: '复制',
+            english: 'Copy',
             key: [ctrlKey, 'p'],
             onclick () {
                 event.emit(EVENT.USE_CODE, (value) => {
@@ -70,7 +80,9 @@ export let menus = [
             type: MENU_TYPE.FUNC,
         }, {
             icon: 'trash',
-            title: '清空',
+            text: '',
+            chinese: '清空',
+            english: 'Clear',
             key: [ctrlKey, 'd'],
             onclick () {
                 event.emit(EVENT.OPEN_CONFIRM, {
@@ -86,7 +98,9 @@ export let menus = [
             type: MENU_TYPE.FUNC,
         }, {
             icon: 'history',
-            title: '重置',
+            text: '',
+            chinese: '重置',
+            english: 'Reset',
             key: [ctrlKey, 'q'],
             onclick () {
                 event.emit(EVENT.OPEN_CONFIRM, {
@@ -104,26 +118,34 @@ export let menus = [
             type: MENU_TYPE.SPLIT
         },  {
             icon: 'random',
-            title: '与暂存版本对比',
+            text: '',
+            chinese: '与暂存版本对比',
+            english: 'Diff',
             onclick () {
                 event.emit(EVENT.OPEN_DIFF);
             },
             type: MENU_TYPE.OPEN,
         }]
     }, {
-        title: '外观',
+        text: '',
+        chinese: '外观',
+        english: 'Appearance',
         active: false,
         items: [{
-            title: '放大字体',
+            text: '',
             icon: 'zoom-in',
+            chinese: '放大字体',
+            english: 'Zoom In',
             key: [ctrlKey, '-'], // 默认null
             onclick () {
                 event.emit(EVENT.FONT_SIZE_CHANGE, 'up');
                 return false;
             },
         }, {
-            title: '缩小字体',
+            text: '',
             icon: 'zoom-out',
+            chinese: '缩小字体',
+            english: 'Zoom Out',
             key: [ctrlKey, '+'], // 默认null
             onclick () {
                 event.emit(EVENT.FONT_SIZE_CHANGE, 'down');
@@ -132,13 +154,38 @@ export let menus = [
         }, {
             type: MENU_TYPE.SPLIT
         }, {
-            title: '切换深色主题',
+            text: '',
+            chinese: 'Use English',
+            english: '使用中文',
+            icon: 'heart-empty',
+            methods: {
+                setInfo (item) {
+                    item.icon = chinese.get() ? 'font' : 'heart-empty';
+                },
+            },
+            onclick () {
+                chinese.set(!chinese.get());
+                this.methods.setInfo(this);
+                return false;
+            },
+            mounted () {
+                this.methods.setInfo(this);
+                event.regist(EVENT.THEME_TOGGLE, () => {
+                    this.onclick(false);
+                });
+            }
+        }, {
+            type: MENU_TYPE.SPLIT
+        }, {
+            text: '',
+            chinese: '切换主题',
+            english: 'Toggle Theme',
             icon: 'moon',
             key: [ctrlKey, 'p'],
             methods: {
                 setInfo (item) {
                     let isDark = theme.get() === THEME.DARK;
-                    item.title = `切换${isDark ? '浅色' : '深色'}主题`;
+                    item.title = chinese.get() ? `切换${isDark ? '浅色' : '深色'}主题` : `Toggle ${isDark ? 'Light' : 'Dark'} Theme`;
                     item.icon = isDark ? 'sun' : 'moon';
                 },
             },
@@ -154,13 +201,16 @@ export let menus = [
                 });
             }
         }, {
-            title: '开启代码换行',
+            text: '',
             icon: 'level-down',
+            chinese: '切换代码换行',
+            english: 'Toggle Word Wrap',
             key: [ctrlKey, 'h'],
             methods: {
                 setInfo (item) {
                     let bool = wordWrap.get();
-                    item.title = `${bool ? '关闭' : '开启'}代码换行`;
+                    item.title = chinese.get() ? `${bool ? '关闭' : '开启'}代码换行` : `${bool ? 'Close' : 'Open'} Word Wrap`;
+
                 },
             },
             onclick () {
@@ -175,8 +225,10 @@ export let menus = [
                 });
             }
         }, {
-            title: '全屏',
+            text: '',
             icon: 'expand-full',
+            chinese: '切换全屏',
+            english: 'Toggle Fullscreen',
             key: ['f11'],
             methods: {
                 fullScreenChange () {
@@ -204,19 +256,25 @@ export let menus = [
             }
         }]
     }, {
-        title: '环境',
+        text: '',
+        chinese: '环境',
+        english: 'Environment',
         active: false,
         items: [{
-            title: '加载第三方库',
+            text: '',
             icon: 'book',
+            chinese: '加载第三方库',
+            english: 'Load Library',
             key: [ctrlKey, 'l'], // 默认null
             onclick () {
                 event.emit(EVENT.OPEN_LIB_CHOOSE);
             },
             type: MENU_TYPE.OPEN,
         }, {
-            title: '运行环境',
+            text: '',
             icon: 'cube-alt',
+            chinese: '运行环境',
+            english: 'Run Environment',
             key: [ctrlKey, 'i'], // 默认null
             onclick () {
                 event.emit(EVENT.OPEN_ENV_CHOOSE);
@@ -225,8 +283,10 @@ export let menus = [
         }, {
             type: MENU_TYPE.SPLIT,
         }, {
-            title: '选择开发语言',
+            text: '',
             icon: 'terminal',
+            chinese: '选择开发语言',
+            english: 'Select Dev Language',
             key: [ctrlKey, 'g'], // 默认null
             onclick () {
                 event.emit(EVENT.OPEN_LANG_CHOOSE);
@@ -236,7 +296,9 @@ export let menus = [
             type: MENU_TYPE.SPLIT,
             visible: isCustomConfig,
         }, {
-            title: '选择自定义代码',
+            text: '',
+            chinese: '选择自定义代码',
+            english: 'Select Custom Code',
             icon: 'paper-clip',
             visible: isCustomConfig,
             // key: [ctrlKey, 'g'], // 默认null
@@ -246,10 +308,14 @@ export let menus = [
             type: MENU_TYPE.OPEN,
         }]
     }, {
-        title: '帮助',
+        text: '',
+        chinese: '帮助',
+        english: 'Help',
         active: false,
         items: [{
-            title: '生成链接',
+            text: '',
+            chinese: '生成链接',
+            english: 'Generate Link',
             icon: 'link',
             onclick () {
                 event.emit(EVENT.USE_CODE, (code) => {
@@ -264,7 +330,7 @@ export let menus = [
                     url += `&code=${compressUrl(code)}`;
                     console.log(url);
                     copyText(url, false);
-                    toast('代码链接已复制到剪切板');
+                    toast(chinese.get() ? '代码链接已复制到剪切板' : 'Code link has been copied to clipboard');
                 });
             },
             mounted () {
@@ -274,7 +340,9 @@ export let menus = [
         }, {
             type: MENU_TYPE.SPLIT
         }, {
-            title: 'Github主页',
+            text: '',
+            chinese: 'Github主页',
+            english: 'Github Homepage',
             icon: 'github',
             onclick () {
                 window.open('https://www.github.com/theajack/jsbox');
@@ -298,7 +366,9 @@ export let menus = [
         }, {
             type: MENU_TYPE.SPLIT
         }, {
-            title: '使用说明',
+            text: '',
+            chinese: '使用说明',
+            english: 'Usage Instructions',
             icon: 'info',
             onclick () {
                 const host = `${location.protocol}//${location.host}/`;
@@ -306,7 +376,9 @@ export let menus = [
             },
             type: MENU_TYPE.LINK,
         }, {
-            title: '反馈意见',
+            text: '',
+            chinese: '反馈意见',
+            english: 'Feedback',
             icon: 'edit',
             onclick () {
                 window.open('https://www.github.com/theajack/jsbox/issues/new');
@@ -314,8 +386,10 @@ export let menus = [
             type: MENU_TYPE.LINK,
         }]
     }, {
-        text: '运行',
-        title: '运行(ctrl+y)',
+        text: '',
+        chinese: '运行',
+        english: 'Run',
+        title: 'Run(Ctrl+Y)',
         icon: 'play',
         active: false,
         onclick (c) {
@@ -323,14 +397,14 @@ export let menus = [
             if (lang === LANG.JAVASCRIPT || lang === LANG.HTML) {
                 if (typeof c === 'string') {
                     if (c.trim() === '') {
-                        toast('请输入一些代码');
+                        toast(chinese.get() ? '请输入一些代码' : 'Please enter some code');
                         return;
                     }
                     exeJs(c);
                 } else {
                     event.emit(EVENT.USE_CODE, (code) => {
                         if (code.trim() === '') {
-                            toast('请输入一些代码');
+                            toast(chinese.get() ? '请输入一些代码' : 'Please enter some code');
                             return;
                         }
                         if (lang === LANG.HTML) {
@@ -341,7 +415,7 @@ export let menus = [
                     });
                 }
             } else {
-                toast('只支持运行js和html代码');
+                toast(chinese.get() ? '只支持运行js和html代码' : 'Only support running js and html code');
             }
         },
         mounted () {
@@ -351,3 +425,30 @@ export let menus = [
         }
     }
 ];
+
+event.regist(EVENT.UI_LANG_CHANGE, updateLanguage);
+
+function updateLanguage () {
+    const bool = chinese.get();
+
+    const modItem = item => {
+        item.text = item[bool ? 'chinese' : 'english'] || item.text;
+        if (item.title) {
+            item.title = item[bool ? 'chinese' : 'english'];
+            if (item.icon === 'play') {
+                item.title += isMac() ? '(⌘+Y)' : '(Ctrl+Y)';
+            }
+        }
+    };
+
+    menus.forEach(data => {
+        modItem(data);
+        if (data.items) {
+            data.items.forEach(item => {
+                modItem(item);
+            });
+        }
+    });
+}
+
+updateLanguage();

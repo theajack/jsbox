@@ -7,7 +7,7 @@
                :title='(htmlLog?"隐藏":"显示")+"log(ctrl + k)"'></i>
             <div class='log-content'>
                 <div :class="{'jx-ui': jxUI}" v-show="!hideHTMLResult" id='jx-app'>
-                    <iframe  sandbox="allow-same-origin allow-scripts" :src="iframeSrc" style="height: 100%;border: none;"/>
+                    <iframe  sandbox="allow-same-origin allow-scripts" :src="iframeSrc" style="height: 100%;width: 100%;border: none;"/>
                 </div>
                 <div v-if="doc" class="jx-doc">
                     <div class="jx-doc-title">{{id}} Docs</div>

@@ -14,7 +14,7 @@
                  v-show='item.visible!==false'>
                 <span v-if='item.type!==MENU_TYPE.SPLIT'>
                     <i v-if='item.icon' :class='"ei-"+item.icon+" ddi-icon"'></i>
-                    <span class='dd-link ddi-name'>{{item.title}}{{item.type === MENU_TYPE.OPEN?'…':''}}</span>
+                    <span class='dd-link ddi-name'>{{item.text||item.title}}{{item.type === MENU_TYPE.OPEN?'…':''}}</span>
                     <span v-if='item.key' class='dd-link ddi-key'>
                         <span v-for="(item,i) in item.key" :key="i"><span v-if="i>0" class="ddi-key-add">+</span>{{ item }}</span>
                     </span>
@@ -96,6 +96,7 @@
         padding: 0 10px;
         font-size: 14px;
         user-select: none;
+        font-family: Menlo, Monaco, "Courier New", monospace;
     }
     .menu-item:hover{
         background-color: #ddd;
@@ -108,7 +109,7 @@
     }
     .menu-item-dropdown{
         position: absolute;
-        min-width: 200px;
+        min-width: 240px;
         min-height: 20px;
         background-color: #fcfcfc;
         border: 1px solid #eee;

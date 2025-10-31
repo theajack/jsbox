@@ -81,7 +81,8 @@ export function createIFrameSrc (js) {
             try {
                 window.parent.postMessage({type, data});
             } catch (error) {
-                console.error('无法发送消息到父窗口', error);
+                window.parent.postMessage({type, data: [JSON.stringify(data)]});
+                console.warn('发送消息到父窗口失败，转为字符串发送', error.toString());
             }
         }
         console.log = (...args) => {

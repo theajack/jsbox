@@ -65,6 +65,8 @@ export const EVENT = {
     SWITCH_CODE: 'SWITCH_CODE',
 
     IFRAME_SRC: 'IFRAME_SRC',
+
+    UI_LANG_CHANGE: 'UI_LANG_CHANGE',
 };
 
 export const TOOL_HEIGHT = 30;

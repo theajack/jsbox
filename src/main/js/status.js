@@ -57,6 +57,11 @@ export const theme = generateStatus({
     name: TYPE.THEME,
     emit: EVENT.THEME_CHANGE
 });
+export const chinese = generateStatus({
+    def: false,
+    name: 'chinese',
+    emit: EVENT.UI_LANG_CHANGE
+});
 export const wordWrap = generateStatus({
     def: false,
     name: TYPE.WORD_WRAP,
