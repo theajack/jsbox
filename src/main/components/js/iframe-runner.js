@@ -117,6 +117,22 @@ export function createIFrameSrc (js) {
         window.addEventListener('DOMContentLoaded', () => {
             postMsg('iframe_loaded');
         });
+        let flag = false;
+        window.addEventListener('mousemove', (e) => {
+            if (!flag) {
+                flag = true;
+                setTimeout(() => {
+                    flag = false;
+                }, 50);
+                postMsg('mouseevent', ['mousemove', e.clientX]);
+            }
+        });
+        window.addEventListener('mouseup', () => {
+            postMsg('mouseevent', ['mouseup']);
+        });
+        window.addEventListener('mouseenter', () => {
+            postMsg('mouseevent', ['mouseenter']);
+        });
         var map = (window.jsboxConfig || window.jsboxCodeMap || {}).iifeMap || {};
         window.require = (name) => {
             let key = map[name];

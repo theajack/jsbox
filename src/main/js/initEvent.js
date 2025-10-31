@@ -71,7 +71,7 @@ export function initKeyEvent () {
     });
 }
 
-export function initDrag (drag) {
+export function initDrag (drag, iframe) {
     let width = 0;
     let minWidth = 200;
     dragPercent.init();
@@ -91,6 +91,25 @@ export function initDrag (drag) {
         }
         dragPercent.stash(((x) / width) * 100);
     };
+
+    window.addEventListener('message', (e) => {
+        const data = e.data;
+        if (data.type === 'mouseevent') {
+            const m = data.data[0];
+            if (m === 'mousemove') {
+                if (dragStatus.get()) {
+                    const x = data.data[1] + iframe.getBoundingClientRect().left;
+                    setSize(x);
+                }
+            } else if (m === 'mouseup') {
+                if (dragStatus.get()) {
+                    setDrag(false);
+                }
+            } else if (m === 'mouseenter') {
+                setDrag(false);
+            }
+        }
+    });
     $.query('body').on({
         mousemove (e) {
             if (dragStatus.get()) {
