@@ -64,6 +64,11 @@
         },
         mounted () {
             console.log('mounted log');
+            const origin = console.clear;
+            console.clear = ()=>{
+                event.emit(EVENT.CLEAR_LOG);
+                origin.call(console);
+            }
             this.initCodeConfig();
             window.addEventListener('message', (e)=>{
                 const data = e.data;

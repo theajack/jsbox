@@ -55,6 +55,29 @@ export function createIFrameSrc (js) {
     .jx-button:active, .jx-ui button:active{
         transform: scale(0.96);
     }
+
+    ::-webkit-scrollbar {
+        width:5px;
+        cursor: pointer;
+        height: 5px;
+    }
+    ::-webkit-scrollbar-button {
+        display: none;
+    }
+    ::-webkit-scrollbar-track {
+        display: none;
+    }
+    ::-webkit-scrollbar-track-piece {
+        background-color:#88888811;
+    }
+    ::-webkit-scrollbar-thumb{
+        background-color:#88888866;
+        cursor: pointer;
+    }
+    ::-webkit-scrollbar-thumb:hover{
+        background-color:#88888888;
+        cursor: pointer;
+    }
     </style>
    	<script src="https://cdn.jsdelivr.net/npm/link-dom"></script>
    	<script src="https://cdn.jsdelivr.net/npm/tacl-ui"></script>
